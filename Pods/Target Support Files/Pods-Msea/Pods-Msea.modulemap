@@ -1,0 +1,6 @@
+framework module Pods_Msea {
+  umbrella header "Pods-Msea-umbrella.h"
+
+  export *
+  module * { export * }
+}

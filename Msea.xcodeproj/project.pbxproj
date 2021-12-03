@@ -11,9 +11,13 @@
 		EFE76C5F2759EE3B00D89EA6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE76C5E2759EE3B00D89EA6 /* ContentView.swift */; };
 		EFE76C612759EE3C00D89EA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFE76C602759EE3C00D89EA6 /* Assets.xcassets */; };
 		EFE76C642759EE3C00D89EA6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFE76C632759EE3C00D89EA6 /* Preview Assets.xcassets */; };
+		FB3006F33310F31A89060749 /* Pods_Msea.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7606A8EEA1BD777F45CBF959 /* Pods_Msea.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7606A8EEA1BD777F45CBF959 /* Pods_Msea.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Msea.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A536744D188758A4840C194 /* Pods-Msea.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Msea.release.xcconfig"; path = "Target Support Files/Pods-Msea/Pods-Msea.release.xcconfig"; sourceTree = "<group>"; };
+		BA26334146152E48BA4E44D8 /* Pods-Msea.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Msea.debug.xcconfig"; path = "Target Support Files/Pods-Msea/Pods-Msea.debug.xcconfig"; sourceTree = "<group>"; };
 		EFE76C592759EE3B00D89EA6 /* Msea.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Msea.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFE76C5C2759EE3B00D89EA6 /* MseaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MseaApp.swift; sourceTree = "<group>"; };
 		EFE76C5E2759EE3B00D89EA6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -26,17 +30,54 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB3006F33310F31A89060749 /* Pods_Msea.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8E28B34AB5F4C4ED14A412FC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7606A8EEA1BD777F45CBF959 /* Pods_Msea.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9C6C4775FCC0808EF699E19F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BA26334146152E48BA4E44D8 /* Pods-Msea.debug.xcconfig */,
+				9A536744D188758A4840C194 /* Pods-Msea.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		EF2E32782759F75D005151DE /* App */ = {
+			isa = PBXGroup;
+			children = (
+				EFE76C5C2759EE3B00D89EA6 /* MseaApp.swift */,
+				EFE76C5E2759EE3B00D89EA6 /* ContentView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		EF2E32792759F767005151DE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				EFE76C602759EE3C00D89EA6 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		EFE76C502759EE3B00D89EA6 = {
 			isa = PBXGroup;
 			children = (
 				EFE76C5B2759EE3B00D89EA6 /* Msea */,
 				EFE76C5A2759EE3B00D89EA6 /* Products */,
+				9C6C4775FCC0808EF699E19F /* Pods */,
+				8E28B34AB5F4C4ED14A412FC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -51,9 +92,8 @@
 		EFE76C5B2759EE3B00D89EA6 /* Msea */ = {
 			isa = PBXGroup;
 			children = (
-				EFE76C5C2759EE3B00D89EA6 /* MseaApp.swift */,
-				EFE76C5E2759EE3B00D89EA6 /* ContentView.swift */,
-				EFE76C602759EE3C00D89EA6 /* Assets.xcassets */,
+				EF2E32782759F75D005151DE /* App */,
+				EF2E32792759F767005151DE /* Resources */,
 				EFE76C622759EE3C00D89EA6 /* Preview Content */,
 			);
 			path = Msea;
@@ -74,9 +114,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EFE76C672759EE3C00D89EA6 /* Build configuration list for PBXNativeTarget "Msea" */;
 			buildPhases = (
+				15F0434FE2678475DE7CA5B3 /* [CP] Check Pods Manifest.lock */,
 				EFE76C552759EE3B00D89EA6 /* Sources */,
 				EFE76C562759EE3B00D89EA6 /* Frameworks */,
 				EFE76C572759EE3B00D89EA6 /* Resources */,
+				EF2E327A2759F7E9005151DE /* Run SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -131,6 +173,49 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		15F0434FE2678475DE7CA5B3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Msea-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EF2E327A2759F7E9005151DE /* Run SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run SwiftLint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		EFE76C552759EE3B00D89EA6 /* Sources */ = {
@@ -263,6 +348,7 @@
 		};
 		EFE76C682759EE3C00D89EA6 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BA26334146152E48BA4E44D8 /* Pods-Msea.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -281,7 +367,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.eternaljust.Msea;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -292,6 +378,7 @@
 		};
 		EFE76C692759EE3C00D89EA6 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9A536744D188758A4840C194 /* Pods-Msea.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -310,7 +397,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.eternaljust.Msea;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
