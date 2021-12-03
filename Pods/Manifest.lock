@@ -1,16 +1,20 @@
 PODS:
+  - Kanna (5.2.7)
   - SwiftLint (0.45.1)
 
 DEPENDENCIES:
+  - Kanna
   - SwiftLint
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
+    - Kanna
     - SwiftLint
 
 SPEC CHECKSUMS:
+  Kanna: 01cfbddc127f5ff0963692f285fcbc8a9d62d234
   SwiftLint: 06ac37e4d38c7068e0935bb30cda95f093bec761
 
-PODFILE CHECKSUM: 1cba8d033ccaced218f81daf7bac169f90bb23ea
+PODFILE CHECKSUM: 02ae97a3c80a3575e755bfa8e16910342adbba39
 
 COCOAPODS: 1.11.2

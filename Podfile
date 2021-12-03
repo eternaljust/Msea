@@ -8,6 +8,8 @@ target 'Msea' do
 
   # Swift 代码规范检查
   pod 'SwiftLint', configurations: ['Debug']
+  # 解析 XML/HTML
+  pod 'Kanna'
   
 end
 
