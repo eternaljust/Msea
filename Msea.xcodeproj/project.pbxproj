@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8143D171275C8F5D0036198D /* MineContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8143D170275C8F5C0036198D /* MineContentView.swift */; };
+		8143D173275C9DFB0036198D /* HomeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8143D172275C9DFA0036198D /* HomeContentView.swift */; };
 		8180BB33275B78880055E1F5 /* TopicListContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8180BB32275B78870055E1F5 /* TopicListContentView.swift */; };
 		EF55F4C9275A0B0500B78C95 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF55F4C8275A0B0500B78C95 /* View+Extension.swift */; };
 		EFE76C5D2759EE3B00D89EA6 /* MseaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE76C5C2759EE3B00D89EA6 /* MseaApp.swift */; };
@@ -18,6 +20,8 @@
 
 /* Begin PBXFileReference section */
 		7606A8EEA1BD777F45CBF959 /* Pods_Msea.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Msea.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8143D170275C8F5C0036198D /* MineContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineContentView.swift; sourceTree = "<group>"; };
+		8143D172275C9DFA0036198D /* HomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentView.swift; sourceTree = "<group>"; };
 		8180BB32275B78870055E1F5 /* TopicListContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicListContentView.swift; sourceTree = "<group>"; };
 		9A536744D188758A4840C194 /* Pods-Msea.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Msea.release.xcconfig"; path = "Target Support Files/Pods-Msea/Pods-Msea.release.xcconfig"; sourceTree = "<group>"; };
 		BA26334146152E48BA4E44D8 /* Pods-Msea.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Msea.debug.xcconfig"; path = "Target Support Files/Pods-Msea/Pods-Msea.debug.xcconfig"; sourceTree = "<group>"; };
@@ -41,9 +45,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8143D16F275C8F280036198D /* Mine */ = {
+			isa = PBXGroup;
+			children = (
+				8143D170275C8F5C0036198D /* MineContentView.swift */,
+			);
+			path = Mine;
+			sourceTree = "<group>";
+		};
 		8180BB31275B78440055E1F5 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				8143D172275C9DFA0036198D /* HomeContentView.swift */,
 				8180BB32275B78870055E1F5 /* TopicListContentView.swift */,
 			);
 			path = Home;
@@ -88,6 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				8180BB31275B78440055E1F5 /* Home */,
+				8143D16F275C8F280036198D /* Mine */,
 				EF2E32782759F75D005151DE /* App */,
 				EF55F4C6275A0AC400B78C95 /* Utils */,
 			);
@@ -282,6 +296,8 @@
 				EFE76C5F2759EE3B00D89EA6 /* ContentView.swift in Sources */,
 				EF55F4C9275A0B0500B78C95 /* View+Extension.swift in Sources */,
 				8180BB33275B78880055E1F5 /* TopicListContentView.swift in Sources */,
+				8143D173275C9DFB0036198D /* HomeContentView.swift in Sources */,
+				8143D171275C8F5D0036198D /* MineContentView.swift in Sources */,
 				EFE76C5D2759EE3B00D89EA6 /* MseaApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

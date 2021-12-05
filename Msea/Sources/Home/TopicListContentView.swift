@@ -28,15 +28,19 @@ struct TopicListContentView: View {
                         }
                         .frame(width: 40, height: 40)
                         .cornerRadius(5)
+
                         VStack(alignment: .leading) {
                             Text(topic.name)
                                 .font(.headline)
                             Text(topic.time)
                                 .font(.footnote)
                         }
+
                         Spacer()
+
                         Text("\(topic.reply)/\(topic.examine)")
                     }
+
                     Text(topic.title)
                         .fixedSize(horizontal: false, vertical: true)
                         .onAppear {
