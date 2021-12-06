@@ -11,16 +11,21 @@ import SwiftUI
 struct HomeContentView: View {
     @State private var search = ""
     @State private var selectedViewTab = ViewTab.new
+    @StateObject private var scrollHidden = ListScrollHidden()
 
     var body: some View {
         VStack {
-            HStack {
-                Image(systemName: "person.circle")
-                    .imageScale(.large)
-                    .padding(.leading, 20)
-                TextField("搜索", text: $search)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                Spacer()
+            if !scrollHidden.hidden {
+                HStack {
+                    Image(systemName: "leaf.fill")
+                        .symbolRenderingMode(.multicolor)
+                        .imageScale(.large)
+                        .padding(.leading, 20)
+                    TextField("搜索", text: $search)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                    Spacer()
+                }
+                .transition(.opacity)
             }
 
             Picker("ViewTab", selection: $selectedViewTab) {
@@ -31,10 +36,15 @@ struct HomeContentView: View {
             }
             .pickerStyle(.segmented)
             .padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))
+            .onAppear {
+                UISegmentedControl.appearance().selectedSegmentTintColor = .systemGreen
+                UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
+                    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
+            }
 
             TabView(selection: $selectedViewTab) {
                 ForEach(ViewTab.allCases) { view in
-                    TopicListContentView(view: view)
+                    TopicListContentView(view: view, scrollHidden: scrollHidden)
                         .tag(view)
                 }
             }

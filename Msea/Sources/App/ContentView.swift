@@ -12,19 +12,18 @@ struct ContentView: View {
     var body: some View {
         TabView {
             HomeContentView()
-                .padding()
                 .tabItem {
                     Label("Home", systemImage: "house")
                 }
                 .tag(1)
 
             MineContentView()
-                .padding()
                 .tabItem {
                     Label("Mine", systemImage: "person")
                 }
                 .tag(2)
         }
+        .tint(.green)
     }
 }
 

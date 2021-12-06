@@ -11,10 +11,13 @@ import Kanna
 
 struct TopicListContentView: View {
     var view = ViewTab.new
+    @StateObject var scrollHidden = ListScrollHidden()
 
     @State private var topics = [TopicListModel]()
     @State private var isHidden = false
     @State private var page = 1
+    @State private var isScrolling = false
+    @State private var isRefreshing = false
 
     var body: some View {
         ZStack {
@@ -50,17 +53,47 @@ struct TopicListContentView: View {
                                 Task {
                                     await loadData()
                                 }
+                            } else if topic.id == topics.first?.id {
+                                print("scroll top")
+                                scrollHidden.hidden = false
                             }
                         }
+                        .preference(key: TopicIDPreferenceKey.self, value: topic.tid)
                 }
             }
             .listStyle(.plain)
             .refreshable {
+                page = 1
                 await loadData()
             }
             .task {
-                await loadData()
+                if !isHidden {
+                    await loadData()
+                }
             }
+            .onPreferenceChange(TopicIDPreferenceKey.self) {
+                if isScrolling {
+                    if let tid = topics.first?.tid, tid == $0 {
+                        print("first")
+                        scrollHidden.hidden = false
+                    } else {
+                        print("last")
+                        scrollHidden.hidden = !isRefreshing
+                    }
+                    isScrolling = false
+                }
+            }
+            .gesture(
+                DragGesture()
+                    .onChanged({ _ in
+                        print("Scrolling!")
+                        isScrolling = true
+                    })
+                    .onEnded({ _ in
+                        print("Scroll end!")
+                        isScrolling = true
+                    })
+            )
 
             ProgressView()
                 .isHidden(isHidden)
@@ -68,6 +101,7 @@ struct TopicListContentView: View {
     }
 
     func loadData() async {
+        isRefreshing = true
         Task {
             // swiftlint:disable force_unwrapping
             let url = URL(string: "https://www.chongbuluo.com/forum.php?mod=guide&view=\(view.id)&page=\(page)")!
@@ -75,49 +109,50 @@ struct TopicListContentView: View {
             let (data, _) = try await URLSession.shared.data(from: url)
             if let html = try? HTML(html: data, encoding: .utf8) {
                 let node = html.xpath("//tbody", namespaces: nil)
-                print(node.count)
+//                print(node.count)
                 var list = [TopicListModel]()
                 node.forEach { element in
-                    print("\n")
+//                    print("\n")
                     var topic = TopicListModel()
                     if let avatar = element.at_xpath("//img//@src", namespaces: nil)?.text {
                         topic.avatar = avatar
-                        print("avatar: \(avatar)")
+//                        print("avatar: \(avatar)")
                     }
 
                     if let name = element.at_xpath("//cite/a", namespaces: nil)?.text {
                         topic.name = name
-                        print("name: \(name)")
+//                        print("name: \(name)")
                     }
                     if let title = element.at_xpath("//th/a[@class='xst']", namespaces: nil)?.text {
                         topic.title = title
-                        print("title: \(title)")
+//                        print("title: \(title)")
                     }
                     if let time = element.at_xpath("//td[@class='by']//span//@title", namespaces: nil)?.text {
                         topic.time = time
-                        print("time: \(time)")
+//                        print("time: \(time)")
                     }
                     if let xi2 = element.at_xpath("//td/a[@class='xi2']", namespaces: nil)?.text, let reply = Int(xi2) {
                         topic.reply = reply
-                        print("reply: \(reply)")
+//                        print("reply: \(reply)")
                     }
                     if let em = element.at_xpath("//td[@class='num']/em", namespaces: nil)?.text, let examine = Int(em) {
                         topic.examine = examine
-                        print("examine: \(examine)")
+//                        print("examine: \(examine)")
                     }
                     if let uid = element.at_xpath("//cite/a//@href", namespaces: nil)?.text {
                         topic.uid = uid
-                        print("uid: \(uid)")
+//                        print("uid: \(uid)")
                     }
                     if let id = element.at_xpath("//@id", namespaces: nil)?.text, let tid = id.components(separatedBy: "_").last {
                         topic.tid = tid
-                        print("tid: \(tid)")
+//                        print("tid: \(tid)")
                     }
                     list.append(topic)
                 }
 
                 if page == 1 {
                     topics = list
+                    isRefreshing = false
                 } else {
                     topics += list
                 }
@@ -143,4 +178,18 @@ struct TopicListModel: Identifiable {
     var time = ""
     var examine = 0
     var reply = 0
+}
+
+struct TopicIDPreferenceKey: PreferenceKey {
+    typealias Value = String
+
+    static var defaultValue = "0"
+
+    static func reduce(value: inout String, nextValue: () -> String) {
+        value = nextValue()
+    }
+}
+
+class ListScrollHidden: ObservableObject {
+    @Published var hidden = false
 }
