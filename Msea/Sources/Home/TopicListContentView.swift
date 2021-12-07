@@ -9,6 +9,7 @@
 import SwiftUI
 import Kanna
 
+/// 主题列表
 struct TopicListContentView: View {
     var view = ViewTab.new
 
@@ -110,15 +111,15 @@ struct TopicListContentView: View {
                         }
                         list.append(topic)
                     }
-
-                    if page == 1 {
-                        topics = list
-                        isRefreshing = false
-                    } else {
-                        topics += list
-                    }
-                    isHidden = true
                 }
+
+                if page == 1 {
+                    topics = list
+                    isRefreshing = false
+                } else {
+                    topics += list
+                }
+                isHidden = true
             }
         }
     }
