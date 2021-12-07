@@ -23,7 +23,10 @@ struct ContentView: View {
                 }
                 .tag(2)
         }
-        .tint(.green)
+        .tint(.theme)
+        .onAppear {
+            UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = UIColor(named: "AccentColor")
+        }
     }
 }
 

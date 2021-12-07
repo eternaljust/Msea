@@ -11,45 +11,57 @@ import SwiftUI
 struct HomeContentView: View {
     @State private var search = ""
     @State private var selectedViewTab = ViewTab.new
-    @StateObject private var scrollHidden = ListScrollHidden()
+    @State private var navigationBarHidden = true
 
     var body: some View {
-        VStack {
-            if !scrollHidden.hidden {
+        NavigationView {
+            VStack {
                 HStack {
-                    Image(systemName: "leaf.fill")
-                        .symbolRenderingMode(.multicolor)
-                        .imageScale(.large)
-                        .padding(.leading, 20)
+                    NavigationLink(destination: DaySignContentView(), label: {
+                        Image(systemName: "leaf.fill")
+                            .foregroundColor(.theme)
+                            .imageScale(.large)
+                            .padding(.leading, 20)
+                    })
+
                     TextField("搜索", text: $search)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
+
                     Spacer()
                 }
-                .transition(.opacity)
-            }
 
-            Picker("ViewTab", selection: $selectedViewTab) {
-                ForEach(ViewTab.allCases) { view in
-                    Text(view.title)
-                        .tag(view)
+                Picker("ViewTab", selection: $selectedViewTab) {
+                    ForEach(ViewTab.allCases) { view in
+                        Text(view.title)
+                            .tag(view)
+                    }
                 }
+                .pickerStyle(.segmented)
+                .padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))
+                .onAppear {
+                    UISegmentedControl.appearance().selectedSegmentTintColor = .theme
+                    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
+                    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.secondaryLabel], for: .normal)
+                }
+
+                TabView(selection: $selectedViewTab) {
+                    ForEach(ViewTab.allCases) { view in
+                        TopicListContentView(view: view)
+                            .tag(view)
+                    }
+                }
+                .tabViewStyle(.page)
+                .indexViewStyle(.page(backgroundDisplayMode: .never))
             }
-            .pickerStyle(.segmented)
-            .padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))
+            .navigationTitle("")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarHidden(navigationBarHidden)
             .onAppear {
-                UISegmentedControl.appearance().selectedSegmentTintColor = .systemGreen
-                UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
-                    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
+                navigationBarHidden = true
             }
-
-            TabView(selection: $selectedViewTab) {
-                ForEach(ViewTab.allCases) { view in
-                    TopicListContentView(view: view, scrollHidden: scrollHidden)
-                        .tag(view)
-                }
+            .onDisappear {
+                navigationBarHidden = false
             }
-            .tabViewStyle(.page)
-            .indexViewStyle(.page(backgroundDisplayMode: .never))
         }
     }
 }
