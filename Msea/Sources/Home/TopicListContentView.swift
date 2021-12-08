@@ -48,7 +48,7 @@ struct TopicListContentView: View {
                         .onAppear {
                             if topic.id == topics.last?.id {
                                 print("scroll bottom")
-                                self.page += 1
+                                page += 1
                                 Task {
                                     await loadData()
                                 }

@@ -81,11 +81,6 @@ struct DaySignContentView: View {
                 }
                 .pickerStyle(.segmented)
                 .padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))
-                .onAppear {
-                    UISegmentedControl.appearance().selectedSegmentTintColor = .secondaryTheme
-                    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
-                    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.secondaryLabel], for: .normal)
-                }
 
                 TabView(selection: $selectedSignTab) {
                     ForEach(SignTab.allCases) { sign in
@@ -94,7 +89,7 @@ struct DaySignContentView: View {
                             SignListContentView()
                                 .tag(sign)
                         case .totaldays, .totalreward:
-                            SignDayListContentView(sign: sign)
+                            SignDayListContentView(signTab: sign)
                                 .tag(sign)
                         }
                     }
@@ -169,9 +164,9 @@ enum SignTab: String, CaseIterable, Identifiable {
     var id: String { self.rawValue }
     var title: String {
         switch self {
-        case .daysign: return "今日签到列表"
-        case .totaldays: return "总天数排名"
-        case .totalreward: return "总奖励排名"
+        case .daysign: return "今日签到列表(Bit)"
+        case .totaldays: return "总天数排名(天)"
+        case .totalreward: return "总奖励排名(天)"
         }
     }
 }
