@@ -9,8 +9,15 @@
 import SwiftUI
 
 struct MineContentView: View {
+    @State private var showingImagePicker = false
+
     var body: some View {
-        Text("Mine")
+        Button("Login") {
+            showingImagePicker = true
+        }
+        .sheet(isPresented: $showingImagePicker) {
+            LoginContentView()
+        }
     }
 }
 

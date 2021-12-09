@@ -16,8 +16,11 @@
 		EF082EF1275F4AC400056BCA /* SignListContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF082EF0275F4AC400056BCA /* SignListContentView.swift */; };
 		EF082EF3275F4B1C00056BCA /* SignDayListContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF082EF2275F4B1C00056BCA /* SignDayListContentView.swift */; };
 		EF55F4C9275A0B0500B78C95 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF55F4C8275A0B0500B78C95 /* View+Extension.swift */; };
+		EF6211D52761D8FA00F833B4 /* ApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6211D42761D8FA00F833B4 /* ApplicationDelegate.swift */; };
+		EF9012802761A3D90079BF4C /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF90127F2761A3D90079BF4C /* HUD.swift */; };
 		EFB4314B276045A300319073 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4314A276045A300319073 /* Networking.swift */; };
 		EFB4314D27608B3A00319073 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4314C27608B3A00319073 /* Font+Extension.swift */; };
+		EFB4314F2760ACB300319073 /* LoginContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4314E2760ACB300319073 /* LoginContentView.swift */; };
 		EFE76C5D2759EE3B00D89EA6 /* MseaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE76C5C2759EE3B00D89EA6 /* MseaApp.swift */; };
 		EFE76C5F2759EE3B00D89EA6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE76C5E2759EE3B00D89EA6 /* ContentView.swift */; };
 		EFE76C612759EE3C00D89EA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFE76C602759EE3C00D89EA6 /* Assets.xcassets */; };
@@ -38,8 +41,11 @@
 		EF082EF0275F4AC400056BCA /* SignListContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignListContentView.swift; sourceTree = "<group>"; };
 		EF082EF2275F4B1C00056BCA /* SignDayListContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignDayListContentView.swift; sourceTree = "<group>"; };
 		EF55F4C8275A0B0500B78C95 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
+		EF6211D42761D8FA00F833B4 /* ApplicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationDelegate.swift; sourceTree = "<group>"; };
+		EF90127F2761A3D90079BF4C /* HUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		EFB4314A276045A300319073 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		EFB4314C27608B3A00319073 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
+		EFB4314E2760ACB300319073 /* LoginContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginContentView.swift; sourceTree = "<group>"; };
 		EFE76C592759EE3B00D89EA6 /* Msea.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Msea.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFE76C5C2759EE3B00D89EA6 /* MseaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MseaApp.swift; sourceTree = "<group>"; };
 		EFE76C5E2759EE3B00D89EA6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -63,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				8143D170275C8F5C0036198D /* MineContentView.swift */,
+				EFB4314E2760ACB300319073 /* LoginContentView.swift */,
 			);
 			path = Mine;
 			sourceTree = "<group>";
@@ -101,6 +108,7 @@
 			children = (
 				EFE76C5C2759EE3B00D89EA6 /* MseaApp.swift */,
 				EFE76C5E2759EE3B00D89EA6 /* ContentView.swift */,
+				EF6211D42761D8FA00F833B4 /* ApplicationDelegate.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -128,6 +136,7 @@
 		EF55F4C6275A0AC400B78C95 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				EF90127E2761A3CB0079BF4C /* Tools */,
 				EFB431492760456C00319073 /* Netwroking */,
 				EF55F4C7275A0ACD00B78C95 /* Extensions */,
 			);
@@ -143,6 +152,14 @@
 				EF082EEE275F3ACB00056BCA /* UINavigationController+Extension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		EF90127E2761A3CB0079BF4C /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				EF90127F2761A3D90079BF4C /* HUD.swift */,
+			);
+			path = Tools;
 			sourceTree = "<group>";
 		};
 		EFB431492760456C00319073 /* Netwroking */ = {
@@ -324,9 +341,12 @@
 			files = (
 				EFE76C5F2759EE3B00D89EA6 /* ContentView.swift in Sources */,
 				EF55F4C9275A0B0500B78C95 /* View+Extension.swift in Sources */,
+				EFB4314F2760ACB300319073 /* LoginContentView.swift in Sources */,
+				EF6211D52761D8FA00F833B4 /* ApplicationDelegate.swift in Sources */,
 				8180BB33275B78880055E1F5 /* TopicListContentView.swift in Sources */,
 				EFB4314B276045A300319073 /* Networking.swift in Sources */,
 				EF082EF1275F4AC400056BCA /* SignListContentView.swift in Sources */,
+				EF9012802761A3D90079BF4C /* HUD.swift in Sources */,
 				8143D173275C9DFB0036198D /* HomeContentView.swift in Sources */,
 				EF082EF3275F4B1C00056BCA /* SignDayListContentView.swift in Sources */,
 				8143D171275C8F5D0036198D /* MineContentView.swift in Sources */,

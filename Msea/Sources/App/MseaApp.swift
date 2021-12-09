@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct MseaApp: App {
+    @StateObject var hudState = HUDState()
+    @UIApplicationDelegateAdaptor var delegate: FSAppDelegate
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(hudState)
         }
     }
 }
