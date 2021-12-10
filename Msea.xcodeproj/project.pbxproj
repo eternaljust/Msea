@@ -17,6 +17,7 @@
 		EF082EF3275F4B1C00056BCA /* SignDayListContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF082EF2275F4B1C00056BCA /* SignDayListContentView.swift */; };
 		EF55F4C9275A0B0500B78C95 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF55F4C8275A0B0500B78C95 /* View+Extension.swift */; };
 		EF6211D52761D8FA00F833B4 /* ApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6211D42761D8FA00F833B4 /* ApplicationDelegate.swift */; };
+		EF6211D72761ECEA00F833B4 /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6211D62761ECEA00F833B4 /* Appearance.swift */; };
 		EF9012802761A3D90079BF4C /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF90127F2761A3D90079BF4C /* HUD.swift */; };
 		EFB4314B276045A300319073 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4314A276045A300319073 /* Networking.swift */; };
 		EFB4314D27608B3A00319073 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4314C27608B3A00319073 /* Font+Extension.swift */; };
@@ -42,6 +43,7 @@
 		EF082EF2275F4B1C00056BCA /* SignDayListContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignDayListContentView.swift; sourceTree = "<group>"; };
 		EF55F4C8275A0B0500B78C95 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		EF6211D42761D8FA00F833B4 /* ApplicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationDelegate.swift; sourceTree = "<group>"; };
+		EF6211D62761ECEA00F833B4 /* Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
 		EF90127F2761A3D90079BF4C /* HUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		EFB4314A276045A300319073 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		EFB4314C27608B3A00319073 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				EFE76C5C2759EE3B00D89EA6 /* MseaApp.swift */,
 				EFE76C5E2759EE3B00D89EA6 /* ContentView.swift */,
 				EF6211D42761D8FA00F833B4 /* ApplicationDelegate.swift */,
+				EF6211D62761ECEA00F833B4 /* Appearance.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -344,6 +347,7 @@
 				EFB4314F2760ACB300319073 /* LoginContentView.swift in Sources */,
 				EF6211D52761D8FA00F833B4 /* ApplicationDelegate.swift in Sources */,
 				8180BB33275B78880055E1F5 /* TopicListContentView.swift in Sources */,
+				EF6211D72761ECEA00F833B4 /* Appearance.swift in Sources */,
 				EFB4314B276045A300319073 /* Networking.swift in Sources */,
 				EF082EF1275F4AC400056BCA /* SignListContentView.swift in Sources */,
 				EF9012802761A3D90079BF4C /* HUD.swift in Sources */,

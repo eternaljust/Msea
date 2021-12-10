@@ -8,6 +8,8 @@
 
 import Foundation
 
+let kAppBaseURL = "https://www.chongbuluo.com/"
+
 enum HTTPHeaderField: String {
     case accept
     case acceptCharset

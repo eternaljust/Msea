@@ -25,7 +25,7 @@ struct HomeContentView: View {
                     })
 
                     TextField("搜索", text: $search)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .textFieldStyle(.roundedBorder)
 
                     Spacer()
                 }

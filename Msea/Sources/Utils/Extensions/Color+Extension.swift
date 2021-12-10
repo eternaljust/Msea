@@ -48,6 +48,12 @@ extension Color {
     static let theme: Color = .green
     /// 第二主题色 3f51b5
     static let secondaryTheme: Color = Color(hex: "#3f51b5")
+    /// 浅灰背景色 f3f3f3
+    static let lightGray: Color = Color(hex: "f3f3f3")
+    /// 浅黑背景色 1c1c1e
+    static let lightBlack: Color = Color(hex: "1c1c1e")
+    /// 背景色 f3f3f3 1c1c1e
+    static let backGround: Color = Color(light: .lightGray, dark: .lightBlack)
 }
 
 extension UIColor {
