@@ -68,3 +68,16 @@ extension View {
         ))
     }
 }
+
+extension Button {
+    func showProgress(isShowing: Binding<Bool>, color: Color = .theme) -> some View {
+        ZStack(alignment: .top) {
+            self
+            if isShowing.wrappedValue {
+                ProgressView()
+                    .tint(color)
+                    .zIndex(1)
+            }
+        }
+    }
+}

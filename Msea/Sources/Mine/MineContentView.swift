@@ -9,13 +9,13 @@
 import SwiftUI
 
 struct MineContentView: View {
-    @State private var showingImagePicker = false
+    @State private var isPresented = false
 
     var body: some View {
-        Button("Login") {
-            showingImagePicker = true
+        Button("登录") {
+            isPresented = true
         }
-        .sheet(isPresented: $showingImagePicker) {
+        .sheet(isPresented: $isPresented) {
             LoginContentView()
         }
     }
