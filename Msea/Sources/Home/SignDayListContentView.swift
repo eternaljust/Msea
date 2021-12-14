@@ -77,7 +77,7 @@ struct SignDayListContentView: View {
         }
     }
 
-    func loadData() async {
+    private func loadData() async {
         Task {
             // swiftlint:disable force_unwrapping
             let url = URL(string: "https://www.chongbuluo.com/plugin.php?id=wq_sign&mod=info&ac=\(signTab)&page=\(page)")!

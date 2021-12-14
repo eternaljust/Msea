@@ -49,3 +49,17 @@ enum UserAgentType {
         }
     }
 }
+
+extension URLRequest {
+    mutating func configHeaderFields() {
+        if let cookies = HTTPCookieStorage.shared.cookies {
+            self.allHTTPHeaderFields = HTTPCookie.requestHeaderFields(with: cookies)
+            if let headerFields = self.allHTTPHeaderFields, let cookie = headerFields["Cookie"] {
+                if !cookie.contains("auth") && !CacheInfo.shared.auth.isEmpty {
+                    let authCookie = "\(cookie); \(CacheInfo.shared.auth)"
+                    setValue(authCookie, forHTTPHeaderField: "Cookie")
+                }
+            }
+        }
+    }
+}

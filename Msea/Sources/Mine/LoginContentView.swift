@@ -14,8 +14,8 @@ struct LoginContentView: View {
     @EnvironmentObject var sceneDelegate: FSSceneDelegate
     @Environment(\.dismiss) private var dismiss
 
-    @State private var username = "eternal.just@gmail.com"
-    @State private var password = "tzq1118A"
+    @State private var username = ""
+    @State private var password = ""
     @State private var action = ""
     @State private var isShowing = false
 
@@ -48,7 +48,7 @@ struct LoginContentView: View {
         }
     }
 
-    func loadData() async {
+    private func loadData() async {
         Task {
             // swiftlint:disable force_unwrapping
             let url = URL(string: "\(kAppBaseURL)member.php?mod=logging&action=login")!
@@ -64,7 +64,7 @@ struct LoginContentView: View {
         }
     }
 
-    func login() async {
+    private func login() async {
         Task {
             isShowing = true
             // swiftlint:disable force_unwrapping
@@ -108,8 +108,19 @@ struct LoginContentView: View {
                     if let avatar = img?.text {
                         UserInfo.shared.avatar = avatar
                     }
+                    NotificationCenter.default.post(name: .login, object: nil, userInfo: nil)
                     hud.show(message: "欢迎您回来，\(UserInfo.shared.level) \(UserInfo.shared.name)")
                     dismiss()
+                }
+            }
+            if let cookies = HTTPCookieStorage.shared.cookies {
+                print(cookies)
+                for cookie in cookies {
+                    if cookie.name.contains("auth") {
+                        let auth = "\(cookie.name)=\(cookie.value);"
+                        CacheInfo.shared.auth = auth
+                        print(auth)
+                    }
                 }
             }
         }

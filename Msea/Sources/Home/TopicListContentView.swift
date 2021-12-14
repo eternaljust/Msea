@@ -74,7 +74,7 @@ struct TopicListContentView: View {
         }
     }
 
-    func loadData() async {
+    private func loadData() async {
         isRefreshing = true
         Task {
             // swiftlint:disable force_unwrapping

@@ -15,16 +15,31 @@ struct DaySignContentView: View {
     @State private var selectedSignTab = SignTab.daysign
     @State private var daySign = DaySignModel()
     @State private var isHidden = false
+    @State private var signText = "今日未签到，点击签到"
+    @State private var isSign = false
+    @State private var isPresented = false
+    @State private var signMessage = ""
+    @State private var signPlaceholder = CacheInfo.shared.signPlaceholder
+    @FocusState private var focused: Bool
+    @State private var isShowing = false
+    @State private var needLogin = false
 
     var body: some View {
         ZStack {
             VStack {
-                Button("今日未签到，点击签到") {
+                Button(signText) {
+                    if signText.contains("登录") {
+                        needLogin.toggle()
+                    } else {
+                        focused = true
+                        isPresented.toggle()
+                    }
                 }
                 .foregroundColor(.white)
                 .frame(width: 200, height: 40)
-                .background(Color.secondaryTheme)
+                .background(isSign ? Color.backGround : Color.secondaryTheme)
                 .cornerRadius(5)
+                .disabled(isSign)
 
                 HStack(spacing: 50) {
                     VStack {
@@ -40,13 +55,7 @@ struct DaySignContentView: View {
                     }
                     .alert("每日福利规则", isPresented: $showAlert) {
                     } message: {
-                        Text("""
-                            1. 活动时间：每天00:00开始，23:59结束；
-                            2. 每日只能签到一次，签到即获得1 Bit 的奖励；
-                            3. 连续签到3天，即第3天额外获得10 Bit 的奖励；
-                            4. 连续签到7天，即第7天额外获得30 Bit 的奖励；
-                            5. 每日前10名签到者可获得额外1~5 Bit 的随机奖励。
-                            """)
+                        Text(CacheInfo.shared.signRule)
                             .font(.callout)
                     }
 
@@ -56,21 +65,26 @@ struct DaySignContentView: View {
                         Text("\(daySign.bits)Bit")
                     }
                 }
+                .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
 
                 HStack {
                     Label("\(daySign.today)", systemImage: "leaf.fill")
                         .foregroundColor(.theme)
+                        .font(.font14)
 
                     Label("\(daySign.yesterday)", systemImage: "leaf.fill")
                         .foregroundColor(.secondaryTheme)
+                        .font(.font14)
                 }
 
                 HStack(alignment: .center, spacing: 20) {
                     Label("\(daySign.month)", systemImage: "checkmark.circle")
                         .foregroundColor(.secondaryTheme)
+                        .font(.font14)
 
                     Label("\(daySign.total)", systemImage: "text.badge.checkmark")
                         .foregroundColor(.theme)
+                        .font(.font14)
                 }
 
                 Picker("SignTab", selection: $selectedSignTab) {
@@ -109,14 +123,72 @@ struct DaySignContentView: View {
             ProgressView()
                 .isHidden(isHidden)
         }
+        .dialog(isPresented: $isPresented) {
+            VStack {
+                HStack {
+                    Text(CacheInfo.shared.signExpression)
+                        .multilineTextAlignment(.leading)
+                        .font(.font14)
+
+                    Spacer()
+
+                    Button {
+                        withAnimation {
+                            focused = false
+                            isPresented.toggle()
+                        }
+                    } label: {
+                        Image(systemName: "xmark.circle")
+                    }
+                }
+
+                ZStack {
+                    TextEditor(text: $signMessage)
+                        .multilineTextAlignment(.leading)
+                        .font(.font12)
+                        .focused($focused)
+                        .onChange(of: signMessage) { newValue in
+                            print(newValue)
+                        }
+
+                    if self.signMessage.isEmpty {
+                        Text(signPlaceholder)
+                            .multilineTextAlignment(.leading)
+                            .font(.font12)
+                            .padding(.top, -10)
+                    }
+                }
+
+                Button(isShowing ? " " : "发表签到", action: {
+                    Task {
+                        await sign()
+                    }
+                })
+                    .showProgress(isShowing: $isShowing, color: .white)
+                    .disabled(isShowing)
+                    .buttonStyle(BigButtonStyle())
+                    .padding(EdgeInsets(top: 20, leading: 0, bottom: 10, trailing: 0))
+            }
+            .frame(width: 300, height: 160)
+        }
+        .sheet(isPresented: $needLogin) {
+            LoginContentView()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .login, object: nil)) { _ in
+            Task {
+                await loadData()
+            }
+        }
     }
 
-    func loadData() async {
+    private func loadData() async {
         Task {
             // swiftlint:disable force_unwrapping
             let url = URL(string: "https://www.chongbuluo.com/plugin.php?id=wq_sign")!
             // swiftlint:enble force_unwrapping
-            let (data, _) = try await URLSession.shared.data(from: url)
+            var requset = URLRequest(url: url)
+            requset.configHeaderFields()
+            let (data, _) = try await URLSession.shared.data(for: requset)
             if let html = try? HTML(html: data, encoding: .utf8) {
                 let node = html.at_xpath("//div[@class='wqpc_sign_info']", namespaces: nil)
                 let nums = node?.xpath("//li", namespaces: nil)
@@ -134,17 +206,79 @@ struct DaySignContentView: View {
                     }
                 })
 
-                let continuity = html.at_xpath("//div[@class='wqpc_sign_continuity']", namespaces: nil)
-                let dayNums = continuity?.at_xpath("//li[@class='wqpc_borderright']//span[@class='wqpc_red']", namespaces: nil)
-                if let days = dayNums?.text {
-                    daySign.days = days
+                let continuity = html.xpath("//div[@class='wqpc_sign_continuity']//span", namespaces: nil)
+                continuity.forEach { element in
+                    if let text = element.text {
+                        if let days = Int(text), days != 0 {
+                            daySign.days = text
+                        } else if text.contains("Bit") {
+                            daySign.bits = text.replacingOccurrences(of: "Bit", with: "")
+                        }
+                    }
                 }
-                let bitNums = continuity?.at_xpath("//span[@class='wqpc_red']", namespaces: nil)
-                if let bits = bitNums?.text {
-                    daySign.bits = bits
+
+                let sign_rule = html.xpath("//div[@class='wqc_sign_rule']/p", namespaces: nil)
+                var rules = [String]()
+                sign_rule.forEach { element in
+                    if let text = element.text {
+                        rules.append(text)
+                    }
+                }
+                if !rules.isEmpty {
+                    CacheInfo.shared.signRule = rules.joined(separator: "\n")
+                }
+
+                let sign = html.at_xpath("//a[@class='wqpc_sign_btn_red']", namespaces: nil)
+                if let text = sign?.text {
+                    signText = text
+                    isSign = text.contains("已签到")
                 }
 
                 isHidden = true
+                let myinfo = html.at_xpath("//div[@id='myinfo']//a[4]/@href", namespaces: nil)
+                if let text = myinfo?.text, text.contains("formhash"), text.contains("&") {
+                    let components = text.components(separatedBy: "&")
+                    if let formhash = components.last, let hash = formhash.components(separatedBy: "=").last {
+                        CacheInfo.shared.formhash = hash
+                    }
+                }
+            }
+
+            // swiftlint:disable force_unwrapping
+            let url1 = URL(string: "https://www.chongbuluo.com/plugin.php?id=wq_sign&mod=mood&infloat=yes&handlekey=pc_click_wqsign&inajax=1&ajaxtarget=fwin_content_pc_click_wqsign")!
+            // swiftlint:enble force_unwrapping
+            var requset1 = URLRequest(url: url1)
+            requset1.configHeaderFields()
+            let (data1, _) = try await URLSession.shared.data(for: requset1)
+            if let html1 = try? HTML(html: data1, encoding: .utf8) {
+                let sign_expression = html1.at_xpath("//em[@id='return_pc_click_wqsign']", namespaces: nil)
+                let wqpc_textarea = html1.at_xpath("//textarea[@class='wqpc_textarea']/@placeholder", namespaces: nil)
+                if let expression = sign_expression?.text {
+                    CacheInfo.shared.signExpression = expression
+                }
+                if let placeholder = wqpc_textarea?.text {
+                    CacheInfo.shared.signPlaceholder = placeholder
+                }
+            }
+        }
+    }
+
+    private func sign() async {
+        Task {
+            if CacheInfo.shared.formhash.isEmpty {
+                needLogin.toggle()
+                return
+            }
+
+            let message = signMessage.replacingOccurrences(of: " ", with: "")
+            // swiftlint:disable force_unwrapping
+            let url = URL(string: "https://www.chongbuluo.com/plugin.php?id=wq_sign&mod=mood&infloat=yes&confirmsubmit=yes&handlekey=pc_click_wqsign&imageurl=&message=\(message)")!
+            // swiftlint:enble force_unwrapping
+            var requset = URLRequest(url: url)
+            requset.configHeaderFields()
+            let (data, _) = try await URLSession.shared.data(for: requset)
+            if let html = try? HTML(html: data, encoding: .utf8) {
+                print(html.toHTML ?? "")
             }
         }
     }

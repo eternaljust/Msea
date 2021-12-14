@@ -12,8 +12,10 @@ struct MineContentView: View {
     @State private var isPresented = false
 
     var body: some View {
-        Button("登录") {
-            isPresented = true
+        VStack {
+            Button("登录") {
+                isPresented = true
+            }
         }
         .sheet(isPresented: $isPresented) {
             LoginContentView()
