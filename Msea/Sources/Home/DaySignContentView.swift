@@ -23,6 +23,7 @@ struct DaySignContentView: View {
     @FocusState private var focused: Bool
     @State private var isShowing = false
     @State private var needLogin = false
+    @EnvironmentObject private var hud: HUDState
 
     var body: some View {
         ZStack {
@@ -36,7 +37,8 @@ struct DaySignContentView: View {
                     }
                 }
                 .foregroundColor(.white)
-                .frame(width: 200, height: 40)
+                .frame(height: 40)
+                .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
                 .background(isSign ? Color.backGround : Color.secondaryTheme)
                 .cornerRadius(5)
                 .disabled(isSign)
@@ -229,10 +231,16 @@ struct DaySignContentView: View {
                 }
 
                 let sign = html.at_xpath("//a[@class='wqpc_sign_btn_red']", namespaces: nil)
+                let sign_btn = html.at_xpath("//div[@class='wqpc_sign_btna']", namespaces: nil)
+                var text_btn = signText
                 if let text = sign?.text {
-                    signText = text
+                    text_btn = text
                     isSign = text.contains("已签到")
+                } else if let text = sign_btn?.text {
+                    text_btn = text
                 }
+                signText = text_btn.trimmingCharacters(in: .whitespacesAndNewlines)
+                isSign = signText.contains("已签到")
 
                 isHidden = true
                 let myinfo = html.at_xpath("//div[@id='myinfo']//a[4]/@href", namespaces: nil)
@@ -272,13 +280,22 @@ struct DaySignContentView: View {
 
             let message = signMessage.replacingOccurrences(of: " ", with: "")
             // swiftlint:disable force_unwrapping
-            let url = URL(string: "https://www.chongbuluo.com/plugin.php?id=wq_sign&mod=mood&infloat=yes&confirmsubmit=yes&handlekey=pc_click_wqsign&imageurl=&message=\(message)")!
+            let url = URL(string: "https://www.chongbuluo.com/plugin.php?id=wq_sign&mod=mood&infloat=yes&confirmsubmit=yes&handlekey=pc_click_wqsign&imageurl=&message=\(message)&formhash=\(CacheInfo.shared.formhash)")!
             // swiftlint:enble force_unwrapping
             var requset = URLRequest(url: url)
+            requset.httpMethod = "POST"
             requset.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: requset)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                print(html.toHTML ?? "")
+                let messagetext = html.at_xpath("//div[@id='messagetext']/p[1]", namespaces: nil)
+                let script = html.at_xpath("//div[@id='messagetext']/p[1]/script", namespaces: nil)
+                if let message = messagetext?.text {
+                    if let text = script?.text, message.contains(text) {
+                        hud.show(message: message.replacingOccurrences(of: text, with: ""))
+                    } else {
+                        hud.show(message: message)
+                    }
+                }
             }
         }
     }

@@ -15,6 +15,9 @@ struct MseaApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .hud(isPresented: $hudState.isPresented) {
+                    Text(hudState.message)
+                }
                 .environmentObject(hudState)
         }
     }
