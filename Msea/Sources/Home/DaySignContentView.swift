@@ -135,10 +135,7 @@ struct DaySignContentView: View {
                     Spacer()
 
                     Button {
-                        withAnimation {
-                            focused = false
-                            isPresented.toggle()
-                        }
+                        closeDialog()
                     } label: {
                         Image(systemName: "xmark.circle")
                     }
@@ -296,7 +293,15 @@ struct DaySignContentView: View {
                         hud.show(message: message)
                     }
                 }
+                closeDialog()
             }
+        }
+    }
+
+    private func closeDialog() {
+        withAnimation {
+            focused = false
+            isPresented.toggle()
         }
     }
 }
