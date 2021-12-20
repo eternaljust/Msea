@@ -15,7 +15,7 @@ struct DaySignContentView: View {
     @State private var selectedSignTab = SignTab.daysign
     @State private var daySign = DaySignModel()
     @State private var isHidden = false
-    @State private var signText = "今日未签到，点击签到"
+    @State private var signText = UserInfo.shared.isLogin() ? "今日未签到，点击签到" : "请先登录"
     @State private var isSign = false
     @State private var isPresented = false
     @State private var signMessage = ""
@@ -29,14 +29,14 @@ struct DaySignContentView: View {
         ZStack {
             VStack {
                 Button(signText) {
-                    if signText.contains("登录") {
+                    if !UserInfo.shared.isLogin() {
                         needLogin.toggle()
                     } else {
                         focused = true
                         isPresented.toggle()
                     }
                 }
-                .foregroundColor(.white)
+                .foregroundColor(isSign ? .secondary : .white)
                 .frame(height: 40)
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
                 .background(isSign ? Color.backGround : Color.secondaryTheme)
@@ -174,9 +174,13 @@ struct DaySignContentView: View {
             LoginContentView()
         }
         .onReceive(NotificationCenter.default.publisher(for: .login, object: nil)) { _ in
-            Task {
-                await loadData()
-            }
+            reloadData()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .logout, object: nil)) { _ in
+            daySign.days = "0"
+            daySign.bits = "0"
+            signText = "请先登录"
+            isSign = false
         }
     }
 
@@ -244,7 +248,7 @@ struct DaySignContentView: View {
                 if let text = myinfo?.text, text.contains("formhash"), text.contains("&") {
                     let components = text.components(separatedBy: "&")
                     if let formhash = components.last, let hash = formhash.components(separatedBy: "=").last {
-                        CacheInfo.shared.formhash = hash
+                        UserInfo.shared.formhash = hash
                     }
                 }
             }
@@ -270,14 +274,14 @@ struct DaySignContentView: View {
 
     private func sign() async {
         Task {
-            if CacheInfo.shared.formhash.isEmpty {
+            if UserInfo.shared.formhash.isEmpty {
                 needLogin.toggle()
                 return
             }
 
             let message = signMessage.replacingOccurrences(of: " ", with: "")
             // swiftlint:disable force_unwrapping
-            let url = URL(string: "https://www.chongbuluo.com/plugin.php?id=wq_sign&mod=mood&infloat=yes&confirmsubmit=yes&handlekey=pc_click_wqsign&imageurl=&message=\(message)&formhash=\(CacheInfo.shared.formhash)")!
+            let url = URL(string: "https://www.chongbuluo.com/plugin.php?id=wq_sign&mod=mood&infloat=yes&confirmsubmit=yes&handlekey=pc_click_wqsign&imageurl=&message=\(message)&formhash=\(UserInfo.shared.formhash)")!
             // swiftlint:enble force_unwrapping
             var requset = URLRequest(url: url)
             requset.httpMethod = "POST"
@@ -294,6 +298,7 @@ struct DaySignContentView: View {
                     }
                 }
                 closeDialog()
+                await loadData()
             }
         }
     }
@@ -302,6 +307,12 @@ struct DaySignContentView: View {
         withAnimation {
             focused = false
             isPresented.toggle()
+        }
+    }
+
+    private func reloadData() {
+        Task {
+            await loadData()
         }
     }
 }

@@ -13,7 +13,6 @@ class CacheInfo: NSObject {
     /// 单例
     static let shared: CacheInfo = CacheInfo()
 
-    @UserDefaultsBacked(key: CacheKeys.auth) var auth = ""
     @UserDefaultsBacked(key: CacheKeys.signRule) var signRule = """
                             1. 活动时间：每天00:00开始，23:59结束；
                             2. 每日只能签到一次，签到即获得1 Bit 的奖励；
@@ -23,5 +22,4 @@ class CacheInfo: NSObject {
                             """
     @UserDefaultsBacked(key: CacheKeys.signExpression) var signExpression = "签到留言，你的心情随笔，愿望清单...今天吃啥？"
     @UserDefaultsBacked(key: CacheKeys.signPlaceholder) var signPlaceholder = "提倡沿袭古法的纯手工打卡，反对自动签到，自动签到每次将被扣除 10 倍于所得积分 :)"
-    @UserDefaultsBacked(key: CacheKeys.formhash) var formhash = ""
 }

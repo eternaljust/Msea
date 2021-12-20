@@ -118,7 +118,7 @@ struct LoginContentView: View {
                 for cookie in cookies {
                     if cookie.name.contains("auth") {
                         let auth = "\(cookie.name)=\(cookie.value);"
-                        CacheInfo.shared.auth = auth
+                        UserInfo.shared.auth = auth
                         print(auth)
                     }
                 }

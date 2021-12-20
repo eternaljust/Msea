@@ -12,13 +12,21 @@ struct MineContentView: View {
     @State private var isPresented = false
 
     var body: some View {
-        VStack {
-            Button("登录") {
-                isPresented = true
+        NavigationView {
+            VStack {
+                Button("登录") {
+                    isPresented.toggle()
+                }
             }
-        }
-        .sheet(isPresented: $isPresented) {
-            LoginContentView()
+            .sheet(isPresented: $isPresented) {
+                LoginContentView()
+            }
+            .navigationTitle("我的")
+            .toolbar {
+                NavigationLink(destination: SettingContentView()) {
+                    Text("设置")
+                }
+            }
         }
     }
 }

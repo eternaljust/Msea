@@ -13,13 +13,13 @@ struct ContentView: View {
         TabView {
             HomeContentView()
                 .tabItem {
-                    Label("Home", systemImage: "house")
+                    Label("虫部落", systemImage: "house")
                 }
                 .tag(1)
 
             MineContentView()
                 .tabItem {
-                    Label("Mine", systemImage: "person")
+                    Label("我的", systemImage: "person")
                 }
                 .tag(2)
         }
