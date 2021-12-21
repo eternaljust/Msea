@@ -55,7 +55,7 @@ extension URLRequest {
         if let cookies = HTTPCookieStorage.shared.cookies {
             self.allHTTPHeaderFields = HTTPCookie.requestHeaderFields(with: cookies)
             if let headerFields = self.allHTTPHeaderFields, let cookie = headerFields["Cookie"] {
-                if !cookie.contains("auth") && !UserInfo.shared.isLogin() {
+                if !cookie.contains("auth") && UserInfo.shared.isLogin() {
                     let authCookie = "\(cookie); \(UserInfo.shared.auth)"
                     setValue(authCookie, forHTTPHeaderField: "Cookie")
                 }

@@ -281,7 +281,7 @@ struct DaySignContentView: View {
 
             let message = signMessage.replacingOccurrences(of: " ", with: "")
             // swiftlint:disable force_unwrapping
-            let url = URL(string: "https://www.chongbuluo.com/plugin.php?id=wq_sign&mod=mood&infloat=yes&confirmsubmit=yes&handlekey=pc_click_wqsign&imageurl=&message=\(message)&formhash=\(UserInfo.shared.formhash)")!
+            let url = URL(string: "https://www.chongbuluo.com/plugin.php?id=wq_sign&mod=mood&infloat=yes&confirmsubmit=yes&handlekey=pc_click_wqsign&imageurl=&message=\(message)&formhash=\(UserInfo.shared.formhash)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")!
             // swiftlint:enble force_unwrapping
             var requset = URLRequest(url: url)
             requset.httpMethod = "POST"

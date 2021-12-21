@@ -80,7 +80,9 @@ struct TopicListContentView: View {
             // swiftlint:disable force_unwrapping
             let url = URL(string: "https://www.chongbuluo.com/forum.php?mod=guide&view=\(view.id)&page=\(page)")!
             // swiftlint:enble force_unwrapping
-            let (data, _) = try await URLSession.shared.data(from: url)
+            var requset = URLRequest(url: url)
+            requset.configHeaderFields()
+            let (data, _) = try await URLSession.shared.data(for: requset)
             if let html = try? HTML(html: data, encoding: .utf8) {
                 let node = html.xpath("//tbody", namespaces: nil)
                 var list = [TopicListModel]()
@@ -110,6 +112,13 @@ struct TopicListContentView: View {
                             topic.tid = tid
                         }
                         list.append(topic)
+                    }
+                }
+                let myinfo = html.at_xpath("//div[@id='myinfo']//a[4]/@href", namespaces: nil)
+                if let text = myinfo?.text, text.contains("formhash"), text.contains("&") {
+                    let components = text.components(separatedBy: "&")
+                    if let formhash = components.last, let hash = formhash.components(separatedBy: "=").last {
+                        UserInfo.shared.formhash = hash
                     }
                 }
 

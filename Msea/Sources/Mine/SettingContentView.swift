@@ -7,9 +7,11 @@
 //
 
 import SwiftUI
+import Kanna
 
 struct SettingContentView: View {
     @EnvironmentObject private var hud: HUDState
+    @Environment(\.dismiss) private var dismiss
 
     @State private var itemSections: [SettingSection] = [
         SettingSection(items: [.review, .feedback, .share]),
@@ -41,7 +43,9 @@ struct SettingContentView: View {
                             .contentShape(Rectangle())
                             .onTapGesture {
                                 if item == .logout {
-                                    logout()
+                                    Task {
+                                        await logout()
+                                    }
                                 }
                             }
                         }
@@ -51,10 +55,21 @@ struct SettingContentView: View {
         }
     }
 
-    private func logout() {
-        UserInfo.shared.reset()
-        NotificationCenter.default.post(name: .logout, object: nil)
-        hud.show(message: "已退出登录！")
+    private func logout() async {
+        Task {
+            // swiftlint:disable force_unwrapping
+            let url = URL(string: "\(kAppBaseURL)member.php?mod=logging&action=logout&formhash=\(UserInfo.shared.formhash)")!
+            // swiftlint:enble force_unwrapping
+            print(url.absoluteString)
+            let (data, _) = try await URLSession.shared.data(from: url)
+            if let html = try? HTML(html: data, encoding: .utf8) {
+                print(html.toHTML)
+                UserInfo.shared.reset()
+                NotificationCenter.default.post(name: .logout, object: nil)
+                hud.show(message: "已退出登录！")
+                dismiss()
+            }
+        }
     }
 }
 
