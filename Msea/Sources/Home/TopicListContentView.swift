@@ -47,13 +47,10 @@ struct TopicListContentView: View {
                         .fixedSize(horizontal: false, vertical: true)
                         .onAppear {
                             if topic.id == topics.last?.id {
-                                print("scroll bottom")
                                 page += 1
                                 Task {
                                     await loadData()
                                 }
-                            } else if topic.id == topics.first?.id {
-                                print("scroll top")
                             }
                         }
                 }
@@ -114,13 +111,7 @@ struct TopicListContentView: View {
                         list.append(topic)
                     }
                 }
-                let myinfo = html.at_xpath("//div[@id='myinfo']//a[4]/@href", namespaces: nil)
-                if let text = myinfo?.text, text.contains("formhash"), text.contains("&") {
-                    let components = text.components(separatedBy: "&")
-                    if let formhash = components.last, let hash = formhash.components(separatedBy: "=").last {
-                        UserInfo.shared.formhash = hash
-                    }
-                }
+                html.getFormhash()
 
                 if page == 1 {
                     topics = list

@@ -56,7 +56,6 @@ struct SignDayListContentView: View {
                             .multilineTextAlignment(.center)
                             .onAppear {
                                 if sign.id == signDayList.last?.id {
-                                    print("scroll bottom")
                                     page += 1
                                     Task {
                                         await loadData()

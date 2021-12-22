@@ -17,6 +17,7 @@ struct LoginContentView: View {
     @State private var username = ""
     @State private var password = ""
     @State private var action = ""
+    @State private var formhash = ""
     @State private var isShowing = false
 
     var body: some View {
@@ -58,7 +59,10 @@ struct LoginContentView: View {
                 let form = html.at_xpath("//form[@name='login']/@action", namespaces: nil)
                 if let url = form?.text {
                     action = url
-                    print(action)
+                }
+                let value = html.at_xpath("//input[@name='formhash']/@value", namespaces: nil)
+                if let hash = value?.text {
+                    formhash = hash
                 }
             }
         }
@@ -68,20 +72,11 @@ struct LoginContentView: View {
         Task {
             isShowing = true
             // swiftlint:disable force_unwrapping
-            let url = URL(string: "\(kAppBaseURL)\(action)&username=\(username)&password=\(password)&loginfield=email")!
-            // swiftlint:enble force_unwrapping
-//            let parameters = [
-//                "username": username,
-//                "password": password,
-//                "formhash": formhash,
-//                "referer": referer,
-//                "cookietime": cookietime,
-//                "loginfield": "email",
-//                "questionid": "0",
-//                "answer": ""
-//            ]
-            let requst = URLRequest(url: url)
-            let (data, _) = try await URLSession.shared.data(for: requst)
+            let parames = "&formhash=\(formhash)&loginfield=email&username=\(username)&password=\(password)&questionid=0&answer=".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+            let url = URL(string: "\(kAppBaseURL)\(action)\(parames)")!
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            let (data, _) = try await URLSession.shared.data(for: request)
             isShowing = false
             if let html = try? HTML(html: data, encoding: .utf8) {
                 let messagetext = html.at_xpath("//div[@class='alert_error']/p", namespaces: nil)
@@ -98,6 +93,11 @@ struct LoginContentView: View {
                     let img = html.at_xpath("//div[@id='um']//img/@src", namespaces: nil)
                     if let space = href?.text {
                         UserInfo.shared.space = space
+                        let params = space.components(separatedBy: "&")
+                        if let last = params.last, last.contains("uid") {
+                            let uid = last.components(separatedBy: "=")[1]
+                            UserInfo.shared.uid = uid
+                        }
                     }
                     if let name = blank?.text {
                         UserInfo.shared.name = name

@@ -21,6 +21,15 @@ class UserInfo: NSObject {
         avatar = ""
         auth = ""
         formhash = ""
+        views = "--"
+        integral = "--"
+        bits = "--"
+        friend = "--"
+        topic = "--"
+        violation = "--"
+        blog = "--"
+        album = "--"
+        share = "--"
     }
 
     func isLogin() -> Bool {
@@ -34,4 +43,13 @@ class UserInfo: NSObject {
     @UserDefaultsBacked(key: UserKeys.avatar) var avatar = ""
     @UserDefaultsBacked(key: UserKeys.auth) var auth = ""
     @UserDefaultsBacked(key: UserKeys.formhash) var formhash = ""
+    @UserDefaultsBacked(key: UserKeys.views) var views = "0"
+    @UserDefaultsBacked(key: UserKeys.integral) var integral = "--"
+    @UserDefaultsBacked(key: UserKeys.bits) var bits = "--"
+    @UserDefaultsBacked(key: UserKeys.friend) var friend = "--"
+    @UserDefaultsBacked(key: UserKeys.topic) var topic = "--"
+    @UserDefaultsBacked(key: UserKeys.violation) var violation = "--"
+    @UserDefaultsBacked(key: UserKeys.blog) var blog = "--"
+    @UserDefaultsBacked(key: UserKeys.album) var album = "--"
+    @UserDefaultsBacked(key: UserKeys.share) var share = "--"
 }

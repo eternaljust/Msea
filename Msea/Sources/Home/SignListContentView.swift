@@ -47,7 +47,6 @@ struct SignListContentView: View {
                             .font(.font14.weight(.thin))
                             .onAppear {
                                 if sign.id == signList.last?.id {
-                                    print("scroll bottom")
                                     page += 1
                                     Task {
                                         await loadData()

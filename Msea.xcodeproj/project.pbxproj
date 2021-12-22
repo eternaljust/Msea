@@ -28,6 +28,7 @@
 		EFB4314B276045A300319073 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4314A276045A300319073 /* Networking.swift */; };
 		EFB4314D27608B3A00319073 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4314C27608B3A00319073 /* Font+Extension.swift */; };
 		EFB4314F2760ACB300319073 /* LoginContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4314E2760ACB300319073 /* LoginContentView.swift */; };
+		EFC6D5D52772C2EC00C9B0E0 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFC6D5D42772C2EC00C9B0E0 /* Launch Screen.storyboard */; };
 		EFE76C5D2759EE3B00D89EA6 /* MseaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE76C5C2759EE3B00D89EA6 /* MseaApp.swift */; };
 		EFE76C5F2759EE3B00D89EA6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE76C5E2759EE3B00D89EA6 /* ContentView.swift */; };
 		EFE76C612759EE3C00D89EA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFE76C602759EE3C00D89EA6 /* Assets.xcassets */; };
@@ -60,7 +61,8 @@
 		EFB4314A276045A300319073 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		EFB4314C27608B3A00319073 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
 		EFB4314E2760ACB300319073 /* LoginContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginContentView.swift; sourceTree = "<group>"; };
-		EFE4102A2771DC7E0074248E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		EFC6D5D42772C2EC00C9B0E0 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		EFE4102A2771DC7E0074248E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EFE76C592759EE3B00D89EA6 /* Msea.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Msea.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFE76C5C2759EE3B00D89EA6 /* MseaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MseaApp.swift; sourceTree = "<group>"; };
 		EFE76C5E2759EE3B00D89EA6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 		EF2E32792759F767005151DE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				EFC6D5D42772C2EC00C9B0E0 /* Launch Screen.storyboard */,
 				EFE76C602759EE3C00D89EA6 /* Assets.xcassets */,
 				EFE76C622759EE3C00D89EA6 /* Preview Content */,
 			);
@@ -200,6 +203,14 @@
 			path = Netwroking;
 			sourceTree = "<group>";
 		};
+		EFC6D5D32772C11E00C9B0E0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				EFE4102A2771DC7E0074248E /* Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		EFE76C502759EE3B00D89EA6 = {
 			isa = PBXGroup;
 			children = (
@@ -221,9 +232,9 @@
 		EFE76C5B2759EE3B00D89EA6 /* Msea */ = {
 			isa = PBXGroup;
 			children = (
-				EFE4102A2771DC7E0074248E /* Info.plist */,
 				EF55F4C5275A0AA700B78C95 /* Sources */,
 				EF2E32792759F767005151DE /* Resources */,
+				EFC6D5D32772C11E00C9B0E0 /* Supporting Files */,
 			);
 			path = Msea;
 			sourceTree = "<group>";
@@ -298,6 +309,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFC6D5D52772C2EC00C9B0E0 /* Launch Screen.storyboard in Resources */,
 				EFE76C642759EE3C00D89EA6 /* Preview Assets.xcassets in Resources */,
 				EFE76C612759EE3C00D89EA6 /* Assets.xcassets in Resources */,
 			);
@@ -527,10 +539,11 @@
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Msea/Info.plist;
+				INFOPLIST_FILE = "Msea/Supporting Files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -558,10 +571,11 @@
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Msea/Info.plist;
+				INFOPLIST_FILE = "Msea/Supporting Files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (

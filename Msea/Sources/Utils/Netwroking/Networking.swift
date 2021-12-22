@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Kanna
 
 let kAppBaseURL = "https://www.chongbuluo.com/"
 
@@ -59,6 +60,18 @@ extension URLRequest {
                     let authCookie = "\(cookie); \(UserInfo.shared.auth)"
                     setValue(authCookie, forHTTPHeaderField: "Cookie")
                 }
+            }
+        }
+    }
+}
+
+extension HTMLDocument {
+    func getFormhash() {
+        let myinfo = self.at_xpath("//div[@id='myinfo']//a[4]/@href", namespaces: nil)
+        if let text = myinfo?.text, text.contains("formhash"), text.contains("&") {
+            let components = text.components(separatedBy: "&")
+            if let formhash = components.last, let hash = formhash.components(separatedBy: "=").last {
+                UserInfo.shared.formhash = hash
             }
         }
     }

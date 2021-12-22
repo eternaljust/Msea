@@ -24,6 +24,24 @@ struct UserKeys {
     static let auth = "authKey"
     /// 校验码
     static let formhash = "formhashKey"
+    /// 访问量
+    static let views = "viewsKey"
+    /// 积分
+    static let integral = "integralKey"
+    /// Bit
+    static let bits = "bitsKey"
+    /// 好友
+    static let friend = "friendKey"
+    /// 违规
+    static let violation = "violationKey"
+    /// 主题
+    static let topic = "topicKey"
+    /// 日志
+    static let blog = "blogKey"
+    /// 相册
+    static let album = "albumKey"
+    /// 分享
+    static let share = "shareKey"
 }
 
 /// 存储属性

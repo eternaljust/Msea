@@ -47,7 +47,7 @@ struct DaySignContentView: View {
                     VStack {
                         Text("连续签到")
 
-                        Text("\(daySign.days)天")
+                        Text("\(Text(daySign.days).foregroundColor(.theme))天")
                     }
 
                     Button {
@@ -65,6 +65,7 @@ struct DaySignContentView: View {
                         Text("累计获得")
 
                         Text("\(daySign.bits)Bit")
+                            .foregroundColor(.theme)
                     }
                 }
                 .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
@@ -244,13 +245,7 @@ struct DaySignContentView: View {
                 isSign = signText.contains("已签到")
 
                 isHidden = true
-                let myinfo = html.at_xpath("//div[@id='myinfo']//a[4]/@href", namespaces: nil)
-                if let text = myinfo?.text, text.contains("formhash"), text.contains("&") {
-                    let components = text.components(separatedBy: "&")
-                    if let formhash = components.last, let hash = formhash.components(separatedBy: "=").last {
-                        UserInfo.shared.formhash = hash
-                    }
-                }
+                html.getFormhash()
             }
 
             // swiftlint:disable force_unwrapping
@@ -281,7 +276,8 @@ struct DaySignContentView: View {
 
             let message = signMessage.replacingOccurrences(of: " ", with: "")
             // swiftlint:disable force_unwrapping
-            let url = URL(string: "https://www.chongbuluo.com/plugin.php?id=wq_sign&mod=mood&infloat=yes&confirmsubmit=yes&handlekey=pc_click_wqsign&imageurl=&message=\(message)&formhash=\(UserInfo.shared.formhash)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")!
+            let parames = "&formhash=\(UserInfo.shared.formhash)&message=\(message)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+            let url = URL(string: "https://www.chongbuluo.com/plugin.php?id=wq_sign&mod=mood&infloat=yes&confirmsubmit=yes&handlekey=pc_click_wqsign&imageurl=\(parames)")!
             // swiftlint:enble force_unwrapping
             var requset = URLRequest(url: url)
             requset.httpMethod = "POST"
@@ -339,10 +335,10 @@ enum SignTab: String, CaseIterable, Identifiable {
 }
 
 struct DaySignModel {
-    var today = "0"
-    var yesterday = "0"
-    var month = "0"
-    var total = "0"
+    var today = "今日已签到 0 人"
+    var yesterday = "昨日总签到 0 人"
+    var month = "本月总签到 0 人"
+    var total = "已有 0 人参与"
     var days = "0"
     var bits = "0"
 }

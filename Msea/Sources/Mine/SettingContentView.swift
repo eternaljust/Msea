@@ -15,8 +15,7 @@ struct SettingContentView: View {
 
     @State private var itemSections: [SettingSection] = [
         SettingSection(items: [.review, .feedback, .share]),
-        SettingSection(items: [.urlschemes, .about]),
-        SettingSection(items: [.logout])
+        SettingSection(items: [.urlschemes, .about])
     ]
 
     var body: some View {
@@ -53,6 +52,11 @@ struct SettingContentView: View {
                 }
             }
         }
+        .onAppear {
+            if UserInfo.shared.isLogin() {
+                itemSections.append(SettingSection(items: [.logout]))
+            }
+        }
     }
 
     private func logout() async {
@@ -60,14 +64,20 @@ struct SettingContentView: View {
             // swiftlint:disable force_unwrapping
             let url = URL(string: "\(kAppBaseURL)member.php?mod=logging&action=logout&formhash=\(UserInfo.shared.formhash)")!
             // swiftlint:enble force_unwrapping
-            print(url.absoluteString)
-            let (data, _) = try await URLSession.shared.data(from: url)
+            var request = URLRequest(url: url)
+            request.configHeaderFields()
+            let (data, _) = try await URLSession.shared.data(for: request)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                print(html.toHTML)
-                UserInfo.shared.reset()
-                NotificationCenter.default.post(name: .logout, object: nil)
-                hud.show(message: "已退出登录！")
-                dismiss()
+                if let text = html.toHTML, text.contains("退出") {
+                    UserInfo.shared.reset()
+                    NotificationCenter.default.post(name: .logout, object: nil)
+                    hud.show(message: "您已退出登录！")
+                    dismiss()
+                } else {
+                    hud.show(message: "退出异常，请稍后重试！")
+                }
+            } else {
+                hud.show(message: "退出异常，请稍后重试！")
             }
         }
     }
