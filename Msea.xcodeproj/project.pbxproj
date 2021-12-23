@@ -33,6 +33,7 @@
 		EFE76C5F2759EE3B00D89EA6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE76C5E2759EE3B00D89EA6 /* ContentView.swift */; };
 		EFE76C612759EE3C00D89EA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFE76C602759EE3C00D89EA6 /* Assets.xcassets */; };
 		EFE76C642759EE3C00D89EA6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFE76C632759EE3C00D89EA6 /* Preview Assets.xcassets */; };
+		EFF1F11C2774680F004EF697 /* LocalNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF1F11B2774680F004EF697 /* LocalNotification.swift */; };
 		FB3006F33310F31A89060749 /* Pods_Msea.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7606A8EEA1BD777F45CBF959 /* Pods_Msea.framework */; };
 /* End PBXBuildFile section */
 
@@ -68,6 +69,7 @@
 		EFE76C5E2759EE3B00D89EA6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		EFE76C602759EE3C00D89EA6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EFE76C632759EE3C00D89EA6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		EFF1F11B2774680F004EF697 /* LocalNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotification.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +193,7 @@
 				EF83EDE82768779C00EED0F5 /* Dialog.swift */,
 				EF8A7A272766F3110092E53C /* UserInfo.swift */,
 				EF80AAC827682EF700C045D6 /* CacheInfo.swift */,
+				EFF1F11B2774680F004EF697 /* LocalNotification.swift */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -402,6 +405,7 @@
 				EF8A7A2B2766F3950092E53C /* Constants.swift in Sources */,
 				EF80AAC927682EF700C045D6 /* CacheInfo.swift in Sources */,
 				EFE76C5D2759EE3B00D89EA6 /* MseaApp.swift in Sources */,
+				EFF1F11C2774680F004EF697 /* LocalNotification.swift in Sources */,
 				EFB4314D27608B3A00319073 /* Font+Extension.swift in Sources */,
 				EF082EED275F0C6A00056BCA /* Color+Extension.swift in Sources */,
 				EF082EEF275F3ACB00056BCA /* UINavigationController+Extension.swift in Sources */,

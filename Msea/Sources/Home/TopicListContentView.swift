@@ -41,6 +41,12 @@ struct TopicListContentView: View {
                         Spacer()
 
                         Text("\(topic.reply)/\(topic.examine)")
+                            .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5))
+                            .foregroundColor(.white)
+                            .background(
+                                Capsule()
+                                    .foregroundColor(.secondaryTheme.opacity(0.8))
+                            )
                     }
 
                     Text(topic.title)

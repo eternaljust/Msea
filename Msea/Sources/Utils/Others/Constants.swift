@@ -59,3 +59,13 @@ extension NSNotification.Name {
     static let login = Notification.Name("LoginNotification")
     static let logout = Notification.Name("LogoutNotification")
 }
+
+/// 常量
+struct Constants {
+    /// 每日签到标识
+    static let daysignIdentifier = "daysignIdentifier"
+    /// 本地通知操作
+    static let localNotificatonAction = "localNotificatonAction"
+    /// 本地通知参数值
+    static let localNotificatonJSONString = "localNotificatonJSONString"
+}

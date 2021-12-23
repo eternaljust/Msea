@@ -26,6 +26,11 @@ struct ContentView: View {
         .tint(.theme)
         .onAppear {
             UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = UIColor(named: "AccentColor")
+            UIPageControl.appearance().currentPageIndicatorTintColor = .theme
+            UIPageControl.appearance().pageIndicatorTintColor = .separator
+            UISegmentedControl.appearance().selectedSegmentTintColor = .secondaryTheme
+            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
+            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.secondaryLabel], for: .normal)
         }
     }
 }

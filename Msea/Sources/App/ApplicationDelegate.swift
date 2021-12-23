@@ -48,7 +48,15 @@ final class FSAppDelegate: NSObject, UIApplicationDelegate {
     ) -> UISceneConfiguration {
         let sceneConfig = UISceneConfiguration(name: nil, sessionRole: connectingSceneSession.role)
         sceneConfig.delegateClass = FSSceneDelegate.self // 👈🏻
+        UNUserNotificationCenter.current().delegate = self
         return sceneConfig
+    }
+}
+
+extension FSAppDelegate: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        print("didReceive LocalNotification")
+        LocalNotification.shared.handleReceive(with: response.notification.request.content.userInfo)
     }
 }
 

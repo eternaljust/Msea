@@ -38,11 +38,6 @@ struct HomeContentView: View {
                 }
                 .pickerStyle(.segmented)
                 .padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))
-                .onAppear {
-                    UISegmentedControl.appearance().selectedSegmentTintColor = .secondaryTheme
-                    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
-                    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.secondaryLabel], for: .normal)
-                }
 
                 TabView(selection: $selectedViewTab) {
                     ForEach(ViewTab.allCases) { view in

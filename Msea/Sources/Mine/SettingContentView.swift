@@ -14,6 +14,7 @@ struct SettingContentView: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var itemSections: [SettingSection] = [
+        SettingSection(items: [.signalert]),
         SettingSection(items: [.review, .feedback, .share]),
         SettingSection(items: [.urlschemes, .about])
     ]
@@ -41,9 +42,11 @@ struct SettingContentView: View {
                             }
                             .contentShape(Rectangle())
                             .onTapGesture {
-                                if item == .logout {
-                                    Task {
+                                Task {
+                                    if item == .logout {
                                         await logout()
+                                    } else if item == .signalert {
+                                        await LocalNotification.shared.daysign()
                                     }
                                 }
                             }
@@ -95,6 +98,7 @@ struct SettingSection: Identifiable {
 }
 
 enum SettingItem: String, CaseIterable, Identifiable {
+    case signalert
     case review
     case share
     case feedback
@@ -106,6 +110,8 @@ enum SettingItem: String, CaseIterable, Identifiable {
 
     var icon: String {
         switch self {
+        case .signalert:
+            return "clock.fill"
         case .review:
             return "star.fill"
         case .share:
@@ -123,6 +129,8 @@ enum SettingItem: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
+        case .signalert:
+            return "签到提醒"
         case .review:
             return "评价应用"
         case .share:
