@@ -52,6 +52,12 @@ struct CacheKeys {
     static let signExpression = "signExpressionKey"
     /// 签到提示
     static let signPlaceholder = "signPlaceholderKey"
+    /// 签到时间小时
+    static let daysignHour = "daysignHourKey"
+    /// 签到时间分钟
+    static let daysignMinute = "daysignMinuteKey"
+    /// 签到开关
+    static let daysignIsOn = "daysignIsOnKey"
 }
 
 /// 通知

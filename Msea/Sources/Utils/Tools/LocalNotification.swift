@@ -14,15 +14,19 @@ struct LocalNotification {
     /// 单例
     static let shared: LocalNotification = LocalNotification()
 
-    func isAuthorization() async -> Bool {
+    func isAuthorized() async -> Bool {
         return await UNUserNotificationCenter.current().notificationSettings().authorizationStatus == .authorized
+    }
+
+    func isAuthorizationDenied() async -> Bool {
+        return await UNUserNotificationCenter.current().notificationSettings().authorizationStatus == .denied
     }
 
     func authorization() async throws -> Bool {
         return try await UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound])
     }
 
-    func daysign() async {
+    func daysign() async -> Bool {
         do {
             let isAuthorization = try await authorization()
             if isAuthorization {
@@ -33,23 +37,28 @@ struct LocalNotification {
                 content.sound = .default
                 content.userInfo = [Constants.localNotificatonAction: NotificationAction.daysign.rawValue]
 
-                var dateComponents = DateComponents(hour: 17)
-                dateComponents.minute = 45
+                var dateComponents = DateComponents(hour: CacheInfo.shared.daysignHour)
+                dateComponents.minute = CacheInfo.shared.daysignMinute
 
                 let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
                 let request = UNNotificationRequest(identifier: Constants.daysignIdentifier, content: content, trigger: trigger)
 
                 try await UNUserNotificationCenter.current().add(request)
                 print("LocalNotification daysign")
+                return true
+            } else {
+                return false
             }
         } catch {
             print("Notification authorization error:\(error)")
+            return false
         }
     }
 
     func removeDaysign() {
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [Constants.daysignIdentifier])
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [Constants.daysignIdentifier])
+        print("LocalNotification removeDaysign")
     }
 
     func handleReceive(with userInfo: [AnyHashable: Any]) {

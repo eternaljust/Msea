@@ -22,4 +22,7 @@ class CacheInfo: NSObject {
                             """
     @UserDefaultsBacked(key: CacheKeys.signExpression) var signExpression = "签到留言，你的心情随笔，愿望清单...今天吃啥？"
     @UserDefaultsBacked(key: CacheKeys.signPlaceholder) var signPlaceholder = "提倡沿袭古法的纯手工打卡，反对自动签到，自动签到每次将被扣除 10 倍于所得积分 :)"
+    @UserDefaultsBacked(key: CacheKeys.daysignHour) var daysignHour = 8
+    @UserDefaultsBacked(key: CacheKeys.daysignMinute) var daysignMinute = 0
+    @UserDefaultsBacked(key: CacheKeys.daysignIsOn) var daysignIsOn = false
 }

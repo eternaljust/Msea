@@ -28,6 +28,7 @@ struct UserDefaultsBacked<Value> {
                 storage.removeObject(forKey: key)
             } else {
                 storage.setValue(newValue, forKey: key)
+                storage.synchronize()
             }
         }
     }
