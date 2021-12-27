@@ -12,17 +12,19 @@ struct HomeContentView: View {
     @State private var search = ""
     @State private var selectedViewTab = ViewTab.new
     @State private var navigationBarHidden = true
+    @State private var isActive = false
+    @ObservedObject private var selection = TabItemSelection()
 
     var body: some View {
         NavigationView {
             VStack {
                 HStack {
-                    NavigationLink(destination: DaySignContentView(), label: {
+                    NavigationLink(destination: DaySignContentView(), isActive: $isActive) {
                         Image(systemName: "leaf.fill")
                             .foregroundColor(.theme)
                             .imageScale(.large)
                             .padding(.leading, 20)
-                    })
+                    }
 
                     TextField("搜索", text: $search)
                         .textFieldStyle(.roundedBorder)
@@ -56,6 +58,10 @@ struct HomeContentView: View {
             }
             .onDisappear {
                 navigationBarHidden = false
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .daysign, object: nil)) { _ in
+                selection.index = .home
+                isActive = true
             }
         }
     }

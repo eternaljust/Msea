@@ -9,19 +9,17 @@ import SwiftUI
 import Kanna
 
 struct ContentView: View {
-    var body: some View {
-        TabView {
-            HomeContentView()
-                .tabItem {
-                    Label("虫部落", systemImage: "house")
-                }
-                .tag(1)
+    @ObservedObject private var selection = TabItemSelection()
 
-            MineContentView()
-                .tabItem {
-                    Label("我的", systemImage: "person")
-                }
-                .tag(2)
+    var body: some View {
+        TabView(selection: $selection.index) {
+            ForEach(TabBarItem.allCases) { item in
+                getContentView(item)
+                    .tabItem {
+                        Label(item.title, systemImage: item.icon)
+                    }
+                    .tag(item)
+            }
         }
         .tint(.theme)
         .onAppear {
@@ -33,10 +31,42 @@ struct ContentView: View {
             UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.secondaryLabel], for: .normal)
         }
     }
+
+    @ViewBuilder private func getContentView(_ item: TabBarItem) -> some View {
+        switch item {
+        case .home:
+            HomeContentView()
+        case .mine:
+            MineContentView()
+        }
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
+}
+
+enum TabBarItem: String, CaseIterable, Identifiable {
+    case home
+    case mine
+
+    var id: String { self.rawValue }
+    var icon: String {
+        switch self {
+        case .home: return "house"
+        case .mine: return "person"
+        }
+    }
+    var title: String {
+        switch self {
+        case .home: return "虫部落"
+        case .mine: return "我的"
+        }
+    }
+}
+
+class TabItemSelection: ObservableObject {
+    @Published var index: TabBarItem = .home
 }

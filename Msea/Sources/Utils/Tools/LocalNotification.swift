@@ -66,7 +66,7 @@ struct LocalNotification {
             if let value = userInfo[Constants.localNotificatonAction] as? String, let action = NotificationAction(rawValue: value) {
                 switch action {
                 case .daysign:
-                    print("Router daysign")
+                    routingDaysign()
                 }
             }
         }
@@ -76,6 +76,13 @@ struct LocalNotification {
 
     func clearBadge() {
         UIApplication.shared.applicationIconBadgeNumber = 0
+    }
+
+    func routingDaysign() {
+        print("Router daysign")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            NotificationCenter.default.post(name: .daysign, object: nil)
+        }
     }
 }
 

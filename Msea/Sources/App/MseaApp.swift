@@ -25,6 +25,10 @@ struct MseaApp: App {
             switch value {
             case .active:
                 print("App is active")
+                guard let shortcutItem = delegate.shortcutItem else { return }
+                if shortcutItem.type == "签到" {
+                    LocalNotification.shared.routingDaysign()
+                }
             case .inactive:
                 print("App is inactive")
             case .background:

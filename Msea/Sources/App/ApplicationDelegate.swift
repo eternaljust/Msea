@@ -25,6 +25,11 @@ final class FSSceneDelegate: UIResponder, UIWindowSceneDelegate, ObservableObjec
         windowScene = scene as? UIWindowScene
     }
 
+    func windowScene(_ windowScene: UIWindowScene, performActionFor shortcutItem: UIApplicationShortcutItem) async -> Bool {
+        FSAppDelegate.shortcutItem = shortcutItem
+        return true
+    }
+
     func setupHudWindow() {
         guard let windowScene = windowScene, let toastState = hudState else {
             return
@@ -41,6 +46,9 @@ final class FSSceneDelegate: UIResponder, UIWindowSceneDelegate, ObservableObjec
 }
 
 final class FSAppDelegate: NSObject, UIApplicationDelegate {
+    var shortcutItem: UIApplicationShortcutItem? { FSAppDelegate.shortcutItem }
+    fileprivate static var shortcutItem: UIApplicationShortcutItem?
+
     func application(
         _ application: UIApplication,
         configurationForConnecting connectingSceneSession: UISceneSession,
@@ -49,6 +57,10 @@ final class FSAppDelegate: NSObject, UIApplicationDelegate {
         let sceneConfig = UISceneConfiguration(name: nil, sessionRole: connectingSceneSession.role)
         sceneConfig.delegateClass = FSSceneDelegate.self // 👈🏻
         UNUserNotificationCenter.current().delegate = self
+        UIApplication.shared.shortcutItems = [UIApplicationShortcutItem(type: "签到", localizedTitle: "签到", localizedSubtitle: nil, icon: UIApplicationShortcutIcon(systemImageName: "leaf.fill"), userInfo: nil)]
+        if let shortcutItem = options.shortcutItem {
+            FSAppDelegate.shortcutItem = shortcutItem
+        }
         return sceneConfig
     }
 }
