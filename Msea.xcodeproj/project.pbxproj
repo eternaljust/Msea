@@ -18,6 +18,14 @@
 		EF55F4C9275A0B0500B78C95 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF55F4C8275A0B0500B78C95 /* View+Extension.swift */; };
 		EF6211D52761D8FA00F833B4 /* ApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6211D42761D8FA00F833B4 /* ApplicationDelegate.swift */; };
 		EF6211D72761ECEA00F833B4 /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6211D62761ECEA00F833B4 /* Appearance.swift */; };
+		EF70CDEA277AA1B20049D830 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF70CDE9277AA1B20049D830 /* WidgetKit.framework */; };
+		EF70CDEC277AA1B20049D830 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF70CDEB277AA1B20049D830 /* SwiftUI.framework */; };
+		EF70CDEF277AA1B20049D830 /* TopicWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70CDEE277AA1B20049D830 /* TopicWidget.swift */; };
+		EF70CDF1277AA1B30049D830 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF70CDF0277AA1B30049D830 /* Assets.xcassets */; };
+		EF70CDF5277AA1B30049D830 /* TopicWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EF70CDE8277AA1B20049D830 /* TopicWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EF70CDFA277AAA600049D830 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF082EEC275F0C6A00056BCA /* Color+Extension.swift */; };
+		EF70CDFB277AAA660049D830 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4314C27608B3A00319073 /* Font+Extension.swift */; };
+		EF70CDFC277AB03C0049D830 /* Foundation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8A7A252766F2500092E53C /* Foundation+Extension.swift */; };
 		EF80AAC927682EF700C045D6 /* CacheInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF80AAC827682EF700C045D6 /* CacheInfo.swift */; };
 		EF83EDE92768779C00EED0F5 /* Dialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF83EDE82768779C00EED0F5 /* Dialog.swift */; };
 		EF8A7A262766F2500092E53C /* Foundation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8A7A252766F2500092E53C /* Foundation+Extension.swift */; };
@@ -35,15 +43,43 @@
 		EFE76C642759EE3C00D89EA6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFE76C632759EE3C00D89EA6 /* Preview Assets.xcassets */; };
 		EFF1F11C2774680F004EF697 /* LocalNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF1F11B2774680F004EF697 /* LocalNotification.swift */; };
 		FB3006F33310F31A89060749 /* Pods_Msea.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7606A8EEA1BD777F45CBF959 /* Pods_Msea.framework */; };
+		FF6F54D60DAE88CB4DCB885B /* Pods_TopicWidgetExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A50DF2A3B18C0CBCE0319DC6 /* Pods_TopicWidgetExtension.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		EF70CDF3277AA1B30049D830 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EFE76C512759EE3B00D89EA6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EF70CDE7277AA1B20049D830;
+			remoteInfo = TopicWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		EF70CDF6277AA1B30049D830 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				EF70CDF5277AA1B30049D830 /* TopicWidgetExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		1C2D4951103DE0C049C9D063 /* Pods-TopicWidgetExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TopicWidgetExtension.release.xcconfig"; path = "Target Support Files/Pods-TopicWidgetExtension/Pods-TopicWidgetExtension.release.xcconfig"; sourceTree = "<group>"; };
 		7606A8EEA1BD777F45CBF959 /* Pods_Msea.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Msea.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8143D170275C8F5C0036198D /* MineContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineContentView.swift; sourceTree = "<group>"; };
 		8143D172275C9DFA0036198D /* HomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentView.swift; sourceTree = "<group>"; };
 		8180BB32275B78870055E1F5 /* TopicListContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicListContentView.swift; sourceTree = "<group>"; };
 		9A536744D188758A4840C194 /* Pods-Msea.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Msea.release.xcconfig"; path = "Target Support Files/Pods-Msea/Pods-Msea.release.xcconfig"; sourceTree = "<group>"; };
+		A50DF2A3B18C0CBCE0319DC6 /* Pods_TopicWidgetExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TopicWidgetExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA26334146152E48BA4E44D8 /* Pods-Msea.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Msea.debug.xcconfig"; path = "Target Support Files/Pods-Msea/Pods-Msea.debug.xcconfig"; sourceTree = "<group>"; };
+		BE4936BAEE7BB55407068ED7 /* Pods-TopicWidgetExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TopicWidgetExtension.debug.xcconfig"; path = "Target Support Files/Pods-TopicWidgetExtension/Pods-TopicWidgetExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		EF082EEA275EF85900056BCA /* DaySignContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySignContentView.swift; sourceTree = "<group>"; };
 		EF082EEC275F0C6A00056BCA /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		EF082EEE275F3ACB00056BCA /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
@@ -52,6 +88,12 @@
 		EF55F4C8275A0B0500B78C95 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		EF6211D42761D8FA00F833B4 /* ApplicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationDelegate.swift; sourceTree = "<group>"; };
 		EF6211D62761ECEA00F833B4 /* Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
+		EF70CDE8277AA1B20049D830 /* TopicWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TopicWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		EF70CDE9277AA1B20049D830 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		EF70CDEB277AA1B20049D830 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		EF70CDEE277AA1B20049D830 /* TopicWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicWidget.swift; sourceTree = "<group>"; };
+		EF70CDF0277AA1B30049D830 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EF70CDF2277AA1B30049D830 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EF80AAC827682EF700C045D6 /* CacheInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheInfo.swift; sourceTree = "<group>"; };
 		EF83EDE82768779C00EED0F5 /* Dialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dialog.swift; sourceTree = "<group>"; };
 		EF8A7A252766F2500092E53C /* Foundation+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Foundation+Extension.swift"; sourceTree = "<group>"; };
@@ -73,6 +115,16 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		EF70CDE5277AA1B20049D830 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF70CDEC277AA1B20049D830 /* SwiftUI.framework in Frameworks */,
+				EF70CDEA277AA1B20049D830 /* WidgetKit.framework in Frameworks */,
+				FF6F54D60DAE88CB4DCB885B /* Pods_TopicWidgetExtension.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EFE76C562759EE3B00D89EA6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -110,6 +162,9 @@
 			isa = PBXGroup;
 			children = (
 				7606A8EEA1BD777F45CBF959 /* Pods_Msea.framework */,
+				EF70CDE9277AA1B20049D830 /* WidgetKit.framework */,
+				EF70CDEB277AA1B20049D830 /* SwiftUI.framework */,
+				A50DF2A3B18C0CBCE0319DC6 /* Pods_TopicWidgetExtension.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -119,6 +174,8 @@
 			children = (
 				BA26334146152E48BA4E44D8 /* Pods-Msea.debug.xcconfig */,
 				9A536744D188758A4840C194 /* Pods-Msea.release.xcconfig */,
+				BE4936BAEE7BB55407068ED7 /* Pods-TopicWidgetExtension.debug.xcconfig */,
+				1C2D4951103DE0C049C9D063 /* Pods-TopicWidgetExtension.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -178,6 +235,16 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		EF70CDED277AA1B20049D830 /* TopicWidget */ = {
+			isa = PBXGroup;
+			children = (
+				EF70CDEE277AA1B20049D830 /* TopicWidget.swift */,
+				EF70CDF0277AA1B30049D830 /* Assets.xcassets */,
+				EF70CDF2277AA1B30049D830 /* Info.plist */,
+			);
+			path = TopicWidget;
+			sourceTree = "<group>";
+		};
 		EF8A7A292766F3860092E53C /* Others */ = {
 			isa = PBXGroup;
 			children = (
@@ -218,6 +285,7 @@
 			isa = PBXGroup;
 			children = (
 				EFE76C5B2759EE3B00D89EA6 /* Msea */,
+				EF70CDED277AA1B20049D830 /* TopicWidget */,
 				EFE76C5A2759EE3B00D89EA6 /* Products */,
 				9C6C4775FCC0808EF699E19F /* Pods */,
 				8E28B34AB5F4C4ED14A412FC /* Frameworks */,
@@ -228,6 +296,7 @@
 			isa = PBXGroup;
 			children = (
 				EFE76C592759EE3B00D89EA6 /* Msea.app */,
+				EF70CDE8277AA1B20049D830 /* TopicWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -253,6 +322,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		EF70CDE7277AA1B20049D830 /* TopicWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EF70CDF9277AA1B30049D830 /* Build configuration list for PBXNativeTarget "TopicWidgetExtension" */;
+			buildPhases = (
+				5CFCD1682E3D0E5325B0EFB9 /* [CP] Check Pods Manifest.lock */,
+				EF70CDE4277AA1B20049D830 /* Sources */,
+				EF70CDE5277AA1B20049D830 /* Frameworks */,
+				EF70CDE6277AA1B20049D830 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TopicWidgetExtension;
+			productName = TopicWidgetExtension;
+			productReference = EF70CDE8277AA1B20049D830 /* TopicWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		EFE76C582759EE3B00D89EA6 /* Msea */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = EFE76C672759EE3C00D89EA6 /* Build configuration list for PBXNativeTarget "Msea" */;
@@ -263,10 +350,12 @@
 				EFE76C572759EE3B00D89EA6 /* Resources */,
 				EF2E327A2759F7E9005151DE /* Run SwiftLint */,
 				CFAFA79507B4B4B819430F75 /* [CP] Embed Pods Frameworks */,
+				EF70CDF6277AA1B30049D830 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				EF70CDF4277AA1B30049D830 /* PBXTargetDependency */,
 			);
 			name = Msea;
 			productName = Msea;
@@ -280,10 +369,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1310;
+				LastSwiftUpdateCheck = 1320;
 				LastUpgradeCheck = 1310;
 				ORGANIZATIONNAME = eternal.just;
 				TargetAttributes = {
+					EF70CDE7277AA1B20049D830 = {
+						CreatedOnToolsVersion = 13.2.1;
+					};
 					EFE76C582759EE3B00D89EA6 = {
 						CreatedOnToolsVersion = 13.1;
 					};
@@ -303,11 +395,20 @@
 			projectRoot = "";
 			targets = (
 				EFE76C582759EE3B00D89EA6 /* Msea */,
+				EF70CDE7277AA1B20049D830 /* TopicWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		EF70CDE6277AA1B20049D830 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF70CDF1277AA1B30049D830 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EFE76C572759EE3B00D89EA6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -337,6 +438,28 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-Msea-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5CFCD1682E3D0E5325B0EFB9 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TopicWidgetExtension-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -381,6 +504,17 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		EF70CDE4277AA1B20049D830 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF70CDFC277AB03C0049D830 /* Foundation+Extension.swift in Sources */,
+				EF70CDEF277AA1B20049D830 /* TopicWidget.swift in Sources */,
+				EF70CDFA277AAA600049D830 /* Color+Extension.swift in Sources */,
+				EF70CDFB277AAA660049D830 /* Font+Extension.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EFE76C552759EE3B00D89EA6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -414,7 +548,73 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		EF70CDF4277AA1B30049D830 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EF70CDE7277AA1B20049D830 /* TopicWidgetExtension */;
+			targetProxy = EF70CDF3277AA1B30049D830 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		EF70CDF7277AA1B30049D830 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BE4936BAEE7BB55407068ED7 /* Pods-TopicWidgetExtension.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 936M5Y4RHX;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TopicWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TopicWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2021 eternal.just. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.eternaljust.Msea.TopicWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EF70CDF8277AA1B30049D830 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1C2D4951103DE0C049C9D063 /* Pods-TopicWidgetExtension.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 936M5Y4RHX;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TopicWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TopicWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2021 eternal.just. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.eternaljust.Msea.TopicWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		EFE76C652759EE3C00D89EA6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -535,6 +735,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BA26334146152E48BA4E44D8 /* Pods-Msea.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -567,6 +768,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9A536744D188758A4840C194 /* Pods-Msea.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -598,6 +800,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		EF70CDF9277AA1B30049D830 /* Build configuration list for PBXNativeTarget "TopicWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EF70CDF7277AA1B30049D830 /* Debug */,
+				EF70CDF8277AA1B30049D830 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		EFE76C542759EE3B00D89EA6 /* Build configuration list for PBXProject "Msea" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
