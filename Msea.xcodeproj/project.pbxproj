@@ -32,6 +32,7 @@
 		EF8A7A282766F3110092E53C /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8A7A272766F3110092E53C /* UserInfo.swift */; };
 		EF8A7A2B2766F3950092E53C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8A7A2A2766F3950092E53C /* Constants.swift */; };
 		EF9012802761A3D90079BF4C /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF90127F2761A3D90079BF4C /* HUD.swift */; };
+		EFA234B8277B06F000808A24 /* ProfileWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB080FB277AFB6900BAABE6 /* ProfileWidget.swift */; };
 		EFAA2A8D277025A000A83E44 /* SettingContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFAA2A8C277025A000A83E44 /* SettingContentView.swift */; };
 		EFB4314B276045A300319073 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4314A276045A300319073 /* Networking.swift */; };
 		EFB4314D27608B3A00319073 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4314C27608B3A00319073 /* Font+Extension.swift */; };
@@ -101,6 +102,7 @@
 		EF8A7A2A2766F3950092E53C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		EF90127F2761A3D90079BF4C /* HUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		EFAA2A8C277025A000A83E44 /* SettingContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingContentView.swift; sourceTree = "<group>"; };
+		EFB080FB277AFB6900BAABE6 /* ProfileWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileWidget.swift; sourceTree = "<group>"; };
 		EFB4314A276045A300319073 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		EFB4314C27608B3A00319073 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
 		EFB4314E2760ACB300319073 /* LoginContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginContentView.swift; sourceTree = "<group>"; };
@@ -239,6 +241,7 @@
 			isa = PBXGroup;
 			children = (
 				EF70CDEE277AA1B20049D830 /* TopicWidget.swift */,
+				EFB080FB277AFB6900BAABE6 /* ProfileWidget.swift */,
 				EF70CDF0277AA1B30049D830 /* Assets.xcassets */,
 				EF70CDF2277AA1B30049D830 /* Info.plist */,
 			);
@@ -511,6 +514,7 @@
 				EF70CDFC277AB03C0049D830 /* Foundation+Extension.swift in Sources */,
 				EF70CDEF277AA1B20049D830 /* TopicWidget.swift in Sources */,
 				EF70CDFA277AAA600049D830 /* Color+Extension.swift in Sources */,
+				EFA234B8277B06F000808A24 /* ProfileWidget.swift in Sources */,
 				EF70CDFB277AAA660049D830 /* Font+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

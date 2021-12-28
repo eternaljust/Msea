@@ -10,21 +10,21 @@ import WidgetKit
 import SwiftUI
 import Kanna
 
-struct Provider: TimelineProvider {
-    func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: .now, topics: [TopicModel]())
+struct TopicProvider: TimelineProvider {
+    func placeholder(in context: Context) -> TopicEntry {
+        TopicEntry(date: .now, topics: [TopicModel]())
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> Void) {
+    func getSnapshot(in context: Context, completion: @escaping (TopicEntry) -> Void) {
         Task {
-            let entry = try await SimpleEntry(date: .now, topics: getTopics())
+            let entry = try await TopicEntry(date: .now, topics: getTopics())
             completion(entry)
         }
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
         Task {
-            let entry = try await SimpleEntry(date: .now, topics: getTopics())
+            let entry = try await TopicEntry(date: .now, topics: getTopics())
             let timeline = Timeline(entries: [entry], policy: .after(.now.advanced(by: 5 * 60)))
             completion(timeline)
         }
@@ -89,7 +89,7 @@ struct Provider: TimelineProvider {
     }
 }
 
-struct SimpleEntry: TimelineEntry {
+struct TopicEntry: TimelineEntry {
     var date: Date
 
     let topics: [TopicModel]
@@ -118,7 +118,7 @@ struct TopicPlaceholderViewRow: View {
 }
 
 struct TopicWidgetEntryView : View {
-    var entry: Provider.Entry
+    var entry: TopicProvider.Entry
 
     var body: some View {
         VStack(spacing: 5) {
@@ -171,12 +171,11 @@ struct TopicModel: Identifiable {
     var imageData: Data?
 }
 
-@main
 struct TopicWidget: Widget {
     let kind: String = "TopicWidget"
 
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: Provider()) { entry in
+        StaticConfiguration(kind: kind, provider: TopicProvider()) { entry in
             TopicWidgetEntryView(entry: entry)
         }
         .configurationDisplayName("近日热议")
@@ -187,7 +186,17 @@ struct TopicWidget: Widget {
 
 struct TopicWidget_Previews: PreviewProvider {
     static var previews: some View {
-        TopicWidgetEntryView(entry: SimpleEntry(date: .now, topics: [TopicModel]()))
+        TopicWidgetEntryView(entry: TopicEntry(date: .now, topics: [TopicModel]()))
             .previewContext(WidgetPreviewContext(family: .systemMedium))
+    }
+}
+
+@main
+struct Widgets: WidgetBundle {
+    @WidgetBundleBuilder
+
+    var body: some Widget {
+        TopicWidget()
+        ProfileWidget()
     }
 }
