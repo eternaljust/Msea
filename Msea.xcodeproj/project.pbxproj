@@ -26,18 +26,23 @@
 		EF70CDFA277AAA600049D830 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF082EEC275F0C6A00056BCA /* Color+Extension.swift */; };
 		EF70CDFB277AAA660049D830 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4314C27608B3A00319073 /* Font+Extension.swift */; };
 		EF70CDFC277AB03C0049D830 /* Foundation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8A7A252766F2500092E53C /* Foundation+Extension.swift */; };
+		EF72A1DA277C3C2900E062F2 /* WidgetIntents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = EFD6BA62277BFA4F0060239D /* WidgetIntents.intentdefinition */; };
 		EF80AAC927682EF700C045D6 /* CacheInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF80AAC827682EF700C045D6 /* CacheInfo.swift */; };
 		EF83EDE92768779C00EED0F5 /* Dialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF83EDE82768779C00EED0F5 /* Dialog.swift */; };
 		EF8A7A262766F2500092E53C /* Foundation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8A7A252766F2500092E53C /* Foundation+Extension.swift */; };
 		EF8A7A282766F3110092E53C /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8A7A272766F3110092E53C /* UserInfo.swift */; };
 		EF8A7A2B2766F3950092E53C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8A7A2A2766F3950092E53C /* Constants.swift */; };
 		EF9012802761A3D90079BF4C /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF90127F2761A3D90079BF4C /* HUD.swift */; };
-		EFA234B8277B06F000808A24 /* ProfileWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB080FB277AFB6900BAABE6 /* ProfileWidget.swift */; };
+		EFA1350C277C3A540060A172 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFD6BA6D277C07650060239D /* Intents.framework */; };
+		EFA1350F277C3A540060A172 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA1350E277C3A540060A172 /* IntentHandler.swift */; };
+		EFA13513277C3A540060A172 /* WidgetIntentHandler.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EFA1350B277C3A540060A172 /* WidgetIntentHandler.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EFAA2A8D277025A000A83E44 /* SettingContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFAA2A8C277025A000A83E44 /* SettingContentView.swift */; };
 		EFB4314B276045A300319073 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4314A276045A300319073 /* Networking.swift */; };
 		EFB4314D27608B3A00319073 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4314C27608B3A00319073 /* Font+Extension.swift */; };
 		EFB4314F2760ACB300319073 /* LoginContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4314E2760ACB300319073 /* LoginContentView.swift */; };
 		EFC6D5D52772C2EC00C9B0E0 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFC6D5D42772C2EC00C9B0E0 /* Launch Screen.storyboard */; };
+		EFD6BA66277C05980060239D /* WidgetIntents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = EFD6BA62277BFA4F0060239D /* WidgetIntents.intentdefinition */; };
+		EFD6BA67277C05B20060239D /* ProfileWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD6BA64277C02BC0060239D /* ProfileWidget.swift */; };
 		EFE76C5D2759EE3B00D89EA6 /* MseaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE76C5C2759EE3B00D89EA6 /* MseaApp.swift */; };
 		EFE76C5F2759EE3B00D89EA6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE76C5E2759EE3B00D89EA6 /* ContentView.swift */; };
 		EFE76C612759EE3C00D89EA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFE76C602759EE3C00D89EA6 /* Assets.xcassets */; };
@@ -55,6 +60,13 @@
 			remoteGlobalIDString = EF70CDE7277AA1B20049D830;
 			remoteInfo = TopicWidgetExtension;
 		};
+		EFA13511277C3A540060A172 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EFE76C512759EE3B00D89EA6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EFA1350A277C3A540060A172;
+			remoteInfo = WidgetIntentHandler;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -65,6 +77,7 @@
 			dstSubfolderSpec = 13;
 			files = (
 				EF70CDF5277AA1B30049D830 /* TopicWidgetExtension.appex in Embed App Extensions */,
+				EFA13513277C3A540060A172 /* WidgetIntentHandler.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -101,12 +114,17 @@
 		EF8A7A272766F3110092E53C /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		EF8A7A2A2766F3950092E53C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		EF90127F2761A3D90079BF4C /* HUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
+		EFA1350B277C3A540060A172 /* WidgetIntentHandler.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WidgetIntentHandler.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		EFA1350E277C3A540060A172 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
+		EFA13510277C3A540060A172 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EFAA2A8C277025A000A83E44 /* SettingContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingContentView.swift; sourceTree = "<group>"; };
-		EFB080FB277AFB6900BAABE6 /* ProfileWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileWidget.swift; sourceTree = "<group>"; };
 		EFB4314A276045A300319073 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		EFB4314C27608B3A00319073 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
 		EFB4314E2760ACB300319073 /* LoginContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginContentView.swift; sourceTree = "<group>"; };
 		EFC6D5D42772C2EC00C9B0E0 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		EFD6BA62277BFA4F0060239D /* WidgetIntents.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = WidgetIntents.intentdefinition; sourceTree = "<group>"; };
+		EFD6BA64277C02BC0060239D /* ProfileWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileWidget.swift; sourceTree = "<group>"; };
+		EFD6BA6D277C07650060239D /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
 		EFE4102A2771DC7E0074248E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EFE76C592759EE3B00D89EA6 /* Msea.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Msea.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFE76C5C2759EE3B00D89EA6 /* MseaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MseaApp.swift; sourceTree = "<group>"; };
@@ -124,6 +142,14 @@
 				EF70CDEC277AA1B20049D830 /* SwiftUI.framework in Frameworks */,
 				EF70CDEA277AA1B20049D830 /* WidgetKit.framework in Frameworks */,
 				FF6F54D60DAE88CB4DCB885B /* Pods_TopicWidgetExtension.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EFA13508277C3A540060A172 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EFA1350C277C3A540060A172 /* Intents.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,6 +193,7 @@
 				EF70CDE9277AA1B20049D830 /* WidgetKit.framework */,
 				EF70CDEB277AA1B20049D830 /* SwiftUI.framework */,
 				A50DF2A3B18C0CBCE0319DC6 /* Pods_TopicWidgetExtension.framework */,
+				EFD6BA6D277C07650060239D /* Intents.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -241,7 +268,8 @@
 			isa = PBXGroup;
 			children = (
 				EF70CDEE277AA1B20049D830 /* TopicWidget.swift */,
-				EFB080FB277AFB6900BAABE6 /* ProfileWidget.swift */,
+				EFD6BA64277C02BC0060239D /* ProfileWidget.swift */,
+				EFD6BA62277BFA4F0060239D /* WidgetIntents.intentdefinition */,
 				EF70CDF0277AA1B30049D830 /* Assets.xcassets */,
 				EF70CDF2277AA1B30049D830 /* Info.plist */,
 			);
@@ -268,6 +296,15 @@
 			path = Tools;
 			sourceTree = "<group>";
 		};
+		EFA1350D277C3A540060A172 /* WidgetIntentHandler */ = {
+			isa = PBXGroup;
+			children = (
+				EFA1350E277C3A540060A172 /* IntentHandler.swift */,
+				EFA13510277C3A540060A172 /* Info.plist */,
+			);
+			path = WidgetIntentHandler;
+			sourceTree = "<group>";
+		};
 		EFB431492760456C00319073 /* Netwroking */ = {
 			isa = PBXGroup;
 			children = (
@@ -289,6 +326,7 @@
 			children = (
 				EFE76C5B2759EE3B00D89EA6 /* Msea */,
 				EF70CDED277AA1B20049D830 /* TopicWidget */,
+				EFA1350D277C3A540060A172 /* WidgetIntentHandler */,
 				EFE76C5A2759EE3B00D89EA6 /* Products */,
 				9C6C4775FCC0808EF699E19F /* Pods */,
 				8E28B34AB5F4C4ED14A412FC /* Frameworks */,
@@ -300,6 +338,7 @@
 			children = (
 				EFE76C592759EE3B00D89EA6 /* Msea.app */,
 				EF70CDE8277AA1B20049D830 /* TopicWidgetExtension.appex */,
+				EFA1350B277C3A540060A172 /* WidgetIntentHandler.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -343,6 +382,23 @@
 			productReference = EF70CDE8277AA1B20049D830 /* TopicWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		EFA1350A277C3A540060A172 /* WidgetIntentHandler */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EFA13514277C3A540060A172 /* Build configuration list for PBXNativeTarget "WidgetIntentHandler" */;
+			buildPhases = (
+				EFA13507277C3A540060A172 /* Sources */,
+				EFA13508277C3A540060A172 /* Frameworks */,
+				EFA13509277C3A540060A172 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WidgetIntentHandler;
+			productName = WidgetIntentHandler;
+			productReference = EFA1350B277C3A540060A172 /* WidgetIntentHandler.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		EFE76C582759EE3B00D89EA6 /* Msea */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = EFE76C672759EE3C00D89EA6 /* Build configuration list for PBXNativeTarget "Msea" */;
@@ -359,6 +415,7 @@
 			);
 			dependencies = (
 				EF70CDF4277AA1B30049D830 /* PBXTargetDependency */,
+				EFA13512277C3A540060A172 /* PBXTargetDependency */,
 			);
 			name = Msea;
 			productName = Msea;
@@ -377,6 +434,9 @@
 				ORGANIZATIONNAME = eternal.just;
 				TargetAttributes = {
 					EF70CDE7277AA1B20049D830 = {
+						CreatedOnToolsVersion = 13.2.1;
+					};
+					EFA1350A277C3A540060A172 = {
 						CreatedOnToolsVersion = 13.2.1;
 					};
 					EFE76C582759EE3B00D89EA6 = {
@@ -399,6 +459,7 @@
 			targets = (
 				EFE76C582759EE3B00D89EA6 /* Msea */,
 				EF70CDE7277AA1B20049D830 /* TopicWidgetExtension */,
+				EFA1350A277C3A540060A172 /* WidgetIntentHandler */,
 			);
 		};
 /* End PBXProject section */
@@ -409,6 +470,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF70CDF1277AA1B30049D830 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EFA13509277C3A540060A172 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -514,8 +582,18 @@
 				EF70CDFC277AB03C0049D830 /* Foundation+Extension.swift in Sources */,
 				EF70CDEF277AA1B20049D830 /* TopicWidget.swift in Sources */,
 				EF70CDFA277AAA600049D830 /* Color+Extension.swift in Sources */,
-				EFA234B8277B06F000808A24 /* ProfileWidget.swift in Sources */,
+				EFD6BA67277C05B20060239D /* ProfileWidget.swift in Sources */,
+				EFD6BA66277C05980060239D /* WidgetIntents.intentdefinition in Sources */,
 				EF70CDFB277AAA660049D830 /* Font+Extension.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EFA13507277C3A540060A172 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF72A1DA277C3C2900E062F2 /* WidgetIntents.intentdefinition in Sources */,
+				EFA1350F277C3A540060A172 /* IntentHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -557,6 +635,11 @@
 			isa = PBXTargetDependency;
 			target = EF70CDE7277AA1B20049D830 /* TopicWidgetExtension */;
 			targetProxy = EF70CDF3277AA1B30049D830 /* PBXContainerItemProxy */;
+		};
+		EFA13512277C3A540060A172 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EFA1350A277C3A540060A172 /* WidgetIntentHandler */;
+			targetProxy = EFA13511277C3A540060A172 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -611,6 +694,58 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.eternaljust.Msea.TopicWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		EFA13515277C3A540060A172 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 936M5Y4RHX;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WidgetIntentHandler/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = WidgetIntentHandler;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2021 eternal.just. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.eternaljust.Msea.WidgetIntentHandler;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EFA13516277C3A540060A172 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 936M5Y4RHX;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WidgetIntentHandler/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = WidgetIntentHandler;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2021 eternal.just. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.eternaljust.Msea.WidgetIntentHandler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -809,6 +944,15 @@
 			buildConfigurations = (
 				EF70CDF7277AA1B30049D830 /* Debug */,
 				EF70CDF8277AA1B30049D830 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EFA13514277C3A540060A172 /* Build configuration list for PBXNativeTarget "WidgetIntentHandler" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EFA13515277C3A540060A172 /* Debug */,
+				EFA13516277C3A540060A172 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

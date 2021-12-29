@@ -4,15 +4,43 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>IntentHandler.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>5</integer>
+		</dict>
 		<key>Msea.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>4</integer>
+			<integer>6</integer>
 		</dict>
 		<key>TopicWidgetExtension.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>5</integer>
+			<integer>4</integer>
+		</dict>
+		<key>WidgetIntentHandler.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>7</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>EF70CDE7277AA1B20049D830</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EFA1350A277C3A540060A172</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EFE76C582759EE3B00D89EA6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

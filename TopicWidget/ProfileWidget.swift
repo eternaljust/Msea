@@ -10,29 +10,33 @@ import WidgetKit
 import SwiftUI
 import Kanna
 
-struct ProfileProvider: TimelineProvider {
+struct ProfileProvider: IntentTimelineProvider {
+    typealias Entry = ProfileEntry
+    typealias Intent = ProfileIntent
+
     func placeholder(in context: Context) -> ProfileEntry {
-        ProfileEntry(date: .now, profile: ProfileModel())
+        ProfileEntry(date: .now, configuration: ProfileIntent(), profile: ProfileModel())
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (ProfileEntry) -> Void) {
+    func getSnapshot(for configuration: ProfileIntent, in context: Context, completion: @escaping (ProfileEntry) -> Void) {
         Task {
-            let entry = try await ProfileEntry(date: .now, profile: getProfile())
+            let entry = try await ProfileEntry(date: .now, configuration: configuration, profile: getProfile(for: configuration))
             completion(entry)
         }
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
+    func getTimeline(for configuration: ProfileIntent, in context: Context, completion: @escaping (Timeline<ProfileEntry>) -> Void) {
         Task {
-            let entry = try await ProfileEntry(date: .now, profile: getProfile())
+            let entry = try await ProfileEntry(date: .now, configuration: configuration, profile: getProfile(for: configuration))
             let timeline = Timeline(entries: [entry], policy: .after(.now.advanced(by: 5 * 60)))
             completion(timeline)
         }
     }
 
-    private func getProfile() async throws -> ProfileModel {
+    private func getProfile(for configuration: ProfileIntent) async throws -> ProfileModel {
+        let uid = configuration.uid?.stringValue ?? "1"
         // swiftlint:disable force_unwrapping
-        let url = URL(string: "https://www.chongbuluo.com/home.php?mod=space&uid=4")!
+        let url = URL(string: "https://www.chongbuluo.com/home.php?mod=space&uid=\(uid)")!
         // swiftlint:enble force_unwrapping
         let (data, _) = try await URLSession.shared.data(from: url)
         var profile = ProfileModel()
@@ -107,10 +111,12 @@ struct ProfileProvider: TimelineProvider {
             }
         }
 
-        // swiftlint:disable force_unwrapping
-        let (imageData, _) = try await URLSession.shared.data(from: URL(string: profile.avatar)!)
-        // swiftlint:enble force_unwrapping
-        profile.imageData = imageData
+        if profile.avatar.hasPrefix("http") {
+            // swiftlint:disable force_unwrapping
+            let (imageData, _) = try await URLSession.shared.data(from: URL(string: profile.avatar)!)
+            // swiftlint:enble force_unwrapping
+            profile.imageData = imageData
+        }
 
         return profile
     }
@@ -125,7 +131,7 @@ struct ProfileProvider: TimelineProvider {
 
 struct ProfileEntry: TimelineEntry {
     var date: Date
-
+    let configuration: ProfileIntent
     let profile: ProfileModel
 }
 
@@ -180,7 +186,7 @@ struct ProfileWidget: Widget {
     let kind: String = "ProfileWidget"
 
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: ProfileProvider()) { entry in
+        IntentConfiguration(kind: kind, intent: ProfileIntent.self, provider: ProfileProvider()) { entry in
             ProfileWidgetEntryView(entry: entry)
         }
         .configurationDisplayName("个人资料")
@@ -191,7 +197,7 @@ struct ProfileWidget: Widget {
 
 struct ProfileWidget_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileWidgetEntryView(entry: ProfileEntry(date: .now, profile: ProfileModel()))
+        ProfileWidgetEntryView(entry: ProfileEntry(date: .now, configuration: ProfileIntent(), profile: ProfileModel()))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }

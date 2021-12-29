@@ -64,24 +64,24 @@ struct TopicProvider: TimelineProvider {
             }
         }
 
-        let imageDatas = try await withThrowingTaskGroup(of: Data.self) { group -> [Data] in
-            for topic in list {
+        let imageDatas = try await withThrowingTaskGroup(of: (Int, Data).self) { group -> [(Int, Data)] in
+            for (index, topic) in list.enumerated() {
                 group.addTask {
                     // swiftlint:disable force_unwrapping
                     let (imageData, _) = try await URLSession.shared.data(from: URL(string: topic.avatar)!)
                     // swiftlint:enble force_unwrapping
-                    return imageData
+                    return (index, imageData)
                 }
             }
 
-            var imageList = [Data]()
+            var imageList = [(Int, Data)]()
             for try await value in group {
                 imageList.append(value)
             }
             return imageList
         }
 
-        for (index, image) in imageDatas.enumerated() {
+        for (index, image) in imageDatas {
             list[index].imageData = image
         }
 
@@ -134,18 +134,18 @@ struct TopicWidgetEntryView : View {
                         if let data = item.imageData, let image = UIImage(data: data) {
                             Image(uiImage: image)
                                 .resizable()
-                                .frame(width: 20, height: 20)
+                                .frame(width: 25, height: 25)
                                 .cornerRadius(5)
                         }
 
                         Text(item.title)
-                            .font(.font14)
+                            .font(.font15)
                             .lineLimit(1)
 
                         Spacer()
 
                         Text("\(item.examine)")
-                            .font(.footnote)
+                            .font(.font12)
                             .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5))
                             .foregroundColor(.white)
                             .background(
