@@ -9,6 +9,7 @@
 import SwiftUI
 import Kanna
 
+/// 设置相关
 struct SettingContentView: View {
     @EnvironmentObject private var hud: HUDState
     @Environment(\.dismiss) private var dismiss

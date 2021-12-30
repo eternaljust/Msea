@@ -18,7 +18,7 @@ struct SignDayListContentView: View {
 
     var body: some View {
         List {
-            Section(header: SignDayListHeaderView()) {
+            Section {
                 ForEach(signDayList, id: \.id) { sign in
                     HStack {
                         Text(sign.no)
@@ -64,6 +64,8 @@ struct SignDayListContentView: View {
                             }
                     }
                 }
+            } header: {
+                SignDayListHeaderView()
             }
         }
         .listStyle(.plain)

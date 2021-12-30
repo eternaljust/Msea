@@ -9,6 +9,7 @@
 import SwiftUI
 import Kanna
 
+/// 我的详情
 struct MineContentView: View {
     @State private var isPresented = false
     @State private var isLogin = UserInfo.shared.isLogin()
@@ -23,6 +24,7 @@ struct MineContentView: View {
     @State private var blog = UserInfo.shared.blog
     @State private var album = UserInfo.shared.album
     @State private var share = UserInfo.shared.share
+    @State private var selectedMineTab = MineTab.topic
 
     var body: some View {
         NavigationView {
@@ -48,6 +50,33 @@ struct MineContentView: View {
 
                     Text("违规: \(Text(violation).foregroundColor(.theme))  日志: \(Text(blog).foregroundColor(.theme))  相册:  \(Text(album).foregroundColor(.theme))  分享: \(Text(share).foregroundColor(.theme))")
                         .font(.font14)
+
+                    Picker("MineTab", selection: $selectedMineTab) {
+                        ForEach(MineTab.allCases) { view in
+                            Text(view.title)
+                                .tag(view)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    .padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))
+
+                    TabView(selection: $selectedMineTab) {
+                        ForEach(MineTab.allCases) { mine in
+                            switch mine {
+                            case .topic:
+                                ProfileTopicContentView()
+                                    .tag(mine)
+                            case .firendvisitor:
+                                FriendVisitorContentView()
+                                    .tag(mine)
+                            case .messageboard:
+                                MessageBoardContentView()
+                                    .tag(mine)
+                            }
+                        }
+                    }
+                    .tabViewStyle(.page)
+                    .indexViewStyle(.page(backgroundDisplayMode: .never))
 
                     Spacer()
                 } else {
@@ -159,5 +188,20 @@ struct MineContentView: View {
 struct MineContentView_Previews: PreviewProvider {
     static var previews: some View {
         MineContentView()
+    }
+}
+
+enum MineTab: String, CaseIterable, Identifiable {
+    case topic
+    case firendvisitor
+    case messageboard
+
+    var id: String { self.rawValue }
+    var title: String {
+        switch self {
+        case .topic: return "主题"
+        case .firendvisitor: return "好友与访客"
+        case .messageboard: return "留言板"
+        }
     }
 }

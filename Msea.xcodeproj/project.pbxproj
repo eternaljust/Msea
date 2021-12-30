@@ -40,6 +40,9 @@
 		EFB4314B276045A300319073 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4314A276045A300319073 /* Networking.swift */; };
 		EFB4314D27608B3A00319073 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4314C27608B3A00319073 /* Font+Extension.swift */; };
 		EFB4314F2760ACB300319073 /* LoginContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4314E2760ACB300319073 /* LoginContentView.swift */; };
+		EFBE964C277D4F4800481170 /* ProfileTopicContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBE964B277D4F4800481170 /* ProfileTopicContentView.swift */; };
+		EFBE964E277D4FED00481170 /* FriendVisitorContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBE964D277D4FED00481170 /* FriendVisitorContentView.swift */; };
+		EFBE9650277D501200481170 /* MessageBoardContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBE964F277D501200481170 /* MessageBoardContentView.swift */; };
 		EFC6D5D52772C2EC00C9B0E0 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFC6D5D42772C2EC00C9B0E0 /* Launch Screen.storyboard */; };
 		EFD6BA66277C05980060239D /* WidgetIntents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = EFD6BA62277BFA4F0060239D /* WidgetIntents.intentdefinition */; };
 		EFD6BA67277C05B20060239D /* ProfileWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD6BA64277C02BC0060239D /* ProfileWidget.swift */; };
@@ -121,6 +124,9 @@
 		EFB4314A276045A300319073 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		EFB4314C27608B3A00319073 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
 		EFB4314E2760ACB300319073 /* LoginContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginContentView.swift; sourceTree = "<group>"; };
+		EFBE964B277D4F4800481170 /* ProfileTopicContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTopicContentView.swift; sourceTree = "<group>"; };
+		EFBE964D277D4FED00481170 /* FriendVisitorContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendVisitorContentView.swift; sourceTree = "<group>"; };
+		EFBE964F277D501200481170 /* MessageBoardContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBoardContentView.swift; sourceTree = "<group>"; };
 		EFC6D5D42772C2EC00C9B0E0 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		EFD6BA62277BFA4F0060239D /* WidgetIntents.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = WidgetIntents.intentdefinition; sourceTree = "<group>"; };
 		EFD6BA64277C02BC0060239D /* ProfileWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileWidget.swift; sourceTree = "<group>"; };
@@ -168,6 +174,9 @@
 			isa = PBXGroup;
 			children = (
 				8143D170275C8F5C0036198D /* MineContentView.swift */,
+				EFBE964B277D4F4800481170 /* ProfileTopicContentView.swift */,
+				EFBE964D277D4FED00481170 /* FriendVisitorContentView.swift */,
+				EFBE964F277D501200481170 /* MessageBoardContentView.swift */,
 				EFB4314E2760ACB300319073 /* LoginContentView.swift */,
 				EFAA2A8C277025A000A83E44 /* SettingContentView.swift */,
 			);
@@ -613,12 +622,15 @@
 				EF082EF1275F4AC400056BCA /* SignListContentView.swift in Sources */,
 				EF9012802761A3D90079BF4C /* HUD.swift in Sources */,
 				EF83EDE92768779C00EED0F5 /* Dialog.swift in Sources */,
+				EFBE9650277D501200481170 /* MessageBoardContentView.swift in Sources */,
 				EFAA2A8D277025A000A83E44 /* SettingContentView.swift in Sources */,
+				EFBE964C277D4F4800481170 /* ProfileTopicContentView.swift in Sources */,
 				8143D173275C9DFB0036198D /* HomeContentView.swift in Sources */,
 				EF082EF3275F4B1C00056BCA /* SignDayListContentView.swift in Sources */,
 				8143D171275C8F5D0036198D /* MineContentView.swift in Sources */,
 				EF082EEB275EF85900056BCA /* DaySignContentView.swift in Sources */,
 				EF8A7A2B2766F3950092E53C /* Constants.swift in Sources */,
+				EFBE964E277D4FED00481170 /* FriendVisitorContentView.swift in Sources */,
 				EF80AAC927682EF700C045D6 /* CacheInfo.swift in Sources */,
 				EFE76C5D2759EE3B00D89EA6 /* MseaApp.swift in Sources */,
 				EFF1F11C2774680F004EF697 /* LocalNotification.swift in Sources */,

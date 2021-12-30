@@ -9,6 +9,7 @@
 import SwiftUI
 import Kanna
 
+/// 登录界面
 struct LoginContentView: View {
     @EnvironmentObject private var hud: HUDState
     @EnvironmentObject var sceneDelegate: FSSceneDelegate

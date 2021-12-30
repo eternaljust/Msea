@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+/// 首页列表
 struct HomeContentView: View {
     @State private var search = ""
     @State private var selectedViewTab = ViewTab.new

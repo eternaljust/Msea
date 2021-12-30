@@ -16,7 +16,7 @@ struct SignListContentView: View {
 
     var body: some View {
         List {
-            Section(header: SignListHeaderView()) {
+            Section {
                 ForEach(signList, id: \.id) { sign in
                     HStack {
                         Text(sign.no)
@@ -55,6 +55,8 @@ struct SignListContentView: View {
                             }
                     }
                 }
+            } header: {
+                SignListHeaderView()
             }
         }
         .listStyle(.plain)
