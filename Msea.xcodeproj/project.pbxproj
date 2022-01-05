@@ -26,6 +26,7 @@
 		EF70CDFA277AAA600049D830 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF082EEC275F0C6A00056BCA /* Color+Extension.swift */; };
 		EF70CDFB277AAA660049D830 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4314C27608B3A00319073 /* Font+Extension.swift */; };
 		EF70CDFC277AB03C0049D830 /* Foundation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8A7A252766F2500092E53C /* Foundation+Extension.swift */; };
+		EF7177EE27857A8700113670 /* GifImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7177ED27857A8700113670 /* GifImage.swift */; };
 		EF72A1DA277C3C2900E062F2 /* WidgetIntents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = EFD6BA62277BFA4F0060239D /* WidgetIntents.intentdefinition */; };
 		EF80AAC927682EF700C045D6 /* CacheInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF80AAC827682EF700C045D6 /* CacheInfo.swift */; };
 		EF83EDE92768779C00EED0F5 /* Dialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF83EDE82768779C00EED0F5 /* Dialog.swift */; };
@@ -111,6 +112,7 @@
 		EF70CDEE277AA1B20049D830 /* TopicWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicWidget.swift; sourceTree = "<group>"; };
 		EF70CDF0277AA1B30049D830 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EF70CDF2277AA1B30049D830 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EF7177ED27857A8700113670 /* GifImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifImage.swift; sourceTree = "<group>"; };
 		EF80AAC827682EF700C045D6 /* CacheInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheInfo.swift; sourceTree = "<group>"; };
 		EF83EDE82768779C00EED0F5 /* Dialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dialog.swift; sourceTree = "<group>"; };
 		EF8A7A252766F2500092E53C /* Foundation+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Foundation+Extension.swift"; sourceTree = "<group>"; };
@@ -253,6 +255,7 @@
 		EF55F4C6275A0AC400B78C95 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				EF7177EC27857A7400113670 /* UIKit */,
 				EF8A7A292766F3860092E53C /* Others */,
 				EF90127E2761A3CB0079BF4C /* Tools */,
 				EFB431492760456C00319073 /* Netwroking */,
@@ -283,6 +286,14 @@
 				EF70CDF2277AA1B30049D830 /* Info.plist */,
 			);
 			path = TopicWidget;
+			sourceTree = "<group>";
+		};
+		EF7177EC27857A7400113670 /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				EF7177ED27857A8700113670 /* GifImage.swift */,
+			);
+			path = UIKit;
 			sourceTree = "<group>";
 		};
 		EF8A7A292766F3860092E53C /* Others */ = {
@@ -620,6 +631,7 @@
 				EF6211D72761ECEA00F833B4 /* Appearance.swift in Sources */,
 				EFB4314B276045A300319073 /* Networking.swift in Sources */,
 				EF082EF1275F4AC400056BCA /* SignListContentView.swift in Sources */,
+				EF7177EE27857A8700113670 /* GifImage.swift in Sources */,
 				EF9012802761A3D90079BF4C /* HUD.swift in Sources */,
 				EF83EDE92768779C00EED0F5 /* Dialog.swift in Sources */,
 				EFBE9650277D501200481170 /* MessageBoardContentView.swift in Sources */,

@@ -15,8 +15,6 @@ struct FriendVisitorContentView: View {
                                          FriendVisitorListModel(type: .visitor, persons: [FriendVisitorModel]())]
     @State private var isHidden = false
 
-    let data = (1...100).map { "Item \($0)" }
-
     let columns = [
         GridItem(.adaptive(minimum: 63, maximum: 80), spacing: 1)
     ]
@@ -88,6 +86,12 @@ struct FriendVisitorContentView: View {
                     if let avatar = img?.text {
                         friend.avatar = avatar.replacingOccurrences(of: "&size=small", with: "")
                     }
+                    if let href = element.at_xpath("/a/@href", namespaces: nil)?.text {
+                        let uids = href.components(separatedBy: "-")
+                        if let uid = uids.last {
+                            friend.uid = uid.replacingOccurrences(of: ".html", with: "")
+                        }
+                    }
                     friends.append(friend)
                 }
                 friendVisitors[0].persons = friends
@@ -108,6 +112,12 @@ struct FriendVisitorContentView: View {
                     let img = element.at_xpath("/a/img/@src", namespaces: nil)
                     if let avatar = img?.text {
                         visitor.avatar = avatar.replacingOccurrences(of: "&size=small", with: "")
+                    }
+                    if let href = element.at_xpath("/a/@href", namespaces: nil)?.text {
+                        let uids = href.components(separatedBy: "-")
+                        if let uid = uids.last {
+                            visitor.uid = uid.replacingOccurrences(of: ".html", with: "")
+                        }
                     }
                     visitors.append(visitor)
                 }
