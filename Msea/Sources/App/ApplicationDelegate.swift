@@ -46,8 +46,7 @@ final class FSSceneDelegate: UIResponder, UIWindowSceneDelegate, ObservableObjec
 }
 
 final class FSAppDelegate: NSObject, UIApplicationDelegate {
-    var shortcutItem: UIApplicationShortcutItem? { FSAppDelegate.shortcutItem }
-    fileprivate static var shortcutItem: UIApplicationShortcutItem?
+    static var shortcutItem: UIApplicationShortcutItem?
 
     func application(
         _ application: UIApplication,

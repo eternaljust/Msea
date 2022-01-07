@@ -21,44 +21,51 @@ struct TopicListContentView: View {
     var body: some View {
         ZStack {
             List(topics) { topic in
-                VStack(alignment: .leading) {
-                    HStack {
-                        AsyncImage(url: URL(string: "https://www.chongbuluo.com/\(topic.avatar)")) { image in
-                            image.resizable()
-                        } placeholder: {
-                            ProgressView()
+                ZStack {
+                    VStack(alignment: .leading) {
+                        HStack {
+                            AsyncImage(url: URL(string: "https://www.chongbuluo.com/\(topic.avatar)")) { image in
+                                image.resizable()
+                            } placeholder: {
+                                ProgressView()
+                            }
+                            .frame(width: 40, height: 40)
+                            .cornerRadius(5)
+
+                            VStack(alignment: .leading) {
+                                Text(topic.name)
+                                    .font(.headline)
+                                Text(topic.time)
+                                    .font(.footnote)
+                            }
+
+                            Spacer()
+
+                            Text("\(topic.reply)/\(topic.examine)")
+                                .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5))
+                                .foregroundColor(.white)
+                                .background(
+                                    Capsule()
+                                        .foregroundColor(.secondaryTheme.opacity(0.8))
+                                )
                         }
-                        .frame(width: 40, height: 40)
-                        .cornerRadius(5)
 
-                        VStack(alignment: .leading) {
-                            Text(topic.name)
-                                .font(.headline)
-                            Text(topic.time)
-                                .font(.footnote)
-                        }
-
-                        Spacer()
-
-                        Text("\(topic.reply)/\(topic.examine)")
-                            .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5))
-                            .foregroundColor(.white)
-                            .background(
-                                Capsule()
-                                    .foregroundColor(.secondaryTheme.opacity(0.8))
-                            )
-                    }
-
-                    Text(topic.title)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .onAppear {
-                            if topic.id == topics.last?.id {
-                                page += 1
-                                Task {
-                                    await loadData()
+                        Text(topic.title)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .onAppear {
+                                if topic.id == topics.last?.id {
+                                    page += 1
+                                    Task {
+                                        await loadData()
+                                    }
                                 }
                             }
-                        }
+                    }
+
+                    NavigationLink(destination: TopicDetailContentView(tid: topic.tid)) {
+                        EmptyView()
+                    }
+                    .opacity(0.0)
                 }
             }
             .listStyle(.plain)

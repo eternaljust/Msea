@@ -25,12 +25,15 @@
 		EF70CDF5277AA1B30049D830 /* TopicWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EF70CDE8277AA1B20049D830 /* TopicWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EF70CDFA277AAA600049D830 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF082EEC275F0C6A00056BCA /* Color+Extension.swift */; };
 		EF70CDFB277AAA660049D830 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4314C27608B3A00319073 /* Font+Extension.swift */; };
-		EF70CDFC277AB03C0049D830 /* Foundation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8A7A252766F2500092E53C /* Foundation+Extension.swift */; };
 		EF7177EE27857A8700113670 /* GifImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7177ED27857A8700113670 /* GifImage.swift */; };
 		EF72A1DA277C3C2900E062F2 /* WidgetIntents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = EFD6BA62277BFA4F0060239D /* WidgetIntents.intentdefinition */; };
 		EF80AAC927682EF700C045D6 /* CacheInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF80AAC827682EF700C045D6 /* CacheInfo.swift */; };
+		EF80EF9B2786B8E800CE1EE1 /* Web.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF80EF9A2786B8E800CE1EE1 /* Web.swift */; };
+		EF80EFA02786CCAA00CE1EE1 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = EF80EF9F2786CCAA00CE1EE1 /* style.css */; };
+		EF80EFA22786CCF000CE1EE1 /* light.css in Resources */ = {isa = PBXBuildFile; fileRef = EF80EFA12786CCF000CE1EE1 /* light.css */; };
+		EF80EFA42786CD4B00CE1EE1 /* dark.css in Resources */ = {isa = PBXBuildFile; fileRef = EF80EFA32786CD4B00CE1EE1 /* dark.css */; };
+		EF80EFA62786D9EB00CE1EE1 /* TopicDetailContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF80EFA52786D9EB00CE1EE1 /* TopicDetailContentView.swift */; };
 		EF83EDE92768779C00EED0F5 /* Dialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF83EDE82768779C00EED0F5 /* Dialog.swift */; };
-		EF8A7A262766F2500092E53C /* Foundation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8A7A252766F2500092E53C /* Foundation+Extension.swift */; };
 		EF8A7A282766F3110092E53C /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8A7A272766F3110092E53C /* UserInfo.swift */; };
 		EF8A7A2B2766F3950092E53C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8A7A2A2766F3950092E53C /* Constants.swift */; };
 		EF9012802761A3D90079BF4C /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF90127F2761A3D90079BF4C /* HUD.swift */; };
@@ -114,8 +117,12 @@
 		EF70CDF2277AA1B30049D830 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EF7177ED27857A8700113670 /* GifImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifImage.swift; sourceTree = "<group>"; };
 		EF80AAC827682EF700C045D6 /* CacheInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheInfo.swift; sourceTree = "<group>"; };
+		EF80EF9A2786B8E800CE1EE1 /* Web.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Web.swift; sourceTree = "<group>"; };
+		EF80EF9F2786CCAA00CE1EE1 /* style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
+		EF80EFA12786CCF000CE1EE1 /* light.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = light.css; sourceTree = "<group>"; };
+		EF80EFA32786CD4B00CE1EE1 /* dark.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = dark.css; sourceTree = "<group>"; };
+		EF80EFA52786D9EB00CE1EE1 /* TopicDetailContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicDetailContentView.swift; sourceTree = "<group>"; };
 		EF83EDE82768779C00EED0F5 /* Dialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dialog.swift; sourceTree = "<group>"; };
-		EF8A7A252766F2500092E53C /* Foundation+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Foundation+Extension.swift"; sourceTree = "<group>"; };
 		EF8A7A272766F3110092E53C /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		EF8A7A2A2766F3950092E53C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		EF90127F2761A3D90079BF4C /* HUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
@@ -190,6 +197,7 @@
 			children = (
 				8143D172275C9DFA0036198D /* HomeContentView.swift */,
 				8180BB32275B78870055E1F5 /* TopicListContentView.swift */,
+				EF80EFA52786D9EB00CE1EE1 /* TopicDetailContentView.swift */,
 				EF082EEA275EF85900056BCA /* DaySignContentView.swift */,
 				EF082EF0275F4AC400056BCA /* SignListContentView.swift */,
 				EF082EF2275F4B1C00056BCA /* SignDayListContentView.swift */,
@@ -234,6 +242,7 @@
 		EF2E32792759F767005151DE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				EF80EF9E2786CC7000CE1EE1 /* css */,
 				EFC6D5D42772C2EC00C9B0E0 /* Launch Screen.storyboard */,
 				EFE76C602759EE3C00D89EA6 /* Assets.xcassets */,
 				EFE76C622759EE3C00D89EA6 /* Preview Content */,
@@ -271,7 +280,6 @@
 				EF082EEC275F0C6A00056BCA /* Color+Extension.swift */,
 				EFB4314C27608B3A00319073 /* Font+Extension.swift */,
 				EF082EEE275F3ACB00056BCA /* UINavigationController+Extension.swift */,
-				EF8A7A252766F2500092E53C /* Foundation+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -292,8 +300,19 @@
 			isa = PBXGroup;
 			children = (
 				EF7177ED27857A8700113670 /* GifImage.swift */,
+				EF80EF9A2786B8E800CE1EE1 /* Web.swift */,
 			);
 			path = UIKit;
+			sourceTree = "<group>";
+		};
+		EF80EF9E2786CC7000CE1EE1 /* css */ = {
+			isa = PBXGroup;
+			children = (
+				EF80EF9F2786CCAA00CE1EE1 /* style.css */,
+				EF80EFA12786CCF000CE1EE1 /* light.css */,
+				EF80EFA32786CD4B00CE1EE1 /* dark.css */,
+			);
+			path = css;
 			sourceTree = "<group>";
 		};
 		EF8A7A292766F3860092E53C /* Others */ = {
@@ -504,9 +523,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF80EFA22786CCF000CE1EE1 /* light.css in Resources */,
 				EFC6D5D52772C2EC00C9B0E0 /* Launch Screen.storyboard in Resources */,
+				EF80EFA02786CCAA00CE1EE1 /* style.css in Resources */,
 				EFE76C642759EE3C00D89EA6 /* Preview Assets.xcassets in Resources */,
 				EFE76C612759EE3C00D89EA6 /* Assets.xcassets in Resources */,
+				EF80EFA42786CD4B00CE1EE1 /* dark.css in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -599,7 +621,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF70CDFC277AB03C0049D830 /* Foundation+Extension.swift in Sources */,
 				EF70CDEF277AA1B20049D830 /* TopicWidget.swift in Sources */,
 				EF70CDFA277AAA600049D830 /* Color+Extension.swift in Sources */,
 				EFD6BA67277C05B20060239D /* ProfileWidget.swift in Sources */,
@@ -624,8 +645,8 @@
 				EF8A7A282766F3110092E53C /* UserInfo.swift in Sources */,
 				EFE76C5F2759EE3B00D89EA6 /* ContentView.swift in Sources */,
 				EF55F4C9275A0B0500B78C95 /* View+Extension.swift in Sources */,
-				EF8A7A262766F2500092E53C /* Foundation+Extension.swift in Sources */,
 				EFB4314F2760ACB300319073 /* LoginContentView.swift in Sources */,
+				EF80EFA62786D9EB00CE1EE1 /* TopicDetailContentView.swift in Sources */,
 				EF6211D52761D8FA00F833B4 /* ApplicationDelegate.swift in Sources */,
 				8180BB33275B78880055E1F5 /* TopicListContentView.swift in Sources */,
 				EF6211D72761ECEA00F833B4 /* Appearance.swift in Sources */,
@@ -636,6 +657,7 @@
 				EF83EDE92768779C00EED0F5 /* Dialog.swift in Sources */,
 				EFBE9650277D501200481170 /* MessageBoardContentView.swift in Sources */,
 				EFAA2A8D277025A000A83E44 /* SettingContentView.swift in Sources */,
+				EF80EF9B2786B8E800CE1EE1 /* Web.swift in Sources */,
 				EFBE964C277D4F4800481170 /* ProfileTopicContentView.swift in Sources */,
 				8143D173275C9DFB0036198D /* HomeContentView.swift in Sources */,
 				EF082EF3275F4B1C00056BCA /* SignDayListContentView.swift in Sources */,
