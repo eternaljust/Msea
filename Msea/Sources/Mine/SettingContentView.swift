@@ -123,6 +123,7 @@ struct SettingContentView: View {
                     itemSections.append(SettingSection(items: [.logout]))
                 }
             }
+            TabBarTool.showTabBar(false)
         }
     }
 

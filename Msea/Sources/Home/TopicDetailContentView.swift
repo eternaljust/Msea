@@ -42,30 +42,36 @@ struct TopicDetailContentView: View {
                                         .font(.footnote)
                                 }
                             }
-
-                            Web(bodyHTMLString: comment.content, didFinish: { scrollHeight in
-                                if comment.webViewHeight == .zero, let index = comments.firstIndex(where: { obj in obj.id == comment.id }) {
-                                    var model = comment
-                                    model.webViewHeight = scrollHeight
-                                    model.id = UUID()
-                                    if index < comments.count, comments.count != 1 {
-                                        comments.replaceSubrange(index..<(index + 1), with: [model])
-                                    } else {
-                                        comments = [model]
-                                    }
-                                }
-                            })
-                                .frame(height: comment.webViewHeight)
-                                .onAppear {
-                                    if comment.id == comments.last?.id {
-                                        if nextPage {
-                                            page += 1
-                                            Task {
-                                                await loadData()
-                                            }
+                            .onAppear {
+                                if comment.id == comments.last?.id {
+                                    if nextPage {
+                                        page += 1
+                                        Task {
+                                            await loadData()
                                         }
                                     }
                                 }
+                            }
+
+                            if comment.isText {
+                                Text(comment.content)
+                                    .font(.font14)
+                                    .multilineTextAlignment(.leading)
+                            } else {
+                                Web(bodyHTMLString: comment.content, didFinish: { scrollHeight in
+                                    if comment.webViewHeight == .zero, let index = comments.firstIndex(where: { obj in obj.id == comment.id }) {
+                                        var model = comment
+                                        model.webViewHeight = scrollHeight
+                                        model.id = UUID()
+                                        if index < comments.count, comments.count != 1 {
+                                            comments.replaceSubrange(index..<(index + 1), with: [model])
+                                        } else {
+                                            comments = [model]
+                                        }
+                                    }
+                                })
+                                    .frame(height: comment.webViewHeight)
+                            }
                         }
                     }
                 } header: {
@@ -87,6 +93,9 @@ struct TopicDetailContentView: View {
                 .isHidden(isHidden)
         }
         .navigationTitle("帖子详情")
+        .onAppear {
+            TabBarTool.showTabBar(false)
+        }
     }
 
     private func loadData() async {
@@ -107,6 +116,8 @@ struct TopicDetailContentView: View {
                 }
                 if let text = html.toHTML, text.contains("下一页") {
                     nextPage = true
+                } else {
+                    nextPage = false
                 }
                 let node = html.xpath("//table[@class='plhin']", namespaces: nil)
                 var list = [TopicCommentModel]()
@@ -121,8 +132,22 @@ struct TopicDetailContentView: View {
                     if let time = element.at_xpath("//div[@class='authi']/em", namespaces: nil)?.text {
                         comment.time = time
                     }
-                    if let content = element.at_xpath("//div[@class='t_fsz']/table", namespaces: nil)?.toHTML {
+                    let table = element.at_xpath("//div[@class='t_fsz']/table", namespaces: nil)
+                    if let content = table?.toHTML {
                         comment.content = content
+                        if content.contains("font") || content.contains("strong") || content.contains("color") || content.contains("quote") || content.contains("</a>") {
+                            comment.isText = false
+                            comment.content = content.replacingOccurrences(of: "</blockquote></div>\n<br>", with: "</blockquote></div>")
+                            if content.contains("file") && content.contains("src") {
+                                comment.content = comment.content.replacingOccurrences(of: "src=\"static/image/common/none.gif\"", with: "")
+                                comment.content = comment.content.replacingOccurrences(of: "file", with: "src")
+                            }
+                        } else {
+                            comment.content = table?.text ?? ""
+                        }
+                        if let i = comment.content.firstIndex(of: "\r\n") {
+                            comment.content.remove(at: i)
+                        }
                     }
                     list.append(comment)
                 }
@@ -167,5 +192,6 @@ struct TopicCommentModel: Identifiable {
     var lv = ""
     var time = ""
     var content = ""
+    var isText = true
     var webViewHeight: CGFloat = .zero
 }

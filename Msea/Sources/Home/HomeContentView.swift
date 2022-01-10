@@ -56,6 +56,7 @@ struct HomeContentView: View {
             .navigationBarHidden(navigationBarHidden)
             .onAppear {
                 navigationBarHidden = true
+                TabBarTool.showTabBar(true)
             }
             .onDisappear {
                 navigationBarHidden = false

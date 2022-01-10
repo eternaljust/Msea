@@ -81,3 +81,36 @@ extension Button {
         }
     }
 }
+
+extension UIApplication {
+    var key: UIWindow? {
+        self.connectedScenes
+            .map({ $0 as? UIWindowScene })
+            .compactMap({ $0 })
+            .first?
+            .windows
+            .filter({ $0.isKeyWindow })
+            .first
+    }
+}
+
+extension UIView {
+    func allSubviews() -> [UIView] {
+        var subs = self.subviews
+        for subview in self.subviews {
+            let rec = subview.allSubviews()
+            subs.append(contentsOf: rec)
+        }
+        return subs
+    }
+}
+
+struct TabBarTool {
+    static func showTabBar(_ isShow: Bool) {
+        UIApplication.shared.key?.allSubviews().forEach({ subView in
+            if let view = subView as? UITabBar {
+                view.isHidden = !isShow
+            }
+        })
+    }
+}

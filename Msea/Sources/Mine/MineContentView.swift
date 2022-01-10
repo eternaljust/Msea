@@ -101,6 +101,7 @@ struct MineContentView: View {
                         await loadData()
                     }
                 }
+                TabBarTool.showTabBar(true)
             })
             .onReceive(NotificationCenter.default.publisher(for: .login, object: nil)) { _ in
                 isLogin.toggle()

@@ -113,8 +113,6 @@ struct DaySignContentView: View {
                 }
                 .tabViewStyle(.page)
                 .indexViewStyle(.page(backgroundDisplayMode: .never))
-
-                Spacer()
             }
             .navigationTitle("签到")
             .task {
@@ -173,6 +171,9 @@ struct DaySignContentView: View {
         }
         .sheet(isPresented: $needLogin) {
             LoginContentView()
+        }
+        .onAppear {
+            TabBarTool.showTabBar(false)
         }
         .onReceive(NotificationCenter.default.publisher(for: .login, object: nil)) { _ in
             reloadData()
