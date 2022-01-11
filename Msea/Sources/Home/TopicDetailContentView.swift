@@ -10,8 +10,9 @@ import SwiftUI
 import Kanna
 
 struct TopicDetailContentView: View {
-    var tid: String = "820"
+    var tid: String = ""
 
+    @State private var action = ""
     @State private var title = ""
     @State private var commentCount = ""
     @State private var comments = [TopicCommentModel]()
@@ -19,82 +20,126 @@ struct TopicDetailContentView: View {
     @State private var page = 1
     @State private var isRefreshing = false
     @State private var nextPage = false
+    @State private var inputComment = ""
+    @FocusState private var focused: Bool
+    @State private var needLogin = false
+    @EnvironmentObject private var hud: HUDState
 
     var body: some View {
         ZStack {
-            List {
-                Section {
-                    ForEach(comments, id: \.id) { comment in
-                        VStack(alignment: .leading) {
-                            HStack {
-                                AsyncImage(url: URL(string: comment.avatar)) { image in
-                                    image.resizable()
-                                } placeholder: {
-                                    ProgressView()
-                                }
-                                .frame(width: 40, height: 40)
-                                .cornerRadius(5)
+            VStack {
+                List {
+                    Section {
+                        ForEach(comments, id: \.id) { comment in
+                            VStack(alignment: .leading) {
+                                HStack {
+                                    AsyncImage(url: URL(string: comment.avatar)) { image in
+                                        image.resizable()
+                                    } placeholder: {
+                                        ProgressView()
+                                    }
+                                    .frame(width: 40, height: 40)
+                                    .cornerRadius(5)
 
-                                VStack(alignment: .leading) {
-                                    Text(comment.name)
-                                        .font(.headline)
-                                    Text(comment.time)
-                                        .font(.footnote)
+                                    VStack(alignment: .leading) {
+                                        Text(comment.name)
+                                            .font(.headline)
+                                        Text(comment.time)
+                                            .font(.footnote)
+                                    }
                                 }
-                            }
-                            .onAppear {
-                                if comment.id == comments.last?.id {
-                                    if nextPage {
-                                        page += 1
-                                        Task {
-                                            await loadData()
+                                .onAppear {
+                                    if comment.id == comments.last?.id {
+                                        if nextPage {
+                                            page += 1
+                                            Task {
+                                                await loadData()
+                                            }
                                         }
                                     }
                                 }
-                            }
 
-                            if comment.isText {
-                                Text(comment.content)
-                                    .font(.font14)
-                                    .multilineTextAlignment(.leading)
-                            } else {
-                                Web(bodyHTMLString: comment.content, didFinish: { scrollHeight in
-                                    if comment.webViewHeight == .zero, let index = comments.firstIndex(where: { obj in obj.id == comment.id }) {
-                                        var model = comment
-                                        model.webViewHeight = scrollHeight
-                                        model.id = UUID()
-                                        if index < comments.count, comments.count != 1 {
-                                            comments.replaceSubrange(index..<(index + 1), with: [model])
-                                        } else {
-                                            comments = [model]
+                                if comment.isText {
+                                    Text(comment.content)
+                                        .font(.font14)
+                                        .multilineTextAlignment(.leading)
+                                } else {
+                                    Web(bodyHTMLString: comment.content, didFinish: { scrollHeight in
+                                        if comment.webViewHeight == .zero, let index = comments.firstIndex(where: { obj in obj.id == comment.id }) {
+                                            var model = comment
+                                            model.webViewHeight = scrollHeight
+                                            model.id = UUID()
+                                            if index < comments.count, comments.count != 1 {
+                                                comments.replaceSubrange(index..<(index + 1), with: [model])
+                                            } else {
+                                                comments = [model]
+                                            }
                                         }
-                                    }
-                                })
-                                    .frame(height: comment.webViewHeight)
+                                    })
+                                        .frame(height: comment.webViewHeight)
+                                }
+                            }
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                focused = false
+                            }
+                        }
+                    } header: {
+                        TopicDetailHeaderView(title: title, commentCount: commentCount)
+                    }
+                }
+                .listStyle(.plain)
+                .refreshable {
+                    page = 1
+                    await loadData()
+                }
+                .task {
+                    if !isHidden {
+                        await loadData()
+                    }
+                }
+
+                Spacer()
+
+                HStack {
+                    TextEditor(text: $inputComment)
+                        .multilineTextAlignment(.leading)
+                        .font(.font12)
+                        .focused($focused)
+                        .onChange(of: inputComment) { newValue in
+                            print(newValue)
+                        }
+                        .border(Color.theme)
+                        .padding(EdgeInsets(top: 0, leading: 10, bottom: 20, trailing: 0))
+
+                    Spacer()
+
+                    Button("评论") {
+                        if !UserInfo.shared.isLogin() {
+                            needLogin.toggle()
+                        } else {
+                            Task {
+                                await comment()
                             }
                         }
                     }
-                } header: {
-                    TopicDetailHeaderView(title: title, commentCount: commentCount)
+                        .offset(x: 0, y: -10)
+                        .padding(.trailing, 10)
                 }
+                .frame(height: 60)
             }
-            .listStyle(.plain)
-            .refreshable {
-                page = 1
-                await loadData()
-            }
-            .task {
-                if !isHidden {
-                    await loadData()
-                }
-            }
+            .keyboardAdaptive()
 
             ProgressView()
                 .isHidden(isHidden)
         }
+        .edgesIgnoringSafeArea([.bottom])
         .navigationTitle("帖子详情")
         .onAppear {
             TabBarTool.showTabBar(false)
+        }
+        .sheet(isPresented: $needLogin) {
+            LoginContentView()
         }
     }
 
@@ -108,6 +153,9 @@ struct TopicDetailContentView: View {
             requset.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: requset)
             if let html = try? HTML(html: data, encoding: .utf8) {
+                if let text = html.at_xpath("//div[@id='f_pst']/form/@action", namespaces: nil)?.text {
+                    action = text
+                }
                 if let text = html.at_xpath("//td[@class='plc ptm pbn vwthd']/h1/span", namespaces: nil)?.text {
                     title = text
                 }
@@ -160,6 +208,37 @@ struct TopicDetailContentView: View {
                     comments += list
                 }
                 isHidden = true
+            }
+        }
+    }
+
+    private func comment() async {
+        Task {
+            if UserInfo.shared.formhash.isEmpty {
+                needLogin.toggle()
+                return
+            }
+
+            let message = inputComment.replacingOccurrences(of: " ", with: "")
+            let time = Int(Date().timeIntervalSince1970)
+            // swiftlint:disable force_unwrapping
+            let parames = "&formhash=\(UserInfo.shared.formhash)&message=\(message)&posttime=\(time)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+            let url = URL(string: "https://www.chongbuluo.com/\(action)\(parames)")!
+            print(url.absoluteString)
+            // swiftlint:enble force_unwrapping
+            var requset = URLRequest(url: url)
+            requset.httpMethod = "POST"
+            requset.configHeaderFields()
+            let (data, _) = try await URLSession.shared.data(for: requset)
+            if let html = try? HTML(html: data, encoding: .utf8) {
+                if let text = html.toHTML, text.contains("刚刚") {
+                    inputComment = ""
+                    hud.show(message: "评论成功")
+                } else {
+                    hud.show(message: "评论失败")
+                }
+                focused = false
+                await loadData()
             }
         }
     }

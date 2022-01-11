@@ -113,6 +113,7 @@ struct DaySignContentView: View {
                 }
                 .tabViewStyle(.page)
                 .indexViewStyle(.page(backgroundDisplayMode: .never))
+                .ignoresSafeArea()
             }
             .navigationTitle("签到")
             .task {
