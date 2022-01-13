@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Kanna
 
 /// 首页列表
 struct HomeContentView: View {
@@ -15,6 +16,7 @@ struct HomeContentView: View {
     @State private var navigationBarHidden = true
     @State private var isActive = false
     @ObservedObject private var selection = TabItemSelection()
+    @State private var notice = ""
 
     var body: some View {
         NavigationView {
@@ -31,6 +33,19 @@ struct HomeContentView: View {
                         .textFieldStyle(.roundedBorder)
 
                     Spacer()
+
+                    NavigationLink {
+                        MyPostContentView()
+                    } label: {
+                        Label {
+                           Text(notice)
+                        } icon: {
+                            Image(systemName: "bell.fill")
+                                .imageScale(.large)
+                        }
+                        .foregroundColor(.theme)
+                        .padding(.trailing, 10)
+                    }
                 }
 
                 Picker("ViewTab", selection: $selectedViewTab) {
@@ -64,6 +79,29 @@ struct HomeContentView: View {
             .onReceive(NotificationCenter.default.publisher(for: .daysign, object: nil)) { _ in
                 selection.index = .home
                 isActive = true
+            }
+            .task {
+                if UserInfo.shared.isLogin() {
+                    await checkNotice()
+                }
+            }
+        }
+    }
+
+    private func checkNotice() async {
+        Task {
+            // swiftlint:disable force_unwrapping
+            let url = URL(string: "https://www.chongbuluo.com")!
+            // swiftlint:enble force_unwrapping
+            var requset = URLRequest(url: url)
+            requset.configHeaderFields()
+            let (data, _) = try await URLSession.shared.data(for: requset)
+            if let html = try? HTML(html: data, encoding: .utf8) {
+                if let notice = html.at_xpath("//a[@id='myprompt']", namespaces: nil)?.text, notice.contains("(") {
+                    self.notice = notice
+                } else {
+                    self.notice = ""
+                }
             }
         }
     }
