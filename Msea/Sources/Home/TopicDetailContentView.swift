@@ -24,6 +24,11 @@ struct TopicDetailContentView: View {
     @FocusState private var focused: Bool
     @State private var needLogin = false
     @EnvironmentObject private var hud: HUDState
+    @State private var isReply = false
+    @State private var replyName = ""
+    @State private var replyContent = ""
+    @State private var replyAction = ""
+    @FocusState private var replyFocused: Bool
 
     var body: some View {
         ZStack {
@@ -81,13 +86,22 @@ struct TopicDetailContentView: View {
                             }
                             .contentShape(Rectangle())
                             .onTapGesture {
+                                replyName = comment.name
+                                replyAction = comment.reply
                                 focused = false
+                                isReply = true
+                                replyFocused.toggle()
                             }
                         }
                     } header: {
                         TopicDetailHeaderView(title: title, commentCount: commentCount)
                     }
                 }
+                .simultaneousGesture(DragGesture().onChanged({ _ in
+                    focused = false
+                    isReply = false
+                    replyFocused = false
+                }))
                 .listStyle(.plain)
                 .refreshable {
                     page = 1
@@ -101,32 +115,67 @@ struct TopicDetailContentView: View {
 
                 Spacer()
 
-                HStack {
-                    TextEditor(text: $inputComment)
-                        .multilineTextAlignment(.leading)
-                        .font(.font12)
-                        .focused($focused)
-                        .onChange(of: inputComment) { newValue in
-                            print(newValue)
-                        }
-                        .border(Color.theme)
-                        .padding(EdgeInsets(top: 0, leading: 10, bottom: 20, trailing: 0))
+                ZStack {
+                    HStack {
+                        TextEditor(text: $inputComment)
+                            .multilineTextAlignment(.leading)
+                            .font(.font12)
+                            .focused($focused)
+                            .onChange(of: inputComment) { newValue in
+                                print(newValue)
+                            }
+                            .border(Color.theme)
+                            .padding(EdgeInsets(top: 0, leading: 10, bottom: 20, trailing: 0))
 
-                    Spacer()
+                        Spacer()
 
-                    Button("评论") {
-                        if !UserInfo.shared.isLogin() {
-                            needLogin.toggle()
-                        } else {
-                            Task {
-                                await comment()
+                        Button("评论") {
+                            if !UserInfo.shared.isLogin() {
+                                needLogin.toggle()
+                            } else {
+                                Task {
+                                    await comment()
+                                }
                             }
                         }
+                            .offset(x: 0, y: -10)
+                            .padding(.trailing, 10)
                     }
-                        .offset(x: 0, y: -10)
-                        .padding(.trailing, 10)
+                    .frame(height: 60)
+                    .isHidden(isReply)
+
+                    VStack {
+                        Text("回复\(replyName)")
+
+                        HStack {
+                            TextEditor(text: $replyContent)
+                                .multilineTextAlignment(.leading)
+                                .font(.font12)
+                                .focused($replyFocused)
+                                .onChange(of: replyContent) { newValue in
+                                    print(newValue)
+                                }
+                                .border(Color.theme)
+                                .padding(EdgeInsets(top: 0, leading: 10, bottom: 20, trailing: 0))
+
+                            Spacer()
+
+                            Button("回复") {
+                                if !UserInfo.shared.isLogin() {
+                                    needLogin.toggle()
+                                } else {
+                                    Task {
+                                        await getReply()
+                                    }
+                                }
+                            }
+                                .offset(x: 0, y: -10)
+                                .padding(.trailing, 10)
+                        }
+                    }
+                    .frame(height: 100)
+                    .isHidden(!isReply)
                 }
-                .frame(height: 60)
             }
             .keyboardAdaptive()
 
@@ -180,7 +229,22 @@ struct TopicDetailContentView: View {
                     if let time = element.at_xpath("//div[@class='authi']/em", namespaces: nil)?.text {
                         comment.time = time
                     }
-                    let table = element.at_xpath("//div[@class='t_fsz']/table", namespaces: nil)
+                    let a = element.xpath("//div[@class='pob cl']//a", namespaces: nil)
+                    a.forEach { ele in
+                        if let text = ele.text, text.contains("回复") {
+                            if let reply = ele.at_xpath("/@href", namespaces: nil)?.text {
+                                print(reply)
+                                comment.reply = reply
+                            }
+                        }
+                    }
+                    var table = element.at_xpath("//div[@class='t_fsz']/table", namespaces: nil)
+                    if table?.toHTML == nil {
+                        table = element.at_xpath("//div[@class='pcbs']/table", namespaces: nil)
+                    }
+                    if table?.toHTML == nil {
+                        table = element.at_xpath("//div[@class='pcbs']", namespaces: nil)
+                    }
                     if let content = table?.toHTML {
                         comment.content = content
                         if content.contains("font") || content.contains("strong") || content.contains("color") || content.contains("quote") || content.contains("</a>") {
@@ -231,13 +295,77 @@ struct TopicDetailContentView: View {
             requset.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: requset)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                if let text = html.toHTML, text.contains("刚刚") {
+                if let text = html.toHTML, text.contains("刚刚") || text.contains("秒前") {
                     inputComment = ""
                     hud.show(message: "评论成功")
                 } else {
                     hud.show(message: "评论失败")
                 }
                 focused = false
+                await loadData()
+            }
+        }
+    }
+
+    private func getReply() async {
+        if replyContent.isEmpty {
+            hud.show(message: "请输入回复内容")
+            return
+        }
+
+        Task {
+            // swiftlint:disable force_unwrapping
+            let url = URL(string: "https://www.chongbuluo.com/\(replyAction)")!
+            print(url.absoluteString)
+            // swiftlint:enble force_unwrapping
+            var requset = URLRequest(url: url)
+            requset.httpMethod = "POST"
+            requset.configHeaderFields()
+            let (data, _) = try await URLSession.shared.data(for: requset)
+            if let html = try? HTML(html: data, encoding: .utf8) {
+                let time = Int(Date().timeIntervalSince1970)
+                var param = "&formhash=\(UserInfo.shared.formhash)&message=\(replyContent)&posttime=\(time)&checkbox=0&wysiwyg=0&replysubmit=yes"
+                if let noticeauthor = html.at_xpath("//input[@name='noticeauthor']/@value", namespaces: nil)?.text {
+                    param += "&noticeauthor=\(noticeauthor)"
+                }
+                // FIXME: 回复提交提示 [quote][url=forum.php?mod=redirect
+                if let noticetrimstr = html.at_xpath("//input[@name='noticetrimstr']/@value", namespaces: nil)?.text {
+                    param += "&noticetrimstr=\(noticetrimstr)"
+                }
+                if let noticeauthormsg = html.at_xpath("//input[@name='noticeauthormsg']/@value", namespaces: nil)?.text {
+                    param += "&noticeauthormsg=\(noticeauthormsg)"
+                }
+                if let reppid = html.at_xpath("//input[@name='reppid']/@value", namespaces: nil)?.text {
+                    param += "&reppid=\(reppid)"
+                }
+                if let reppost = html.at_xpath("//input[@name='reppost']/@value", namespaces: nil)?.text {
+                    param += "&reppost=\(reppost)"
+                }
+                param = param.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+                await reply(param)
+            }
+        }
+    }
+
+    private func reply(_ param: String) async {
+        Task {
+            var action = replyAction.components(separatedBy: "&repquote=")[0]
+            action += "&extra=&replysubmit=yes"
+            // swiftlint:disable force_unwrapping
+            let url = URL(string: "https://www.chongbuluo.com/\(action)\(param)")!
+            // swiftlint:enble force_unwrapping
+            var requset = URLRequest(url: url)
+            requset.httpMethod = "POST"
+            requset.configHeaderFields()
+            let (data, _) = try await URLSession.shared.data(for: requset)
+            if let html = try? HTML(html: data, encoding: .utf8) {
+                if let text = html.toHTML, text.contains("刚刚") || text.contains("秒前") {
+                    replyContent = ""
+                    hud.show(message: "回复成功")
+                } else {
+                    hud.show(message: "回复失败")
+                }
+                replyFocused = false
                 await loadData()
             }
         }
@@ -266,6 +394,7 @@ struct TopicDetailContentView_Previews: PreviewProvider {
 struct TopicCommentModel: Identifiable {
     var id = UUID()
     var uid = ""
+    var reply = ""
     var name = ""
     var avatar = ""
     var lv = ""
