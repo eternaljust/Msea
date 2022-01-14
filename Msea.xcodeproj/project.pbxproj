@@ -58,6 +58,7 @@
 		EFE76C642759EE3C00D89EA6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFE76C632759EE3C00D89EA6 /* Preview Assets.xcassets */; };
 		EFF1F11C2774680F004EF697 /* LocalNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF1F11B2774680F004EF697 /* LocalNotification.swift */; };
 		EFF883C7278FBE2700A14CC7 /* MyPostContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF883C6278FBE2700A14CC7 /* MyPostContentView.swift */; };
+		EFF883C92790048100A14CC7 /* PublishPostContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF883C82790048100A14CC7 /* PublishPostContentView.swift */; };
 		FB3006F33310F31A89060749 /* Pods_Msea.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7606A8EEA1BD777F45CBF959 /* Pods_Msea.framework */; };
 		FF6F54D60DAE88CB4DCB885B /* Pods_TopicWidgetExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A50DF2A3B18C0CBCE0319DC6 /* Pods_TopicWidgetExtension.framework */; };
 /* End PBXBuildFile section */
@@ -153,6 +154,7 @@
 		EFE76C632759EE3C00D89EA6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		EFF1F11B2774680F004EF697 /* LocalNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotification.swift; sourceTree = "<group>"; };
 		EFF883C6278FBE2700A14CC7 /* MyPostContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostContentView.swift; sourceTree = "<group>"; };
+		EFF883C82790048100A14CC7 /* PublishPostContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishPostContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +191,7 @@
 			isa = PBXGroup;
 			children = (
 				8143D170275C8F5C0036198D /* MineContentView.swift */,
+				EFF883C82790048100A14CC7 /* PublishPostContentView.swift */,
 				EFBE964B277D4F4800481170 /* ProfileTopicContentView.swift */,
 				EFBE964D277D4FED00481170 /* FriendVisitorContentView.swift */,
 				EFBE964F277D501200481170 /* MessageBoardContentView.swift */,
@@ -652,6 +655,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF8A7A282766F3110092E53C /* UserInfo.swift in Sources */,
+				EFF883C92790048100A14CC7 /* PublishPostContentView.swift in Sources */,
 				EFE76C5F2759EE3B00D89EA6 /* ContentView.swift in Sources */,
 				EF55F4C9275A0B0500B78C95 /* View+Extension.swift in Sources */,
 				EFB4314F2760ACB300319073 /* LoginContentView.swift in Sources */,

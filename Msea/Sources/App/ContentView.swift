@@ -68,5 +68,5 @@ enum TabBarItem: String, CaseIterable, Identifiable {
 }
 
 class TabItemSelection: ObservableObject {
-    @Published var index: TabBarItem = .home
+    @Published var index: TabBarItem = CacheInfo.shared.selectedTab
 }

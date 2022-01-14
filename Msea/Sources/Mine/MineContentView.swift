@@ -25,6 +25,10 @@ struct MineContentView: View {
     @State private var album = UserInfo.shared.album
     @State private var share = UserInfo.shared.share
     @State private var selectedMineTab = MineTab.topic
+    @State private var isNewPost = false
+    private let columns = [
+        GridItem(.adaptive(minimum: 60, maximum: 80), spacing: 10)
+    ]
 
     var body: some View {
         NavigationView {
@@ -88,11 +92,68 @@ struct MineContentView: View {
             .sheet(isPresented: $isPresented) {
                 LoginContentView()
             }
+            .dialog(isPresented: $isNewPost) {
+                VStack {
+                    HStack {
+                        Spacer()
+
+                        Text("节点导航")
+                            .multilineTextAlignment(.leading)
+                            .font(.font14)
+
+                        Spacer()
+
+                        Button {
+                            isNewPost.toggle()
+                        } label: {
+                            Image(systemName: "xmark.circle")
+                        }
+                    }
+
+                    ScrollView {
+                        LazyVGrid(columns: columns, alignment: .leading, spacing: 10, pinnedViews: [.sectionHeaders]) {
+                            ForEach(PostNaviTab.allCases) { section in
+                                Section {
+                                    ForEach(section.plates, id: \.id) { plate in
+                                        NavigationLink(destination: PublishPostContentView(plate: plate)) {
+                                            Text(plate.title)
+                                                .font(.font14)
+                                                .foregroundColor(.theme)
+                                        }
+                                    }
+                                } header: {
+                                    HStack {
+                                        Text(section.title)
+                                            .foregroundColor(.secondary)
+                                            .font(.font14)
+
+                                        Spacer()
+                                    }
+                                    .background(Color.backGround)
+                                }
+                            }
+                        }
+                    }
+                }
+                .frame(width: 300, height: 200)
+            }
             .navigationTitle("我的")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                NavigationLink(destination: SettingContentView()) {
-                    Text("设置")
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        isNewPost.toggle()
+                    } label: {
+                        Image(systemName: "square.and.pencil")
+                            .foregroundColor(.theme)
+                    }
+                    .isHidden(!isLogin)
+                }
+
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink(destination: SettingContentView()) {
+                        Text("设置")
+                    }
                 }
             }
             .onAppear(perform: {
@@ -102,6 +163,8 @@ struct MineContentView: View {
                     }
                 }
                 TabBarTool.showTabBar(true)
+                isNewPost = false
+                CacheInfo.shared.selectedTab = .mine
             })
             .onReceive(NotificationCenter.default.publisher(for: .login, object: nil)) { _ in
                 isLogin.toggle()
@@ -203,6 +266,175 @@ enum MineTab: String, CaseIterable, Identifiable {
         case .topic: return "主题"
         case .firendvisitor: return "好友与访客"
         case .messageboard: return "留言板"
+        }
+    }
+}
+
+enum PostPlate: String, Identifiable {
+    case blackboard
+    case tips
+    case software
+    case keyword
+    case methodology
+    case resource
+    case questionbank
+    case create
+    case life
+    case workplace
+    case learning
+    case feedback
+    case disappearforever
+    case google
+    case apple
+    case researchinfrontier
+
+    var id: String { self.rawValue }
+    var fid: String {
+        switch self {
+        case .blackboard:
+            return "2"
+        case .tips:
+            return "44"
+        case .software:
+            return "47"
+        case .keyword:
+            return "93"
+        case .methodology:
+            return "113"
+        case .resource:
+            return "114"
+        case .questionbank:
+            return "117"
+        case .create:
+            return "119"
+        case .life:
+            return "120"
+        case .workplace:
+            return "121"
+        case .learning:
+            return "122"
+        case .feedback:
+            return "123"
+        case .disappearforever:
+            return "125"
+        case .google:
+            return "126"
+        case .apple:
+            return "127"
+        case .researchinfrontier:
+            return "128"
+        }
+    }
+
+    var title: String {
+        switch self {
+        case .blackboard:
+            return "黑板报"
+        case .tips:
+            return "Tips"
+        case .software:
+            return "软件"
+        case .keyword:
+            return "Keyword"
+        case .methodology:
+            return "方法论"
+        case .resource:
+            return "资源"
+        case .questionbank:
+            return "题库"
+        case .create:
+            return "发现创造"
+        case .life:
+            return "生活"
+        case .workplace:
+            return "职场"
+        case .learning:
+            return "学途"
+        case .feedback:
+            return "反馈"
+        case .disappearforever:
+            return "石沉大海"
+        case .google:
+            return "Google"
+        case .apple:
+            return "Apple"
+        case .researchinfrontier:
+            return "探索前沿"
+        }
+    }
+}
+
+enum PostNaviTab: String, CaseIterable, Identifiable {
+    case common
+    case explore
+    case workingfish
+    case fulldry
+    case support
+    case test
+
+    var id: String { self.rawValue }
+    var title: String {
+        switch self {
+        case .common:
+            return "常用模块"
+        case .explore:
+            return "探索"
+        case .workingfish:
+            return "摸鱼"
+        case .fulldry:
+            return "干货"
+        case .support:
+            return "支持"
+        case .test:
+            return "试验"
+        }
+    }
+
+    var plates: [PostPlate] {
+        switch self {
+        case .common:
+            return [
+                .feedback,
+                .create,
+                .resource,
+                .life,
+                .software,
+                .disappearforever,
+                .tips,
+                .workplace,
+                .blackboard
+            ]
+        case .explore:
+            return [
+                .keyword,
+                .questionbank,
+                .methodology,
+                .google,
+                .researchinfrontier
+            ]
+        case .workingfish:
+            return [
+                .create,
+                .life,
+                .workplace,
+                .learning
+            ]
+        case .fulldry:
+            return [
+                .tips,
+                .software,
+                .resource
+            ]
+        case .support:
+            return [
+                .feedback,
+                .blackboard
+            ]
+        case .test:
+            return [
+                .disappearforever,
+                .apple
+            ]
         }
     }
 }

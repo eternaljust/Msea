@@ -72,6 +72,7 @@ struct HomeContentView: View {
             .onAppear {
                 navigationBarHidden = true
                 TabBarTool.showTabBar(true)
+                CacheInfo.shared.selectedTab = .home
             }
             .onDisappear {
                 navigationBarHidden = false

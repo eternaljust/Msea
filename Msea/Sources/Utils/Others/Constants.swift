@@ -58,6 +58,8 @@ struct CacheKeys {
     static let daysignMinute = "daysignMinuteKey"
     /// 签到开关
     static let daysignIsOn = "daysignIsOnKey"
+    /// 选中 tab
+    static let selectedTab = "selectedTabKey"
 }
 
 /// 通知

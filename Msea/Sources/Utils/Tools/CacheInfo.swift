@@ -26,4 +26,5 @@ class CacheInfo: NSObject {
     @AppStorage(CacheKeys.daysignHour) var daysignHour = 8
     @AppStorage(CacheKeys.daysignMinute) var daysignMinute = 0
     @AppStorage(CacheKeys.daysignIsOn) var daysignIsOn = false
+    @AppStorage(CacheKeys.selectedTab) var selectedTab: TabBarItem = .home
 }

@@ -54,7 +54,9 @@ final class HUDState: ObservableObject {
     func show(message: String) {
         self.message = message
         withAnimation {
-            isPresented = true
+            DispatchQueue.main.async {
+                self.isPresented = true
+            }
         }
     }
 }
