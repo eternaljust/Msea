@@ -170,7 +170,7 @@ struct MineContentView: View {
     private func loadData() async {
         Task {
             // swiftlint:disable force_unwrapping
-            let url = URL(string: "\(kAppBaseURL)\(UserInfo.shared.space)")!
+            let url = URL(string: "https://www.chongbuluo.com/home.php?mod=space&uid=\(UserInfo.shared.uid)")!
             // swiftlint:enble force_unwrapping
             var request = URLRequest(url: url)
             request.configHeaderFields()

@@ -52,6 +52,11 @@
 		EFD6BA66277C05980060239D /* WidgetIntents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = EFD6BA62277BFA4F0060239D /* WidgetIntents.intentdefinition */; };
 		EFD6BA67277C05B20060239D /* ProfileWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD6BA64277C02BC0060239D /* ProfileWidget.swift */; };
 		EFD7EBE227951075004C1609 /* SpaceProfileContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD7EBE127951075004C1609 /* SpaceProfileContentView.swift */; };
+		EFD7EBE6279537BA004C1609 /* AboutContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD7EBE5279537BA004C1609 /* AboutContentView.swift */; };
+		EFD7EBE827953FB1004C1609 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD7EBE727953FB1004C1609 /* UIApplication+Extension.swift */; };
+		EFD7EBEA27954618004C1609 /* LicenseContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD7EBE927954618004C1609 /* LicenseContentView.swift */; };
+		EFD7EBEC27954702004C1609 /* Safari.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD7EBEB27954702004C1609 /* Safari.swift */; };
+		EFD7EBEE27955228004C1609 /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD7EBED27955227004C1609 /* CustomView.swift */; };
 		EFE2B11C278D56F400B12FC4 /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE2B11B278D56F400B12FC4 /* Keyboard.swift */; };
 		EFE76C5D2759EE3B00D89EA6 /* MseaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE76C5C2759EE3B00D89EA6 /* MseaApp.swift */; };
 		EFE76C5F2759EE3B00D89EA6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE76C5E2759EE3B00D89EA6 /* ContentView.swift */; };
@@ -147,6 +152,11 @@
 		EFD6BA64277C02BC0060239D /* ProfileWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileWidget.swift; sourceTree = "<group>"; };
 		EFD6BA6D277C07650060239D /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
 		EFD7EBE127951075004C1609 /* SpaceProfileContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceProfileContentView.swift; sourceTree = "<group>"; };
+		EFD7EBE5279537BA004C1609 /* AboutContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutContentView.swift; sourceTree = "<group>"; };
+		EFD7EBE727953FB1004C1609 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
+		EFD7EBE927954618004C1609 /* LicenseContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseContentView.swift; sourceTree = "<group>"; };
+		EFD7EBEB27954702004C1609 /* Safari.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Safari.swift; sourceTree = "<group>"; };
+		EFD7EBED27955227004C1609 /* CustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
 		EFE2B11B278D56F400B12FC4 /* Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
 		EFE4102A2771DC7E0074248E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EFE76C592759EE3B00D89EA6 /* Msea.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Msea.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -200,6 +210,8 @@
 				EFBE964F277D501200481170 /* MessageBoardContentView.swift */,
 				EFB4314E2760ACB300319073 /* LoginContentView.swift */,
 				EFAA2A8C277025A000A83E44 /* SettingContentView.swift */,
+				EFD7EBE5279537BA004C1609 /* AboutContentView.swift */,
+				EFD7EBE927954618004C1609 /* LicenseContentView.swift */,
 			);
 			path = Mine;
 			sourceTree = "<group>";
@@ -249,6 +261,7 @@
 				EFE76C5E2759EE3B00D89EA6 /* ContentView.swift */,
 				EF6211D42761D8FA00F833B4 /* ApplicationDelegate.swift */,
 				EF6211D62761ECEA00F833B4 /* Appearance.swift */,
+				EFD7EBED27955227004C1609 /* CustomView.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -294,6 +307,7 @@
 				EF082EEC275F0C6A00056BCA /* Color+Extension.swift */,
 				EFB4314C27608B3A00319073 /* Font+Extension.swift */,
 				EF082EEE275F3ACB00056BCA /* UINavigationController+Extension.swift */,
+				EFD7EBE727953FB1004C1609 /* UIApplication+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -315,6 +329,7 @@
 			children = (
 				EF7177ED27857A8700113670 /* GifImage.swift */,
 				EF80EF9A2786B8E800CE1EE1 /* Web.swift */,
+				EFD7EBEB27954702004C1609 /* Safari.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -660,11 +675,14 @@
 				EF8A7A282766F3110092E53C /* UserInfo.swift in Sources */,
 				EFF883C92790048100A14CC7 /* PublishPostContentView.swift in Sources */,
 				EFE76C5F2759EE3B00D89EA6 /* ContentView.swift in Sources */,
+				EFD7EBE6279537BA004C1609 /* AboutContentView.swift in Sources */,
 				EF55F4C9275A0B0500B78C95 /* View+Extension.swift in Sources */,
 				EFB4314F2760ACB300319073 /* LoginContentView.swift in Sources */,
+				EFD7EBEE27955228004C1609 /* CustomView.swift in Sources */,
 				EF80EFA62786D9EB00CE1EE1 /* TopicDetailContentView.swift in Sources */,
 				EF6211D52761D8FA00F833B4 /* ApplicationDelegate.swift in Sources */,
 				8180BB33275B78880055E1F5 /* TopicListContentView.swift in Sources */,
+				EFD7EBEC27954702004C1609 /* Safari.swift in Sources */,
 				EF6211D72761ECEA00F833B4 /* Appearance.swift in Sources */,
 				EFB4314B276045A300319073 /* Networking.swift in Sources */,
 				EF082EF1275F4AC400056BCA /* SignListContentView.swift in Sources */,
@@ -677,7 +695,9 @@
 				EFBE964C277D4F4800481170 /* ProfileTopicContentView.swift in Sources */,
 				EFD7EBE227951075004C1609 /* SpaceProfileContentView.swift in Sources */,
 				EF082E73278ED031002744EC /* PostListContentView.swift in Sources */,
+				EFD7EBEA27954618004C1609 /* LicenseContentView.swift in Sources */,
 				8143D173275C9DFB0036198D /* HomeContentView.swift in Sources */,
+				EFD7EBE827953FB1004C1609 /* UIApplication+Extension.swift in Sources */,
 				EF082EF3275F4B1C00056BCA /* SignDayListContentView.swift in Sources */,
 				EFF883C7278FBE2700A14CC7 /* MyPostContentView.swift in Sources */,
 				8143D171275C8F5D0036198D /* MineContentView.swift in Sources */,

@@ -13,11 +13,6 @@ import Kanna
 struct SettingContentView: View {
     @EnvironmentObject private var hud: HUDState
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.openURL) var openURL
-
-    @State private var isOn = false
-    @State private var selectedDate = Date.now
-    @State private var showAlert = false
 
     @State private var itemSections: [SettingSection] = [
         SettingSection(items: [.signalert]),
@@ -31,77 +26,35 @@ struct SettingContentView: View {
                 ForEach(itemSections) { section in
                     Section {
                         ForEach(section.items) { item in
-                            HStack {
-                                if item != .logout {
+                            switch item {
+                            case .signalert:
+                                HStack {
                                     Image(systemName: item.icon)
 
                                     Text(item.title)
 
                                     Spacer()
 
-                                    if item == .signalert {
-                                        DatePicker("", selection: $selectedDate, displayedComponents: [.hourAndMinute])
-                                            .onChange(of: selectedDate) { value in
-                                                let components = Calendar.current.dateComponents([.hour, .minute], from: value)
-                                                if let hour = components.hour, let minute = components.minute {
-                                                    CacheInfo.shared.daysignHour = hour
-                                                    CacheInfo.shared.daysignMinute = minute
-                                                }
-                                                if isOn {
-                                                    Task {
-                                                        _ = await LocalNotification.shared.daysign()
-                                                    }
-                                                }
-                                            }
-
-                                        Toggle("", isOn: $isOn)
-                                            .alert("通知权限已关闭", isPresented: $showAlert) {
-                                                Button("取消", role: .cancel) {
-                                                }
-
-                                                Button("去设置") {
-                                                    // swiftlint:disable force_unwrapping
-                                                    openURL(URL(string: UIApplication.openSettingsURLString)!)
-                                                    // swiftlint:enble force_unwrapping
-                                                }
-                                            } message: {
-                                                Text("可在设置中重新开启签到提醒")
-                                                    .font(.callout)
-                                            }
-                                            .onChange(of: isOn) { value in
-                                                Task {
-                                                    print(value)
-                                                    if await LocalNotification.shared.isAuthorizationDenied() {
-                                                        if !isOn && !value {
-                                                            showAlert.toggle()
-                                                        }
-                                                        isOn = false
-                                                    } else {
-                                                        CacheInfo.shared.daysignIsOn = value
-                                                        if value {
-                                                            if await !LocalNotification.shared.daysign() {
-                                                                isOn = false
-                                                            }
-                                                        } else {
-                                                            LocalNotification.shared.removeDaysign()
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                    } else {
-                                        Image(systemName: "chevron.right")
+                                    SignalertContentView()
+                                }
+                            case .logout:
+                                Button {
+                                    Task {
+                                        await logout()
                                     }
-                                } else {
+                                } label: {
                                     Text(item.title)
                                         .foregroundColor(.red)
                                         .frame(maxWidth: .infinity, alignment: .center)
                                 }
-                            }
-                            .contentShape(Rectangle())
-                            .onTapGesture {
-                                Task {
-                                    if item == .logout {
-                                        await logout()
+                            case .review, .share, .feedback, .urlschemes, .about:
+                                NavigationLink(destination: getContentView(item)) {
+                                    HStack {
+                                        Image(systemName: item.icon)
+
+                                        Text(item.title)
+
+                                        Spacer()
                                     }
                                 }
                             }
@@ -110,16 +63,14 @@ struct SettingContentView: View {
                 }
             }
         }
+        .navigationBarTitle("设置")
         .onAppear {
             Task {
-                let now = Date.now
-                var components = Calendar.current.dateComponents([.hour, .minute], from: now)
-                components.hour = CacheInfo.shared.daysignHour
-                components.minute = CacheInfo.shared.daysignMinute
-                let date = Calendar.current.date(from: components)
-                selectedDate = date ?? now
-                isOn = await LocalNotification.shared.isAuthorizationDenied() ? false : CacheInfo.shared.daysignIsOn
-                if UserInfo.shared.isLogin() {
+                var contains = false
+                if let last = itemSections.last, last.items.contains(.logout) {
+                    contains = true
+                }
+                if UserInfo.shared.isLogin() && !contains {
                     itemSections.append(SettingSection(items: [.logout]))
                 }
             }
@@ -147,6 +98,25 @@ struct SettingContentView: View {
             } else {
                 hud.show(message: "退出异常，请稍后重试！")
             }
+        }
+    }
+
+    @ViewBuilder private func getContentView(_ item: SettingItem) -> some View {
+        switch item {
+        case .signalert:
+            EmptyView()
+        case .review:
+            EmptyView()
+        case .share:
+            EmptyView()
+        case .feedback:
+            EmptyView()
+        case .urlschemes:
+            EmptyView()
+        case .about:
+            AboutContentView()
+        case .logout:
+            EmptyView()
         }
     }
 }
@@ -208,6 +178,77 @@ enum SettingItem: String, CaseIterable, Identifiable {
             return "关于 Msea"
         case .logout:
             return "退出登录"
+        }
+    }
+}
+
+struct SignalertContentView: View {
+    @State private var isOn = false
+    @State private var selectedDate = Date.now
+    @State private var showAlert = false
+    @Environment(\.openURL) var openURL
+
+    var body: some View {
+        HStack {
+            DatePicker("", selection: $selectedDate, displayedComponents: [.hourAndMinute])
+                .onChange(of: selectedDate) { value in
+                    let components = Calendar.current.dateComponents([.hour, .minute], from: value)
+                    if let hour = components.hour, let minute = components.minute {
+                        CacheInfo.shared.daysignHour = hour
+                        CacheInfo.shared.daysignMinute = minute
+                    }
+                    if isOn {
+                        Task {
+                            _ = await LocalNotification.shared.daysign()
+                        }
+                    }
+                }
+
+            Toggle("", isOn: $isOn)
+                .alert("通知权限已关闭", isPresented: $showAlert) {
+                    Button("取消", role: .cancel) {
+                    }
+
+                    Button("去设置") {
+                        // swiftlint:disable force_unwrapping
+                        openURL(URL(string: UIApplication.openSettingsURLString)!)
+                        // swiftlint:enble force_unwrapping
+                    }
+                } message: {
+                    Text("可在设置中重新开启签到提醒")
+                        .font(.callout)
+                }
+                .onChange(of: isOn) { value in
+                    Task {
+                        print(value)
+                        if await LocalNotification.shared.isAuthorizationDenied() {
+                            if !isOn && !value {
+                                showAlert.toggle()
+                            }
+                            isOn = false
+                        } else {
+                            CacheInfo.shared.daysignIsOn = value
+                            if value {
+                                if await !LocalNotification.shared.daysign() {
+                                    isOn = false
+                                }
+                            } else {
+                                LocalNotification.shared.removeDaysign()
+                            }
+                        }
+                    }
+                }
+        }
+        .onAppear {
+            Task {
+                let now = Date.now
+                var components = Calendar.current.dateComponents([.hour, .minute], from: now)
+                components.hour = CacheInfo.shared.daysignHour
+                components.minute = CacheInfo.shared.daysignMinute
+                let date = Calendar.current.date(from: components)
+                selectedDate = date ?? now
+                isOn = await LocalNotification.shared.isAuthorizationDenied() ? false : CacheInfo.shared.daysignIsOn
+            }
         }
     }
 }

@@ -77,5 +77,10 @@ extension HTMLDocument {
         if let formhash = self.at_xpath("//input[@id='formhash']/@value", namespaces: nil)?.text {
             UserInfo.shared.formhash = formhash
         }
+        if let href = self.at_xpath("//div[@id='toptb']//a[6]/@href", namespaces: nil)?.text, href.contains("formhash") {
+            if let hash = href.components(separatedBy: "&").last, hash.contains("=") {
+                UserInfo.shared.formhash = hash.components(separatedBy: "=")[1]
+            }
+        }
     }
 }
