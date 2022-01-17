@@ -11,6 +11,7 @@ import Kanna
 
 /// 留言板
 struct MessageBoardContentView: View {
+    var uid = CacheInfo.shared.defaultUid
     @State private var messages = [MessageBoardListModel]()
     @State private var isHidden = false
     @State private var page = 1
@@ -98,7 +99,7 @@ struct MessageBoardContentView: View {
         isRefreshing = true
         Task {
             // swiftlint:disable force_unwrapping
-            let url = URL(string: "https://www.chongbuluo.com/home.php?mod=space&uid=\(UserInfo.shared.uid)&do=wall&page=\(page)")!
+            let url = URL(string: "https://www.chongbuluo.com/home.php?mod=space&uid=\(uid)&do=wall&page=\(page)")!
             // swiftlint:enble force_unwrapping
             var requset = URLRequest(url: url)
             requset.configHeaderFields()

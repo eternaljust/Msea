@@ -11,6 +11,7 @@ import Kanna
 
 /// 好友与访客
 struct FriendVisitorContentView: View {
+    var uid = CacheInfo.shared.defaultUid
     @State private var friendVisitors = [FriendVisitorListModel(type: .friend, persons: [FriendVisitorModel]()),
                                          FriendVisitorListModel(type: .visitor, persons: [FriendVisitorModel]())]
     @State private var isHidden = false
@@ -29,27 +30,29 @@ struct FriendVisitorContentView: View {
                                 .font(.font14)
                         } else {
                             ForEach(section.persons, id: \.id) { persion in
-                                VStack {
-                                    AsyncImage(url: URL(string: persion.avatar)) { image in
-                                        image.resizable()
-                                    } placeholder: {
-                                        ProgressView()
-                                    }
-                                    .frame(width: 45, height: 45)
-                                    .cornerRadius(5)
+                                NavigationLink(destination: SpaceProfileContentView(uid: persion.uid)) {
+                                    VStack {
+                                        AsyncImage(url: URL(string: persion.avatar)) { image in
+                                            image.resizable()
+                                        } placeholder: {
+                                            ProgressView()
+                                        }
+                                        .frame(width: 45, height: 45)
+                                        .cornerRadius(5)
 
-                                    Text(persion.name)
-                                        .font(.font12)
-                                        .foregroundColor(.theme)
-                                        .lineLimit(1)
-                                        .multilineTextAlignment(.center)
-
-                                    if !persion.time.isEmpty {
-                                        Text(persion.time)
+                                        Text(persion.name)
                                             .font(.font12)
-                                            .foregroundColor(.secondary)
+                                            .foregroundColor(.theme)
                                             .lineLimit(1)
                                             .multilineTextAlignment(.center)
+
+                                        if !persion.time.isEmpty {
+                                            Text(persion.time)
+                                                .font(.font12)
+                                                .foregroundColor(.secondary)
+                                                .lineLimit(1)
+                                                .multilineTextAlignment(.center)
+                                        }
                                     }
                                 }
                             }
@@ -71,7 +74,7 @@ struct FriendVisitorContentView: View {
     private func loadData() async {
         Task {
             // swiftlint:disable force_unwrapping
-            let url = URL(string: "https://www.chongbuluo.com/home.php?mod=space&uid=\(UserInfo.shared.uid)")!
+            let url = URL(string: "https://www.chongbuluo.com/home.php?mod=space&uid=\(uid)")!
             // swiftlint:enble force_unwrapping
             let (data, _) = try await URLSession.shared.data(from: url)
             if let html = try? HTML(html: data, encoding: .utf8) {

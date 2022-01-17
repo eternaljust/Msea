@@ -323,6 +323,7 @@ struct TopicDetailContentView: View {
             requset.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: requset)
             if let html = try? HTML(html: data, encoding: .utf8) {
+                html.getFormhash()
                 let time = Int(Date().timeIntervalSince1970)
                 var param = "&formhash=\(UserInfo.shared.formhash)&message=\(replyContent)&posttime=\(time)&checkbox=0&wysiwyg=0&replysubmit=yes"
                 if let noticeauthor = html.at_xpath("//input[@name='noticeauthor']/@value", namespaces: nil)?.text {

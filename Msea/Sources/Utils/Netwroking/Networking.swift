@@ -74,5 +74,8 @@ extension HTMLDocument {
                 UserInfo.shared.formhash = hash
             }
         }
+        if let formhash = self.at_xpath("//input[@id='formhash']/@value", namespaces: nil)?.text {
+            UserInfo.shared.formhash = formhash
+        }
     }
 }

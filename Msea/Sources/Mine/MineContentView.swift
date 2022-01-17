@@ -13,18 +13,7 @@ import Kanna
 struct MineContentView: View {
     @State private var isPresented = false
     @State private var isLogin = UserInfo.shared.isLogin()
-    @State private var avatar = UserInfo.shared.avatar
-    @State private var name = UserInfo.shared.name
-    @State private var views = UserInfo.shared.views
-    @State private var integral = UserInfo.shared.integral
-    @State private var bits = UserInfo.shared.bits
-    @State private var violation = UserInfo.shared.violation
-    @State private var friend = UserInfo.shared.friend
-    @State private var topic = UserInfo.shared.topic
-    @State private var blog = UserInfo.shared.blog
-    @State private var album = UserInfo.shared.album
-    @State private var share = UserInfo.shared.share
-    @State private var selectedMineTab = MineTab.topic
+    @State private var selectedProfileTab = ProfileTab.topic
     @State private var isNewPost = false
     private let columns = [
         GridItem(.adaptive(minimum: 60, maximum: 80), spacing: 10)
@@ -34,7 +23,7 @@ struct MineContentView: View {
         NavigationView {
             VStack {
                 if isLogin {
-                    AsyncImage(url: URL(string: avatar)) { image in
+                    AsyncImage(url: URL(string: UserInfo.shared.avatar)) { image in
                         image.resizable()
                     } placeholder: {
                         ProgressView()
@@ -42,21 +31,21 @@ struct MineContentView: View {
                     .frame(width: 80, height: 80)
                     .cornerRadius(5)
 
-                    Text(name)
+                    Text(UserInfo.shared.name)
                         .padding(.bottom, -2)
 
-                    Text("已有 \(Text(views).foregroundColor(.red)) 人来访过")
+                    Text("已有 \(Text(UserInfo.shared.views).foregroundColor(.red)) 人来访过")
                         .font(.font15)
                         .padding(.bottom, 1)
 
-                    Text("积分: \(Text(integral).foregroundColor(.theme))  Bit: \(Text(bits).foregroundColor(.theme))  好友: \(Text(friend).foregroundColor(.theme))  主题: \(Text(topic).foregroundColor(.theme))")
+                    Text("积分: \(Text(UserInfo.shared.integral).foregroundColor(.theme))  Bit: \(Text(UserInfo.shared.bits).foregroundColor(.theme))  好友: \(Text(UserInfo.shared.friend).foregroundColor(.theme))  主题: \(Text(UserInfo.shared.topic).foregroundColor(.theme))")
                         .font(.font14)
 
-                    Text("违规: \(Text(violation).foregroundColor(.theme))  日志: \(Text(blog).foregroundColor(.theme))  相册:  \(Text(album).foregroundColor(.theme))  分享: \(Text(share).foregroundColor(.theme))")
+                    Text("违规: \(Text(UserInfo.shared.violation).foregroundColor(.theme))  日志: \(Text(UserInfo.shared.blog).foregroundColor(.theme))  相册:  \(Text(UserInfo.shared.album).foregroundColor(.theme))  分享: \(Text(UserInfo.shared.share).foregroundColor(.theme))")
                         .font(.font14)
 
-                    Picker("MineTab", selection: $selectedMineTab) {
-                        ForEach(MineTab.allCases) { view in
+                    Picker("ProfileTab", selection: $selectedProfileTab) {
+                        ForEach(ProfileTab.allCases) { view in
                             Text(view.title)
                                 .tag(view)
                         }
@@ -64,17 +53,17 @@ struct MineContentView: View {
                     .pickerStyle(.segmented)
                     .padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))
 
-                    TabView(selection: $selectedMineTab) {
-                        ForEach(MineTab.allCases) { mine in
+                    TabView(selection: $selectedProfileTab) {
+                        ForEach(ProfileTab.allCases) { mine in
                             switch mine {
                             case .topic:
-                                ProfileTopicContentView()
+                                ProfileTopicContentView(uid: UserInfo.shared.uid)
                                     .tag(mine)
                             case .firendvisitor:
-                                FriendVisitorContentView()
+                                FriendVisitorContentView(uid: UserInfo.shared.uid)
                                     .tag(mine)
                             case .messageboard:
-                                MessageBoardContentView()
+                                MessageBoardContentView(uid: UserInfo.shared.uid)
                                     .tag(mine)
                             }
                         }
@@ -190,57 +179,46 @@ struct MineContentView: View {
                 let img = html.at_xpath("//div[@id='profile_content']//img/@src", namespaces: nil)
                 if let avatar = img?.text {
                     UserInfo.shared.avatar = avatar
-                    self.avatar = avatar
                 }
                 let mbn = html.at_xpath("//div[@id='profile_content']//h2", namespaces: nil)
                 if let name = mbn?.text {
                     UserInfo.shared.name = name
-                    self.name = name
                 }
                 let xi1 = html.at_xpath("//div[@id='statistic_content']//strong[@class='xi1']", namespaces: nil)
                 if let views = xi1?.text {
                     UserInfo.shared.views = views
-                    self.views = views
                 }
                 let li1 = html.at_xpath("//ul[@class='xl xl2 cl']/li[1]/a", namespaces: nil)
                 if let integral = li1?.text {
                     UserInfo.shared.integral = integral
-                    self.integral = integral
                 }
                 let li2 = html.at_xpath("//ul[@class='xl xl2 cl']/li[2]/a", namespaces: nil)
                 if let bits = li2?.text {
                     UserInfo.shared.bits = bits
-                    self.bits = bits
                 }
                 let li3 = html.at_xpath("//ul[@class='xl xl2 cl']/li[3]/a", namespaces: nil)
                 if let violation = li3?.text {
                     UserInfo.shared.violation = violation
-                    self.violation = violation
                 }
                 let li4 = html.at_xpath("//ul[@class='xl xl2 cl']/li[4]/a", namespaces: nil)
                 if let friend = li4?.text {
                     UserInfo.shared.friend = friend
-                    self.friend = friend
                 }
                 let li5 = html.at_xpath("//ul[@class='xl xl2 cl']/li[5]/a", namespaces: nil)
                 if let topic = li5?.text {
                     UserInfo.shared.topic = topic
-                    self.topic = topic
                 }
                 let li6 = html.at_xpath("//ul[@class='xl xl2 cl']/li[6]/a", namespaces: nil)
                 if let blog = li6?.text {
                     UserInfo.shared.blog = blog
-                    self.blog = blog
                 }
                 let li7 = html.at_xpath("//ul[@class='xl xl2 cl']/li[7]/a", namespaces: nil)
                 if let album = li7?.text {
                     UserInfo.shared.album = album
-                    self.album = album
                 }
                 let li8 = html.at_xpath("//ul[@class='xl xl2 cl']/li[8]/a", namespaces: nil)
                 if let share = li8?.text {
                     UserInfo.shared.share = share
-                    self.share = share
                 }
 
                 html.getFormhash()
@@ -255,7 +233,7 @@ struct MineContentView_Previews: PreviewProvider {
     }
 }
 
-enum MineTab: String, CaseIterable, Identifiable {
+enum ProfileTab: String, CaseIterable, Identifiable {
     case topic
     case firendvisitor
     case messageboard
