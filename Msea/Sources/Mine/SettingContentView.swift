@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Kanna
+import MessageUI
 
 /// 设置相关
 struct SettingContentView: View {
@@ -19,6 +20,8 @@ struct SettingContentView: View {
         SettingSection(items: [.review, .feedback, .share]),
         SettingSection(items: [.urlschemes, .about])
     ]
+
+    @State var isShowingMail = false
 
     var body: some View {
         VStack {
@@ -47,7 +50,26 @@ struct SettingContentView: View {
                                         .foregroundColor(.red)
                                         .frame(maxWidth: .infinity, alignment: .center)
                                 }
-                            case .review, .share, .feedback, .urlschemes, .about:
+                            case .feedback:
+                                Button {
+                                    if MFMailComposeViewController.canSendMail() {
+                                        isShowingMail.toggle()
+                                    } else {
+                                        hud.show(message: "您的设备尚未设置邮箱，请在“邮件”应用中设置后再尝试发送。")
+                                    }
+                                } label: {
+                                    HStack {
+                                        Image(systemName: item.icon)
+
+                                        Text(item.title)
+
+                                        Spacer()
+
+                                        Indicator()
+                                    }
+                                    .foregroundColor(Color(light: .black, dark: .white))
+                                }
+                            case .review, .share, .urlschemes, .about:
                                 NavigationLink(destination: getContentView(item)) {
                                     HStack {
                                         Image(systemName: item.icon)
@@ -75,6 +97,9 @@ struct SettingContentView: View {
                 }
             }
             TabBarTool.showTabBar(false)
+        }
+        .sheet(isPresented: $isShowingMail) {
+            Email(isShowing: $isShowingMail)
         }
     }
 

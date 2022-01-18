@@ -49,25 +49,25 @@ struct Web: UIViewRepresentable {
     }
 
     class Coordinator: NSObject, WKNavigationDelegate {
-            let parent: Web
+        let parent: Web
 
-            init(_ parent: Web) {
-                self.parent = parent
-            }
-
-            func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-                webView.evaluateJavaScript("document.documentElement.scrollHeight", completionHandler: { height, _ in
-                    DispatchQueue.main.async {
-                        if let height = height as? CGFloat, let block = self.parent.didFinish {
-                            block(height)
-                        }
-                    }
-                })
-            }
-
-            func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-            }
+        init(_ parent: Web) {
+            self.parent = parent
         }
+
+        func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+            webView.evaluateJavaScript("document.documentElement.scrollHeight", completionHandler: { height, _ in
+                DispatchQueue.main.async {
+                    if let height = height as? CGFloat, let block = self.parent.didFinish {
+                        block(height)
+                    }
+                }
+            })
+        }
+
+        func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        }
+    }
 }
 
 struct Web_Previews: PreviewProvider {

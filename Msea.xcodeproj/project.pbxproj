@@ -46,6 +46,8 @@
 		EFB4314B276045A300319073 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4314A276045A300319073 /* Networking.swift */; };
 		EFB4314D27608B3A00319073 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4314C27608B3A00319073 /* Font+Extension.swift */; };
 		EFB4314F2760ACB300319073 /* LoginContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4314E2760ACB300319073 /* LoginContentView.swift */; };
+		EFBC2DAF2796A005008D31EF /* Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBC2DAE2796A005008D31EF /* Email.swift */; };
+		EFBC2DB12796AB7E008D31EF /* UIDevice+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBC2DB02796AB7E008D31EF /* UIDevice+Extension.swift */; };
 		EFBE964C277D4F4800481170 /* ProfileTopicContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBE964B277D4F4800481170 /* ProfileTopicContentView.swift */; };
 		EFBE964E277D4FED00481170 /* FriendVisitorContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBE964D277D4FED00481170 /* FriendVisitorContentView.swift */; };
 		EFBE9650277D501200481170 /* MessageBoardContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBE964F277D501200481170 /* MessageBoardContentView.swift */; };
@@ -146,6 +148,8 @@
 		EFB4314A276045A300319073 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		EFB4314C27608B3A00319073 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
 		EFB4314E2760ACB300319073 /* LoginContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginContentView.swift; sourceTree = "<group>"; };
+		EFBC2DAE2796A005008D31EF /* Email.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Email.swift; sourceTree = "<group>"; };
+		EFBC2DB02796AB7E008D31EF /* UIDevice+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extension.swift"; sourceTree = "<group>"; };
 		EFBE964B277D4F4800481170 /* ProfileTopicContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTopicContentView.swift; sourceTree = "<group>"; };
 		EFBE964D277D4FED00481170 /* FriendVisitorContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendVisitorContentView.swift; sourceTree = "<group>"; };
 		EFBE964F277D501200481170 /* MessageBoardContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBoardContentView.swift; sourceTree = "<group>"; };
@@ -311,6 +315,7 @@
 				EFB4314C27608B3A00319073 /* Font+Extension.swift */,
 				EF082EEE275F3ACB00056BCA /* UINavigationController+Extension.swift */,
 				EFD7EBE727953FB1004C1609 /* UIApplication+Extension.swift */,
+				EFBC2DB02796AB7E008D31EF /* UIDevice+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -333,6 +338,7 @@
 				EF7177ED27857A8700113670 /* GifImage.swift */,
 				EF80EF9A2786B8E800CE1EE1 /* Web.swift */,
 				EFD7EBEB27954702004C1609 /* Safari.swift */,
+				EFBC2DAE2796A005008D31EF /* Email.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -676,6 +682,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF8A7A282766F3110092E53C /* UserInfo.swift in Sources */,
+				EFBC2DB12796AB7E008D31EF /* UIDevice+Extension.swift in Sources */,
 				EFF883C92790048100A14CC7 /* PublishPostContentView.swift in Sources */,
 				EFE76C5F2759EE3B00D89EA6 /* ContentView.swift in Sources */,
 				EFD7EBE6279537BA004C1609 /* AboutContentView.swift in Sources */,
@@ -702,6 +709,7 @@
 				EFD7EBEA27954618004C1609 /* LicenseContentView.swift in Sources */,
 				8143D173275C9DFB0036198D /* HomeContentView.swift in Sources */,
 				EFD7EBE827953FB1004C1609 /* UIApplication+Extension.swift in Sources */,
+				EFBC2DAF2796A005008D31EF /* Email.swift in Sources */,
 				EF082EF3275F4B1C00056BCA /* SignDayListContentView.swift in Sources */,
 				EFF883C7278FBE2700A14CC7 /* MyPostContentView.swift in Sources */,
 				8143D171275C8F5D0036198D /* MineContentView.swift in Sources */,
