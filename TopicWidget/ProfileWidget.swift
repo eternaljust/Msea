@@ -40,6 +40,7 @@ struct ProfileProvider: IntentTimelineProvider {
         // swiftlint:enble force_unwrapping
         let (data, _) = try await URLSession.shared.data(from: url)
         var profile = ProfileModel()
+        profile.uid = uid
         if let html = try? HTML(html: data, encoding: .utf8) {
             if let text = html.toHTML, text.contains("隐私提醒") {
                 let img = html.at_xpath("//div[@class='avt avtm']//img/@src", namespaces: nil)
@@ -165,6 +166,7 @@ struct ProfileWidgetEntryView : View {
             Text("主题: \(Text(entry.profile.topic).foregroundColor(.theme)) \(entry.profile.post != "--" ? "帖子" : "日志"): \(Text(entry.profile.post != "--" ? entry.profile.post : entry.profile.blog).foregroundColor(.theme))")
                 .font(.font12)
         }
+        .widgetURL(URL(string: "msea://space?uid=\(entry.profile.uid)"))
     }
 }
 

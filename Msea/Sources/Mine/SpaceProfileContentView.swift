@@ -14,6 +14,7 @@ struct SpaceProfileContentView: View {
     var uid = CacheInfo.shared.defaultUid
     @State private var selectedProfileTab = ProfileTab.topic
     @State private var profile = ProfileModel()
+    @EnvironmentObject private var hud: HUDState
 
     var body: some View {
         VStack {
@@ -25,8 +26,12 @@ struct SpaceProfileContentView: View {
             .frame(width: 80, height: 80)
             .cornerRadius(5)
 
-            Text(profile.name)
+            Text("\(profile.name) uid(\(uid))")
                 .padding(.bottom, -2)
+                .onTapGesture {
+                    UIPasteboard.general.string = uid
+                    hud.show(message: "已复制 uid")
+                }
 
             Text("已有 \(Text(profile.views).foregroundColor(.red)) 人来访过")
                 .font(.font15)

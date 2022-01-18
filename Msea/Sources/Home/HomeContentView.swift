@@ -15,7 +15,7 @@ struct HomeContentView: View {
     @State private var selectedViewTab = ViewTab.new
     @State private var navigationBarHidden = true
     @State private var isActive = false
-    @ObservedObject private var selection = TabItemSelection()
+    @EnvironmentObject private var selection: TabItemSelection
     @State private var notice = ""
     @State private var tid = ""
     @State private var isViewthread = false
@@ -129,7 +129,7 @@ struct HomeContentView: View {
         TabBarTool.showTabBar(true)
         CacheInfo.shared.selectedTab = .home
         selection.index = .home
-        if let host = url.host {
+        if let host = url.host, let scheme = url.scheme, scheme == "msea" {
             let item = URLSchemesItem(rawValue: host)
             switch item {
             case .daysign:
@@ -145,7 +145,12 @@ struct HomeContentView: View {
                 if let query = url.query, query.contains("uid=") {
                     uid = query.components(separatedBy: "=")[1]
                     if Int(uid) != nil {
-                        isSpace = true
+                        if UserInfo.shared.isLogin(), UserInfo.shared.uid == uid {
+                            CacheInfo.shared.selectedTab = .mine
+                            selection.index = .mine
+                        } else {
+                            isSpace = true
+                        }
                     }
                 }
             default:

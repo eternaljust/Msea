@@ -9,7 +9,7 @@ import SwiftUI
 import Kanna
 
 struct ContentView: View {
-    @ObservedObject private var selection = TabItemSelection()
+    @StateObject private var selection = TabItemSelection()
 
     var body: some View {
         TabView(selection: $selection.index) {
@@ -21,6 +21,10 @@ struct ContentView: View {
                     .tag(item)
             }
         }
+        .environmentObject(selection)
+        .onChange(of: selection.index, perform: { newValue in
+            print(newValue)
+        })
         .tint(.theme)
         .onAppear {
             UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = UIColor(named: "AccentColor")

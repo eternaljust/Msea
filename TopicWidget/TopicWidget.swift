@@ -130,32 +130,36 @@ struct TopicWidgetEntryView : View {
                 TopicPlaceholderViewRow()
             } else {
                 ForEach(entry.topics, id:\.id) { item in
-                    HStack {
-                        if let data = item.imageData, let image = UIImage(data: data) {
-                            Image(uiImage: image)
-                                .resizable()
-                                .frame(width: 25, height: 25)
-                                .cornerRadius(5)
+                    if let url = URL(string: "msea://viewthread?tid=\(item.tid)") {
+                        Link(destination: url) {
+                            HStack {
+                                if let data = item.imageData, let image = UIImage(data: data) {
+                                    Image(uiImage: image)
+                                        .resizable()
+                                        .frame(width: 25, height: 25)
+                                        .cornerRadius(5)
+                                }
+
+                                Text(item.title)
+                                    .font(.font15)
+                                    .lineLimit(1)
+
+                                Spacer()
+
+                                Text("\(item.examine)")
+                                    .font(.font12)
+                                    .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5))
+                                    .foregroundColor(.white)
+                                    .background(
+                                        Capsule()
+                                            .foregroundColor(.secondaryTheme.opacity(0.8))
+                                    )
+                            }
+                            .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+
+                            Divider()
                         }
-
-                        Text(item.title)
-                            .font(.font15)
-                            .lineLimit(1)
-
-                        Spacer()
-
-                        Text("\(item.examine)")
-                            .font(.font12)
-                            .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5))
-                            .foregroundColor(.white)
-                            .background(
-                                Capsule()
-                                    .foregroundColor(.secondaryTheme.opacity(0.8))
-                            )
                     }
-                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-
-                    Divider()
                 }
             }
         }

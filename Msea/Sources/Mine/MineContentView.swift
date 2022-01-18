@@ -15,6 +15,8 @@ struct MineContentView: View {
     @State private var isLogin = UserInfo.shared.isLogin()
     @State private var selectedProfileTab = ProfileTab.topic
     @State private var isNewPost = false
+    @EnvironmentObject private var hud: HUDState
+
     private let columns = [
         GridItem(.adaptive(minimum: 60, maximum: 80), spacing: 10)
     ]
@@ -31,8 +33,12 @@ struct MineContentView: View {
                     .frame(width: 80, height: 80)
                     .cornerRadius(5)
 
-                    Text(UserInfo.shared.name)
+                    Text("\(UserInfo.shared.name) uid(\(UserInfo.shared.uid))")
                         .padding(.bottom, -2)
+                        .onTapGesture {
+                            UIPasteboard.general.string = UserInfo.shared.uid
+                            hud.show(message: "已复制 uid")
+                        }
 
                     Text("已有 \(Text(UserInfo.shared.views).foregroundColor(.red)) 人来访过")
                         .font(.font15)

@@ -95,6 +95,10 @@ struct TopicDetailContentView: View {
                         }
                     } header: {
                         TopicDetailHeaderView(title: title, commentCount: commentCount)
+                            .onTapGesture {
+                                UIPasteboard.general.string = tid
+                                hud.show(message: "已复制 tid")
+                            }
                     }
                 }
                 .simultaneousGesture(DragGesture().onChanged({ _ in
@@ -209,7 +213,7 @@ struct TopicDetailContentView: View {
                     title = text
                 }
                 if let text1 = html.at_xpath("//td[@class='plc ptm pbn vwthd']/div[@class='ptn']/span[2]", namespaces: nil)?.text, let text2 = html.at_xpath("//td[@class='plc ptm pbn vwthd']/div[@class='ptn']/span[5]", namespaces: nil)?.text {
-                    commentCount = "查看: \(text1)  |  回复: \(text2)"
+                    commentCount = "查看: \(text1)  |  回复: \(text2)  |  tid(\(tid))"
                 }
                 if let text = html.toHTML, text.contains("下一页") {
                     nextPage = true
