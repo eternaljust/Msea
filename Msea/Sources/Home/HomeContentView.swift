@@ -17,6 +17,10 @@ struct HomeContentView: View {
     @State private var isActive = false
     @ObservedObject private var selection = TabItemSelection()
     @State private var notice = ""
+    @State private var tid = ""
+    @State private var isViewthread = false
+    @State private var uid = ""
+    @State private var isSpace = false
 
     var body: some View {
         NavigationView {
@@ -65,6 +69,16 @@ struct HomeContentView: View {
                 }
                 .tabViewStyle(.page)
                 .indexViewStyle(.page(backgroundDisplayMode: .never))
+
+                NavigationLink(destination: TopicDetailContentView(tid: tid), isActive: $isViewthread) {
+                    EmptyView()
+                }
+                .opacity(0.0)
+
+                NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isSpace) {
+                    EmptyView()
+                }
+                .opacity(0.0)
             }
             .navigationTitle("")
             .navigationBarTitleDisplayMode(.inline)
@@ -78,13 +92,17 @@ struct HomeContentView: View {
                 navigationBarHidden = false
             }
             .onReceive(NotificationCenter.default.publisher(for: .daysign, object: nil)) { _ in
-                selection.index = .home
-                isActive = true
+                goDaysign()
             }
             .task {
                 if UserInfo.shared.isLogin() {
                     await checkNotice()
                 }
+            }
+        }
+        .onOpenURL { url in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.urlSchemes(url)
             }
         }
     }
@@ -105,6 +123,41 @@ struct HomeContentView: View {
                 }
             }
         }
+    }
+
+    private func urlSchemes(_ url: URL) {
+        TabBarTool.showTabBar(true)
+        CacheInfo.shared.selectedTab = .home
+        selection.index = .home
+        if let host = url.host {
+            let item = URLSchemesItem(rawValue: host)
+            switch item {
+            case .daysign:
+                goDaysign()
+            case .viewthread:
+                if let query = url.query, query.contains("tid=") {
+                    tid = query.components(separatedBy: "=")[1]
+                    if Int(tid) != nil {
+                        isViewthread = true
+                    }
+                }
+            case .space:
+                if let query = url.query, query.contains("uid=") {
+                    uid = query.components(separatedBy: "=")[1]
+                    if Int(uid) != nil {
+                        isSpace = true
+                    }
+                }
+            default:
+                print(url)
+            }
+        }
+    }
+
+    private func goDaysign() {
+        CacheInfo.shared.selectedTab = .home
+        selection.index = .home
+        isActive = true
     }
 }
 

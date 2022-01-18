@@ -112,7 +112,7 @@ struct SettingContentView: View {
         case .feedback:
             EmptyView()
         case .urlschemes:
-            EmptyView()
+            URLSchemesContentView()
         case .about:
             AboutContentView()
         case .logout:

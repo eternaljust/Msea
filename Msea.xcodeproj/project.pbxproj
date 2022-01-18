@@ -17,6 +17,7 @@
 		EF082EF1275F4AC400056BCA /* SignListContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF082EF0275F4AC400056BCA /* SignListContentView.swift */; };
 		EF082EF3275F4B1C00056BCA /* SignDayListContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF082EF2275F4B1C00056BCA /* SignDayListContentView.swift */; };
 		EF55F4C9275A0B0500B78C95 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF55F4C8275A0B0500B78C95 /* View+Extension.swift */; };
+		EF5F0B1B279565E300A5D81F /* URLSchemesContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5F0B1A279565E300A5D81F /* URLSchemesContentView.swift */; };
 		EF6211D52761D8FA00F833B4 /* ApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6211D42761D8FA00F833B4 /* ApplicationDelegate.swift */; };
 		EF6211D72761ECEA00F833B4 /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6211D62761ECEA00F833B4 /* Appearance.swift */; };
 		EF70CDEA277AA1B20049D830 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF70CDE9277AA1B20049D830 /* WidgetKit.framework */; };
@@ -118,6 +119,7 @@
 		EF082EF0275F4AC400056BCA /* SignListContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignListContentView.swift; sourceTree = "<group>"; };
 		EF082EF2275F4B1C00056BCA /* SignDayListContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignDayListContentView.swift; sourceTree = "<group>"; };
 		EF55F4C8275A0B0500B78C95 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
+		EF5F0B1A279565E300A5D81F /* URLSchemesContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSchemesContentView.swift; sourceTree = "<group>"; };
 		EF6211D42761D8FA00F833B4 /* ApplicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationDelegate.swift; sourceTree = "<group>"; };
 		EF6211D62761ECEA00F833B4 /* Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
 		EF70CDE8277AA1B20049D830 /* TopicWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TopicWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -212,6 +214,7 @@
 				EFAA2A8C277025A000A83E44 /* SettingContentView.swift */,
 				EFD7EBE5279537BA004C1609 /* AboutContentView.swift */,
 				EFD7EBE927954618004C1609 /* LicenseContentView.swift */,
+				EF5F0B1A279565E300A5D81F /* URLSchemesContentView.swift */,
 			);
 			path = Mine;
 			sourceTree = "<group>";
@@ -695,6 +698,7 @@
 				EFBE964C277D4F4800481170 /* ProfileTopicContentView.swift in Sources */,
 				EFD7EBE227951075004C1609 /* SpaceProfileContentView.swift in Sources */,
 				EF082E73278ED031002744EC /* PostListContentView.swift in Sources */,
+				EF5F0B1B279565E300A5D81F /* URLSchemesContentView.swift in Sources */,
 				EFD7EBEA27954618004C1609 /* LicenseContentView.swift in Sources */,
 				8143D173275C9DFB0036198D /* HomeContentView.swift in Sources */,
 				EFD7EBE827953FB1004C1609 /* UIApplication+Extension.swift in Sources */,
