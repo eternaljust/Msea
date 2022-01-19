@@ -154,7 +154,7 @@ struct SignListHeaderView: View {
 struct SignListModel: Identifiable {
     var id = UUID()
     var uid = ""
-    var no = "''"
+    var no = ""
     var name = ""
     var content = ""
     var time = ""

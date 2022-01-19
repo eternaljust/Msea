@@ -11,7 +11,6 @@ import Kanna
 
 /// 首页列表
 struct HomeContentView: View {
-    @State private var search = ""
     @State private var selectedViewTab = ViewTab.new
     @State private var navigationBarHidden = true
     @State private var isActive = false
@@ -33,8 +32,21 @@ struct HomeContentView: View {
                             .padding(.leading, 20)
                     }
 
-                    TextField("搜索", text: $search)
-                        .textFieldStyle(.roundedBorder)
+                    NavigationLink {
+                        SearchContentView()
+                    } label: {
+                        Label(title: {
+                            Text("站内搜索")
+                        }, icon: {
+                            Image(systemName: "magnifyingglass")
+                        })
+                            .frame(width: UIScreen.main.bounds.width - 80, height: 40, alignment: .leading)
+                            .padding(.leading, 5)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(.secondary, lineWidth: 1)
+                            )
+                    }
 
                     Spacer()
 

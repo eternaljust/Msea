@@ -176,7 +176,7 @@ struct SignDayListHeaderView: View {
 struct SignDayListModel: Identifiable {
     var id = UUID()
     var uid = ""
-    var no = "''"
+    var no = ""
     var name = ""
     var time = ""
     var bits = ""
