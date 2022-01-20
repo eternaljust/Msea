@@ -116,7 +116,10 @@ struct TopicListContentView: View {
                             topic.examine = examine
                         }
                         if let uid = element.at_xpath("//cite/a//@href", namespaces: nil)?.text {
-                            topic.uid = uid
+                            let uids = uid.components(separatedBy: "uid=")
+                            if uid.contains("uid"), uids.count == 2 {
+                                topic.uid = uids[1]
+                            }
                         }
                         if let id = element.at_xpath("//@id", namespaces: nil)?.text, let tid = id.components(separatedBy: "_").last {
                             topic.tid = tid

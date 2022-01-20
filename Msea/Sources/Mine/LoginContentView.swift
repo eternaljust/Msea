@@ -111,6 +111,7 @@ struct LoginContentView: View {
                     }
                     NotificationCenter.default.post(name: .login, object: nil, userInfo: nil)
                     hud.show(message: "欢迎您回来，\(UserInfo.shared.level) \(UserInfo.shared.name)")
+                    html.getFormhash()
                     dismiss()
                 }
             }

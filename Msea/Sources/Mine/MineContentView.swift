@@ -349,7 +349,6 @@ enum PostPlate: String, Identifiable {
 }
 
 enum PostNaviTab: String, CaseIterable, Identifiable {
-    case common
     case explore
     case workingfish
     case fulldry
@@ -359,8 +358,6 @@ enum PostNaviTab: String, CaseIterable, Identifiable {
     var id: String { self.rawValue }
     var title: String {
         switch self {
-        case .common:
-            return "常用模块"
         case .explore:
             return "探索"
         case .workingfish:
@@ -376,18 +373,6 @@ enum PostNaviTab: String, CaseIterable, Identifiable {
 
     var plates: [PostPlate] {
         switch self {
-        case .common:
-            return [
-                .feedback,
-                .create,
-                .resource,
-                .life,
-                .software,
-                .disappearforever,
-                .tips,
-                .workplace,
-                .blackboard
-            ]
         case .explore:
             return [
                 .keyword,

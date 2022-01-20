@@ -40,7 +40,7 @@ struct HomeContentView: View {
                         }, icon: {
                             Image(systemName: "magnifyingglass")
                         })
-                            .frame(width: UIScreen.main.bounds.width - 80, height: 40, alignment: .leading)
+                            .frame(width: UIScreen.main.bounds.width - 80, height: 34, alignment: .leading)
                             .padding(.leading, 5)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 10)

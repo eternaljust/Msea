@@ -68,7 +68,7 @@ struct CacheKeys {
 extension NSNotification.Name {
     static let login = Notification.Name("LoginNotification")
     static let logout = Notification.Name("LogoutNotification")
-    static let daysign = Notification.Name("LogoutNotification")
+    static let daysign = Notification.Name("DaysignNotification")
 }
 
 /// 常量

@@ -21,6 +21,8 @@
 		EF6211D52761D8FA00F833B4 /* ApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6211D42761D8FA00F833B4 /* ApplicationDelegate.swift */; };
 		EF6211D72761ECEA00F833B4 /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6211D62761ECEA00F833B4 /* Appearance.swift */; };
 		EF674C8E2797AA1B00432B6B /* SearchContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF674C8D2797AA1B00432B6B /* SearchContentView.swift */; };
+		EF6FDDBE27992A080087885C /* SearchPostConentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6FDDBD27992A080087885C /* SearchPostConentView.swift */; };
+		EF6FDDC027992A7B0087885C /* SearchUserContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6FDDBF27992A7B0087885C /* SearchUserContentView.swift */; };
 		EF70CDEA277AA1B20049D830 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF70CDE9277AA1B20049D830 /* WidgetKit.framework */; };
 		EF70CDEC277AA1B20049D830 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF70CDEB277AA1B20049D830 /* SwiftUI.framework */; };
 		EF70CDEF277AA1B20049D830 /* TopicWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70CDEE277AA1B20049D830 /* TopicWidget.swift */; };
@@ -126,6 +128,8 @@
 		EF6211D42761D8FA00F833B4 /* ApplicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationDelegate.swift; sourceTree = "<group>"; };
 		EF6211D62761ECEA00F833B4 /* Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
 		EF674C8D2797AA1B00432B6B /* SearchContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchContentView.swift; sourceTree = "<group>"; };
+		EF6FDDBD27992A080087885C /* SearchPostConentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPostConentView.swift; sourceTree = "<group>"; };
+		EF6FDDBF27992A7B0087885C /* SearchUserContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserContentView.swift; sourceTree = "<group>"; };
 		EF70CDE8277AA1B20049D830 /* TopicWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TopicWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF70CDE9277AA1B20049D830 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		EF70CDEB277AA1B20049D830 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -230,6 +234,8 @@
 			children = (
 				8143D172275C9DFA0036198D /* HomeContentView.swift */,
 				EF674C8D2797AA1B00432B6B /* SearchContentView.swift */,
+				EF6FDDBD27992A080087885C /* SearchPostConentView.swift */,
+				EF6FDDBF27992A7B0087885C /* SearchUserContentView.swift */,
 				8180BB32275B78870055E1F5 /* TopicListContentView.swift */,
 				EF80EFA52786D9EB00CE1EE1 /* TopicDetailContentView.swift */,
 				EFF883C6278FBE2700A14CC7 /* MyPostContentView.swift */,
@@ -707,11 +713,13 @@
 				EF80EF9B2786B8E800CE1EE1 /* Web.swift in Sources */,
 				EFBE964C277D4F4800481170 /* ProfileTopicContentView.swift in Sources */,
 				EFD7EBE227951075004C1609 /* SpaceProfileContentView.swift in Sources */,
+				EF6FDDBE27992A080087885C /* SearchPostConentView.swift in Sources */,
 				EF674C8E2797AA1B00432B6B /* SearchContentView.swift in Sources */,
 				EF082E73278ED031002744EC /* PostListContentView.swift in Sources */,
 				EF5F0B1B279565E300A5D81F /* URLSchemesContentView.swift in Sources */,
 				EFD7EBEA27954618004C1609 /* LicenseContentView.swift in Sources */,
 				8143D173275C9DFB0036198D /* HomeContentView.swift in Sources */,
+				EF6FDDC027992A7B0087885C /* SearchUserContentView.swift in Sources */,
 				EFD7EBE827953FB1004C1609 /* UIApplication+Extension.swift in Sources */,
 				EFBC2DAF2796A005008D31EF /* Email.swift in Sources */,
 				EF082EF3275F4B1C00056BCA /* SignDayListContentView.swift in Sources */,
