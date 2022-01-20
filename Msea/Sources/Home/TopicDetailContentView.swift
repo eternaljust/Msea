@@ -30,6 +30,12 @@ struct TopicDetailContentView: View {
     @State private var replyAction = ""
     @FocusState private var replyFocused: Bool
 
+    @State private var uid = ""
+    @State private var isSpace = false
+    @State private var newTid = ""
+    @State private var isViewthread = false
+    @State private var webURLItem: WebURLItem?
+
     var body: some View {
         ZStack {
             VStack {
@@ -80,18 +86,22 @@ struct TopicDetailContentView: View {
                                                 comments = [model]
                                             }
                                         }
+                                    }, decisionHandler: { url in
+                                        if let url = url {
+                                            handler(url: url)
+                                        }
                                     })
                                         .frame(height: comment.webViewHeight)
                                 }
                             }
-                            .contentShape(Rectangle())
-                            .onTapGesture {
-                                replyName = comment.name
-                                replyAction = comment.reply
-                                focused = false
-                                isReply = true
-                                replyFocused.toggle()
-                            }
+//                            .contentShape(Rectangle())
+//                            .onTapGesture {
+//                                replyName = comment.name
+//                                replyAction = comment.reply
+//                                focused = false
+//                                isReply = true
+//                                replyFocused.toggle()
+//                            }
                         }
                     } header: {
                         TopicDetailHeaderView(title: title, commentCount: commentCount)
@@ -180,6 +190,16 @@ struct TopicDetailContentView: View {
                     .frame(height: 100)
                     .isHidden(!isReply)
                 }
+
+                NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isSpace) {
+                    EmptyView()
+                }
+                .opacity(0.0)
+
+                NavigationLink(destination: TopicDetailContentView(tid: newTid), isActive: $isViewthread) {
+                    EmptyView()
+                }
+                .opacity(0.0)
             }
             .keyboardAdaptive()
 
@@ -194,6 +214,9 @@ struct TopicDetailContentView: View {
         .sheet(isPresented: $needLogin) {
             LoginContentView()
         }
+        .sheet(item: $webURLItem, content: { item in
+            Safari(url: URL(string: item.url))
+        })
     }
 
     private func loadData() async {
@@ -375,6 +398,48 @@ struct TopicDetailContentView: View {
             }
         }
     }
+
+    private func handler(url: URL) {
+        var absoluteString = url.absoluteString
+        if absoluteString.contains("uid=") && !absoluteString.hasPrefix("http") {
+            absoluteString = "https://www.chongbuluo.com/" + absoluteString
+        }
+        if absoluteString.contains("chongbuluo"), absoluteString.contains("thread") || absoluteString.contains("uid=") {
+            print(absoluteString)
+            if absoluteString.contains("uid=") {
+                let uids = absoluteString.components(separatedBy: "uid=")
+                if uids.count == 2 {
+                    uid = uids[1]
+                    isSpace.toggle()
+                }
+            } else {
+                if absoluteString.contains("&tid=") {
+                    let list = absoluteString.components(separatedBy: "&")
+                    var tid = ""
+                    list.forEach { text in
+                        if text.hasPrefix("tid=") {
+                            tid = text
+                        }
+                    }
+                    let tids = tid.components(separatedBy: "=")
+                    if tids.count == 2 {
+                        newTid = tids[1]
+                        isViewthread.toggle()
+                    }
+                } else if absoluteString.contains("thread-") {
+                    let tids = absoluteString.components(separatedBy: "thread-")
+                    if tids.count == 2 {
+                        newTid = tids[1].components(separatedBy: "-")[0]
+                        isViewthread.toggle()
+                    }
+                }
+            }
+        } else if url.absoluteString.hasPrefix("mailto:") {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        } else {
+            webURLItem = WebURLItem(url: absoluteString)
+        }
+    }
 }
 
 struct TopicDetailHeaderView: View {
@@ -407,4 +472,9 @@ struct TopicCommentModel: Identifiable {
     var content = ""
     var isText = true
     var webViewHeight: CGFloat = .zero
+}
+
+struct WebURLItem: Identifiable {
+    var id = UUID()
+    var url = ""
 }

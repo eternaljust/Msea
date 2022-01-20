@@ -15,6 +15,7 @@ struct Web: UIViewRepresentable {
     var url: URL?
     var bodyHTMLString: String?
     var didFinish: ((_ scrollHeight: CGFloat) -> Void)?
+    var decisionHandler: ((_ url: URL?) -> Void)?
 
     typealias UIViewType = WKWebView
 
@@ -66,6 +67,13 @@ struct Web: UIViewRepresentable {
         }
 
         func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        }
+
+        func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+            decisionHandler(.allow)
+            if let hander = self.parent.decisionHandler, let url = navigationAction.request.url, !url.absoluteString.contains("about:blank") {
+                hander(url)
+            }
         }
     }
 }

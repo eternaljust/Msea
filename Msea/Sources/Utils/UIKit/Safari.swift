@@ -15,16 +15,17 @@ struct Safari: UIViewControllerRepresentable {
     typealias UIViewControllerType = SFSafariViewController
 
     func makeUIViewController(context: Context) -> SFSafariViewController {
-        if let url = url {
+        if let url = url, url.absoluteString.hasPrefix("http") {
             return SFSafariViewController(url: url)
         } else {
             // swiftlint:disable force_unwrapping
-            return SFSafariViewController(url: URL(string: "https://github.com/")!)
+            return SFSafariViewController(url: URL(string: "https://www.chongbuluo.com/")!)
             // swiftlint:enable force_unwrapping
         }
     }
 
     func updateUIViewController(_ uiViewController: SFSafariViewController, context: Context) {
+        uiViewController.preferredControlTintColor = .theme
     }
 }
 
