@@ -53,6 +53,12 @@ struct TopicDetailContentView: View {
                                         }
                                         .frame(width: 40, height: 40)
                                         .cornerRadius(5)
+                                        .onTapGesture {
+                                            if !comment.uid.isEmpty {
+                                                uid = comment.uid
+                                                isSpace.toggle()
+                                            }
+                                        }
 
                                         VStack(alignment: .leading) {
                                             Text(comment.name)
@@ -270,6 +276,12 @@ struct TopicDetailContentView: View {
                 var list = [TopicCommentModel]()
                 node.forEach { element in
                     var comment = TopicCommentModel()
+                    if let url = element.at_xpath("//div[@class='imicn']/a/@href", namespaces: nil)?.text {
+                        let uid = getUid(url: url)
+                        if !uid.isEmpty {
+                            comment.uid = uid
+                        }
+                    }
                     if let avatar = element.at_xpath("//div[@class='avatar']//img/@src", namespaces: nil)?.text {
                         comment.avatar = avatar
                     }
@@ -283,7 +295,6 @@ struct TopicDetailContentView: View {
                     a.forEach { ele in
                         if let text = ele.text, text.contains("回复") {
                             if let reply = ele.at_xpath("/@href", namespaces: nil)?.text {
-                                print(reply)
                                 comment.reply = reply
                             }
                         }
@@ -341,7 +352,6 @@ struct TopicDetailContentView: View {
             // swiftlint:disable force_unwrapping
             let parames = "&formhash=\(UserInfo.shared.formhash)&message=\(message)&posttime=\(time)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
             let url = URL(string: "https://www.chongbuluo.com/\(action)\(parames)")!
-            print(url.absoluteString)
             // swiftlint:enble force_unwrapping
             var requset = URLRequest(url: url)
             requset.httpMethod = "POST"
@@ -369,7 +379,6 @@ struct TopicDetailContentView: View {
         Task {
             // swiftlint:disable force_unwrapping
             let url = URL(string: "https://www.chongbuluo.com/\(replyAction)")!
-            print(url.absoluteString)
             // swiftlint:enble force_unwrapping
             var requset = URLRequest(url: url)
             requset.httpMethod = "POST"
@@ -430,12 +439,12 @@ struct TopicDetailContentView: View {
         if absoluteString.contains("uid=") && !absoluteString.hasPrefix("http") {
             absoluteString = "https://www.chongbuluo.com/" + absoluteString
         }
+        print(absoluteString)
         if absoluteString.contains("chongbuluo"), absoluteString.contains("thread") || absoluteString.contains("uid=") {
-            print(absoluteString)
             if absoluteString.contains("uid=") {
-                let uids = absoluteString.components(separatedBy: "uid=")
-                if uids.count == 2 {
-                    uid = uids[1]
+                let uid = getUid(url: absoluteString)
+                if !uid.isEmpty {
+                    self.uid = uid
                     isSpace.toggle()
                 }
             } else {
@@ -484,6 +493,24 @@ struct TopicDetailContentView: View {
             let pids = pid.components(separatedBy: "=")
             if pids.count == 2 {
                 return pids[1]
+            }
+            return ""
+        }
+        return ""
+    }
+
+    private func getUid(url: String) -> String {
+        if url.contains("&uid=") {
+            let list = url.components(separatedBy: "&")
+            var uid = ""
+            list.forEach { text in
+                if text.hasPrefix("uid=") {
+                    uid = text
+                }
+            }
+            let uids = uid.components(separatedBy: "=")
+            if uids.count == 2 {
+                return uids[1]
             }
             return ""
         }

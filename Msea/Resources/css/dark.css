@@ -7,6 +7,6 @@ body {
     background-color: #000;
 }
 
-div.quote {
+div.quote, div.rsld {
     background-color: #1c1c1e;
 }
