@@ -35,95 +35,108 @@ struct TopicDetailContentView: View {
     @State private var newTid = ""
     @State private var isViewthread = false
     @State private var webURLItem: WebURLItem?
+    @State private var pid = ""
 
     var body: some View {
         ZStack {
             VStack {
-                List {
-                    Section {
-                        ForEach(comments, id: \.id) { comment in
-                            VStack(alignment: .leading) {
-                                HStack {
-                                    AsyncImage(url: URL(string: comment.avatar)) { image in
-                                        image.resizable()
-                                    } placeholder: {
-                                        ProgressView()
-                                    }
-                                    .frame(width: 40, height: 40)
-                                    .cornerRadius(5)
+                ScrollViewReader { proxy in
+                    List {
+                        Section {
+                            ForEach(comments) { comment in
+                                VStack(alignment: .leading) {
+                                    HStack {
+                                        AsyncImage(url: URL(string: comment.avatar)) { image in
+                                            image.resizable()
+                                        } placeholder: {
+                                            ProgressView()
+                                        }
+                                        .frame(width: 40, height: 40)
+                                        .cornerRadius(5)
 
-                                    VStack(alignment: .leading) {
-                                        Text(comment.name)
-                                            .font(.headline)
-                                        Text(comment.time)
-                                            .font(.footnote)
+                                        VStack(alignment: .leading) {
+                                            Text(comment.name)
+                                                .font(.headline)
+                                            Text(comment.time)
+                                                .font(.footnote)
+                                        }
                                     }
-                                }
-                                .onAppear {
-                                    if comment.id == comments.last?.id {
-                                        if nextPage {
-                                            page += 1
-                                            Task {
-                                                await loadData()
+                                    .onAppear {
+                                        if comment.id == comments.last?.id {
+                                            if nextPage {
+                                                page += 1
+                                                Task {
+                                                    await loadData()
+                                                }
                                             }
                                         }
                                     }
-                                }
 
-                                if comment.isText {
-                                    Text(comment.content)
-                                        .font(.font14)
-                                        .multilineTextAlignment(.leading)
-                                } else {
-                                    Web(bodyHTMLString: comment.content, didFinish: { scrollHeight in
-                                        if comment.webViewHeight == .zero, let index = comments.firstIndex(where: { obj in obj.id == comment.id }) {
-                                            var model = comment
-                                            model.webViewHeight = scrollHeight
-                                            model.id = UUID()
-                                            if index < comments.count, comments.count != 1 {
-                                                comments.replaceSubrange(index..<(index + 1), with: [model])
-                                            } else {
-                                                comments = [model]
+                                    if comment.isText {
+                                        Text(comment.content)
+                                            .font(.font14)
+                                            .multilineTextAlignment(.leading)
+                                    } else {
+                                        Web(bodyHTMLString: comment.content, didFinish: { scrollHeight in
+                                            if comment.webViewHeight == .zero, let index = comments.firstIndex(where: { obj in obj.id == comment.id }) {
+                                                var model = comment
+                                                model.webViewHeight = scrollHeight
+                                                model.id = UUID()
+                                                if index < comments.count, comments.count != 1 {
+                                                    comments.replaceSubrange(index..<(index + 1), with: [model])
+                                                } else {
+                                                    comments = [model]
+                                                }
                                             }
-                                        }
-                                    }, decisionHandler: { url in
-                                        if let url = url {
-                                            handler(url: url)
-                                        }
-                                    })
-                                        .frame(height: comment.webViewHeight)
+                                        }, decisionHandler: { url in
+                                            if let url = url {
+                                                handler(url: url)
+                                            }
+                                        })
+                                            .frame(height: comment.webViewHeight)
+                                    }
+                                }
+                                .id(comment.pid)
+                                .swipeActions {
+                                    Button("回复") {
+                                        replyName = comment.name
+                                        replyAction = comment.reply
+                                        focused = false
+                                        isReply = true
+                                        replyFocused.toggle()
+                                    }
                                 }
                             }
-//                            .contentShape(Rectangle())
-//                            .onTapGesture {
-//                                replyName = comment.name
-//                                replyAction = comment.reply
-//                                focused = false
-//                                isReply = true
-//                                replyFocused.toggle()
-//                            }
+                        } header: {
+                            TopicDetailHeaderView(title: title, commentCount: commentCount)
+                                .onTapGesture {
+                                    UIPasteboard.general.string = tid
+                                    hud.show(message: "已复制 tid")
+                                }
                         }
-                    } header: {
-                        TopicDetailHeaderView(title: title, commentCount: commentCount)
-                            .onTapGesture {
-                                UIPasteboard.general.string = tid
-                                hud.show(message: "已复制 tid")
-                            }
                     }
-                }
-                .simultaneousGesture(DragGesture().onChanged({ _ in
-                    focused = false
-                    isReply = false
-                    replyFocused = false
-                }))
-                .listStyle(.plain)
-                .refreshable {
-                    page = 1
-                    await loadData()
-                }
-                .task {
-                    if !isHidden {
+//                    .simultaneousGesture(DragGesture().onChanged({ _ in
+//                        focused = false
+//                        isReply = false
+//                        replyFocused = false
+//                    }))
+                    .listStyle(.plain)
+                    .refreshable {
+                        page = 1
                         await loadData()
+                    }
+                    .task {
+                        if !isHidden {
+                            await loadData()
+                        }
+                    }
+                    .onOpenURL { url in
+                        if let query = url.query, query.contains("pid=") {
+                            let pid = query.components(separatedBy: "=")[1]
+                            if Int(pid) != nil {
+                                proxy.scrollTo(pid, anchor: .top)
+                            }
+                        }
                     }
                 }
 
@@ -131,15 +144,25 @@ struct TopicDetailContentView: View {
 
                 ZStack {
                     HStack {
-                        TextEditor(text: $inputComment)
-                            .multilineTextAlignment(.leading)
-                            .font(.font12)
-                            .focused($focused)
-                            .onChange(of: inputComment) { newValue in
-                                print(newValue)
+                        ZStack(alignment: .leading) {
+                            TextEditor(text: $inputComment)
+                                .multilineTextAlignment(.leading)
+                                .font(.font12)
+                                .focused($focused)
+                                .onChange(of: inputComment) { newValue in
+                                    print(newValue)
+                                }
+                                .border(Color.theme)
+                                .padding(EdgeInsets(top: 0, leading: 10, bottom: 20, trailing: 0))
+
+                            if inputComment.isEmpty {
+                                Text("输入内容")
+                                    .multilineTextAlignment(.leading)
+                                    .font(.font12)
+                                    .foregroundColor(.secondary)
+                                    .padding(EdgeInsets(top: 0, leading: 16, bottom: 30, trailing: 0))
                             }
-                            .border(Color.theme)
-                            .padding(EdgeInsets(top: 0, leading: 10, bottom: 20, trailing: 0))
+                        }
 
                         Spacer()
 
@@ -187,7 +210,7 @@ struct TopicDetailContentView: View {
                                 .padding(.trailing, 10)
                         }
                     }
-                    .frame(height: 100)
+                    .frame(width: UIScreen.main.bounds.width - 20, height: 100)
                     .isHidden(!isReply)
                 }
 
@@ -273,6 +296,9 @@ struct TopicDetailContentView: View {
                         table = element.at_xpath("//div[@class='pcbs']", namespaces: nil)
                     }
                     if let content = table?.toHTML {
+                        if let id = table?.at_xpath("//td/@id", namespaces: nil)?.text, id.contains("_") {
+                            comment.pid = id.components(separatedBy: "_")[1]
+                        }
                         comment.content = content
                         if content.contains("font") || content.contains("strong") || content.contains("color") || content.contains("quote") || content.contains("</a>") {
                             comment.isText = false
@@ -434,11 +460,34 @@ struct TopicDetailContentView: View {
                     }
                 }
             }
-        } else if url.absoluteString.hasPrefix("mailto:") {
+        } else if absoluteString.hasPrefix("mailto:") {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        } else if absoluteString.contains("&pid=") {
+            let pid = getPid(url: absoluteString)
+            if !pid.isEmpty {
+                UIApplication.shared.open(URL(string: "msea://post?pid=\(pid)")!, options: [:], completionHandler: nil)
+            }
         } else {
             webURLItem = WebURLItem(url: absoluteString)
         }
+    }
+
+    private func getPid(url: String) -> String {
+        if url.contains("&pid=") {
+            let list = url.components(separatedBy: "&")
+            var pid = ""
+            list.forEach { text in
+                if text.hasPrefix("pid=") {
+                    pid = text
+                }
+            }
+            let pids = pid.components(separatedBy: "=")
+            if pids.count == 2 {
+                return pids[1]
+            }
+            return ""
+        }
+        return ""
     }
 }
 
@@ -464,6 +513,7 @@ struct TopicDetailContentView_Previews: PreviewProvider {
 struct TopicCommentModel: Identifiable {
     var id = UUID()
     var uid = ""
+    var pid = ""
     var reply = ""
     var name = ""
     var avatar = ""

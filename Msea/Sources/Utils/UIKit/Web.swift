@@ -28,6 +28,7 @@ struct Web: UIViewRepresentable {
         webView.backgroundColor = .clear
         webView.scrollView.backgroundColor = .clear
         webView.navigationDelegate = context.coordinator
+//        webView.allowsLinkPreview = false
 
         return webView
     }
@@ -70,9 +71,11 @@ struct Web: UIViewRepresentable {
         }
 
         func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-            decisionHandler(.allow)
             if let hander = self.parent.decisionHandler, let url = navigationAction.request.url, !url.absoluteString.contains("about:blank") {
+                decisionHandler(.cancel)
                 hander(url)
+            } else {
+                decisionHandler(.allow)
             }
         }
     }

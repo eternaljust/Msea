@@ -3,6 +3,8 @@ a:link, a:visited, a:hover, a:active {
     color: #28c962;
     text-decoration: none;
     word-break: break-all;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
 }
 
 img {
