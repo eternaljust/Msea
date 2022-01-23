@@ -64,7 +64,9 @@ struct PublishPostContentView: View {
             await loadData()
         }
         .onAppear {
-            TabBarTool.showTabBar(false)
+            if !UIDevice.current.isPad {
+                TabBarTool.showTabBar(false)
+            }
         }
     }
 

@@ -121,11 +121,11 @@ struct TopicDetailContentView: View {
                                 }
                         }
                     }
-//                    .simultaneousGesture(DragGesture().onChanged({ _ in
-//                        focused = false
-//                        isReply = false
-//                        replyFocused = false
-//                    }))
+                    //                    .simultaneousGesture(DragGesture().onChanged({ _ in
+                    //                        focused = false
+                    //                        isReply = false
+                    //                        replyFocused = false
+                    //                    }))
                     .listStyle(.plain)
                     .refreshable {
                         page = 1
@@ -145,8 +145,6 @@ struct TopicDetailContentView: View {
                         }
                     }
                 }
-
-                Spacer()
 
                 ZStack {
                     HStack {
@@ -181,8 +179,8 @@ struct TopicDetailContentView: View {
                                 }
                             }
                         }
-                            .offset(x: 0, y: -10)
-                            .padding(.trailing, 10)
+                        .offset(x: 0, y: -10)
+                        .padding(.trailing, 10)
                     }
                     .frame(height: 60)
                     .isHidden(isReply)
@@ -212,13 +210,14 @@ struct TopicDetailContentView: View {
                                     }
                                 }
                             }
-                                .offset(x: 0, y: -10)
-                                .padding(.trailing, 10)
+                            .offset(x: 0, y: -10)
+                            .padding(.trailing, 10)
                         }
                     }
-                    .frame(width: UIScreen.main.bounds.width - 20, height: 100)
+                    .frame(maxWidth: UIScreen.main.bounds.width - 20)
                     .isHidden(!isReply)
                 }
+                .frame(height: 65)
 
                 NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isSpace) {
                     EmptyView()
@@ -230,15 +229,17 @@ struct TopicDetailContentView: View {
                 }
                 .opacity(0.0)
             }
-            .keyboardAdaptive()
 
             ProgressView()
                 .isHidden(isHidden)
         }
-        .edgesIgnoringSafeArea([.bottom])
+        .keyboardAdaptive()
+        .edgesIgnoringSafeArea(UIDevice.current.isPad ? [] : [.bottom])
         .navigationTitle("帖子详情")
         .onAppear {
-            TabBarTool.showTabBar(false)
+            if !UIDevice.current.isPad {
+                TabBarTool.showTabBar(false)
+            }
         }
         .sheet(isPresented: $needLogin) {
             LoginContentView()

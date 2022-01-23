@@ -96,7 +96,9 @@ struct SettingContentView: View {
                     itemSections.append(SettingSection(items: [.logout]))
                 }
             }
-            TabBarTool.showTabBar(false)
+            if !UIDevice.current.isPad {
+                TabBarTool.showTabBar(false)
+            }
         }
         .sheet(isPresented: $isShowingMail) {
             Email(isShowing: $isShowingMail)

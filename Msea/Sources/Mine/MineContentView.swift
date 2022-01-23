@@ -130,7 +130,7 @@ struct MineContentView: View {
                         }
                     }
                 }
-                .frame(width: 300, height: 200)
+                .frame(width: UIDevice.current.isPad ? 260 : 300, height: 200)
             }
             .navigationTitle("我的")
             .navigationBarTitleDisplayMode(.inline)

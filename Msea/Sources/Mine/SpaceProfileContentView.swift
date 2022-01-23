@@ -69,14 +69,16 @@ struct SpaceProfileContentView: View {
             }
             .tabViewStyle(.page)
             .indexViewStyle(.page(backgroundDisplayMode: .never))
-            .ignoresSafeArea()
+            .edgesIgnoringSafeArea(UIDevice.current.isPad ? [] : [.bottom])
         }
         .navigationTitle("个人空间")
         .onAppear(perform: {
             Task {
                 await loadData()
             }
-            TabBarTool.showTabBar(false)
+            if !UIDevice.current.isPad {
+                TabBarTool.showTabBar(false)
+            }
         })
     }
 

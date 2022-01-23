@@ -46,7 +46,7 @@ struct SearchContentView: View {
             }
             .tabViewStyle(.page)
             .indexViewStyle(.page(backgroundDisplayMode: .never))
-            .ignoresSafeArea()
+            .edgesIgnoringSafeArea(UIDevice.current.isPad ? [] : [.bottom])
         }
         .toolbar(content: {
             ToolbarItem(placement: .principal) {
@@ -79,7 +79,9 @@ struct SearchContentView: View {
         .navigationBarBackButtonHidden(true)
         .navigationBarTitle("站内搜索")
         .onAppear {
-            TabBarTool.showTabBar(false)
+            if !UIDevice.current.isPad {
+                TabBarTool.showTabBar(false)
+            }
         }
         .sheet(isPresented: $needLogin) {
             LoginContentView()

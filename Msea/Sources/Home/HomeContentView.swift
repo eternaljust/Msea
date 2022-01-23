@@ -40,7 +40,7 @@ struct HomeContentView: View {
                         }, icon: {
                             Image(systemName: "magnifyingglass")
                         })
-                            .frame(width: UIScreen.main.bounds.width - 80, height: 34, alignment: .leading)
+                            .frame(maxWidth: UIScreen.main.bounds.width - 80, minHeight: 34)
                             .padding(.leading, 5)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 10)
@@ -63,6 +63,7 @@ struct HomeContentView: View {
                         .padding(.trailing, 10)
                     }
                 }
+                .frame(height: 40)
 
                 Picker("ViewTab", selection: $selectedViewTab) {
                     ForEach(ViewTab.allCases) { view in

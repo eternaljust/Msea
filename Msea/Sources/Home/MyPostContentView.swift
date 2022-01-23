@@ -30,11 +30,13 @@ struct MyPostContentView: View {
             }
             .tabViewStyle(.page)
             .indexViewStyle(.page(backgroundDisplayMode: .never))
-            .ignoresSafeArea()
+            .edgesIgnoringSafeArea(UIDevice.current.isPad ? [] : [.bottom])
         }
         .navigationTitle("我的帖子")
         .onAppear {
-            TabBarTool.showTabBar(false)
+            if !UIDevice.current.isPad {
+                TabBarTool.showTabBar(false)
+            }
         }
     }
 }

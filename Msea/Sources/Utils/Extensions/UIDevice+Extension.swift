@@ -9,6 +9,10 @@
 import SwiftUI
 
 extension UIDevice {
+    var isPad: Bool {
+        return userInterfaceIdiom == .pad
+    }
+
     var modelIdentifier: String {
         if let simulatorModelIdentifier = ProcessInfo().environment["SIMULATOR_MODEL_IDENTIFIER"] { return simulatorModelIdentifier }
         var sysinfo = utsname()

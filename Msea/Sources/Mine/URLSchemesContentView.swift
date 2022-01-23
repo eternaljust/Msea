@@ -29,7 +29,9 @@ struct URLSchemesContentView: View {
         }
         .navigationTitle("URL Schemes")
         .onAppear {
-            TabBarTool.showTabBar(false)
+            if !UIDevice.current.isPad {
+                TabBarTool.showTabBar(false)
+            }
         }
     }
 }

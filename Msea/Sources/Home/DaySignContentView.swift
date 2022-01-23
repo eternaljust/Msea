@@ -113,7 +113,7 @@ struct DaySignContentView: View {
                 }
                 .tabViewStyle(.page)
                 .indexViewStyle(.page(backgroundDisplayMode: .never))
-                .ignoresSafeArea()
+                .edgesIgnoringSafeArea(UIDevice.current.isPad ? [] : [.bottom])
             }
             .navigationTitle("签到")
             .task {
@@ -174,7 +174,9 @@ struct DaySignContentView: View {
             LoginContentView()
         }
         .onAppear {
-            TabBarTool.showTabBar(false)
+            if !UIDevice.current.isPad {
+                TabBarTool.showTabBar(false)
+            }
         }
         .onReceive(NotificationCenter.default.publisher(for: .login, object: nil)) { _ in
             reloadData()
