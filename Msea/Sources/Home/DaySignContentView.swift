@@ -111,8 +111,7 @@ struct DaySignContentView: View {
                         }
                     }
                 }
-                .tabViewStyle(.page)
-                .indexViewStyle(.page(backgroundDisplayMode: .never))
+                .tabViewStyle(.page(indexDisplayMode: .never))
                 .edgesIgnoringSafeArea(UIDevice.current.isPad ? [] : [.bottom])
             }
             .navigationTitle("签到")

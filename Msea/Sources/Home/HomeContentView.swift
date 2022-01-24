@@ -50,8 +50,9 @@ struct HomeContentView: View {
 
                     Spacer()
 
-                    NavigationLink {
-                        MyPostContentView()
+                    Button {
+                        CacheInfo.shared.selectedTab = .notice
+                        selection.index = .notice
                     } label: {
                         Label {
                            Text(notice)
@@ -80,8 +81,15 @@ struct HomeContentView: View {
                             .tag(view)
                     }
                 }
-                .tabViewStyle(.page)
-                .indexViewStyle(.page(backgroundDisplayMode: .never))
+                .tabViewStyle(.page(indexDisplayMode: .never))
+                .onAppear {
+                    navigationBarHidden = true
+                    TabBarTool.showTabBar(true)
+                    CacheInfo.shared.selectedTab = .home
+                }
+                .onDisappear {
+                    navigationBarHidden = false
+                }
 
                 NavigationLink(destination: TopicDetailContentView(tid: tid), isActive: $isViewthread) {
                     EmptyView()
@@ -93,17 +101,9 @@ struct HomeContentView: View {
                 }
                 .opacity(0.0)
             }
-            .navigationTitle("")
+            .navigationTitle("首页")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarHidden(navigationBarHidden)
-            .onAppear {
-                navigationBarHidden = true
-                TabBarTool.showTabBar(true)
-                CacheInfo.shared.selectedTab = .home
-            }
-            .onDisappear {
-                navigationBarHidden = false
-            }
             .onReceive(NotificationCenter.default.publisher(for: .daysign, object: nil)) { _ in
                 goDaysign()
             }
@@ -112,6 +112,8 @@ struct HomeContentView: View {
                     await checkNotice()
                 }
             }
+
+            Text("选择你感兴趣的帖子吧")
         }
         .onOpenURL { url in
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {

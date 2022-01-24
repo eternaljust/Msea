@@ -16,6 +16,10 @@
 		EF082EEF275F3ACB00056BCA /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF082EEE275F3ACB00056BCA /* UINavigationController+Extension.swift */; };
 		EF082EF1275F4AC400056BCA /* SignListContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF082EF0275F4AC400056BCA /* SignListContentView.swift */; };
 		EF082EF3275F4B1C00056BCA /* SignDayListContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF082EF2275F4B1C00056BCA /* SignDayListContentView.swift */; };
+		EF32F85C279E45B700846E95 /* NoticeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF32F85B279E45B700846E95 /* NoticeContentView.swift */; };
+		EF32F85E279E49AF00846E95 /* InteractiveContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF32F85D279E49AF00846E95 /* InteractiveContentView.swift */; };
+		EF32F860279E49E500846E95 /* SystemContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF32F85F279E49E500846E95 /* SystemContentView.swift */; };
+		EF32F862279E49F500846E95 /* AppContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF32F861279E49F500846E95 /* AppContentView.swift */; };
 		EF55F4C9275A0B0500B78C95 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF55F4C8275A0B0500B78C95 /* View+Extension.swift */; };
 		EF5F0B1B279565E300A5D81F /* URLSchemesContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5F0B1A279565E300A5D81F /* URLSchemesContentView.swift */; };
 		EF6211D52761D8FA00F833B4 /* ApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6211D42761D8FA00F833B4 /* ApplicationDelegate.swift */; };
@@ -123,6 +127,10 @@
 		EF082EEE275F3ACB00056BCA /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
 		EF082EF0275F4AC400056BCA /* SignListContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignListContentView.swift; sourceTree = "<group>"; };
 		EF082EF2275F4B1C00056BCA /* SignDayListContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignDayListContentView.swift; sourceTree = "<group>"; };
+		EF32F85B279E45B700846E95 /* NoticeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeContentView.swift; sourceTree = "<group>"; };
+		EF32F85D279E49AF00846E95 /* InteractiveContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveContentView.swift; sourceTree = "<group>"; };
+		EF32F85F279E49E500846E95 /* SystemContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemContentView.swift; sourceTree = "<group>"; };
+		EF32F861279E49F500846E95 /* AppContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContentView.swift; sourceTree = "<group>"; };
 		EF55F4C8275A0B0500B78C95 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		EF5F0B1A279565E300A5D81F /* URLSchemesContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSchemesContentView.swift; sourceTree = "<group>"; };
 		EF6211D42761D8FA00F833B4 /* ApplicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationDelegate.swift; sourceTree = "<group>"; };
@@ -238,8 +246,6 @@
 				EF6FDDBF27992A7B0087885C /* SearchUserContentView.swift */,
 				8180BB32275B78870055E1F5 /* TopicListContentView.swift */,
 				EF80EFA52786D9EB00CE1EE1 /* TopicDetailContentView.swift */,
-				EFF883C6278FBE2700A14CC7 /* MyPostContentView.swift */,
-				EF082E72278ED031002744EC /* PostListContentView.swift */,
 				EF082EEA275EF85900056BCA /* DaySignContentView.swift */,
 				EF082EF0275F4AC400056BCA /* SignListContentView.swift */,
 				EF082EF2275F4B1C00056BCA /* SignDayListContentView.swift */,
@@ -293,10 +299,24 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		EF32F85A279E457900846E95 /* Notice */ = {
+			isa = PBXGroup;
+			children = (
+				EF32F85B279E45B700846E95 /* NoticeContentView.swift */,
+				EFF883C6278FBE2700A14CC7 /* MyPostContentView.swift */,
+				EF082E72278ED031002744EC /* PostListContentView.swift */,
+				EF32F85D279E49AF00846E95 /* InteractiveContentView.swift */,
+				EF32F85F279E49E500846E95 /* SystemContentView.swift */,
+				EF32F861279E49F500846E95 /* AppContentView.swift */,
+			);
+			path = Notice;
+			sourceTree = "<group>";
+		};
 		EF55F4C5275A0AA700B78C95 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				8180BB31275B78440055E1F5 /* Home */,
+				EF32F85A279E457900846E95 /* Notice */,
 				8143D16F275C8F280036198D /* Mine */,
 				EF2E32782759F75D005151DE /* App */,
 				EF55F4C6275A0AC400B78C95 /* Utils */,
@@ -719,11 +739,14 @@
 				EF5F0B1B279565E300A5D81F /* URLSchemesContentView.swift in Sources */,
 				EFD7EBEA27954618004C1609 /* LicenseContentView.swift in Sources */,
 				8143D173275C9DFB0036198D /* HomeContentView.swift in Sources */,
+				EF32F860279E49E500846E95 /* SystemContentView.swift in Sources */,
 				EF6FDDC027992A7B0087885C /* SearchUserContentView.swift in Sources */,
 				EFD7EBE827953FB1004C1609 /* UIApplication+Extension.swift in Sources */,
 				EFBC2DAF2796A005008D31EF /* Email.swift in Sources */,
 				EF082EF3275F4B1C00056BCA /* SignDayListContentView.swift in Sources */,
 				EFF883C7278FBE2700A14CC7 /* MyPostContentView.swift in Sources */,
+				EF32F85C279E45B700846E95 /* NoticeContentView.swift in Sources */,
+				EF32F862279E49F500846E95 /* AppContentView.swift in Sources */,
 				8143D171275C8F5D0036198D /* MineContentView.swift in Sources */,
 				EF082EEB275EF85900056BCA /* DaySignContentView.swift in Sources */,
 				EF8A7A2B2766F3950092E53C /* Constants.swift in Sources */,
@@ -735,6 +758,7 @@
 				EFB4314D27608B3A00319073 /* Font+Extension.swift in Sources */,
 				EF082EED275F0C6A00056BCA /* Color+Extension.swift in Sources */,
 				EF082EEF275F3ACB00056BCA /* UINavigationController+Extension.swift in Sources */,
+				EF32F85E279E49AF00846E95 /* InteractiveContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -994,10 +1018,10 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Msea/Supporting Files/Info.plist";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1027,10 +1051,10 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Msea/Supporting Files/Info.plist";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (

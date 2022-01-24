@@ -62,6 +62,13 @@ final class FSAppDelegate: NSObject, UIApplicationDelegate {
         }
         return sceneConfig
     }
+
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        if UIDevice.current.isPad {
+            return .all
+        }
+        return .portrait
+    }
 }
 
 extension FSAppDelegate: UNUserNotificationCenterDelegate {

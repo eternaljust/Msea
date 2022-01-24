@@ -67,8 +67,7 @@ struct SpaceProfileContentView: View {
                     }
                 }
             }
-            .tabViewStyle(.page)
-            .indexViewStyle(.page(backgroundDisplayMode: .never))
+            .tabViewStyle(.page(indexDisplayMode: .never))
             .edgesIgnoringSafeArea(UIDevice.current.isPad ? [] : [.bottom])
         }
         .navigationTitle("个人空间")

@@ -74,8 +74,7 @@ struct MineContentView: View {
                             }
                         }
                     }
-                    .tabViewStyle(.page)
-                    .indexViewStyle(.page(backgroundDisplayMode: .never))
+                    .tabViewStyle(.page(indexDisplayMode: .never))
 
                     Spacer()
                 } else {
@@ -169,6 +168,12 @@ struct MineContentView: View {
             }
             .onReceive(NotificationCenter.default.publisher(for: .logout, object: nil)) { _ in
                 isLogin.toggle()
+            }
+
+            if UserInfo.shared.isLogin() {
+                Text("\(UserInfo.shared.name)的个人空间")
+            } else {
+                Text("登录后可获得更多的信息")
             }
         }
     }
