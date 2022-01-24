@@ -35,7 +35,7 @@ struct PostListContentView: View {
                             Text(post.time)
                                 .font(.footnote)
 
-                            ZStack {
+                            ZStack(alignment: .leading) {
                                 Text("\(Text(post.name).foregroundColor(.secondaryTheme)) \(type.body) \(Text(post.title).foregroundColor(.secondaryTheme))")
                                     .font(.footnote)
 
@@ -60,6 +60,7 @@ struct PostListContentView: View {
                     page = 1
                     await loadData()
                 }
+                .navigationTitle("系统提醒")
             }
 
             ProgressView()

@@ -87,10 +87,10 @@ enum NoticeItem: String, CaseIterable, Identifiable {
     var id: String { self.rawValue }
     var icon: String {
         switch self {
-        case .mypost: return "house"
-        case .interactive: return "bell.fill"
-        case .system: return "person"
-        case .app: return "person"
+        case .mypost: return "newspaper"
+        case .interactive: return "repeat.circle"
+        case .system: return "gearshape"
+        case .app: return "app.badge"
         }
     }
     var title: String {
