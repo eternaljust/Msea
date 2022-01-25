@@ -11,6 +11,7 @@ import SwiftUI
 struct CreditContentView: View {
     @State private var selectedItem = CreditItem.mycredit
     @State private var selectedIndex = 0
+    @StateObject private var rule = CreditRuleObject()
 
     var body: some View {
         NavigationView {
@@ -52,6 +53,7 @@ struct CreditContentView: View {
 
             Text("积分用户组")
         }
+        .environmentObject(rule)
     }
 
     @ViewBuilder private func getContentView(_ item: CreditItem) -> some View {

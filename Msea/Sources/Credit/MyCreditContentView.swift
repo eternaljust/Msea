@@ -40,7 +40,7 @@ struct MyCreditContentView: View {
         case .list:
             CreditListContentView()
         case .system:
-            CreditSystemContentView()
+            CreditSystemContentView(selectedCreditTab: $selectedCreditTab)
         case .rule:
             CreditRuleContentView()
         }

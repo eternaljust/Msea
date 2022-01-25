@@ -14,6 +14,8 @@ struct CreditSystemContentView: View {
     @State private var page = 1
     @State private var systemList = [CreditSystemListModel]()
     @State private var isHidden = false
+    @EnvironmentObject private var rule: CreditRuleObject
+    @Binding var selectedCreditTab: MyCreditTab
 
     var body: some View {
         ZStack {
@@ -60,6 +62,10 @@ struct CreditSystemContentView: View {
                                             }
                                         }
                                     }
+                            }
+                            .onTapGesture {
+                                rule.rid = system.rid
+                                selectedCreditTab = .rule
                             }
                         }
                     } header: {
@@ -157,8 +163,10 @@ struct CreditSystemContentView: View {
 }
 
 struct CreditSystemContentView_Previews: PreviewProvider {
+    @State static private var selectedCreditTab = MyCreditTab.system
+
     static var previews: some View {
-        CreditSystemContentView()
+        CreditSystemContentView(selectedCreditTab: $selectedCreditTab)
     }
 }
 
