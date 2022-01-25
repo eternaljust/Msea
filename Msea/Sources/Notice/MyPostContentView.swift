@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+/// 我的帖子
 struct MyPostContentView: View {
     @State private var selectedPostTab = MyPostTab.post
 

@@ -9,6 +9,7 @@
 import SwiftUI
 import Kanna
 
+/// 系统提醒
 struct SystemContentView: View {
     @State private var page = 1
     @State private var systemList = [SystemListModel]()

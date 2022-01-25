@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+/// 坛友互动
 struct InteractiveContentView: View {
     var body: some View {
         Text("暂时没有提醒内容")

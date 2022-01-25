@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+/// 应用提醒
 struct AppContentView: View {
     var body: some View {
         Text("暂时没有提醒内容")
