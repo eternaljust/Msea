@@ -11,50 +11,72 @@ import SwiftUI
 struct NoticeContentView: View {
     @State private var selectedItem = NoticeItem.mypost
     @State private var selectedIndex = 0
+    @State private var isPresented = false
+    @State private var isLogin = UserInfo.shared.isLogin()
 
     var body: some View {
         NavigationView {
             VStack {
-                if UIDevice.current.isPad {
-                    List {
-                        ForEach(NoticeItem.allCases) { item in
-                            ZStack(alignment: .leading) {
-                                HStack {
-                                    Image(systemName: item.icon)
+                if isLogin {
+                    if UIDevice.current.isPad {
+                        List {
+                            ForEach(NoticeItem.allCases) { item in
+                                ZStack(alignment: .leading) {
+                                    HStack {
+                                        Image(systemName: item.icon)
 
-                                    Text(item.title)
-                                }
+                                        Text(item.title)
+                                    }
 
-                                NavigationLink(destination: getContentView(item)) {
-                                    EmptyView()
+                                    NavigationLink(destination: getContentView(item)) {
+                                        EmptyView()
+                                    }
+                                    .opacity(0.0)
                                 }
-                                .opacity(0.0)
                             }
                         }
+                        .listStyle(.inset)
+                    } else {
+                        TabView(selection: $selectedIndex) {
+                            ForEach(NoticeItem.allCases) { item in
+                                getContentView(item)
+                                    .tag(item.index)
+                            }
+                        }
+                        .tabViewStyle(.page(indexDisplayMode: .always))
+                        .toolbar(content: {
+                            ToolbarItem(placement: .principal) {
+                                SegmentedControlView(selectedIndex: $selectedIndex, titles: NoticeItem.allCases.map { $0.title })
+                            }
+                        })
                     }
-                    .listStyle(.inset)
                 } else {
-                    TabView(selection: $selectedIndex) {
-                        ForEach(NoticeItem.allCases) { item in
-                            getContentView(item)
-                                .tag(item.index)
-                        }
+                    Button("登录") {
+                        isPresented.toggle()
                     }
-                    .tabViewStyle(.page(indexDisplayMode: .always))
-                    .toolbar(content: {
-                        ToolbarItem(placement: .principal) {
-                            SegmentedControlView(selectedIndex: $selectedIndex, titles: NoticeItem.allCases.map { $0.title })
-                        }
-                    })
                 }
             }
             .navigationTitle("通知")
             .onAppear(perform: {
+                isLogin = UserInfo.shared.isLogin()
                 TabBarTool.showTabBar(true)
                 CacheInfo.shared.selectedTab = .notice
             })
+            .sheet(isPresented: $isPresented) {
+                LoginContentView()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .login, object: nil)) { _ in
+                isLogin = true
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .logout, object: nil)) { _ in
+                isLogin = false
+            }
 
-            Text("通知提醒")
+            if isLogin {
+                Text("通知提醒")
+            } else {
+                Text("登录后可查看通知提醒")
+            }
         }
     }
 

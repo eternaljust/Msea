@@ -33,6 +33,7 @@ struct ContentView: View {
             UISegmentedControl.appearance().selectedSegmentTintColor = .secondaryTheme
             UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
             UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.secondaryLabel], for: .normal)
+            UITableView.appearance().sectionHeaderTopPadding = 0.1
         }
     }
 

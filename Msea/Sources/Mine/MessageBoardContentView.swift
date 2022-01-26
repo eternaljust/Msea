@@ -16,6 +16,8 @@ struct MessageBoardContentView: View {
     @State private var isHidden = false
     @State private var page = 1
     @State private var isRefreshing = false
+    @State private var clickUid = ""
+    @State private var isSpace = false
 
     var body: some View {
         ZStack {
@@ -32,6 +34,12 @@ struct MessageBoardContentView: View {
                             }
                             .frame(width: 40, height: 40)
                             .cornerRadius(5)
+                            .onTapGesture {
+                                if !message.uid.isEmpty {
+                                    clickUid = message.uid
+                                    isSpace.toggle()
+                                }
+                            }
 
                             VStack(alignment: .leading) {
                                 Text(message.name)
@@ -83,6 +91,11 @@ struct MessageBoardContentView: View {
                     page = 1
                     await loadData()
                 }
+
+                NavigationLink(destination: SpaceProfileContentView(uid: clickUid), isActive: $isSpace) {
+                    EmptyView()
+                }
+                .opacity(0.0)
             }
 
             ProgressView()

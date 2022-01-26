@@ -83,9 +83,6 @@ struct MineContentView: View {
                     }
                 }
             }
-            .sheet(isPresented: $isPresented) {
-                LoginContentView()
-            }
             .dialog(isPresented: $isNewPost) {
                 VStack {
                     HStack {
@@ -160,17 +157,20 @@ struct MineContentView: View {
                 isNewPost = false
                 CacheInfo.shared.selectedTab = .mine
             })
+            .sheet(isPresented: $isPresented) {
+                LoginContentView()
+            }
             .onReceive(NotificationCenter.default.publisher(for: .login, object: nil)) { _ in
-                isLogin.toggle()
+                isLogin = true
                 Task {
                     await loadData()
                 }
             }
             .onReceive(NotificationCenter.default.publisher(for: .logout, object: nil)) { _ in
-                isLogin.toggle()
+                isLogin = false
             }
 
-            if UserInfo.shared.isLogin() {
+            if isLogin {
                 Text("\(UserInfo.shared.name)的个人空间")
             } else {
                 Text("登录后可获得更多的信息")

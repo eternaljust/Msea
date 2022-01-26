@@ -12,46 +12,69 @@ struct CreditContentView: View {
     @State private var selectedItem = CreditItem.mycredit
     @State private var selectedIndex = 0
     @StateObject private var rule = CreditRuleObject()
+    @State private var isPresented = false
+    @State private var isLogin = UserInfo.shared.isLogin()
 
     var body: some View {
         NavigationView {
             VStack {
-                if UIDevice.current.isPad {
-                    List {
-                        ForEach(CreditItem.allCases) { item in
-                            ZStack(alignment: .leading) {
-                                Text(item.title)
+                if isLogin {
+                    if UIDevice.current.isPad {
+                        List {
+                            ForEach(CreditItem.allCases) { item in
+                                ZStack(alignment: .leading) {
+                                    Text(item.title)
 
-                                NavigationLink(destination: getContentView(item)) {
-                                    EmptyView()
+                                    NavigationLink(destination: getContentView(item)) {
+                                        EmptyView()
+                                    }
+                                    .opacity(0.0)
                                 }
-                                .opacity(0.0)
                             }
                         }
+                        .listStyle(.inset)
+                    } else {
+                        TabView(selection: $selectedIndex) {
+                            ForEach(CreditItem.allCases) { item in
+                                getContentView(item)
+                                    .tag(item.index)
+                            }
+                        }
+                        .tabViewStyle(.page(indexDisplayMode: .always))
+                        .toolbar(content: {
+                            ToolbarItem(placement: .principal) {
+                                SegmentedControlView(selectedIndex: $selectedIndex, titles: CreditItem.allCases.map { $0.title })
+                                    .frame(width: 200)
+                            }
+                        })
                     }
-                    .listStyle(.inset)
                 } else {
-                    TabView(selection: $selectedIndex) {
-                        ForEach(CreditItem.allCases) { item in
-                            getContentView(item)
-                                .tag(item.index)
-                        }
+                    Button("登录") {
+                        isPresented.toggle()
                     }
-                    .tabViewStyle(.page(indexDisplayMode: .always))
-                    .toolbar(content: {
-                        ToolbarItem(placement: .principal) {
-                            SegmentedControlView(selectedIndex: $selectedIndex, titles: CreditItem.allCases.map { $0.title })
-                        }
-                    })
                 }
             }
             .navigationTitle("积分")
             .onAppear(perform: {
+                isLogin = UserInfo.shared.isLogin()
                 TabBarTool.showTabBar(true)
                 CacheInfo.shared.selectedTab = .credit
             })
+            .sheet(isPresented: $isPresented) {
+                LoginContentView()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .login, object: nil)) { _ in
+                isLogin = true
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .logout, object: nil)) { _ in
+                isLogin = false
+            }
 
-            Text("积分用户组")
+            if isLogin {
+                Text("积分用户组")
+            } else {
+                Text("登录后可查看积分信息")
+            }
         }
         .environmentObject(rule)
     }

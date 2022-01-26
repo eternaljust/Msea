@@ -14,6 +14,7 @@ struct SystemContentView: View {
     @State private var page = 1
     @State private var systemList = [SystemListModel]()
     @State private var isHidden = false
+    @EnvironmentObject private var selection: TabItemSelection
 
     var body: some View {
         ZStack {
@@ -34,6 +35,12 @@ struct SystemContentView: View {
                             Text(system.content)
                                 .font(.font14)
                                 .fixedSize(horizontal: false, vertical: true)
+                                .onTapGesture(perform: {
+                                    if system.content.contains("看看我能做什么") {
+                                        CacheInfo.shared.selectedTab = .credit
+                                        selection.index = .credit
+                                    }
+                                })
                                 .onAppear {
                                     if system.id == systemList.last?.id {
                                         page += 1

@@ -20,6 +20,7 @@ struct SettingContentView: View {
         SettingSection(items: [.review, .feedback, .share]),
         SettingSection(items: [.urlschemes, .about])
     ]
+    @State private var logoutSetion = SettingSection(items: [.logout])
 
     @State var isShowingMail = false
 
@@ -87,21 +88,16 @@ struct SettingContentView: View {
         }
         .navigationBarTitle("设置")
         .onAppear {
-            Task {
-                var contains = false
-                if let last = itemSections.last, last.items.contains(.logout) {
-                    contains = true
-                }
-                if UserInfo.shared.isLogin() && !contains {
-                    itemSections.append(SettingSection(items: [.logout]))
-                }
-            }
+            addLogoutSection()
             if !UIDevice.current.isPad {
                 TabBarTool.showTabBar(false)
             }
         }
         .sheet(isPresented: $isShowingMail) {
             Email(isShowing: $isShowingMail)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .login, object: nil)) { _ in
+            addLogoutSection()
         }
     }
 
@@ -115,15 +111,31 @@ struct SettingContentView: View {
             let (data, _) = try await URLSession.shared.data(for: request)
             if let html = try? HTML(html: data, encoding: .utf8) {
                 if let text = html.toHTML, text.contains("退出") {
+                    CacheInfo.shared.daysignIsOn = false
                     UserInfo.shared.reset()
                     NotificationCenter.default.post(name: .logout, object: nil)
                     hud.show(message: "您已退出登录！")
+                    if itemSections.count == 4 {
+                        itemSections.remove(at: 3)
+                    }
                     dismiss()
                 } else {
                     hud.show(message: "退出异常，请稍后重试！")
                 }
             } else {
                 hud.show(message: "退出异常，请稍后重试！")
+            }
+        }
+    }
+
+    private func addLogoutSection() {
+        Task {
+            var contains = false
+            if let last = itemSections.last, last.items.contains(.logout) {
+                contains = true
+            }
+            if UserInfo.shared.isLogin() && !contains {
+                itemSections.append(logoutSetion)
             }
         }
     }

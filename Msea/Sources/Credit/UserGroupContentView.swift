@@ -25,7 +25,7 @@ struct UserGroupContentView: View {
                         ForEach(header.list) { userGroup in
                             HStack {
                                 Text(userGroup.title)
-                                    .frame(width: 100)
+                                    .frame(minWidth: 100)
 
                                 Spacer()
 
@@ -35,6 +35,7 @@ struct UserGroupContentView: View {
                                 } else {
                                     Image(systemName: userGroup.currentImage)
                                         .foregroundColor(userGroup.currentImage == "checkmark" ? .theme : .red)
+                                        .frame(minWidth: 100)
                                 }
 
                                 Spacer()
@@ -45,16 +46,18 @@ struct UserGroupContentView: View {
                                 } else {
                                     Image(systemName: userGroup.otherImage)
                                         .foregroundColor(userGroup.otherImage == "checkmark" ? .theme : .red)
+                                        .frame(minWidth: 100)
                                 }
 
                                 Spacer()
                             }
                             .font(.font12)
+                            .multilineTextAlignment(.center)
                         }
                     } header: {
                         HStack {
                             Text(header.title)
-                                .frame(width: 100)
+                                .frame(minWidth: 100)
 
                             Spacer()
 
@@ -72,6 +75,7 @@ struct UserGroupContentView: View {
                         .font(.font14)
                         .foregroundColor(.white)
                         .background(Color.secondaryTheme)
+                        .multilineTextAlignment(.center)
                     } footer: {
                         if header.id == sections.last?.id {
                             HStack {
@@ -196,16 +200,24 @@ struct UserGroupContentView: View {
                         firstHeader.list[index].other = other
                     }
                 }
-                sections.append(firstHeader)
+                if !first.current.isEmpty && !firstHeader.list.isEmpty {
+                    sections.append(firstHeader)
+                }
 
                 let postHeader = getHeader(index: 1, tag: "cb", html: tdats)
-                sections.append(postHeader)
+                if !postHeader.list.isEmpty {
+                    sections.append(postHeader)
+                }
 
                 let houseHeader = getHeader(index: 2, tag: "cc", html: tdats)
-                sections.append(houseHeader)
+                if !houseHeader.list.isEmpty {
+                    sections.append(houseHeader)
+                }
 
                 let attachmentHeader = getHeader(index: 3, tag: "cd", html: tdats)
-                sections.append(attachmentHeader)
+                if !attachmentHeader.list.isEmpty {
+                    sections.append(attachmentHeader)
+                }
             }
 
             isHidden = true

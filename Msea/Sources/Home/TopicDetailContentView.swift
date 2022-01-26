@@ -103,15 +103,15 @@ struct TopicDetailContentView: View {
                                     }
                                 }
                                 .id(comment.pid)
-                                .swipeActions {
-                                    Button("回复") {
-                                        replyName = comment.name
-                                        replyAction = comment.reply
-                                        focused = false
-                                        isReply = true
-                                        replyFocused.toggle()
-                                    }
-                                }
+//                                .swipeActions {
+//                                    Button("回复") {
+//                                        replyName = comment.name
+//                                        replyAction = comment.reply
+//                                        focused = false
+//                                        isReply = true
+//                                        replyFocused.toggle()
+//                                    }
+//                                }
                             }
                         } header: {
                             TopicDetailHeaderView(title: title, commentCount: commentCount)
