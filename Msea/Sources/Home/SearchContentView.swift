@@ -44,8 +44,7 @@ struct SearchContentView: View {
                     }
                 }
             }
-            .tabViewStyle(.page)
-            .indexViewStyle(.page(backgroundDisplayMode: .never))
+            .tabViewStyle(.page(indexDisplayMode: .never))
             .edgesIgnoringSafeArea(UIDevice.current.isPad ? [] : [.bottom])
         }
         .toolbar(content: {
@@ -69,10 +68,12 @@ struct SearchContentView: View {
             }
 
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    dismiss()
-                } label: {
-                    Text("取消")
+                if !UIDevice.current.isPad {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Text("取消")
+                    }
                 }
             }
         })

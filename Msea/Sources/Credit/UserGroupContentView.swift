@@ -25,7 +25,7 @@ struct UserGroupContentView: View {
                         ForEach(header.list) { userGroup in
                             HStack {
                                 Text(userGroup.title)
-                                    .frame(minWidth: 100)
+                                    .frame(width: 80)
 
                                 Spacer()
 
@@ -57,7 +57,7 @@ struct UserGroupContentView: View {
                     } header: {
                         HStack {
                             Text(header.title)
-                                .frame(minWidth: 100)
+                                .frame(width: 80)
 
                             Spacer()
 

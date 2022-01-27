@@ -40,11 +40,9 @@ struct AboutContentView: View {
                     }
                 } header: {
                     VStack(alignment: .center) {
-                        Image("AppIcon")
-                            .imageScale(.large)
-                            .background(.red)
-                            .frame(width: 80, height: 80)
-                            .foregroundColor(.white)
+                        Image("Icon")
+                            .frame(width: 76, height: 76)
+                            .cornerRadius(10)
 
                         Text("\(UIApplication.appVersion)(\(UIApplication.appBuild))")
 

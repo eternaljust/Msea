@@ -44,7 +44,7 @@ struct CreditContentView: View {
                         .toolbar(content: {
                             ToolbarItem(placement: .principal) {
                                 SegmentedControlView(selectedIndex: $selectedIndex, titles: CreditItem.allCases.map { $0.title })
-                                    .frame(width: 200)
+                                    .frame(width: 180)
                             }
                         })
                     }
