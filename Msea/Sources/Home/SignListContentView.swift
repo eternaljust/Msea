@@ -13,46 +13,61 @@ import Kanna
 struct SignListContentView: View {
     @State private var page = 1
     @State private var signList = [SignListModel]()
+    @State private var uid = ""
+    @State private var isSpace = false
 
     var body: some View {
         List {
             Section {
                 ForEach(signList, id: \.id) { sign in
-                    HStack {
-                        Text(sign.no)
-                            .padding(.trailing, 10)
-                            .font(.font12.weight(.light))
+                    ZStack {
+                        HStack {
+                            Text(sign.no)
+                                .padding(.trailing, 10)
+                                .font(.font12.weight(.light))
 
-                        Text(sign.name)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .font(.font12)
-                            .multilineTextAlignment(.center)
-                            .frame(width: 60)
+                            Text(sign.name)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .font(.font12)
+                                .multilineTextAlignment(.center)
+                                .frame(width: 60)
 
-                        Spacer()
+                            Spacer()
 
-                        Text(sign.content)
-                            .padding(.trailing, 15)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .font(.font12)
+                            Text(sign.content)
+                                .padding(.trailing, 15)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .font(.font12)
 
-                        Spacer()
+                            Spacer()
 
-                        Text(sign.bits)
-                            .padding(.trailing, 10)
-                            .foregroundColor(.theme)
-                            .font(.font14)
+                            Text(sign.bits)
+                                .padding(.trailing, 10)
+                                .foregroundColor(.theme)
+                                .font(.font14)
 
-                        Text(sign.time)
-                            .font(.font14.weight(.thin))
-                            .onAppear {
-                                if sign.id == signList.last?.id {
-                                    page += 1
-                                    Task {
-                                        await loadData()
+                            Text(sign.time)
+                                .font(.font14.weight(.thin))
+                                .onAppear {
+                                    if sign.id == signList.last?.id {
+                                        page += 1
+                                        Task {
+                                            await loadData()
+                                        }
                                     }
                                 }
+                        }
+                        .onTapGesture {
+                            if !sign.uid.isEmpty {
+                                uid = sign.uid
+                                isSpace.toggle()
                             }
+                        }
+
+                        NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isSpace) {
+                            EmptyView()
+                        }
+                        .opacity(0.0)
                     }
                 }
             } header: {
@@ -93,8 +108,11 @@ struct SignListContentView: View {
                             signModel.name = name
                         }
                         let href = element.at_xpath("//a/@href", namespaces: nil)
-                        if let uid = href?.text {
-                            signModel.uid = uid
+                        if let uid = href?.text, uid.contains("uid-") {
+                            let uids = uid.components(separatedBy: "uid-")[1]
+                            if uids.contains(".html") {
+                                signModel.uid = uids.components(separatedBy: ".")[0]
+                            }
                         }
                         let con = element.at_xpath("//p[@class='wqpc_con']", namespaces: nil)
                         if let content = con?.text {

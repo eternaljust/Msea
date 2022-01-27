@@ -15,53 +15,68 @@ struct SignDayListContentView: View {
 
     @State private var page = 1
     @State private var signDayList = [SignDayListModel]()
+    @State private var uid = ""
+    @State private var isSpace = false
 
     var body: some View {
         List {
             Section {
                 ForEach(signDayList, id: \.id) { sign in
-                    HStack {
-                        Text(sign.no)
-                            .font(.font14.weight(.light))
-                            .padding(.trailing, 10)
+                    ZStack {
+                        HStack {
+                            Text(sign.no)
+                                .font(.font14.weight(.light))
+                                .padding(.trailing, 10)
 
-                        Text(sign.name)
-                            .font(.font12)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .multilineTextAlignment(.center)
-                            .frame(width: 80)
+                            Text(sign.name)
+                                .font(.font12)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .multilineTextAlignment(.center)
+                                .frame(width: 80)
 
-                        Spacer()
+                            Spacer()
 
-                        Text(sign.continuous)
-                            .font(.font12)
-                            .padding(.trailing, 13)
+                            Text(sign.continuous)
+                                .font(.font12)
+                                .padding(.trailing, 13)
 
-                        Text(sign.month)
-                            .font(.font12)
-                            .padding(.trailing, 13)
+                            Text(sign.month)
+                                .font(.font12)
+                                .padding(.trailing, 13)
 
-                        Text(sign.total)
-                            .font(.font12)
+                            Text(sign.total)
+                                .font(.font12)
 
-                        Spacer()
+                            Spacer()
 
-                        Text(sign.bits)
-                            .font(.font12)
-                            .foregroundColor(.theme)
+                            Text(sign.bits)
+                                .font(.font12)
+                                .foregroundColor(.theme)
 
-                        Text(sign.time)
-                            .font(.font12.weight(.thin))
-                            .lineLimit(2)
-                            .multilineTextAlignment(.center)
-                            .onAppear {
-                                if sign.id == signDayList.last?.id {
-                                    page += 1
-                                    Task {
-                                        await loadData()
+                            Text(sign.time)
+                                .font(.font12.weight(.thin))
+                                .lineLimit(2)
+                                .multilineTextAlignment(.center)
+                                .onAppear {
+                                    if sign.id == signDayList.last?.id {
+                                        page += 1
+                                        Task {
+                                            await loadData()
+                                        }
                                     }
                                 }
+                        }
+                        .onTapGesture {
+                            if !sign.uid.isEmpty {
+                                uid = sign.uid
+                                isSpace.toggle()
                             }
+                        }
+
+                        NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isSpace) {
+                            EmptyView()
+                        }
+                        .opacity(0.0)
                     }
                 }
             } header: {
@@ -102,8 +117,11 @@ struct SignDayListContentView: View {
                             signModel.name = name
                         }
                         let href = element.at_xpath("//a/@href", namespaces: nil)
-                        if let uid = href?.text {
-                            signModel.uid = uid
+                        if let uid = href?.text, uid.contains("uid-") {
+                            let uids = uid.components(separatedBy: "uid-")[1]
+                            if uids.contains(".html") {
+                                signModel.uid = uids.components(separatedBy: ".")[0]
+                            }
                         }
                         let td3 = element.at_xpath("//td[3]", namespaces: nil)
                         if let continuous = td3?.text {

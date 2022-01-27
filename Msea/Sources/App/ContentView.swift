@@ -34,6 +34,7 @@ struct ContentView: View {
             UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
             UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.secondaryLabel], for: .normal)
             UITableView.appearance().sectionHeaderTopPadding = 0.1
+            UITabBar.appearance().backgroundColor = UIColor(light: .white, dark: .black)
         }
     }
 

@@ -253,14 +253,14 @@
 			isa = PBXGroup;
 			children = (
 				8143D172275C9DFA0036198D /* HomeContentView.swift */,
-				EF674C8D2797AA1B00432B6B /* SearchContentView.swift */,
-				EF6FDDBD27992A080087885C /* SearchPostConentView.swift */,
-				EF6FDDBF27992A7B0087885C /* SearchUserContentView.swift */,
 				8180BB32275B78870055E1F5 /* TopicListContentView.swift */,
 				EF80EFA52786D9EB00CE1EE1 /* TopicDetailContentView.swift */,
 				EF082EEA275EF85900056BCA /* DaySignContentView.swift */,
 				EF082EF0275F4AC400056BCA /* SignListContentView.swift */,
 				EF082EF2275F4B1C00056BCA /* SignDayListContentView.swift */,
+				EF674C8D2797AA1B00432B6B /* SearchContentView.swift */,
+				EF6FDDBD27992A080087885C /* SearchPostConentView.swift */,
+				EF6FDDBF27992A7B0087885C /* SearchUserContentView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";

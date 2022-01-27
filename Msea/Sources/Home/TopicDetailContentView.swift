@@ -218,6 +218,7 @@ struct TopicDetailContentView: View {
                     .isHidden(!isReply)
                 }
                 .frame(height: 65)
+                .background(Color(light: .white, dark: .black))
 
                 NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isSpace) {
                     EmptyView()
