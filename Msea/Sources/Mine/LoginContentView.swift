@@ -20,6 +20,7 @@ struct LoginContentView: View {
     @State private var action = ""
     @State private var formhash = ""
     @State private var isShowing = false
+    @State private var webURLItem: WebURLItem?
 
     var body: some View {
         VStack(alignment: .center) {
@@ -41,7 +42,16 @@ struct LoginContentView: View {
                 .disabled(isShowing)
                 .buttonStyle(BigButtonStyle())
                 .padding(.top, 20)
+
+            Button("注册", action: {
+                webURLItem = WebURLItem(url: "https://www.chongbuluo.com/member.php?mod=register")
+            })
+                .buttonStyle(BigButtonStyle())
+                .padding(.top, 20)
         }
+        .sheet(item: $webURLItem, content: { item in
+            Safari(url: URL(string: item.url))
+        })
         .onAppear {
             sceneDelegate.hudState = hud
         }
@@ -71,6 +81,11 @@ struct LoginContentView: View {
 
     private func login() async {
         Task {
+            if username.isEmpty || password.isEmpty {
+                hud.show(message: "请输入邮箱或者密码")
+                return
+            }
+
             isShowing = true
             // swiftlint:disable force_unwrapping
             let parames = "&formhash=\(formhash)&loginfield=email&username=\(username)&password=\(password)&questionid=0&answer=".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""

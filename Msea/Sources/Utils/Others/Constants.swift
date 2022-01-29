@@ -62,6 +62,8 @@ struct CacheKeys {
     static let selectedTab = "selectedTabKey"
     /// 默认 uid
     static let defaultUid = "defaultUidKey"
+    ///  同意使用条款
+    static let agreeTermsOfService = "agreeTermsOfServiceKey"
 }
 
 /// 通知

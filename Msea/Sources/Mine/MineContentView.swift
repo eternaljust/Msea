@@ -138,7 +138,7 @@ struct MineContentView: View {
                         Image(systemName: "square.and.pencil")
                             .foregroundColor(.theme)
                     }
-                    .isHidden(!isLogin)
+                    .isHidden(true)
                 }
 
                 ToolbarItem(placement: .navigationBarTrailing) {

@@ -29,6 +29,9 @@ struct TopicDetailContentView: View {
     @State private var replyContent = ""
     @State private var replyAction = ""
     @FocusState private var replyFocused: Bool
+    @State private var showAlert = false
+    @Environment(\.dismiss) private var dismiss
+    @State private var disAgree = false
 
     @State private var uid = ""
     @State private var isSpace = false
@@ -39,200 +42,223 @@ struct TopicDetailContentView: View {
 
     var body: some View {
         ZStack {
-            VStack {
-                ScrollViewReader { proxy in
-                    List {
-                        Section {
-                            ForEach(comments) { comment in
-                                VStack(alignment: .leading) {
-                                    HStack {
-                                        AsyncImage(url: URL(string: comment.avatar)) { image in
-                                            image.resizable()
-                                        } placeholder: {
-                                            ProgressView()
-                                        }
-                                        .frame(width: 40, height: 40)
-                                        .cornerRadius(5)
-                                        .onTapGesture {
-                                            if !comment.uid.isEmpty {
-                                                uid = comment.uid
-                                                isSpace.toggle()
-                                            }
-                                        }
+            if disAgree {
+                VStack {
+                    Spacer()
 
-                                        VStack(alignment: .leading) {
-                                            Text(comment.name)
-                                                .font(.headline)
-                                            Text(comment.time)
-                                                .font(.footnote)
-                                        }
-                                    }
-                                    .onAppear {
-                                        if comment.id == comments.last?.id {
-                                            if nextPage {
-                                                page += 1
-                                                Task {
-                                                    await loadData()
-                                                }
-                                            }
-                                        }
-                                    }
-
-                                    if comment.isText {
-                                        Text(comment.content)
-                                            .font(.font14)
-                                            .multilineTextAlignment(.leading)
-                                    } else {
-                                        Web(bodyHTMLString: comment.content, didFinish: { scrollHeight in
-                                            if comment.webViewHeight == .zero, let index = comments.firstIndex(where: { obj in obj.id == comment.id }) {
-                                                var model = comment
-                                                model.webViewHeight = scrollHeight
-                                                model.id = UUID()
-                                                if index < comments.count, comments.count != 1 {
-                                                    comments.replaceSubrange(index..<(index + 1), with: [model])
-                                                } else {
-                                                    comments = [model]
-                                                }
-                                            }
-                                        }, decisionHandler: { url in
-                                            if let url = url {
-                                                handler(url: url)
-                                            }
-                                        })
-                                            .frame(height: comment.webViewHeight)
-                                    }
-                                }
-                                .id(comment.pid)
-//                                .swipeActions {
-//                                    Button("回复") {
-//                                        replyName = comment.name
-//                                        replyAction = comment.reply
-//                                        focused = false
-//                                        isReply = true
-//                                        replyFocused.toggle()
-//                                    }
-//                                }
-                            }
-                        } header: {
-                            TopicDetailHeaderView(title: title, commentCount: commentCount)
-                                .onTapGesture {
-                                    UIPasteboard.general.string = tid
-                                    hud.show(message: "已复制 tid")
-                                }
-                        }
-                    }
-                    //                    .simultaneousGesture(DragGesture().onChanged({ _ in
-                    //                        focused = false
-                    //                        isReply = false
-                    //                        replyFocused = false
-                    //                    }))
-                    .listStyle(.plain)
-                    .refreshable {
-                        page = 1
-                        await loadData()
-                    }
-                    .task {
-                        if !isHidden {
-                            await loadData()
-                        }
-                    }
-                    .onOpenURL { url in
-                        if let query = url.query, query.contains("pid=") {
-                            let pid = query.components(separatedBy: "=")[1]
-                            if Int(pid) != nil {
-                                proxy.scrollTo(pid, anchor: .top)
-                            }
-                        }
-                    }
-                }
-
-                ZStack {
                     HStack {
-                        ZStack(alignment: .leading) {
-                            TextEditor(text: $inputComment)
-                                .multilineTextAlignment(.leading)
-                                .font(.font12)
-                                .focused($focused)
-                                .onChange(of: inputComment) { newValue in
-                                    print(newValue)
-                                }
-                                .border(Color.theme)
-                                .padding(EdgeInsets(top: 0, leading: 10, bottom: 20, trailing: 0))
-
-                            if inputComment.isEmpty {
-                                Text("输入内容")
-                                    .multilineTextAlignment(.leading)
-                                    .font(.font12)
-                                    .foregroundColor(.secondary)
-                                    .padding(EdgeInsets(top: 0, leading: 16, bottom: 30, trailing: 0))
-                            }
-                        }
-
                         Spacer()
 
-                        Button("评论") {
-                            if !UserInfo.shared.isLogin() {
-                                needLogin.toggle()
-                            } else {
-                                Task {
-                                    await comment()
+                        Text("同意使用条款后才能查看帖子")
+
+                        Spacer()
+                    }
+
+                    Spacer()
+                }
+            } else {
+                VStack {
+                    ScrollViewReader { proxy in
+                        List {
+                            Section {
+                                ForEach(comments) { comment in
+                                    VStack(alignment: .leading) {
+                                        HStack {
+                                            AsyncImage(url: URL(string: comment.avatar)) { image in
+                                                image.resizable()
+                                            } placeholder: {
+                                                ProgressView()
+                                            }
+                                            .frame(width: 40, height: 40)
+                                            .cornerRadius(5)
+                                            .onTapGesture {
+                                                if !comment.uid.isEmpty {
+                                                    uid = comment.uid
+                                                    isSpace.toggle()
+                                                }
+                                            }
+
+                                            VStack(alignment: .leading) {
+                                                Text(comment.name)
+                                                    .font(.headline)
+                                                Text(comment.time)
+                                                    .font(.footnote)
+                                            }
+                                        }
+                                        .onAppear {
+                                            if comment.id == comments.last?.id {
+                                                if nextPage {
+                                                    page += 1
+                                                    Task {
+                                                        await loadData()
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        if comment.isText {
+                                            Text(comment.content)
+                                                .font(.font14)
+                                                .multilineTextAlignment(.leading)
+                                        } else {
+                                            Web(bodyHTMLString: comment.content, didFinish: { scrollHeight in
+                                                if comment.webViewHeight == .zero, let index = comments.firstIndex(where: { obj in obj.id == comment.id }) {
+                                                    var model = comment
+                                                    model.webViewHeight = scrollHeight
+                                                    model.id = UUID()
+                                                    if index < comments.count, comments.count != 1 {
+                                                        comments.replaceSubrange(index..<(index + 1), with: [model])
+                                                    } else {
+                                                        comments = [model]
+                                                    }
+                                                }
+                                            }, decisionHandler: { url in
+                                                if let url = url {
+                                                    handler(url: url)
+                                                }
+                                            })
+                                                .frame(height: comment.webViewHeight)
+                                        }
+                                    }
+                                    .id(comment.pid)
+    //                                .swipeActions {
+    //                                    Button("回复") {
+    //                                        replyName = comment.name
+    //                                        replyAction = comment.reply
+    //                                        focused = false
+    //                                        isReply = true
+    //                                        replyFocused.toggle()
+    //                                    }
+    //                                }
+                                }
+                            } header: {
+                                TopicDetailHeaderView(title: title, commentCount: commentCount)
+                                    .onTapGesture {
+                                        UIPasteboard.general.string = tid
+                                        hud.show(message: "已复制 tid")
+                                    }
+                            }
+                        }
+                        //                    .simultaneousGesture(DragGesture().onChanged({ _ in
+                        //                        focused = false
+                        //                        isReply = false
+                        //                        replyFocused = false
+                        //                    }))
+                        .listStyle(.plain)
+                        .refreshable {
+                            page = 1
+                            await loadData()
+                        }
+                        .task {
+                            if !isHidden {
+                                await loadData()
+                            }
+                        }
+                        .onOpenURL { url in
+                            if let query = url.query, query.contains("pid=") {
+                                let pid = query.components(separatedBy: "=")[1]
+                                if Int(pid) != nil {
+                                    proxy.scrollTo(pid, anchor: .top)
                                 }
                             }
                         }
-                        .offset(x: 0, y: -10)
-                        .padding(.trailing, 10)
                     }
-                    .frame(height: 60)
-                    .isHidden(isReply)
 
-                    VStack {
-                        Text("回复\(replyName)")
-
+                    ZStack {
                         HStack {
-                            TextEditor(text: $replyContent)
-                                .multilineTextAlignment(.leading)
-                                .font(.font12)
-                                .focused($replyFocused)
-                                .onChange(of: replyContent) { newValue in
-                                    print(newValue)
+                            ZStack(alignment: .leading) {
+                                TextEditor(text: $inputComment)
+                                    .multilineTextAlignment(.leading)
+                                    .font(.font12)
+                                    .focused($focused)
+                                    .onChange(of: inputComment) { newValue in
+                                        print(newValue)
+                                    }
+                                    .border(Color.theme)
+                                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 20, trailing: 0))
+
+                                if inputComment.isEmpty {
+                                    Text("输入内容")
+                                        .multilineTextAlignment(.leading)
+                                        .font(.font12)
+                                        .foregroundColor(.secondary)
+                                        .padding(EdgeInsets(top: 0, leading: 16, bottom: 30, trailing: 0))
                                 }
-                                .border(Color.theme)
-                                .padding(EdgeInsets(top: 0, leading: 10, bottom: 20, trailing: 0))
+                            }
 
                             Spacer()
 
-                            Button("回复") {
+                            Button("评论") {
                                 if !UserInfo.shared.isLogin() {
                                     needLogin.toggle()
                                 } else {
                                     Task {
-                                        await getReply()
+                                        await comment()
                                     }
                                 }
                             }
                             .offset(x: 0, y: -10)
                             .padding(.trailing, 10)
                         }
+                        .frame(height: 60)
+                        .isHidden(isReply)
+
+                        VStack {
+                            Text("回复\(replyName)")
+
+                            HStack {
+                                TextEditor(text: $replyContent)
+                                    .multilineTextAlignment(.leading)
+                                    .font(.font12)
+                                    .focused($replyFocused)
+                                    .onChange(of: replyContent) { newValue in
+                                        print(newValue)
+                                    }
+                                    .border(Color.theme)
+                                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 20, trailing: 0))
+
+                                Spacer()
+
+                                Button("回复") {
+                                    if !UserInfo.shared.isLogin() {
+                                        needLogin.toggle()
+                                    } else {
+                                        Task {
+                                            await getReply()
+                                        }
+                                    }
+                                }
+                                .offset(x: 0, y: -10)
+                                .padding(.trailing, 10)
+                            }
+                        }
+                        .frame(maxWidth: UIScreen.main.bounds.width - 20)
+                        .isHidden(!isReply)
                     }
-                    .frame(maxWidth: UIScreen.main.bounds.width - 20)
-                    .isHidden(!isReply)
-                }
-                .frame(height: 65)
-                .background(Color(light: .white, dark: .black))
+                    .frame(height: 65)
+                    .background(Color(light: .white, dark: .black))
 
-                NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isSpace) {
-                    EmptyView()
-                }
-                .opacity(0.0)
+                    NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isSpace) {
+                        EmptyView()
+                    }
+                    .opacity(0.0)
 
-                NavigationLink(destination: TopicDetailContentView(tid: newTid), isActive: $isViewthread) {
-                    EmptyView()
+                    NavigationLink(destination: TopicDetailContentView(tid: newTid), isActive: $isViewthread) {
+                        EmptyView()
+                    }
+                    .opacity(0.0)
                 }
-                .opacity(0.0)
             }
 
             ProgressView()
                 .isHidden(isHidden)
+                .onAppear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        if !CacheInfo.shared.agreeTermsOfService {
+                            showAlert.toggle()
+                        }
+                    }
+                }
         }
         .keyboardAdaptive()
         .edgesIgnoringSafeArea(UIDevice.current.isPad ? [] : [.bottom])
@@ -248,6 +274,39 @@ struct TopicDetailContentView: View {
         .sheet(item: $webURLItem, content: { item in
             Safari(url: URL(string: item.url))
         })
+        .alert("使用条款", isPresented: $showAlert) {
+            Button("不同意", role: .cancel) {
+                disAgree = true
+                dismiss()
+            }
+
+            Button("同意") {
+                CacheInfo.shared.agreeTermsOfService = true
+                showAlert = false
+            }
+        } message: {
+            TermsOfServiceContentView()
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Menu {
+                    Menu("举报") {
+                        ForEach(ReportMenuItem.allCases) { item in
+                            Button {
+                                Task {
+                                    await report()
+                                }
+                            } label: {
+                                Text(item.title)
+                            }
+                        }
+                    }
+                } label: {
+                    Image(systemName: "ellipsis")
+                }
+                .isHidden(disAgree)
+            }
+        }
     }
 
     private func loadData() async {
@@ -436,6 +495,23 @@ struct TopicDetailContentView: View {
         }
     }
 
+    private func report() async {
+        Task {
+            let action = "misc.php?mod=report&rtype=post&tid=\(tid)"
+            // swiftlint:disable force_unwrapping
+            let url = URL(string: "https://www.chongbuluo.com/\(action)")!
+            // swiftlint:enble force_unwrapping
+            var requset = URLRequest(url: url)
+            requset.httpMethod = "POST"
+            requset.configHeaderFields()
+            let (data, _) = try await URLSession.shared.data(for: requset)
+            if let html = try? HTML(html: data, encoding: .utf8) {
+                print(html)
+                hud.show(message: "感谢您的举报，管理员会对改帖子内容进行审核！")
+            }
+        }
+    }
+
     private func handler(url: URL) {
         var absoluteString = url.absoluteString
         if absoluteString.contains("uid=") && !absoluteString.hasPrefix("http") {
@@ -556,4 +632,25 @@ struct TopicCommentModel: Identifiable {
 struct WebURLItem: Identifiable {
     var id = UUID()
     var url = ""
+}
+
+enum ReportMenuItem: String, CaseIterable, Identifiable {
+    case ad
+    case violation
+    case malicious
+    case repetition
+
+    var id: String { self.rawValue }
+    var title: String {
+        switch self {
+        case .ad:
+            return "广告垃圾"
+        case .violation:
+            return "违规内容"
+        case .malicious:
+            return "恶意灌水"
+        case .repetition:
+            return "重复发帖"
+        }
+    }
 }

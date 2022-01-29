@@ -17,8 +17,8 @@ struct SettingContentView: View {
 
     @State private var itemSections: [SettingSection] = [
         SettingSection(items: [.signalert]),
-        SettingSection(items: [.review, .feedback, .share]),
-        SettingSection(items: [.urlschemes, .about])
+        SettingSection(items: [.feedback]),
+        SettingSection(items: [.urlschemes, .termsofservice, .about])
     ]
     @State private var logoutSetion = SettingSection(items: [.logout])
 
@@ -70,7 +70,7 @@ struct SettingContentView: View {
                                     }
                                     .foregroundColor(Color(light: .black, dark: .white))
                                 }
-                            case .review, .share, .urlschemes, .about:
+                            case .review, .share, .urlschemes, .termsofservice, .about:
                                 NavigationLink(destination: getContentView(item)) {
                                     HStack {
                                         Image(systemName: item.icon)
@@ -152,6 +152,8 @@ struct SettingContentView: View {
             EmptyView()
         case .urlschemes:
             URLSchemesContentView()
+        case .termsofservice:
+            TermsOfServiceContentView()
         case .about:
             AboutContentView()
         case .logout:
@@ -177,6 +179,7 @@ enum SettingItem: String, CaseIterable, Identifiable {
     case share
     case feedback
     case urlschemes
+    case termsofservice
     case about
     case logout
 
@@ -194,6 +197,8 @@ enum SettingItem: String, CaseIterable, Identifiable {
             return "text.bubble.fill"
         case .urlschemes:
             return "personalhotspot.circle.fill"
+        case .termsofservice:
+            return "list.bullet.circle.fill"
         case .about:
             return "exclamationmark.circle.fill"
         case .logout:
@@ -213,6 +218,8 @@ enum SettingItem: String, CaseIterable, Identifiable {
             return "反馈问题"
         case .urlschemes:
             return "URL Schemes"
+        case .termsofservice:
+            return "使用条款"
         case .about:
             return "关于 Msea"
         case .logout:
