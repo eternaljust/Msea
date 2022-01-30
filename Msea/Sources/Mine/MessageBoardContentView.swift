@@ -101,6 +101,7 @@ struct MessageBoardContentView: View {
             ProgressView()
                 .isHidden(isHidden)
         }
+        .navigationBarTitle("留言板")
         .task {
             if !isHidden {
                 await loadData()

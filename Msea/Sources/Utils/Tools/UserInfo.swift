@@ -31,6 +31,7 @@ class UserInfo: NSObject {
         blog = "--"
         album = "--"
         share = "--"
+        shieldUsers = []
     }
 
     func isLogin() -> Bool {
@@ -53,4 +54,5 @@ class UserInfo: NSObject {
     @AppStorage(UserKeys.blog) var blog = "--"
     @AppStorage(UserKeys.album) var album = "--"
     @AppStorage(UserKeys.share) var share = "--"
+    @AppStorage(UserKeys.shieldUsers) var shieldUsers = [ShieldUserModel]()
 }

@@ -69,6 +69,7 @@ struct FriendVisitorContentView: View {
             }
         }
         .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+        .navigationBarTitle("好友与访客")
     }
 
     private func loadData() async {

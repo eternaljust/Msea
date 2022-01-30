@@ -15,6 +15,11 @@ struct SpaceProfileContentView: View {
     @State private var selectedProfileTab = ProfileTab.topic
     @State private var profile = ProfileModel()
     @EnvironmentObject private var hud: HUDState
+    @State private var isShielding = false
+    @State private var tabs: [ProfileTab] = [.topic, .firendvisitor, .messageboard]
+    @State private var needLogin = false
+    @State private var showAlert = false
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         VStack {
@@ -44,7 +49,7 @@ struct SpaceProfileContentView: View {
                 .font(.font14)
 
             Picker("ProfileTab", selection: $selectedProfileTab) {
-                ForEach(ProfileTab.allCases) { view in
+                ForEach(tabs) { view in
                     Text(view.title)
                         .tag(view)
                 }
@@ -53,17 +58,19 @@ struct SpaceProfileContentView: View {
             .padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))
 
             TabView(selection: $selectedProfileTab) {
-                ForEach(ProfileTab.allCases) { mine in
-                    switch mine {
+                ForEach(tabs) { tab in
+                    switch tab {
                     case .topic:
                         ProfileTopicContentView(uid: uid)
-                            .tag(mine)
+                            .tag(tab)
                     case .firendvisitor:
                         FriendVisitorContentView(uid: uid)
-                            .tag(mine)
+                            .tag(tab)
                     case .messageboard:
                         MessageBoardContentView(uid: uid)
-                            .tag(mine)
+                            .tag(tab)
+                    case .shielduser:
+                        EmptyView()
                     }
                 }
             }
@@ -72,6 +79,7 @@ struct SpaceProfileContentView: View {
         }
         .navigationTitle("个人空间")
         .onAppear(perform: {
+            isShielding = UserInfo.shared.shieldUsers.contains { $0.uid == uid }
             Task {
                 await loadData()
             }
@@ -79,6 +87,56 @@ struct SpaceProfileContentView: View {
                 TabBarTool.showTabBar(false)
             }
         })
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    if !UserInfo.shared.isLogin() {
+                        needLogin.toggle()
+                        hud.show(message: "屏蔽用户前请先登录")
+                    } else {
+                        if isShielding {
+                            if let index = UserInfo.shared.shieldUsers.firstIndex(where: { $0.uid == uid }) {
+                                UserInfo.shared.shieldUsers.remove(at: index)
+                                hud.show(message: "已经将该用户移除屏蔽列表")
+                                isShielding = false
+                                NotificationCenter.default.post(name: .shieldUser, object: nil, userInfo: nil)
+                            } else {
+                                hud.show(message: "移除失败，请稍后重试")
+                            }
+                        } else {
+                            showAlert.toggle()
+                        }
+                    }
+                } label: {
+                    Text(isShielding ? "已屏蔽" : "屏蔽")
+                }
+                .alert("是否确认要屏蔽\(profile.name)", isPresented: $showAlert) {
+                    Button("取消", role: .cancel) {
+                    }
+
+                    Button("确认") {
+                        if !profile.uid.isEmpty && !profile.name.isEmpty && !profile.avatar.isEmpty {
+                            let user = ShieldUserModel(uid: profile.uid, name: profile.name, avatar: profile.avatar)
+                            UserInfo.shared.shieldUsers.append(user)
+                            hud.show(message: "已经将该用户屏蔽")
+                            isShielding = true
+                            NotificationCenter.default.post(name: .shieldUser, object: nil, userInfo: nil)
+                            dismiss()
+                        } else {
+                            hud.show(message: "屏蔽失败，请稍后重试")
+                        }
+                    }
+                } message: {
+                    Text("屏蔽后将不再看到该用户发表的帖子和回复")
+                }
+            }
+        }
+        .sheet(isPresented: $needLogin) {
+            LoginContentView()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .login, object: nil)) { _ in
+            isShielding = UserInfo.shared.shieldUsers.contains { $0.uid == uid }
+        }
     }
 
     private func loadData() async {
@@ -134,6 +192,7 @@ struct SpaceProfileContentView: View {
                 if let share = li8?.text {
                     profile.share = share
                 }
+                profile.uid = uid
             }
         }
     }
@@ -160,4 +219,11 @@ struct ProfileModel {
     var blog = "--"
     var album = "--"
     var share = "--"
+}
+
+struct ShieldUserModel: Codable, Identifiable {
+    var id = UUID().uuidString
+    var uid = ""
+    var name = ""
+    var avatar = ""
 }

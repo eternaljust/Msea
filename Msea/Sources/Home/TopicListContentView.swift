@@ -82,6 +82,18 @@ struct TopicListContentView: View {
             ProgressView()
                 .isHidden(isHidden)
         }
+        .onAppear {
+            shieldUsers()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .shieldUser, object: nil)) { _ in
+            shieldUsers()
+        }
+    }
+
+    private func shieldUsers() {
+        topics = topics.filter { model in
+            !UserInfo.shared.shieldUsers.contains { $0.uid == model.uid }
+        }
     }
 
     private func loadData() async {
@@ -136,6 +148,8 @@ struct TopicListContentView: View {
                     topics += list
                 }
                 isHidden = true
+
+                shieldUsers()
             }
         }
     }

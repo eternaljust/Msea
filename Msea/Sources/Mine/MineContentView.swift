@@ -50,7 +50,7 @@ struct MineContentView: View {
                     Text("违规: \(Text(UserInfo.shared.violation).foregroundColor(.theme))  日志: \(Text(UserInfo.shared.blog).foregroundColor(.theme))  相册:  \(Text(UserInfo.shared.album).foregroundColor(.theme))  分享: \(Text(UserInfo.shared.share).foregroundColor(.theme))")
                         .font(.font14)
 
-                    Picker("ProfileTab", selection: $selectedProfileTab) {
+                    Picker("ProfileTabMine", selection: $selectedProfileTab) {
                         ForEach(ProfileTab.allCases) { view in
                             Text(view.title)
                                 .tag(view)
@@ -70,6 +70,9 @@ struct MineContentView: View {
                                     .tag(mine)
                             case .messageboard:
                                 MessageBoardContentView(uid: UserInfo.shared.uid)
+                                    .tag(mine)
+                            case .shielduser:
+                                ShieldUserContentView()
                                     .tag(mine)
                             }
                         }
@@ -148,6 +151,7 @@ struct MineContentView: View {
                 }
             }
             .onAppear(perform: {
+                isLogin = UserInfo.shared.isLogin()
                 if isLogin {
                     Task {
                         await loadData()
@@ -248,6 +252,7 @@ enum ProfileTab: String, CaseIterable, Identifiable {
     case topic
     case firendvisitor
     case messageboard
+    case shielduser
 
     var id: String { self.rawValue }
     var title: String {
@@ -255,6 +260,7 @@ enum ProfileTab: String, CaseIterable, Identifiable {
         case .topic: return "主题"
         case .firendvisitor: return "好友与访客"
         case .messageboard: return "留言板"
+        case .shielduser: return "屏蔽列表"
         }
     }
 }

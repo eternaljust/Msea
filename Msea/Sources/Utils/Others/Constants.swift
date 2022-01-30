@@ -42,6 +42,8 @@ struct UserKeys {
     static let album = "albumKey"
     /// 分享
     static let share = "shareKey"
+    /// 屏蔽用户
+    static let shieldUsers = "shieldUsersKey"
 }
 
 /// 存储属性
@@ -71,6 +73,7 @@ extension NSNotification.Name {
     static let login = Notification.Name("LoginNotification")
     static let logout = Notification.Name("LogoutNotification")
     static let daysign = Notification.Name("DaysignNotification")
+    static let shieldUser = Notification.Name("ShieldUserNotification")
 }
 
 /// 常量

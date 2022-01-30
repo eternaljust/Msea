@@ -10,6 +10,8 @@
 		8143D171275C8F5D0036198D /* MineContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8143D170275C8F5C0036198D /* MineContentView.swift */; };
 		8143D173275C9DFB0036198D /* HomeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8143D172275C9DFA0036198D /* HomeContentView.swift */; };
 		814E210227A4DEF200AC3A17 /* TermsOfServiceContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814E210127A4DEF100AC3A17 /* TermsOfServiceContentView.swift */; };
+		815E271027A62B1D007C36B2 /* Foundation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815E270F27A62B1C007C36B2 /* Foundation+Extension.swift */; };
+		815E271227A62D2E007C36B2 /* ShieldUserContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815E271127A62D2E007C36B2 /* ShieldUserContentView.swift */; };
 		8180BB33275B78880055E1F5 /* TopicListContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8180BB32275B78870055E1F5 /* TopicListContentView.swift */; };
 		EF082E73278ED031002744EC /* PostListContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF082E72278ED031002744EC /* PostListContentView.swift */; };
 		EF082EEB275EF85900056BCA /* DaySignContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF082EEA275EF85900056BCA /* DaySignContentView.swift */; };
@@ -124,6 +126,8 @@
 		8143D170275C8F5C0036198D /* MineContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineContentView.swift; sourceTree = "<group>"; };
 		8143D172275C9DFA0036198D /* HomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentView.swift; sourceTree = "<group>"; };
 		814E210127A4DEF100AC3A17 /* TermsOfServiceContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfServiceContentView.swift; sourceTree = "<group>"; };
+		815E270F27A62B1C007C36B2 /* Foundation+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Foundation+Extension.swift"; sourceTree = "<group>"; };
+		815E271127A62D2E007C36B2 /* ShieldUserContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShieldUserContentView.swift; sourceTree = "<group>"; };
 		8180BB32275B78870055E1F5 /* TopicListContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicListContentView.swift; sourceTree = "<group>"; };
 		9A536744D188758A4840C194 /* Pods-Msea.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Msea.release.xcconfig"; path = "Target Support Files/Pods-Msea/Pods-Msea.release.xcconfig"; sourceTree = "<group>"; };
 		A50DF2A3B18C0CBCE0319DC6 /* Pods_TopicWidgetExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TopicWidgetExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -242,6 +246,7 @@
 				EFBE964B277D4F4800481170 /* ProfileTopicContentView.swift */,
 				EFBE964D277D4FED00481170 /* FriendVisitorContentView.swift */,
 				EFBE964F277D501200481170 /* MessageBoardContentView.swift */,
+				815E271127A62D2E007C36B2 /* ShieldUserContentView.swift */,
 				EFB4314E2760ACB300319073 /* LoginContentView.swift */,
 				EFAA2A8C277025A000A83E44 /* SettingContentView.swift */,
 				EFD7EBE5279537BA004C1609 /* AboutContentView.swift */,
@@ -361,6 +366,7 @@
 				EF082EEE275F3ACB00056BCA /* UINavigationController+Extension.swift */,
 				EFD7EBE727953FB1004C1609 /* UIApplication+Extension.swift */,
 				EFBC2DB02796AB7E008D31EF /* UIDevice+Extension.swift */,
+				815E270F27A62B1C007C36B2 /* Foundation+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -768,6 +774,7 @@
 				EFD7EBE227951075004C1609 /* SpaceProfileContentView.swift in Sources */,
 				EF6FDDBE27992A080087885C /* SearchPostConentView.swift in Sources */,
 				EF674C8E2797AA1B00432B6B /* SearchContentView.swift in Sources */,
+				815E271027A62B1D007C36B2 /* Foundation+Extension.swift in Sources */,
 				EF082E73278ED031002744EC /* PostListContentView.swift in Sources */,
 				EF5F0B1B279565E300A5D81F /* URLSchemesContentView.swift in Sources */,
 				EFD7EBEA27954618004C1609 /* LicenseContentView.swift in Sources */,
@@ -784,6 +791,7 @@
 				EFA87A03279F8EE100DAD877 /* CreditContentView.swift in Sources */,
 				8143D171275C8F5D0036198D /* MineContentView.swift in Sources */,
 				EF082EEB275EF85900056BCA /* DaySignContentView.swift in Sources */,
+				815E271227A62D2E007C36B2 /* ShieldUserContentView.swift in Sources */,
 				EFA87A0D279F933000DAD877 /* CreditRuleContentView.swift in Sources */,
 				EF8A7A2B2766F3950092E53C /* Constants.swift in Sources */,
 				EFE2B11C278D56F400B12FC4 /* Keyboard.swift in Sources */,
@@ -821,7 +829,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TopicWidget/Info.plist;
@@ -850,7 +858,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TopicWidget/Info.plist;
@@ -876,7 +884,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WidgetIntentHandler/Info.plist;
@@ -902,7 +910,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WidgetIntentHandler/Info.plist;
@@ -1048,7 +1056,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Msea/Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				ENABLE_PREVIEWS = YES;
@@ -1081,7 +1089,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Msea/Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				ENABLE_PREVIEWS = YES;

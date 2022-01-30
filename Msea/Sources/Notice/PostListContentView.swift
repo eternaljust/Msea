@@ -71,6 +71,18 @@ struct PostListContentView: View {
                 await loadData()
             }
         }
+        .onAppear {
+            shieldUsers()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .shieldUser, object: nil)) { _ in
+            shieldUsers()
+        }
+    }
+
+    private func shieldUsers() {
+        postList = postList.filter { model in
+            !UserInfo.shared.shieldUsers.contains { $0.uid == model.uid }
+        }
     }
 
     private func loadData() async {
@@ -96,6 +108,10 @@ struct PostListContentView: View {
                     if let name = element.at_xpath("//dd[@class='ntc_body']/a[1]", namespaces: nil)?.text {
                         post.name = name
                     }
+                    if let uid = element.at_xpath("//dd[@class='ntc_body']/a[1]/@href", namespaces: nil)?.text,
+                       uid.contains("uid=") {
+                        post.uid = uid.components(separatedBy: "uid=")[1]
+                    }
                     if let title = element.at_xpath("//dd[@class='ntc_body']/a[2]", namespaces: nil)?.text {
                         post.title = title
                     }
@@ -120,6 +136,8 @@ struct PostListContentView: View {
                 } else {
                     postList += list
                 }
+
+                shieldUsers()
             }
 
             isHidden = true

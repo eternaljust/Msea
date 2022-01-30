@@ -32,6 +32,7 @@ struct TopicDetailContentView: View {
     @State private var showAlert = false
     @Environment(\.dismiss) private var dismiss
     @State private var disAgree = false
+    @State private var isPosterShielding = false
 
     @State private var uid = ""
     @State private var isSpace = false
@@ -42,14 +43,18 @@ struct TopicDetailContentView: View {
 
     var body: some View {
         ZStack {
-            if disAgree {
+            if disAgree || isPosterShielding {
                 VStack {
                     Spacer()
 
                     HStack {
                         Spacer()
 
-                        Text("同意使用条款后才能查看帖子")
+                        if disAgree {
+                            Text("同意使用条款后才能查看帖子")
+                        } else {
+                            Text("楼主已经被屏蔽，帖子信息不再展示")
+                        }
 
                         Spacer()
                     }
@@ -267,6 +272,14 @@ struct TopicDetailContentView: View {
             if !UIDevice.current.isPad {
                 TabBarTool.showTabBar(false)
             }
+            if let first = comments.first {
+                isPosterShielding = UserInfo.shared.shieldUsers.contains { $0.uid == first.uid }
+                if isPosterShielding {
+                    dismiss()
+                } else {
+                    shieldUsers()
+                }
+            }
         }
         .sheet(isPresented: $needLogin) {
             LoginContentView()
@@ -306,6 +319,12 @@ struct TopicDetailContentView: View {
                 }
                 .isHidden(disAgree)
             }
+        }
+    }
+
+    private func shieldUsers() {
+        comments = comments.filter { model in
+            !UserInfo.shared.shieldUsers.contains { $0.uid == model.uid }
         }
     }
 
@@ -397,6 +416,8 @@ struct TopicDetailContentView: View {
                     comments += list
                 }
                 isHidden = true
+
+                shieldUsers()
             }
         }
     }
