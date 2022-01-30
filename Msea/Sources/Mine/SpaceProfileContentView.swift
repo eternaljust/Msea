@@ -19,6 +19,7 @@ struct SpaceProfileContentView: View {
     @State private var tabs: [ProfileTab] = [.topic, .firendvisitor, .messageboard]
     @State private var needLogin = false
     @State private var showAlert = false
+    @State private var isShieldHidden = false
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -80,6 +81,8 @@ struct SpaceProfileContentView: View {
         .navigationTitle("个人空间")
         .onAppear(perform: {
             isShielding = UserInfo.shared.shieldUsers.contains { $0.uid == uid }
+            isShieldHidden = UserInfo.shared.isLogin() ? uid == UserInfo.shared.uid : false
+
             Task {
                 await loadData()
             }
@@ -129,6 +132,7 @@ struct SpaceProfileContentView: View {
                 } message: {
                     Text("屏蔽后将不再看到该用户发表的帖子和回复")
                 }
+                .isHidden(isShieldHidden)
             }
         }
         .sheet(isPresented: $needLogin) {

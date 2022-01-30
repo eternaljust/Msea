@@ -14,11 +14,16 @@ struct ProfileTopicContentView: View {
     var uid = CacheInfo.shared.defaultUid
     @State private var topics = [ProfileTopicListModel]()
     @State private var isHidden = false
+    @State private var isPosterShielding = false
 
     var body: some View {
         ZStack {
-            if topics.isEmpty {
-                Text("现在还没有主题")
+            if topics.isEmpty || isPosterShielding {
+                if isPosterShielding {
+                    Text("该用户的主题已被屏蔽")
+                } else {
+                    Text("现在还没有主题")
+                }
             } else {
                 List(topics) { topic in
                     ZStack(alignment: .leading) {
@@ -41,6 +46,12 @@ struct ProfileTopicContentView: View {
             if !isHidden {
                 await getProfileTopic()
             }
+        }
+        .onAppear {
+            isPosterShielding = UserInfo.shared.shieldUsers.contains { $0.uid == uid }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .shieldUser, object: nil)) { _ in
+            isPosterShielding = UserInfo.shared.shieldUsers.contains { $0.uid == uid }
         }
     }
 
