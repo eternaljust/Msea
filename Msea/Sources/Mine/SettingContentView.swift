@@ -17,13 +17,14 @@ struct SettingContentView: View {
 
     @State private var itemSections: [SettingSection] = [
         SettingSection(items: [.signalert]),
-        SettingSection(items: [.feedback, .review, .share]),
+        SettingSection(items: [.feedback, .review, .contactus, .share]),
         SettingSection(items: [.urlschemes, .termsofservice, .about])
     ]
     @State private var logoutSetion = SettingSection(items: [.logout])
 
     @State var isShowingMail = false
     @State private var isSharePresented: Bool = false
+    @State private var isConfirming = false
 
     var body: some View {
         VStack {
@@ -52,13 +53,9 @@ struct SettingContentView: View {
                                         .foregroundColor(.red)
                                         .frame(maxWidth: .infinity, alignment: .center)
                                 }
-                            case .feedback:
+                            case .share, .feedback, .review, .contactus:
                                 Button {
-                                    if MFMailComposeViewController.canSendMail() {
-                                        isShowingMail.toggle()
-                                    } else {
-                                        hud.show(message: "您的设备尚未设置邮箱，请在“邮件”应用中设置后再尝试发送。")
-                                    }
+                                    buttonAction(item)
                                 } label: {
                                     HStack {
                                         Image(systemName: item.icon)
@@ -71,37 +68,10 @@ struct SettingContentView: View {
                                     }
                                     .foregroundColor(Color(light: .black, dark: .white))
                                 }
-                            case .review:
-                                Button {
-                                    if let url = URL(string: "https://apps.apple.com/app/id1607297894?action=write-review") {
-                                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                                    }
-                                } label: {
-                                    HStack {
-                                        Image(systemName: item.icon)
-
-                                        Text(item.title)
-
-                                        Spacer()
-
-                                        Indicator()
-                                    }
-                                    .foregroundColor(Color(light: .black, dark: .white))
-                                }
-                            case .share:
-                                Button {
-                                    isSharePresented.toggle()
-                                } label: {
-                                    HStack {
-                                        Image(systemName: item.icon)
-
-                                        Text(item.title)
-
-                                        Spacer()
-
-                                        Indicator()
-                                    }
-                                    .foregroundColor(Color(light: .black, dark: .white))
+                                .confirmationDialog("", isPresented: $isConfirming) {
+                                    getActionSheetListView()
+                                } message: {
+                                    Text("联系我们")
                                 }
                             case .urlschemes, .termsofservice, .about:
                                 NavigationLink(destination: getContentView(item)) {
@@ -139,6 +109,24 @@ struct SettingContentView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .login, object: nil)) { _ in
             addLogoutSection()
+        }
+    }
+
+    private func buttonAction(_ item: SettingItem) {
+        if item == .share {
+            isSharePresented.toggle()
+        } else if item == .review {
+            if let url = URL(string: "https://apps.apple.com/app/id1607297894?action=write-review") {
+                UIApplication.shared.open(url)
+            }
+        } else if item == .feedback {
+            if MFMailComposeViewController.canSendMail() {
+                isShowingMail.toggle()
+            } else {
+                hud.show(message: "您的设备尚未设置邮箱，请在“邮件”应用中设置后再尝试发送。")
+            }
+        } else if item == .contactus {
+            isConfirming.toggle()
         }
     }
 
@@ -181,6 +169,39 @@ struct SettingContentView: View {
         }
     }
 
+    @ViewBuilder private func getActionSheetListView() -> some View {
+        Button {
+            if let url = URL(string: "https://m.weibo.cn/u/3266569590") {
+                UIApplication.shared.open(url)
+            }
+        } label: {
+            Text("微博：@远恒之义")
+        }
+
+        Button {
+            if let url = URL(string: "https://twitter.com/eternaljust_") {
+                UIApplication.shared.open(url)
+            }
+        } label: {
+            Text("推特：@eternaljust_")
+        }
+
+        Button {
+            UIPasteboard.general.string = "eternaljust"
+            hud.show(message: "微信号已复制")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                if let url = URL(string: "weixin://") {
+                    UIApplication.shared.open(url)
+                }
+            }
+        } label: {
+            Text("加微信：eternaljust  发送：加群")
+        }
+
+        Button("取消", role: .cancel) {
+        }
+    }
+
     @ViewBuilder private func getContentView(_ item: SettingItem) -> some View {
         switch item {
         case .signalert:
@@ -190,6 +211,8 @@ struct SettingContentView: View {
         case .share:
             EmptyView()
         case .feedback:
+            EmptyView()
+        case .contactus:
             EmptyView()
         case .urlschemes:
             URLSchemesContentView()
@@ -219,6 +242,7 @@ enum SettingItem: String, CaseIterable, Identifiable {
     case review
     case share
     case feedback
+    case contactus
     case urlschemes
     case termsofservice
     case about
@@ -236,6 +260,8 @@ enum SettingItem: String, CaseIterable, Identifiable {
             return "arrowshape.turn.up.right.fill"
         case .feedback:
             return "text.bubble.fill"
+        case .contactus:
+            return "message.fill"
         case .urlschemes:
             return "personalhotspot.circle.fill"
         case .termsofservice:
@@ -257,6 +283,8 @@ enum SettingItem: String, CaseIterable, Identifiable {
             return "分享给朋友"
         case .feedback:
             return "反馈问题"
+        case .contactus:
+            return "联系我们"
         case .urlschemes:
             return "URL Schemes"
         case .termsofservice:

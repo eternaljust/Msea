@@ -116,6 +116,7 @@ struct PublishPostContentView: View {
         Task {
             let time = Int(Date().timeIntervalSince1970)
             let parames = "&formhash=\(UserInfo.shared.formhash)&subject=\(title)&message=\(content)&posttime=\(time)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+            // FIXME: 发表帖子参数异常
             // swiftlint:disable force_unwrapping
             let url = URL(string: "https://www.chongbuluo.com/forum.php?mod=post&action=newthread&fid=\(plate.fid)&extra=&topicsubmit=yes&wysiwyg=0&typeid=0&checkbox=0&replycredit_times=1&replycredit_extcredits=0&replycredit_membertimes=1&replycredit_random=100&allownoticeauthor=1&save=0\(parames)")!
             // swiftlint:enable force_unwrapping

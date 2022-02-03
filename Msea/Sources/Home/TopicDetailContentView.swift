@@ -569,11 +569,11 @@ struct TopicDetailContentView: View {
                 }
             }
         } else if absoluteString.hasPrefix("mailto:") {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            UIApplication.shared.open(url)
         } else if absoluteString.contains("&pid=") {
             let pid = getPid(url: absoluteString)
-            if !pid.isEmpty {
-                UIApplication.shared.open(URL(string: "msea://post?pid=\(pid)")!, options: [:], completionHandler: nil)
+            if !pid.isEmpty, let postURL = URL(string: "msea://post?pid=\(pid)") {
+                UIApplication.shared.open(postURL)
             }
         } else {
             webURLItem = WebURLItem(url: absoluteString)

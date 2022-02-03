@@ -1,10 +1,10 @@
 PODS:
   - Kanna (5.2.7)
-  - SwiftLint (0.45.1)
-  - UMAPM (1.5.4)
-  - UMCommon (7.3.5):
+  - SwiftLint (0.46.2)
+  - UMAPM (1.5.6)
+  - UMCommon (7.3.6):
     - UMDevice
-  - UMDevice (2.0.5)
+  - UMDevice (2.2.1)
 
 DEPENDENCIES:
   - Kanna
@@ -23,10 +23,10 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Kanna: 01cfbddc127f5ff0963692f285fcbc8a9d62d234
-  SwiftLint: 06ac37e4d38c7068e0935bb30cda95f093bec761
-  UMAPM: 48f09b31c41cd5d1f58052246a17aca2949f996e
-  UMCommon: ab4d875ddefe1b06c60b577e4a58bc4d433ee067
-  UMDevice: c13bbb2e8ca6c67d1e23e03162553e3ec5a8b5b0
+  SwiftLint: 6bc52a21f0fd44cab9aa2dc8e534fb9f5e3ec507
+  UMAPM: 5ab988b8bedfd090ee2307cb80530ba79b8ac264
+  UMCommon: c61df8457c275afd4f8a2fca10c7446d66220ac0
+  UMDevice: 053478c4b4d7292f31f0a275c227d3c4007a5571
 
 PODFILE CHECKSUM: f336c3bf760f908e3db1c3e41ea2dd213ce3f5c5
 
