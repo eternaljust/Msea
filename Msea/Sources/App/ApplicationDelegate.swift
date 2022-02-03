@@ -45,8 +45,9 @@ final class FSSceneDelegate: UIResponder, UIWindowSceneDelegate, ObservableObjec
     }
 }
 
-final class FSAppDelegate: NSObject, UIApplicationDelegate {
+final class FSAppDelegate: NSObject, UIApplicationDelegate, UIWindowSceneDelegate {
     static var shortcutItem: UIApplicationShortcutItem?
+    var window: UIWindow?
 
     func application(
         _ application: UIApplication,
@@ -60,6 +61,7 @@ final class FSAppDelegate: NSObject, UIApplicationDelegate {
         if let shortcutItem = options.shortcutItem {
             FSAppDelegate.shortcutItem = shortcutItem
         }
+        configSDK()
         return sceneConfig
     }
 
@@ -68,6 +70,20 @@ final class FSAppDelegate: NSObject, UIApplicationDelegate {
             return .all
         }
         return .portrait
+    }
+
+    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+        if scene is UIWindowScene, let windowScene = scene as? UIWindowScene {
+            window = UIWindow(windowScene: windowScene)
+            window?.makeKeyAndVisible()
+        }
+    }
+
+    private func configSDK() {
+        UMConfigure.initWithAppkey("5dbb9469570df3e553000449", channel: "App Store")
+        UMCrashConfigure.setCrashCBBlock {
+            return ""
+        }
     }
 }
 

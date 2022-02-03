@@ -15,6 +15,7 @@
 			dependencies = (
 			);
 			name = SwiftLint;
+			productName = SwiftLint;
 		};
 /* End PBXAggregateTarget section */
 
@@ -85,7 +86,7 @@
 		91EA24DED2B9400C1F5598488A015156 /* Kanna.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Kanna.swift; path = Sources/Kanna/Kanna.swift; sourceTree = "<group>"; };
 		940A0869D12322C37EC94B56ECE4EE35 /* Pods-TopicWidgetExtension-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-TopicWidgetExtension-dummy.m"; sourceTree = "<group>"; };
 		9533B7EED10AD985F0AED8645AA5FAC1 /* Pods-Msea-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Msea-acknowledgements.plist"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A232AA3CD9B6A027C88C15C849B0876C /* Pods-TopicWidgetExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TopicWidgetExtension.release.xcconfig"; sourceTree = "<group>"; };
 		B09598D8A07203539E1BF74038140E14 /* Pods-Msea.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Msea.release.xcconfig"; sourceTree = "<group>"; };
 		B401C41E69E577236B9ECAC6BB5E982E /* Kanna.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Kanna.debug.xcconfig; sourceTree = "<group>"; };
@@ -96,7 +97,7 @@
 		D17165419F121AAC5F9DD2C813A057E8 /* Pods-TopicWidgetExtension-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TopicWidgetExtension-acknowledgements.plist"; sourceTree = "<group>"; };
 		E0926383BA17963ED8B79B1594E9D992 /* Pods-Msea-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Msea-Info.plist"; sourceTree = "<group>"; };
 		E0A9B4D1D98374DFCEBCBAC5F5A8B485 /* Pods-Msea.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Msea.modulemap"; sourceTree = "<group>"; };
-		E298BE2C0017992EDF198E752572B1E5 /* Pods-Msea */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-Msea"; path = Pods_Msea.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E298BE2C0017992EDF198E752572B1E5 /* Pods_Msea.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Msea.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6076FDD808E342B154A57AD51D3FF20 /* Pods-TopicWidgetExtension.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-TopicWidgetExtension.modulemap"; sourceTree = "<group>"; };
 		E9BEB45F2589B7AE5A2CABE4701F4219 /* Pods-TopicWidgetExtension-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TopicWidgetExtension-Info.plist"; sourceTree = "<group>"; };
 		F48D9EECF5AA08BB96CEF167F73C5BD3 /* Pods-TopicWidgetExtension-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-TopicWidgetExtension-umbrella.h"; sourceTree = "<group>"; };
@@ -151,7 +152,6 @@
 				201B4A8A56BDF6A0D9CFDA7088534D7F /* libxmlParserOption.swift */,
 				D4982B973C208C040D4ECB76B60826AC /* Support Files */,
 			);
-			name = Kanna;
 			path = Kanna;
 			sourceTree = "<group>";
 		};
@@ -160,7 +160,6 @@
 			children = (
 				62038C9B0794FC4C6042201A7D4B5801 /* Support Files */,
 			);
-			name = SwiftLint;
 			path = SwiftLint;
 			sourceTree = "<group>";
 		};
@@ -186,7 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				3EA922F9B70178D64EE578C60F4DD23B /* Kanna */,
-				E298BE2C0017992EDF198E752572B1E5 /* Pods-Msea */,
+				E298BE2C0017992EDF198E752572B1E5 /* Pods_Msea.framework */,
 				23D7B8AD77BB63C3908BD212FFC8F506 /* Pods-TopicWidgetExtension */,
 			);
 			name = Products;
@@ -353,7 +352,7 @@
 			);
 			name = "Pods-Msea";
 			productName = Pods_Msea;
-			productReference = E298BE2C0017992EDF198E752572B1E5 /* Pods-Msea */;
+			productReference = E298BE2C0017992EDF198E752572B1E5 /* Pods_Msea.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */

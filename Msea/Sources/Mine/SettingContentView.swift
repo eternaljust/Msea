@@ -17,12 +17,13 @@ struct SettingContentView: View {
 
     @State private var itemSections: [SettingSection] = [
         SettingSection(items: [.signalert]),
-        SettingSection(items: [.feedback]),
+        SettingSection(items: [.feedback, .review, .share]),
         SettingSection(items: [.urlschemes, .termsofservice, .about])
     ]
     @State private var logoutSetion = SettingSection(items: [.logout])
 
     @State var isShowingMail = false
+    @State private var isSharePresented: Bool = false
 
     var body: some View {
         VStack {
@@ -70,7 +71,39 @@ struct SettingContentView: View {
                                     }
                                     .foregroundColor(Color(light: .black, dark: .white))
                                 }
-                            case .review, .share, .urlschemes, .termsofservice, .about:
+                            case .review:
+                                Button {
+                                    if let url = URL(string: "https://apps.apple.com/app/id1607297894?action=write-review") {
+                                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                    }
+                                } label: {
+                                    HStack {
+                                        Image(systemName: item.icon)
+
+                                        Text(item.title)
+
+                                        Spacer()
+
+                                        Indicator()
+                                    }
+                                    .foregroundColor(Color(light: .black, dark: .white))
+                                }
+                            case .share:
+                                Button {
+                                    isSharePresented.toggle()
+                                } label: {
+                                    HStack {
+                                        Image(systemName: item.icon)
+
+                                        Text(item.title)
+
+                                        Spacer()
+
+                                        Indicator()
+                                    }
+                                    .foregroundColor(Color(light: .black, dark: .white))
+                                }
+                            case .urlschemes, .termsofservice, .about:
                                 NavigationLink(destination: getContentView(item)) {
                                     HStack {
                                         Image(systemName: item.icon)
@@ -95,6 +128,14 @@ struct SettingContentView: View {
         }
         .sheet(isPresented: $isShowingMail) {
             Email(isShowing: $isShowingMail)
+        }
+        .sheet(isPresented: $isSharePresented) {
+            if let image = UIImage(named: "Icon"), let url = URL(string: "https://apps.apple.com/app/id1607297894") {
+                ShareSheet(items: [ "Msea - 虫部落搜索论坛第三方应用",
+                                    image,
+                                    url
+                                  ])
+            }
         }
         .onReceive(NotificationCenter.default.publisher(for: .login, object: nil)) { _ in
             addLogoutSection()

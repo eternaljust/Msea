@@ -1,20 +1,33 @@
 PODS:
   - Kanna (5.2.7)
   - SwiftLint (0.45.1)
+  - UMAPM (1.5.4)
+  - UMCommon (7.3.5):
+    - UMDevice
+  - UMDevice (2.0.5)
 
 DEPENDENCIES:
   - Kanna
   - SwiftLint
+  - UMAPM
+  - UMCommon
+  - UMDevice
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - Kanna
     - SwiftLint
+    - UMAPM
+    - UMCommon
+    - UMDevice
 
 SPEC CHECKSUMS:
   Kanna: 01cfbddc127f5ff0963692f285fcbc8a9d62d234
   SwiftLint: 06ac37e4d38c7068e0935bb30cda95f093bec761
+  UMAPM: 48f09b31c41cd5d1f58052246a17aca2949f996e
+  UMCommon: ab4d875ddefe1b06c60b577e4a58bc4d433ee067
+  UMDevice: c13bbb2e8ca6c67d1e23e03162553e3ec5a8b5b0
 
-PODFILE CHECKSUM: 66d3437ebcdc0eefe7ba06e078c9545e8362d95a
+PODFILE CHECKSUM: f336c3bf760f908e3db1c3e41ea2dd213ce3f5c5
 
 COCOAPODS: 1.11.2

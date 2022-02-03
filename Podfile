@@ -10,6 +10,10 @@ target 'Msea' do
   pod 'SwiftLint', configurations: ['Debug']
   # 解析 XML/HTML
   pod 'Kanna'
+  # 友盟
+  pod 'UMCommon'
+  pod 'UMDevice'
+  pod 'UMAPM'
   
 end
 

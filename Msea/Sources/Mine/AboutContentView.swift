@@ -64,6 +64,8 @@ struct AboutContentView: View {
             LicenseContentView()
         case .sourceCode:
             EmptyView()
+        case .sdklist:
+            SDKListContentView()
         }
     }
 }
@@ -76,6 +78,7 @@ struct AboutContentView_Previews: PreviewProvider {
 
 enum AboutItem: String, CaseIterable, Identifiable {
     case license
+    case sdklist
     case sourceCode
 
     var id: String { self.rawValue }
@@ -86,6 +89,8 @@ enum AboutItem: String, CaseIterable, Identifiable {
             return "开源协议"
         case .sourceCode:
             return "源代码"
+        case .sdklist:
+            return "SDK 目录"
         }
     }
 
@@ -95,6 +100,8 @@ enum AboutItem: String, CaseIterable, Identifiable {
             return "https://github.com/tzqiang/Msea/blob/main/LICENSE"
         case .sourceCode:
             return "https://github.com/tzqiang/Msea"
+        case .sdklist:
+            return ""
         }
     }
 }
