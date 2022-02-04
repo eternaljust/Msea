@@ -70,7 +70,7 @@ struct SpaceProfileContentView: View {
                     case .messageboard:
                         MessageBoardContentView(uid: uid)
                             .tag(tab)
-                    case .shielduser:
+                    case .shielduser, .favorite:
                         EmptyView()
                     }
                 }

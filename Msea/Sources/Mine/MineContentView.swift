@@ -71,6 +71,9 @@ struct MineContentView: View {
                             case .messageboard:
                                 MessageBoardContentView(uid: UserInfo.shared.uid)
                                     .tag(mine)
+                            case .favorite:
+                                FavoriteContentView()
+                                    .tag(mine)
                             case .shielduser:
                                 ShieldUserContentView()
                                     .tag(mine)
@@ -252,15 +255,17 @@ enum ProfileTab: String, CaseIterable, Identifiable {
     case topic
     case firendvisitor
     case messageboard
+    case favorite
     case shielduser
 
     var id: String { self.rawValue }
     var title: String {
         switch self {
         case .topic: return "主题"
-        case .firendvisitor: return "好友与访客"
+        case .firendvisitor: return "好友访客"
         case .messageboard: return "留言板"
-        case .shielduser: return "屏蔽列表"
+        case .favorite: return "收藏"
+        case .shielduser: return "屏蔽"
         }
     }
 }

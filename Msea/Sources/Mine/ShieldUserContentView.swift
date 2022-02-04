@@ -41,7 +41,7 @@ struct ShieldUserContentView: View {
                 }
             }
         }
-        .navigationBarTitle("屏蔽列表")
+        .navigationBarTitle("屏蔽")
         .onAppear {
             shieldUsers = UserInfo.shared.shieldUsers
         }
