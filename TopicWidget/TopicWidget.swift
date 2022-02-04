@@ -181,6 +181,8 @@ struct TopicWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: TopicProvider()) { entry in
             TopicWidgetEntryView(entry: entry)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color(light: .white, dark: .widgetBlack))
         }
         .configurationDisplayName("近日热议")
         .description("虫友最近关注的话题讨论")

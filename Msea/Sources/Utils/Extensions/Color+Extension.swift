@@ -54,6 +54,8 @@ extension Color {
     static let lightBlack: Color = Color(hex: "1c1c1e")
     /// 背景色 f3f3f3 1c1c1e
     static let backGround: Color = Color(light: .lightGray, dark: .lightBlack)
+    /// widget 浅黑背景色 2c2c2e
+    static let widgetBlack: Color = Color(hex: "2c2c2e")
 }
 
 extension UIColor {

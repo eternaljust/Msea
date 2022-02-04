@@ -190,6 +190,8 @@ struct ProfileWidget: Widget {
     var body: some WidgetConfiguration {
         IntentConfiguration(kind: kind, intent: ProfileIntent.self, provider: ProfileProvider()) { entry in
             ProfileWidgetEntryView(entry: entry)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color(light: .white, dark: .widgetBlack))
         }
         .configurationDisplayName("个人资料")
         .description("统计信息")
