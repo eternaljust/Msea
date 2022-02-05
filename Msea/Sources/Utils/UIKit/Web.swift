@@ -72,8 +72,12 @@ struct Web: UIViewRepresentable {
 
         func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
             if let hander = self.parent.decisionHandler, let url = navigationAction.request.url, !url.absoluteString.contains("about:blank") {
-                decisionHandler(.cancel)
-                hander(url)
+                if url.absoluteString.contains("matterportvr") {
+                    decisionHandler(.allow)
+                } else {
+                    decisionHandler(.cancel)
+                    hander(url)
+                }
             } else {
                 decisionHandler(.allow)
             }

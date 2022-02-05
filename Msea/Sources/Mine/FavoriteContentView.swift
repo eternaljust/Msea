@@ -14,6 +14,8 @@ struct FavoriteContentView: View {
     @State private var page = 1
     @State private var postList = [FavoritePostModel]()
     @State private var isHidden = false
+    @State private var deleteAction = ""
+    @EnvironmentObject private var hud: HUDState
 
     var body: some View {
         ZStack {
@@ -29,6 +31,21 @@ struct FavoriteContentView: View {
                         }
                         .opacity(0.0)
                     }
+                    .contextMenu {
+                        Button {
+                            if !post.action.isEmpty {
+                                deleteAction = post.action
+                                Task {
+                                    await deleteFavorite()
+                                }
+                            }
+                        } label: {
+                            HStack {
+                                Text("删除")
+                                Image(systemName: "trash")
+                            }
+                        }
+                    }
                     .onAppear {
                         if post.id == postList.last?.id {
                             page += 1
@@ -43,12 +60,12 @@ struct FavoriteContentView: View {
                     page = 1
                     await loadData()
                 }
-                .navigationTitle("收藏")
             }
 
             ProgressView()
                 .isHidden(isHidden)
         }
+        .navigationTitle("收藏")
         .task {
             if !isHidden {
                 await loadData()
@@ -63,7 +80,6 @@ struct FavoriteContentView: View {
             // swiftlint:enble force_unwrapping
             var request = URLRequest(url: url)
             request.configHeaderFields()
-            request.addValue(UserAgentType.mac.description, forHTTPHeaderField: HTTPHeaderField.userAgent.description)
             let (data, _) = try await URLSession.shared.data(for: request)
             if let html = try? HTML(html: data, encoding: .utf8) {
                 let li = html.xpath("//ul[@id='favorite_ul']/li", namespaces: nil)
@@ -80,8 +96,11 @@ struct FavoriteContentView: View {
                     if let title = element.at_xpath("/a[2]", namespaces: nil)?.text {
                         post.title = title
                     }
-                    if let action = element.at_xpath("/a[1]/@href", namespaces: nil)?.text {
-                        post.action = action
+                    if let action = element.at_xpath("/a[1]/@href", namespaces: nil)?.text,
+                       var id = element.at_xpath("/a[1]/@id", namespaces: nil)?.text {
+                        id = id.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+                        post.action = "https://www.chongbuluo.com/\(action)&formhash=\(UserInfo.shared.formhash)&deletesubmit=true&handlekey=\(id)"
+                        print(post.action)
                     }
 
                     list.append(post)
@@ -95,6 +114,30 @@ struct FavoriteContentView: View {
             }
 
             isHidden = true
+        }
+    }
+
+    private func deleteFavorite() async {
+        Task {
+            // swiftlint:disable force_unwrapping
+            let url = URL(string: deleteAction)!
+            // swiftlint:enble force_unwrapping
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.configHeaderFields()
+            let (data, _) = try await URLSession.shared.data(for: request)
+            if let html = try? HTML(html: data, encoding: .utf8) {
+                if let text = html.toHTML, text.contains("全部收藏") {
+                    hud.show(message: "操作成功")
+                    deleteAction = ""
+                    page = 1
+                    await loadData()
+                } else {
+                    hud.show(message: "操作失败，请稍后重试")
+                }
+            } else {
+                hud.show(message: "操作失败，请稍后重试")
+            }
         }
     }
 }

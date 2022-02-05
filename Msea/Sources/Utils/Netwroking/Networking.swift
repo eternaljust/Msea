@@ -62,6 +62,7 @@ extension URLRequest {
                 }
             }
         }
+        addValue(UserAgentType.mac.description, forHTTPHeaderField: HTTPHeaderField.userAgent.description)
     }
 }
 

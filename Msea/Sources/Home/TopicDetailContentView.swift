@@ -33,6 +33,7 @@ struct TopicDetailContentView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var disAgree = false
     @State private var isPosterShielding = false
+    @State private var favoriteAction = ""
 
     @State private var uid = ""
     @State private var isSpace = false
@@ -126,15 +127,23 @@ struct TopicDetailContentView: View {
                                         }
                                     }
                                     .id(comment.pid)
-    //                                .swipeActions {
-    //                                    Button("回复") {
-    //                                        replyName = comment.name
-    //                                        replyAction = comment.reply
-    //                                        focused = false
-    //                                        isReply = true
-    //                                        replyFocused.toggle()
-    //                                    }
-    //                                }
+                                    .swipeActions {
+                                        if comment.id == comments.first?.id && UserInfo.shared.isLogin() && !comment.favorite.isEmpty {
+                                            Button("收藏") {
+                                                favoriteAction = comment.favorite
+                                                Task {
+                                                    await favorite()
+                                                }
+                                            }
+                                        }
+//                                        Button("回复") {
+//                                            replyName = comment.name
+//                                            replyAction = comment.reply
+//                                            focused = false
+//                                            isReply = true
+//                                            replyFocused.toggle()
+//                                        }
+                                    }
                                 }
                             } header: {
                                 TopicDetailHeaderView(title: title, commentCount: commentCount)
@@ -303,6 +312,21 @@ struct TopicDetailContentView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Menu {
+                    if UserInfo.shared.isLogin() {
+                        Button {
+                            if let action = comments.first?.favorite,
+                               UserInfo.shared.isLogin(),
+                               !action.isEmpty {
+                                favoriteAction = action
+                                Task {
+                                    await favorite()
+                                }
+                            }
+                        } label: {
+                            Label("收藏", systemImage: "star.fill")
+                        }
+                    }
+
                     Menu("举报") {
                         ForEach(ReportMenuItem.allCases) { item in
                             Button {
@@ -404,6 +428,9 @@ struct TopicDetailContentView: View {
                         if let i = comment.content.firstIndex(of: "\r\n") {
                             comment.content.remove(at: i)
                         }
+                        if let action = element.at_xpath("//div[@class='pob cl']//a[1]/@href", namespaces: nil)?.text, action.contains("favorite") {
+                            comment.favorite = action
+                        }
                     }
                     list.append(comment)
                 }
@@ -418,6 +445,31 @@ struct TopicDetailContentView: View {
                 isHidden = true
 
                 shieldUsers()
+            }
+        }
+    }
+
+    private func favorite() async {
+        Task {
+            // swiftlint:disable force_unwrapping
+            let url = URL(string: "https://www.chongbuluo.com/\(favoriteAction)")!
+            // swiftlint:enble force_unwrapping
+            var requset = URLRequest(url: url)
+            requset.httpMethod = "POST"
+            requset.configHeaderFields()
+            let (data, _) = try await URLSession.shared.data(for: requset)
+            if let html = try? HTML(html: data, encoding: .utf8) {
+                if let text = html.toHTML {
+                    if text.contains("信息收藏成功") {
+                        hud.show(message: "收藏成功")
+                    } else if text.contains("已收藏") {
+                        hud.show(message: "抱歉，您已收藏，请勿重复收藏")
+                    } else {
+                        hud.show(message: "收藏收藏失败，请稍后重试")
+                    }
+                }
+            } else {
+                hud.show(message: "收藏收藏失败，请稍后重试")
             }
         }
     }
@@ -641,6 +693,7 @@ struct TopicCommentModel: Identifiable {
     var uid = ""
     var pid = ""
     var reply = ""
+    var favorite = ""
     var name = ""
     var avatar = ""
     var lv = ""

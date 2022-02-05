@@ -140,7 +140,6 @@ struct UserGroupContentView: View {
             // swiftlint:enble force_unwrapping
             var request = URLRequest(url: url)
             request.configHeaderFields()
-            request.addValue(UserAgentType.mac.description, forHTTPHeaderField: HTTPHeaderField.userAgent.description)
             let (data, _) = try await URLSession.shared.data(for: request)
             if let html = try? HTML(html: data, encoding: .utf8) {
                 sections = []
