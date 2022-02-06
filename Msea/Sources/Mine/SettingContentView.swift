@@ -138,19 +138,15 @@ struct SettingContentView: View {
             var request = URLRequest(url: url)
             request.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: request)
-            if let html = try? HTML(html: data, encoding: .utf8) {
-                if let text = html.toHTML, text.contains("退出") {
-                    CacheInfo.shared.daysignIsOn = false
-                    UserInfo.shared.reset()
-                    NotificationCenter.default.post(name: .logout, object: nil)
-                    hud.show(message: "您已退出登录！")
-                    if itemSections.count == 4 {
-                        itemSections.remove(at: 3)
-                    }
-                    dismiss()
-                } else {
-                    hud.show(message: "退出异常，请稍后重试！")
+            if let html = try? HTML(html: data, encoding: .utf8), html.toHTML != nil {
+                CacheInfo.shared.daysignIsOn = false
+                UserInfo.shared.reset()
+                NotificationCenter.default.post(name: .logout, object: nil)
+                hud.show(message: "您已退出登录！")
+                if itemSections.count == 4 {
+                    itemSections.remove(at: 3)
                 }
+                dismiss()
             } else {
                 hud.show(message: "退出异常，请稍后重试！")
             }

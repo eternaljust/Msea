@@ -14,6 +14,7 @@ struct LoginContentView: View {
     @EnvironmentObject private var hud: HUDState
     @EnvironmentObject var sceneDelegate: FSSceneDelegate
     @Environment(\.dismiss) private var dismiss
+    @State private var loginField: FoginField = .username
 
     @State private var username = ""
     @State private var password = ""
@@ -24,12 +25,38 @@ struct LoginContentView: View {
 
     var body: some View {
         VStack(alignment: .center) {
-            TextField("邮箱", text: $username)
+            HStack {
+                Menu {
+                    ForEach(FoginField.allCases) { item in
+                        Button {
+                            username = ""
+                            loginField = item
+                        } label: {
+                            Label(item.title, systemImage: item.icon)
+                        }
+                    }
+                } label: {
+                    HStack {
+                        Text(loginField.title)
+
+                        Image(systemName: "arrowtriangle.down.fill")
+                            .resizable()
+                            .frame(width: 8, height: 8)
+                            .padding(.leading, -5)
+                    }
+                }
+
+                Spacer()
+            }
+            .frame(width: 300)
+            .padding(.bottom, -5)
+
+            TextField(loginField.placeholder, text: $username)
                 .textFieldStyle(.roundedBorder)
                 .keyboardType(.emailAddress)
                 .frame(width: 300, height: 40)
 
-            SecureField("密码", text: $password)
+            SecureField("输入密码", text: $password)
                 .textFieldStyle(.roundedBorder)
                 .frame(width: 300, height: 40)
 
@@ -88,7 +115,7 @@ struct LoginContentView: View {
 
             isShowing = true
             // swiftlint:disable force_unwrapping
-            let parames = "&formhash=\(formhash)&loginfield=email&username=\(username)&password=\(password)&questionid=0&answer=".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+            let parames = "&formhash=\(formhash)&loginfield=\(loginField.id)&username=\(username)&password=\(password)&questionid=0&answer=".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
             let url = URL(string: "\(kAppBaseURL)\(action)\(parames)")!
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
@@ -147,5 +174,39 @@ struct LoginContentView: View {
 struct LoginContentView_Previews: PreviewProvider {
     static var previews: some View {
         LoginContentView()
+    }
+}
+
+enum FoginField: String, CaseIterable, Identifiable {
+    case username
+    case email
+
+    var id: String { self.rawValue }
+
+    var icon: String {
+        switch self {
+        case .username:
+            return "person.circle"
+        case .email:
+            return "envelope"
+        }
+    }
+
+    var title: String {
+        switch self {
+        case .username:
+            return "用户名"
+        case .email:
+            return "邮箱"
+        }
+    }
+
+    var placeholder: String {
+        switch self {
+        case .username:
+            return "输入用户名"
+        case .email:
+            return "输入邮箱"
+        }
     }
 }
