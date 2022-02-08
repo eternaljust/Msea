@@ -33,11 +33,11 @@ struct PostListContentView: View {
 
                         VStack(alignment: .leading) {
                             Text(post.time)
-                                .font(.footnote)
+                                .font(.font13)
 
                             ZStack(alignment: .leading) {
                                 Text("\(Text(post.name).foregroundColor(.secondaryTheme)) \(type.body) \(Text(post.title).foregroundColor(.secondaryTheme))")
-                                    .font(.footnote)
+                                    .font(.font13)
 
                                 NavigationLink(destination: TopicDetailContentView(tid: post.ptid)) {
                                     EmptyView()

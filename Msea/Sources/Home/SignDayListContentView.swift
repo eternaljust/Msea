@@ -25,7 +25,7 @@ struct SignDayListContentView: View {
                     ZStack {
                         HStack {
                             Text(sign.no)
-                                .font(.font14.weight(.light))
+                                .font(.font15.weight(.light))
                                 .padding(.trailing, 10)
 
                             Text(sign.name)
@@ -55,8 +55,9 @@ struct SignDayListContentView: View {
 
                             Text(sign.time)
                                 .font(.font12.weight(.thin))
-                                .lineLimit(2)
+                                .lineLimit(4)
                                 .multilineTextAlignment(.center)
+                                .minimumScaleFactor(0.5)
                                 .onAppear {
                                     if sign.id == signDayList.last?.id {
                                         page += 1

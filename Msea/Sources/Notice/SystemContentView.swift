@@ -29,11 +29,11 @@ struct SystemContentView: View {
 
                         VStack(alignment: .leading) {
                             Text(system.time)
-                                .font(.footnote)
+                                .font(.font13)
                                 .padding(.bottom, 1)
 
                             Text(system.content)
-                                .font(.font14)
+                                .font(.font15)
                                 .fixedSize(horizontal: false, vertical: true)
                                 .onTapGesture(perform: {
                                     if system.content.contains("看看我能做什么") {

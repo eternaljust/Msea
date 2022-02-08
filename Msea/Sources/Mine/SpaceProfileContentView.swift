@@ -44,10 +44,10 @@ struct SpaceProfileContentView: View {
                 .padding(.bottom, 1)
 
             Text("积分: \(Text(profile.integral).foregroundColor(.theme))  Bit: \(Text(profile.bits).foregroundColor(.theme))  好友: \(Text(profile.friend).foregroundColor(.theme))  主题: \(Text(profile.topic).foregroundColor(.theme))")
-                .font(.font14)
+                .font(.font15)
 
             Text("违规: \(Text(profile.violation).foregroundColor(.theme))  日志: \(Text(profile.blog).foregroundColor(.theme))  相册:  \(Text(profile.album).foregroundColor(.theme))  分享: \(Text(profile.share).foregroundColor(.theme))")
-                .font(.font14)
+                .font(.font15)
 
             Picker("ProfileTab", selection: $selectedProfileTab) {
                 ForEach(tabs) { view in

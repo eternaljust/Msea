@@ -45,10 +45,10 @@ struct MineContentView: View {
                         .padding(.bottom, 1)
 
                     Text("积分: \(Text(UserInfo.shared.integral).foregroundColor(.theme))  Bit: \(Text(UserInfo.shared.bits).foregroundColor(.theme))  好友: \(Text(UserInfo.shared.friend).foregroundColor(.theme))  主题: \(Text(UserInfo.shared.topic).foregroundColor(.theme))")
-                        .font(.font14)
+                        .font(.font15)
 
                     Text("违规: \(Text(UserInfo.shared.violation).foregroundColor(.theme))  日志: \(Text(UserInfo.shared.blog).foregroundColor(.theme))  相册:  \(Text(UserInfo.shared.album).foregroundColor(.theme))  分享: \(Text(UserInfo.shared.share).foregroundColor(.theme))")
-                        .font(.font14)
+                        .font(.font15)
 
                     Picker("ProfileTabMine", selection: $selectedProfileTab) {
                         ForEach(ProfileTab.allCases) { view in
@@ -96,7 +96,7 @@ struct MineContentView: View {
 
                         Text("节点导航")
                             .multilineTextAlignment(.leading)
-                            .font(.font14)
+                            .font(.font15)
 
                         Spacer()
 
@@ -114,7 +114,7 @@ struct MineContentView: View {
                                     ForEach(section.plates, id: \.id) { plate in
                                         NavigationLink(destination: PublishPostContentView(plate: plate)) {
                                             Text(plate.title)
-                                                .font(.font14)
+                                                .font(.font15)
                                                 .foregroundColor(.theme)
                                         }
                                     }
@@ -122,7 +122,7 @@ struct MineContentView: View {
                                     HStack {
                                         Text(section.title)
                                             .foregroundColor(.secondary)
-                                            .font(.font14)
+                                            .font(.font15)
 
                                         Spacer()
                                     }

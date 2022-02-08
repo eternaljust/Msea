@@ -43,9 +43,9 @@ struct MessageBoardContentView: View {
 
                             VStack(alignment: .leading) {
                                 Text(message.name)
-                                    .font(.subheadline)
+                                    .font(.font15)
                                 Text(message.time)
-                                    .font(.footnote)
+                                    .font(.font13)
                             }
                             .onAppear {
                                 if message.id == messages.last?.id {

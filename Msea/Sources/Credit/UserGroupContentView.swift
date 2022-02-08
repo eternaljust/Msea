@@ -71,8 +71,8 @@ struct UserGroupContentView: View {
 
                             Spacer()
                         }
-                        .frame(height: 40)
-                        .font(.font14)
+                        .frame(minHeight: 40)
+                        .font(.font15)
                         .foregroundColor(.white)
                         .background(Color.secondaryTheme)
                         .multilineTextAlignment(.center)
@@ -90,7 +90,7 @@ struct UserGroupContentView: View {
                                 Text("表示无权操作")
                             }
                             .font(.font12)
-                            .frame(height: 30)
+                            .frame(minHeight: 30)
                         }
                     }
                 }

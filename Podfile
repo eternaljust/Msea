@@ -25,6 +25,7 @@ post_install do |installer|
   installer.pods_project.targets.each do |target|
     target.build_configurations.each do |configuration|
       configuration.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.0'
+      configuration.build_settings['ONLY_ACTIVE_ARCH'] = 'NO'
     end
   end
 end

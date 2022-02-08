@@ -44,10 +44,10 @@ struct SignListContentView: View {
                             Text(sign.bits)
                                 .padding(.trailing, 10)
                                 .foregroundColor(.theme)
-                                .font(.font14)
+                                .font(.font15)
 
                             Text(sign.time)
-                                .font(.font14.weight(.thin))
+                                .font(.font15.weight(.thin))
                                 .onAppear {
                                     if sign.id == signList.last?.id {
                                         page += 1

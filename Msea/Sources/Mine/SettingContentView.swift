@@ -25,6 +25,7 @@ struct SettingContentView: View {
     @State var isShowingMail = false
     @State private var isSharePresented: Bool = false
     @State private var isConfirming = false
+    @State private var dynamicTypeSize = UIFontMetrics(forTextStyle: .body).scaledFont(for: .preferredFont(forTextStyle: .body)).pointSize
 
     var body: some View {
         VStack {
@@ -34,14 +35,28 @@ struct SettingContentView: View {
                         ForEach(section.items) { item in
                             switch item {
                             case .signalert:
-                                HStack {
-                                    Image(systemName: item.icon)
+                                if dynamicTypeSize >= 43 && !UIDevice.current.isPad {
+                                    VStack {
+                                        HStack {
+                                            Image(systemName: item.icon)
 
-                                    Text(item.title)
+                                            Text(item.title)
 
-                                    Spacer()
+                                            Spacer()
+                                        }
 
-                                    SignalertContentView()
+                                        SignalertContentView()
+                                    }
+                                } else {
+                                    HStack {
+                                        Image(systemName: item.icon)
+
+                                        Text(item.title)
+
+                                        Spacer()
+
+                                        SignalertContentView()
+                                    }
                                 }
                             case .logout:
                                 Button {
@@ -109,6 +124,10 @@ struct SettingContentView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .login, object: nil)) { _ in
             addLogoutSection()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIContentSizeCategory.didChangeNotification, object: nil)) { _ in
+            dynamicTypeSize = UIFontMetrics(forTextStyle: .body).scaledFont(for: .preferredFont(forTextStyle: .body)).pointSize
+            print("dynamicTypeSize:\(dynamicTypeSize)")
         }
     }
 
@@ -327,7 +346,7 @@ struct SignalertContentView: View {
                     }
                 } message: {
                     Text("可在设置中重新开启签到提醒")
-                        .font(.callout)
+                        .font(.font16)
                 }
                 .onChange(of: isOn) { value in
                     Task {

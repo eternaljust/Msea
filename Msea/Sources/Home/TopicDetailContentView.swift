@@ -86,9 +86,9 @@ struct TopicDetailContentView: View {
 
                                             VStack(alignment: .leading) {
                                                 Text(comment.name)
-                                                    .font(.headline)
+                                                    .font(.font17Blod)
                                                 Text(comment.time)
-                                                    .font(.footnote)
+                                                    .font(.font13)
                                             }
                                         }
                                         .onAppear {
@@ -104,7 +104,7 @@ struct TopicDetailContentView: View {
 
                                         if comment.isText {
                                             Text(comment.content)
-                                                .font(.font14)
+                                                .font(.font15)
                                                 .multilineTextAlignment(.leading)
                                         } else {
                                             Web(bodyHTMLString: comment.content, didFinish: { scrollHeight in
@@ -675,7 +675,7 @@ struct TopicDetailHeaderView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text(title)
-                .font(.title3)
+                .font(.font20)
 
             Text(commentCount)
         }

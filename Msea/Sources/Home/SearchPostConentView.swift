@@ -33,19 +33,19 @@ struct SearchPostConentView: View {
                             ZStack(alignment: .leading) {
                                 VStack(alignment: .leading) {
                                     getContentView(searchModel.title)
-                                        .font(.headline)
+                                        .font(.font17Blod)
                                         .foregroundColor(.secondaryTheme)
                                         .fixedSize(horizontal: false, vertical: true)
 
                                     Text(searchModel.replyViews)
-                                        .font(.footnote)
+                                        .font(.font13)
                                         .foregroundColor(.secondary)
 
                                     getContentView(searchModel.content)
                                         .fixedSize(horizontal: false, vertical: true)
 
                                     Text("\(Text(searchModel.time).foregroundColor(.theme)) - \(Text(searchModel.name).foregroundColor(.secondary)) - \(Text(searchModel.plate).foregroundColor(.secondary))")
-                                        .font(.footnote)
+                                        .font(.font13)
                                         .onAppear {
                                             if searchModel.id == searchList.last?.id, nextPage {
                                                 page += 1

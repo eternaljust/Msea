@@ -17,7 +17,7 @@ struct FriendVisitorContentView: View {
     @State private var isHidden = false
 
     let columns = [
-        GridItem(.adaptive(minimum: 63, maximum: 80), spacing: 1)
+        GridItem(.adaptive(minimum: 80, maximum: 120), spacing: 2)
     ]
 
     var body: some View {
@@ -27,7 +27,7 @@ struct FriendVisitorContentView: View {
                     Section {
                         if section.persons.isEmpty {
                             Text("暂无")
-                                .font(.font14)
+                                .font(.font15)
                         } else {
                             ForEach(section.persons, id: \.id) { persion in
                                 NavigationLink(destination: SpaceProfileContentView(uid: persion.uid)) {
@@ -43,14 +43,14 @@ struct FriendVisitorContentView: View {
                                         Text(persion.name)
                                             .font(.font12)
                                             .foregroundColor(.theme)
-                                            .lineLimit(1)
+                                            .lineLimit(2)
                                             .multilineTextAlignment(.center)
 
                                         if !persion.time.isEmpty {
                                             Text(persion.time)
                                                 .font(.font12)
                                                 .foregroundColor(.secondary)
-                                                .lineLimit(1)
+                                                .lineLimit(2)
                                                 .multilineTextAlignment(.center)
                                         }
                                     }
@@ -61,6 +61,9 @@ struct FriendVisitorContentView: View {
                         FriendVisitorHeaderView(title: section.type.title)
                     }
                 }
+            }
+            .refreshable {
+                await loadData()
             }
             .task {
                 if friendVisitors[0].persons.isEmpty && friendVisitors[1].persons.isEmpty {
@@ -79,6 +82,8 @@ struct FriendVisitorContentView: View {
             // swiftlint:enble force_unwrapping
             let (data, _) = try await URLSession.shared.data(from: url)
             if let html = try? HTML(html: data, encoding: .utf8) {
+                friendVisitors = [FriendVisitorListModel(type: .friend, persons: [FriendVisitorModel]()),
+                                  FriendVisitorListModel(type: .visitor, persons: [FriendVisitorModel]())]
                 let friend_content = html.xpath("//div[@id='friend_content']/ul/li", namespaces: nil)
                 var friends = [FriendVisitorModel]()
                 friend_content.forEach { element in
@@ -138,7 +143,7 @@ struct FriendVisitorHeaderView: View {
         HStack {
             Text(title)
                 .foregroundColor(.secondary)
-                .font(.font14)
+                .font(.font15)
                 .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
 
             Spacer()

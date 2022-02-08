@@ -37,18 +37,22 @@ struct DaySignContentView: View {
                     }
                 }
                 .foregroundColor(isSign ? .secondary : .white)
-                .frame(height: 40)
+                .frame(minHeight: 40)
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
                 .background(isSign ? Color.backGround : Color.secondaryTheme)
                 .cornerRadius(5)
                 .disabled(isSign)
 
-                HStack(spacing: 50) {
+                HStack {
+                    Spacer()
+
                     VStack {
                         Text("连续签到")
 
                         Text("\(Text(daySign.days).foregroundColor(.theme))天")
                     }
+
+                    Spacer()
 
                     Button {
                         showAlert = true
@@ -58,8 +62,10 @@ struct DaySignContentView: View {
                     .alert("每日福利规则", isPresented: $showAlert) {
                     } message: {
                         Text(CacheInfo.shared.signRule)
-                            .font(.callout)
+                            .font(.font16)
                     }
+
+                    Spacer()
 
                     VStack {
                         Text("累计获得")
@@ -67,27 +73,29 @@ struct DaySignContentView: View {
                         Text("\(daySign.bits)Bit")
                             .foregroundColor(.theme)
                     }
+
+                    Spacer()
                 }
                 .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
 
                 HStack {
                     Label("\(daySign.today)", systemImage: "leaf.fill")
                         .foregroundColor(.theme)
-                        .font(.font14)
+                        .font(.font15)
 
                     Label("\(daySign.yesterday)", systemImage: "leaf.fill")
                         .foregroundColor(.secondaryTheme)
-                        .font(.font14)
+                        .font(.font15)
                 }
 
                 HStack(alignment: .center, spacing: 20) {
                     Label("\(daySign.month)", systemImage: "checkmark.circle")
                         .foregroundColor(.secondaryTheme)
-                        .font(.font14)
+                        .font(.font15)
 
                     Label("\(daySign.total)", systemImage: "text.badge.checkmark")
                         .foregroundColor(.theme)
-                        .font(.font14)
+                        .font(.font15)
                 }
 
                 Picker("SignTab", selection: $selectedSignTab) {
@@ -129,7 +137,7 @@ struct DaySignContentView: View {
                 HStack {
                     Text(CacheInfo.shared.signExpression)
                         .multilineTextAlignment(.leading)
-                        .font(.font14)
+                        .font(.font15)
 
                     Spacer()
 

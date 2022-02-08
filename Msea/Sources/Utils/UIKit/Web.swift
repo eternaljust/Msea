@@ -40,7 +40,10 @@ struct Web: UIViewRepresentable {
         } else if let bodyHTMLString = bodyHTMLString {
             let theme = colorScheme == .light ? "light" : "dark"
             if let stylePath = Bundle.main.path(forResource: "style", ofType: "css"), let themePath = Bundle.main.path(forResource: theme, ofType: "css") {
-                if let cssString = try? String(contentsOfFile: stylePath), let themeString = try? String(contentsOfFile: themePath) {
+                if var cssString = try? String(contentsOfFile: stylePath), let themeString = try? String(contentsOfFile: themePath) {
+                    let scaledFont = UIFontMetrics(forTextStyle: .body).scaledFont(for: .preferredFont(forTextStyle: .body), maximumPointSize: 34)
+                    let fontpx = scaledFont.pointSize
+                    cssString = cssString.replacingOccurrences(of: "tdFontSize", with: "\(fontpx)px")
                     let head = "<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\"><style>\(cssString + themeString)</style></head>"
                     let body = "<body><div id=\"Wrapper\">\(bodyHTMLString)</div></body>"
                     let html = "<html>\(head)\(body)</html>"
