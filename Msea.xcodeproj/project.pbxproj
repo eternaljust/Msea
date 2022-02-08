@@ -51,6 +51,7 @@
 		EF83EDE92768779C00EED0F5 /* Dialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF83EDE82768779C00EED0F5 /* Dialog.swift */; };
 		EF8A7A282766F3110092E53C /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8A7A272766F3110092E53C /* UserInfo.swift */; };
 		EF8A7A2B2766F3950092E53C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8A7A2A2766F3950092E53C /* Constants.swift */; };
+		EF8C3E3B27B26EA900201A9E /* DynamicFontContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8C3E3A27B26EA900201A9E /* DynamicFontContentView.swift */; };
 		EF9012802761A3D90079BF4C /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF90127F2761A3D90079BF4C /* HUD.swift */; };
 		EFA1350C277C3A540060A172 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFD6BA6D277C07650060239D /* Intents.framework */; };
 		EFA1350F277C3A540060A172 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA1350E277C3A540060A172 /* IntentHandler.swift */; };
@@ -173,6 +174,7 @@
 		EF83EDE82768779C00EED0F5 /* Dialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dialog.swift; sourceTree = "<group>"; };
 		EF8A7A272766F3110092E53C /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		EF8A7A2A2766F3950092E53C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		EF8C3E3A27B26EA900201A9E /* DynamicFontContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicFontContentView.swift; sourceTree = "<group>"; };
 		EF90127F2761A3D90079BF4C /* HUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		EFA1350B277C3A540060A172 /* WidgetIntentHandler.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WidgetIntentHandler.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFA1350E277C3A540060A172 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
@@ -262,6 +264,7 @@
 				EF5F0B1A279565E300A5D81F /* URLSchemesContentView.swift */,
 				814E210127A4DEF100AC3A17 /* TermsOfServiceContentView.swift */,
 				814C39E127AA7A18004696D8 /* SDKListContentView.swift */,
+				EF8C3E3A27B26EA900201A9E /* DynamicFontContentView.swift */,
 			);
 			path = Mine;
 			sourceTree = "<group>";
@@ -799,6 +802,7 @@
 				EFD7EBE827953FB1004C1609 /* UIApplication+Extension.swift in Sources */,
 				EFBC2DAF2796A005008D31EF /* Email.swift in Sources */,
 				EF082EF3275F4B1C00056BCA /* SignDayListContentView.swift in Sources */,
+				EF8C3E3B27B26EA900201A9E /* DynamicFontContentView.swift in Sources */,
 				EFF883C7278FBE2700A14CC7 /* MyPostContentView.swift in Sources */,
 				EF32F85C279E45B700846E95 /* NoticeContentView.swift in Sources */,
 				EF32F862279E49F500846E95 /* AppContentView.swift in Sources */,

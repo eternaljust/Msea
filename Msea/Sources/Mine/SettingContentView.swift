@@ -18,7 +18,7 @@ struct SettingContentView: View {
     @State private var itemSections: [SettingSection] = [
         SettingSection(items: [.signalert]),
         SettingSection(items: [.feedback, .review, .contactus, .share]),
-        SettingSection(items: [.urlschemes, .termsofservice, .about])
+        SettingSection(items: [.urlschemes, .dynamicfont, .termsofservice, .about])
     ]
     @State private var logoutSetion = SettingSection(items: [.logout])
 
@@ -88,7 +88,7 @@ struct SettingContentView: View {
                                 } message: {
                                     Text("联系我们")
                                 }
-                            case .urlschemes, .termsofservice, .about:
+                            case .urlschemes, .dynamicfont, .termsofservice, .about:
                                 NavigationLink(destination: getContentView(item)) {
                                     HStack {
                                         Image(systemName: item.icon)
@@ -231,6 +231,8 @@ struct SettingContentView: View {
             EmptyView()
         case .urlschemes:
             URLSchemesContentView()
+        case .dynamicfont:
+            DynamicFontContentView()
         case .termsofservice:
             TermsOfServiceContentView()
         case .about:
@@ -259,6 +261,7 @@ enum SettingItem: String, CaseIterable, Identifiable {
     case feedback
     case contactus
     case urlschemes
+    case dynamicfont
     case termsofservice
     case about
     case logout
@@ -279,6 +282,8 @@ enum SettingItem: String, CaseIterable, Identifiable {
             return "message.fill"
         case .urlschemes:
             return "personalhotspot.circle.fill"
+        case .dynamicfont:
+            return "a.circle.fill"
         case .termsofservice:
             return "list.bullet.circle.fill"
         case .about:
@@ -302,6 +307,8 @@ enum SettingItem: String, CaseIterable, Identifiable {
             return "联系我们"
         case .urlschemes:
             return "URL Schemes"
+        case .dynamicfont:
+            return "动态字体大小"
         case .termsofservice:
             return "使用条款"
         case .about:
