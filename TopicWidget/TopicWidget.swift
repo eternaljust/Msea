@@ -204,5 +204,6 @@ struct Widgets: WidgetBundle {
     var body: some Widget {
         TopicWidget()
         ProfileWidget()
+        NoticeWidget()
     }
 }

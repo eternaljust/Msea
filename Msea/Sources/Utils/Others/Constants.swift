@@ -60,6 +60,8 @@ struct CacheKeys {
     static let daysignMinute = "daysignMinuteKey"
     /// 签到开关
     static let daysignIsOn = "daysignIsOnKey"
+    /// 消息提醒开关
+    static let noticeIsOn = "noticeIsOnKey"
     /// 选中 tab
     static let selectedTab = "selectedTabKey"
     /// 默认 uid

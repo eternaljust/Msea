@@ -72,6 +72,8 @@
 		EFBE964E277D4FED00481170 /* FriendVisitorContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBE964D277D4FED00481170 /* FriendVisitorContentView.swift */; };
 		EFBE9650277D501200481170 /* MessageBoardContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBE964F277D501200481170 /* MessageBoardContentView.swift */; };
 		EFC6D5D52772C2EC00C9B0E0 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFC6D5D42772C2EC00C9B0E0 /* Launch Screen.storyboard */; };
+		EFCB13BC27B36F1E00E50770 /* MseeageNoticeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCB13BB27B36F1E00E50770 /* MseeageNoticeContentView.swift */; };
+		EFCB13BE27B3A6B200E50770 /* NoticeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCB13BD27B3A6B200E50770 /* NoticeWidget.swift */; };
 		EFD6BA66277C05980060239D /* WidgetIntents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = EFD6BA62277BFA4F0060239D /* WidgetIntents.intentdefinition */; };
 		EFD6BA67277C05B20060239D /* ProfileWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD6BA64277C02BC0060239D /* ProfileWidget.swift */; };
 		EFD7EBE227951075004C1609 /* SpaceProfileContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD7EBE127951075004C1609 /* SpaceProfileContentView.swift */; };
@@ -195,6 +197,8 @@
 		EFBE964D277D4FED00481170 /* FriendVisitorContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendVisitorContentView.swift; sourceTree = "<group>"; };
 		EFBE964F277D501200481170 /* MessageBoardContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBoardContentView.swift; sourceTree = "<group>"; };
 		EFC6D5D42772C2EC00C9B0E0 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		EFCB13BB27B36F1E00E50770 /* MseeageNoticeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MseeageNoticeContentView.swift; sourceTree = "<group>"; };
+		EFCB13BD27B3A6B200E50770 /* NoticeWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeWidget.swift; sourceTree = "<group>"; };
 		EFD6BA62277BFA4F0060239D /* WidgetIntents.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = WidgetIntents.intentdefinition; sourceTree = "<group>"; };
 		EFD6BA64277C02BC0060239D /* ProfileWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileWidget.swift; sourceTree = "<group>"; };
 		EFD6BA6D277C07650060239D /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
@@ -265,6 +269,7 @@
 				814E210127A4DEF100AC3A17 /* TermsOfServiceContentView.swift */,
 				814C39E127AA7A18004696D8 /* SDKListContentView.swift */,
 				EF8C3E3A27B26EA900201A9E /* DynamicFontContentView.swift */,
+				EFCB13BB27B36F1E00E50770 /* MseeageNoticeContentView.swift */,
 			);
 			path = Mine;
 			sourceTree = "<group>";
@@ -388,6 +393,7 @@
 			children = (
 				EF70CDEE277AA1B20049D830 /* TopicWidget.swift */,
 				EFD6BA64277C02BC0060239D /* ProfileWidget.swift */,
+				EFCB13BD27B3A6B200E50770 /* NoticeWidget.swift */,
 				EFD6BA62277BFA4F0060239D /* WidgetIntents.intentdefinition */,
 				EF70CDF0277AA1B30049D830 /* Assets.xcassets */,
 				EF70CDF2277AA1B30049D830 /* Info.plist */,
@@ -739,6 +745,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF70CDEF277AA1B20049D830 /* TopicWidget.swift in Sources */,
+				EFCB13BE27B3A6B200E50770 /* NoticeWidget.swift in Sources */,
 				EF70CDFA277AAA600049D830 /* Color+Extension.swift in Sources */,
 				EFD6BA67277C05B20060239D /* ProfileWidget.swift in Sources */,
 				EFD6BA66277C05980060239D /* WidgetIntents.intentdefinition in Sources */,
@@ -786,6 +793,7 @@
 				EF80EF9B2786B8E800CE1EE1 /* Web.swift in Sources */,
 				EFBE964C277D4F4800481170 /* ProfileTopicContentView.swift in Sources */,
 				EFA87A09279F92F900DAD877 /* CreditListContentView.swift in Sources */,
+				EFCB13BC27B36F1E00E50770 /* MseeageNoticeContentView.swift in Sources */,
 				EFD7EBE227951075004C1609 /* SpaceProfileContentView.swift in Sources */,
 				EF6FDDBE27992A080087885C /* SearchPostConentView.swift in Sources */,
 				8174357A27AD69F800B924B5 /* FavoriteContentView.swift in Sources */,

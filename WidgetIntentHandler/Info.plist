@@ -12,6 +12,7 @@
 			<array/>
 			<key>IntentsSupported</key>
 			<array>
+				<string>NoticeIntent</string>
 				<string>ProfileIntent</string>
 			</array>
 		</dict>

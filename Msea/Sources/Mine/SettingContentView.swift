@@ -14,9 +14,10 @@ import MessageUI
 struct SettingContentView: View {
     @EnvironmentObject private var hud: HUDState
     @Environment(\.dismiss) private var dismiss
+    @State private var isOn = false
 
     @State private var itemSections: [SettingSection] = [
-        SettingSection(items: [.signalert]),
+        SettingSection(items: [.signalert, .notice]),
         SettingSection(items: [.feedback, .review, .contactus, .share]),
         SettingSection(items: [.cleancache, .dynamicfont]),
         SettingSection(items: [.urlschemes, .termsofservice, .about])
@@ -41,6 +42,7 @@ struct SettingContentView: View {
                                     VStack {
                                         HStack {
                                             Image(systemName: item.icon)
+                                                .foregroundColor(.theme)
 
                                             Text(item.title)
 
@@ -52,6 +54,7 @@ struct SettingContentView: View {
                                 } else {
                                     HStack {
                                         Image(systemName: item.icon)
+                                            .foregroundColor(.theme)
 
                                         Text(item.title)
 
@@ -59,6 +62,44 @@ struct SettingContentView: View {
 
                                         SignalertContentView()
                                     }
+                                }
+                            case .notice:
+                                ZStack(alignment: .leading) {
+                                    if dynamicTypeSize >= 43 && !UIDevice.current.isPad {
+                                        VStack {
+                                            HStack {
+                                                Image(systemName: item.icon)
+                                                    .renderingMode(.original)
+                                                    .foregroundColor(.theme)
+
+                                                Text("\(Text(item.title))\n\(Text(item.subTitle).font(.font15).foregroundColor(.secondary))")
+                                                    .fixedSize(horizontal: true, vertical: true)
+
+                                                Spacer()
+                                            }
+
+                                            MessageNoticeView()
+                                                .padding(.trailing, dynamicTypeSize)
+                                        }
+                                    } else {
+                                        HStack {
+                                            Image(systemName: item.icon)
+                                                .renderingMode(.original)
+                                                .foregroundColor(.theme)
+
+                                            Text("\(Text(item.title))\n\(Text(item.subTitle).font(.font15).foregroundColor(.secondary))")
+                                                .fixedSize(horizontal: true, vertical: true)
+
+                                            Spacer()
+
+                                            MessageNoticeView()
+                                        }
+                                    }
+
+                                    NavigationLink(destination: getContentView(item)) {
+                                        EmptyView()
+                                    }
+                                    .opacity(0.0)
                                 }
                             case .logout:
                                 Button {
@@ -244,6 +285,8 @@ struct SettingContentView: View {
         switch item {
         case .signalert:
             EmptyView()
+        case .notice:
+            MseeageNoticeContentView()
         case .review:
             EmptyView()
         case .share:
@@ -281,6 +324,7 @@ struct SettingSection: Identifiable {
 
 enum SettingItem: String, CaseIterable, Identifiable {
     case signalert
+    case notice
     case review
     case share
     case feedback
@@ -297,7 +341,9 @@ enum SettingItem: String, CaseIterable, Identifiable {
     var icon: String {
         switch self {
         case .signalert:
-            return "clock.fill"
+            return "clock"
+        case .notice:
+            return "app.badge"
         case .review:
             return "star.fill"
         case .share:
@@ -325,6 +371,8 @@ enum SettingItem: String, CaseIterable, Identifiable {
         switch self {
         case .signalert:
             return "签到提醒"
+        case .notice:
+            return "新消息提醒通知"
         case .review:
             return "评价应用"
         case .share:
@@ -346,6 +394,13 @@ enum SettingItem: String, CaseIterable, Identifiable {
         case .logout:
             return "退出登录"
         }
+    }
+
+    var subTitle: String {
+        if self == .notice {
+            return "需添加桌面小组件辅助"
+        }
+        return ""
     }
 }
 
@@ -406,6 +461,7 @@ struct SignalertContentView: View {
                     }
                 }
         }
+        .tint(.theme)
         .onAppear {
             Task {
                 let now = Date.now
@@ -415,6 +471,50 @@ struct SignalertContentView: View {
                 let date = Calendar.current.date(from: components)
                 selectedDate = date ?? now
                 isOn = await LocalNotification.shared.isAuthorizationDenied() ? false : CacheInfo.shared.daysignIsOn
+            }
+        }
+    }
+}
+
+struct MessageNoticeView: View {
+    @State private var isOn = false
+    @State private var showAlert = false
+    @Environment(\.openURL) var openURL
+
+    var body: some View {
+        HStack {
+            Toggle("", isOn: $isOn)
+                .alert("通知权限已关闭", isPresented: $showAlert) {
+                    Button("取消", role: .cancel) {
+                    }
+
+                    Button("去设置") {
+                        // swiftlint:disable force_unwrapping
+                        openURL(URL(string: UIApplication.openSettingsURLString)!)
+                        // swiftlint:enble force_unwrapping
+                    }
+                } message: {
+                    Text("可在设置中重新开启消息提醒")
+                        .font(.font16)
+                }
+                .onChange(of: isOn) { value in
+                    Task {
+                        print(value)
+                        if await LocalNotification.shared.isAuthorizationDenied() {
+                            if !isOn && !value {
+                                showAlert.toggle()
+                            }
+                            isOn = false
+                        } else {
+                            CacheInfo.shared.noticeIsOn = value
+                        }
+                    }
+                }
+        }
+        .tint(.theme)
+        .onAppear {
+            Task {
+                isOn = await LocalNotification.shared.isAuthorizationDenied() ? false : CacheInfo.shared.noticeIsOn
             }
         }
     }
