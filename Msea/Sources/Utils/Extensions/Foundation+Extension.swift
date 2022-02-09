@@ -27,3 +27,43 @@ extension Array: RawRepresentable where Element: Codable {
         return result
     }
 }
+
+extension FileManager {
+    func getCacheSize() -> String {
+        var totalSize = 0.00
+        if let cachePath = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first,
+           let files = FileManager.default.subpaths(atPath: cachePath) {
+            var size = 0
+            for file in files where file.hasPrefix("com.") {
+                let path = cachePath + "/\(file)"
+                do {
+                    let floder = try FileManager.default.attributesOfItem(atPath: path)
+                    for (key, fileSize) in floder where key == FileAttributeKey.size {
+                        size += (fileSize as AnyObject).integerValue
+                    }
+                } catch {
+                    print("文件异常！")
+                }
+            }
+            totalSize = Double(size) / 1024.0 / 1024.0
+        }
+
+        return String(format: "%.2fM", totalSize)
+    }
+
+    func cleanCache() {
+        if let cachePath = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first,
+           let files = FileManager.default.subpaths(atPath: cachePath) {
+            for file in files where file.hasPrefix("com.") {
+                let path = cachePath + "/\(file)"
+                if FileManager.default.fileExists(atPath: path) {
+                    do {
+                        try FileManager.default.removeItem(atPath: path)
+                    } catch {
+                        print("文件异常！")
+                    }
+                }
+            }
+        }
+    }
+}

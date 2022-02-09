@@ -18,7 +18,8 @@ struct SettingContentView: View {
     @State private var itemSections: [SettingSection] = [
         SettingSection(items: [.signalert]),
         SettingSection(items: [.feedback, .review, .contactus, .share]),
-        SettingSection(items: [.urlschemes, .dynamicfont, .termsofservice, .about])
+        SettingSection(items: [.cleancache, .dynamicfont]),
+        SettingSection(items: [.urlschemes, .termsofservice, .about])
     ]
     @State private var logoutSetion = SettingSection(items: [.logout])
 
@@ -26,6 +27,7 @@ struct SettingContentView: View {
     @State private var isSharePresented: Bool = false
     @State private var isConfirming = false
     @State private var dynamicTypeSize = UIFontMetrics(forTextStyle: .body).scaledFont(for: .preferredFont(forTextStyle: .body)).pointSize
+    @State private var cacheSize = FileManager.default.getCacheSize()
 
     var body: some View {
         VStack {
@@ -88,6 +90,26 @@ struct SettingContentView: View {
                                 } message: {
                                     Text("联系我们")
                                 }
+                            case .cleancache:
+                                Button {
+                                    FileManager.default.cleanCache()
+                                    cacheSize = FileManager.default.getCacheSize()
+                                    hud.show(message: "缓存清理成功")
+                                } label: {
+                                    HStack {
+                                        Image(systemName: item.icon)
+
+                                        Text(item.title)
+
+                                        Spacer()
+
+                                        Text(cacheSize)
+                                            .padding(.trailing, -5)
+
+                                        Indicator()
+                                    }
+                                    .foregroundColor(Color(light: .black, dark: .white))
+                                }
                             case .urlschemes, .dynamicfont, .termsofservice, .about:
                                 NavigationLink(destination: getContentView(item)) {
                                     HStack {
@@ -106,6 +128,7 @@ struct SettingContentView: View {
         }
         .navigationBarTitle("设置")
         .onAppear {
+            cacheSize = FileManager.default.getCacheSize()
             addLogoutSection()
             if !UIDevice.current.isPad {
                 TabBarTool.showTabBar(false)
@@ -233,6 +256,8 @@ struct SettingContentView: View {
             URLSchemesContentView()
         case .dynamicfont:
             DynamicFontContentView()
+        case .cleancache:
+            EmptyView()
         case .termsofservice:
             TermsOfServiceContentView()
         case .about:
@@ -262,6 +287,7 @@ enum SettingItem: String, CaseIterable, Identifiable {
     case contactus
     case urlschemes
     case dynamicfont
+    case cleancache
     case termsofservice
     case about
     case logout
@@ -284,6 +310,8 @@ enum SettingItem: String, CaseIterable, Identifiable {
             return "personalhotspot.circle.fill"
         case .dynamicfont:
             return "a.circle.fill"
+        case .cleancache:
+            return "paintbrush.fill"
         case .termsofservice:
             return "list.bullet.circle.fill"
         case .about:
@@ -309,6 +337,8 @@ enum SettingItem: String, CaseIterable, Identifiable {
             return "URL Schemes"
         case .dynamicfont:
             return "动态字体大小"
+        case .cleancache:
+            return "清理缓存"
         case .termsofservice:
             return "使用条款"
         case .about:

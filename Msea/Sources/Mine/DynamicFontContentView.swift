@@ -31,7 +31,8 @@ struct DynamicFontContentView: View {
                     .resizable()
                     .scaledToFit()
             }
-            .padding()
+            .padding(EdgeInsets(top: 15, leading: 15, bottom: UIDevice.current.isPad ? 80 : 15, trailing: 15))
+            .ignoresSafeArea(.all, edges: .bottom)
         }
         .navigationTitle("调整字体大小教程")
     }
