@@ -44,6 +44,9 @@ struct UserKeys {
     static let share = "shareKey"
     /// 屏蔽用户
     static let shieldUsers = "shieldUsersKey"
+
+    /// 网络缓存
+    static let groupHTTPHeaderFields = "groupHTTPHeaderFieldsKey"
 }
 
 /// 存储属性

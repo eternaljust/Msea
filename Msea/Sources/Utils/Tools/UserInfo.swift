@@ -14,6 +14,8 @@ class UserInfo: NSObject {
     /// 单例
     static let shared: UserInfo = UserInfo()
 
+    private static let widgetGroup: UserDefaults? = UserDefaults(suiteName: "group.com.eternaljust.Msea.Topic.Widget")
+
     func reset() {
         uid = ""
         space = ""
@@ -37,6 +39,8 @@ class UserInfo: NSObject {
     func isLogin() -> Bool {
         return !auth.isEmpty
     }
+
+    @AppStorage(UserKeys.groupHTTPHeaderFields, store: widgetGroup) var headerFields: Data = Data()
 
     @AppStorage(UserKeys.uid) var uid = ""
     @AppStorage(UserKeys.space) var space = ""

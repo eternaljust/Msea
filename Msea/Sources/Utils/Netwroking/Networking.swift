@@ -46,7 +46,8 @@ enum UserAgentType {
         case .iPad:
            return "Mozilla/5.0 (iPad; CPU OS 15_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) EdgiOS/95.0.1020.60 Version/15.0 Mobile/15E148 Safari/604.1"
         case .mac:
-            return "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_0_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.1 Safari/605.1.15"
+//            return "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_0_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.1 Safari/605.1.15"
+            return "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.55 Mobile Safari/537.36"
         }
     }
 }
@@ -63,6 +64,9 @@ extension URLRequest {
             }
         }
         addValue(UserAgentType.mac.description, forHTTPHeaderField: HTTPHeaderField.userAgent.description)
+        if let headers = allHTTPHeaderFields, let headerFields = try? JSONEncoder().encode(headers) {
+            UserInfo.shared.headerFields = headerFields
+        }
     }
 }
 

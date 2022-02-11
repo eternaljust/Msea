@@ -13,7 +13,7 @@ struct MseeageNoticeContentView: View {
     var body: some View {
         VStack(alignment: .center) {
             ScrollView {
-                Text("第一步，长按【桌面】空白区域，右上角点击【+】图标\n")
+                Text("第一步，长按【桌面】空白区域，右上角或者左上角点击【+】图标\n")
 
                 Text("第二步，点击【搜索小组件】，输入【Msea】，在列表中点击【Msea】\n")
 

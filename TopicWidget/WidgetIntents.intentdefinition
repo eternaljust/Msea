@@ -133,11 +133,13 @@
 						<key>INIntentParameterMetadataMaximumUnit</key>
 						<string>Days</string>
 						<key>INIntentParameterMetadataMaximumValue</key>
-						<real>60</real>
+						<data>
+						</data>
 						<key>INIntentParameterMetadataMinimumUnit</key>
 						<string>Seconds</string>
 						<key>INIntentParameterMetadataMinimumValue</key>
-						<real>1</real>
+						<data>
+						</data>
 						<key>INIntentParameterMetadataUnit</key>
 						<string>Minutes</string>
 					</dict>
@@ -156,16 +158,6 @@
 							<true/>
 							<key>INIntentParameterPromptDialogType</key>
 							<string>Primary</string>
-						</dict>
-						<dict>
-							<key>INIntentParameterPromptDialogCustom</key>
-							<true/>
-							<key>INIntentParameterPromptDialogFormatString</key>
-							<string>Just to confirm, you wanted ‘${time}’?</string>
-							<key>INIntentParameterPromptDialogFormatStringID</key>
-							<string>6uMYOq</string>
-							<key>INIntentParameterPromptDialogType</key>
-							<string>Confirmation</string>
 						</dict>
 					</array>
 					<key>INIntentParameterTag</key>
