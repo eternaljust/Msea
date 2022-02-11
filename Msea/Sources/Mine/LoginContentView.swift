@@ -14,10 +14,12 @@ struct LoginContentView: View {
     @EnvironmentObject private var hud: HUDState
     @EnvironmentObject var sceneDelegate: FSSceneDelegate
     @Environment(\.dismiss) private var dismiss
-    @State private var loginField: FoginField = .username
+    @State private var loginField: LoginField = .username
+    @State private var loginQuestion: LoginQuestion = .no
 
     @State private var username = ""
     @State private var password = ""
+    @State private var answer = ""
     @State private var action = ""
     @State private var formhash = ""
     @State private var isShowing = false
@@ -27,7 +29,7 @@ struct LoginContentView: View {
         VStack(alignment: .center) {
             HStack {
                 Menu {
-                    ForEach(FoginField.allCases) { item in
+                    ForEach(LoginField.allCases) { item in
                         Button {
                             username = ""
                             loginField = item
@@ -59,6 +61,46 @@ struct LoginContentView: View {
             SecureField("输入密码", text: $password)
                 .textFieldStyle(.roundedBorder)
                 .frame(width: 300, height: 40)
+
+            HStack {
+                Text("安全提问:")
+
+                Menu {
+                    ForEach(LoginQuestion.allCases) { item in
+                        Button {
+                            if item == .no {
+                                answer = ""
+                            }
+                            loginQuestion = item
+                        } label: {
+                            Label(item.title, systemImage: item.icon)
+                        }
+                    }
+                } label: {
+                    HStack {
+                        Text(loginQuestion.title)
+
+                        Image(systemName: "arrowtriangle.down.fill")
+                            .resizable()
+                            .frame(width: 8, height: 8)
+                            .padding(.leading, -5)
+                    }
+                    .padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 3)
+                            .stroke(Color.theme, lineWidth: 1)
+                    )
+                }
+
+                Spacer()
+            }
+            .frame(width: 300)
+
+            if loginQuestion != .no {
+                TextField("输入答案", text: $answer)
+                    .textFieldStyle(.roundedBorder)
+                    .frame(width: 300, height: 40)
+            }
 
             Button(isShowing ? " " : "登录", action: {
                 Task {
@@ -109,13 +151,18 @@ struct LoginContentView: View {
     private func login() async {
         Task {
             if username.isEmpty || password.isEmpty {
-                hud.show(message: "请输入邮箱或者密码")
+                hud.show(message: "请输入用户名｜邮箱或者密码")
+                return
+            }
+
+            if loginQuestion != .no && answer.isEmpty {
+                hud.show(message: "请输入安全提问的答案")
                 return
             }
 
             isShowing = true
             // swiftlint:disable force_unwrapping
-            let parames = "&formhash=\(formhash)&loginfield=\(loginField.id)&username=\(username)&password=\(password)&questionid=0&answer=".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+            let parames = "&formhash=\(formhash)&loginfield=\(loginField.id)&username=\(username)&password=\(password)&questionid=\(loginQuestion.qid)&answer=\(answer)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
             let url = URL(string: "\(kAppBaseURL)\(action)\(parames)")!
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
@@ -177,7 +224,7 @@ struct LoginContentView_Previews: PreviewProvider {
     }
 }
 
-enum FoginField: String, CaseIterable, Identifiable {
+enum LoginField: String, CaseIterable, Identifiable {
     case username
     case email
 
@@ -207,6 +254,82 @@ enum FoginField: String, CaseIterable, Identifiable {
             return "输入用户名"
         case .email:
             return "输入邮箱"
+        }
+    }
+}
+
+enum LoginQuestion: String, CaseIterable, Identifiable {
+    case no
+    case mothername
+    case grandpaname
+    case fatherborncity
+    case oneteachername
+    case computermodel
+    case favoriterestaurantname
+    case lastfourdigitsofdriverlicense
+
+    var id: String { self.rawValue }
+
+    var qid: String {
+        switch self {
+        case .no:
+            return "0"
+        case .mothername:
+            return "1"
+        case .grandpaname:
+            return "2"
+        case .fatherborncity:
+            return "3"
+        case .oneteachername:
+            return "4"
+        case .computermodel:
+            return "5"
+        case .favoriterestaurantname:
+            return "6"
+        case .lastfourdigitsofdriverlicense:
+            return "7"
+        }
+    }
+
+    var icon: String {
+        switch self {
+        case .no:
+            return "eye.slash"
+        case .mothername:
+            return "person.crop.square"
+        case .grandpaname:
+            return "person.crop.circle"
+        case .fatherborncity:
+            return "building.2"
+        case .oneteachername:
+            return "graduationcap"
+        case .computermodel:
+            return "desktopcomputer"
+        case .favoriterestaurantname:
+            return "fork.knife"
+        case .lastfourdigitsofdriverlicense:
+            return "123.rectangle"
+        }
+    }
+
+    var title: String {
+        switch self {
+        case .no:
+            return "未设置请忽略"
+        case .mothername:
+            return "母亲的名字"
+        case .grandpaname:
+            return "爷爷的名字"
+        case .fatherborncity:
+            return "父亲出生的城市"
+        case .oneteachername:
+            return "您其中一位老师的名字"
+        case .computermodel:
+            return "您个人计算机的型号"
+        case .favoriterestaurantname:
+            return "您最喜欢的餐馆名称"
+        case .lastfourdigitsofdriverlicense:
+            return "驾驶执照最后四位数字"
         }
     }
 }
