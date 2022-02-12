@@ -80,7 +80,14 @@ final class FSAppDelegate: NSObject, UIApplicationDelegate, UIWindowSceneDelegat
     }
 
     private func configSDK() {
-        UMConfigure.initWithAppkey("5dbb9469570df3e553000449", channel: "App Store")
+        var channel = ""
+        #if DEBUG
+          channel = "Debug"
+        #else
+          channel = Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt" ? "TestFlight" : "App Store"
+        #endif
+        print("channel: \(channel)")
+        UMConfigure.initWithAppkey("5dbb9469570df3e553000449", channel: channel)
         UMCrashConfigure.setCrashCBBlock {
             return ""
         }

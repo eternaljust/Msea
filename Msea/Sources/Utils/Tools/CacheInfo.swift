@@ -14,6 +14,10 @@ class CacheInfo: NSObject {
     /// 单例
     static let shared: CacheInfo = CacheInfo()
 
+    private static let widgetGroup: UserDefaults? = UserDefaults(suiteName: "group.com.eternaljust.Msea.Topic.Widget")
+
+    @AppStorage(CacheKeys.groupNoticeIsOn, store: widgetGroup) var groupNoticeIsOn = false
+
     @AppStorage(CacheKeys.signRule) var signRule = """
                             1. 活动时间：每天00:00开始，23:59结束；
                             2. 每日只能签到一次，签到即获得1 Bit 的奖励；
@@ -26,7 +30,6 @@ class CacheInfo: NSObject {
     @AppStorage(CacheKeys.daysignHour) var daysignHour = 8
     @AppStorage(CacheKeys.daysignMinute) var daysignMinute = 0
     @AppStorage(CacheKeys.daysignIsOn) var daysignIsOn = false
-    @AppStorage(CacheKeys.noticeIsOn) var noticeIsOn = false
     @AppStorage(CacheKeys.selectedTab) var selectedTab: TabBarItem = .home
     @AppStorage(CacheKeys.defaultUid) var defaultUid = "4"
     @AppStorage(CacheKeys.agreeTermsOfService) var agreeTermsOfService = false

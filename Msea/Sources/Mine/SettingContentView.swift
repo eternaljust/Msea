@@ -18,7 +18,7 @@ struct SettingContentView: View {
 
     @State private var itemSections: [SettingSection] = [
         SettingSection(items: [.signalert, .notice]),
-        SettingSection(items: [.feedback, .review, .contactus, .share]),
+        SettingSection(items: [.feedback, .review, .contactus, .share, .testflight]),
         SettingSection(items: [.cleancache, .dynamicfont]),
         SettingSection(items: [.urlschemes, .termsofservice, .about])
     ]
@@ -111,7 +111,7 @@ struct SettingContentView: View {
                                         .foregroundColor(.red)
                                         .frame(maxWidth: .infinity, alignment: .center)
                                 }
-                            case .share, .feedback, .review, .contactus:
+                            case .share, .feedback, .review, .contactus, .testflight:
                                 Button {
                                     buttonAction(item)
                                 } label: {
@@ -210,6 +210,10 @@ struct SettingContentView: View {
             }
         } else if item == .contactus {
             isConfirming.toggle()
+        } else if item == .testflight {
+            if let url = URL(string: "https://testflight.apple.com/join/YW7YgKWV") {
+                UIApplication.shared.open(url)
+            }
         }
     }
 
@@ -223,6 +227,7 @@ struct SettingContentView: View {
             let (data, _) = try await URLSession.shared.data(for: request)
             if let html = try? HTML(html: data, encoding: .utf8), html.toHTML != nil {
                 CacheInfo.shared.daysignIsOn = false
+                CacheInfo.shared.groupNoticeIsOn = false
                 UserInfo.shared.reset()
                 NotificationCenter.default.post(name: .logout, object: nil)
                 hud.show(message: "您已退出登录！")
@@ -283,30 +288,19 @@ struct SettingContentView: View {
 
     @ViewBuilder private func getContentView(_ item: SettingItem) -> some View {
         switch item {
-        case .signalert:
+        case .signalert, .review, .share, .feedback,
+             .contactus, .testflight, .cleancache, .logout:
             EmptyView()
         case .notice:
             MseeageNoticeContentView()
-        case .review:
-            EmptyView()
-        case .share:
-            EmptyView()
-        case .feedback:
-            EmptyView()
-        case .contactus:
-            EmptyView()
         case .urlschemes:
             URLSchemesContentView()
         case .dynamicfont:
             DynamicFontContentView()
-        case .cleancache:
-            EmptyView()
         case .termsofservice:
             TermsOfServiceContentView()
         case .about:
             AboutContentView()
-        case .logout:
-            EmptyView()
         }
     }
 }
@@ -329,6 +323,7 @@ enum SettingItem: String, CaseIterable, Identifiable {
     case share
     case feedback
     case contactus
+    case testflight
     case urlschemes
     case dynamicfont
     case cleancache
@@ -352,6 +347,8 @@ enum SettingItem: String, CaseIterable, Identifiable {
             return "text.bubble.fill"
         case .contactus:
             return "message.fill"
+        case .testflight:
+            return "app.fill"
         case .urlschemes:
             return "personalhotspot.circle.fill"
         case .dynamicfont:
@@ -381,6 +378,8 @@ enum SettingItem: String, CaseIterable, Identifiable {
             return "反馈问题"
         case .contactus:
             return "联系我们"
+        case .testflight:
+            return "加入 TestFlight"
         case .urlschemes:
             return "URL Schemes"
         case .dynamicfont:
@@ -506,7 +505,7 @@ struct MessageNoticeView: View {
                             }
                             isOn = false
                         } else {
-                            CacheInfo.shared.noticeIsOn = value
+                            CacheInfo.shared.groupNoticeIsOn = value
                         }
                     }
                 }
@@ -514,7 +513,7 @@ struct MessageNoticeView: View {
         .tint(.theme)
         .onAppear {
             Task {
-                isOn = await LocalNotification.shared.isAuthorizationDenied() ? false : CacheInfo.shared.noticeIsOn
+                isOn = await LocalNotification.shared.isAuthorizationDenied() ? false : CacheInfo.shared.groupNoticeIsOn
             }
         }
     }

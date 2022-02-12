@@ -75,7 +75,10 @@ struct NoticeProvider: IntentTimelineProvider {
         }
         var notice = NoticeModel()
         notice.number = noticeNumber
-        if !noticeNumber.isEmpty {
+
+        if let noticeIsOn = NoticeProvider.widgetGroup?.bool(forKey: "groupNoticeIsOnKey"),
+            noticeIsOn,
+            !noticeNumber.isEmpty {
             let content = UNMutableNotificationContent()
             content.title = "您有消息提醒(\(noticeNumber))"
             content.body = "点击打开 Msea，立即查看新的消息！"
@@ -89,6 +92,7 @@ struct NoticeProvider: IntentTimelineProvider {
             try await UNUserNotificationCenter.current().add(request)
             print("LocalNotification notice")
         }
+
         return notice
     }
 }
