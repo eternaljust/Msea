@@ -69,8 +69,8 @@ struct SettingContentView: View {
                                         VStack {
                                             HStack {
                                                 Image(systemName: item.icon)
-                                                    .renderingMode(.original)
-                                                    .foregroundColor(.theme)
+                                                    .symbolRenderingMode(.palette)
+                                                    .foregroundStyle(.red, Color.theme)
 
                                                 Text("\(Text(item.title))\n\(Text(item.subTitle).font(.font15).foregroundColor(.secondary))")
                                                     .fixedSize(horizontal: true, vertical: true)
@@ -84,8 +84,8 @@ struct SettingContentView: View {
                                     } else {
                                         HStack {
                                             Image(systemName: item.icon)
-                                                .renderingMode(.original)
-                                                .foregroundColor(.theme)
+                                                .symbolRenderingMode(.palette)
+                                                .foregroundStyle(.red, Color.theme)
 
                                             Text("\(Text(item.title))\n\(Text(item.subTitle).font(.font15).foregroundColor(.secondary))")
                                                 .fixedSize(horizontal: true, vertical: true)
@@ -343,7 +343,7 @@ enum SettingItem: String, CaseIterable, Identifiable {
         case .signalert:
             return "clock"
         case .notice:
-            return "app.badge"
+            return "bell.badge"
         case .review:
             return "star.fill"
         case .share:

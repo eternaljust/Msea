@@ -44,6 +44,7 @@ struct URLSchemesContentView_Previews: PreviewProvider {
 
 enum URLSchemesItem: String, CaseIterable, Identifiable {
     case daysign
+    case notice
     case space
     case viewthread
 
@@ -53,6 +54,8 @@ enum URLSchemesItem: String, CaseIterable, Identifiable {
         switch self {
         case .daysign:
             return "每日签到"
+        case .notice:
+            return "消息提醒"
         case .space:
             return "个人空间"
         case .viewthread:
@@ -64,6 +67,8 @@ enum URLSchemesItem: String, CaseIterable, Identifiable {
         switch self {
         case .daysign:
             return "msea://daysign"
+        case .notice:
+            return "msea://notice"
         case .space:
             return "msea://space?uid=id"
         case .viewthread:

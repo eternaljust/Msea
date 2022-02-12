@@ -107,6 +107,9 @@ struct HomeContentView: View {
             .onReceive(NotificationCenter.default.publisher(for: .daysign, object: nil)) { _ in
                 goDaysign()
             }
+            .onReceive(NotificationCenter.default.publisher(for: .daysign, object: nil)) { _ in
+                goNotice()
+            }
             .task {
                 if UserInfo.shared.isLogin() {
                     await checkNotice()
@@ -149,6 +152,8 @@ struct HomeContentView: View {
             switch item {
             case .daysign:
                 goDaysign()
+            case .notice:
+                goNotice()
             case .viewthread:
                 if let query = url.query, query.contains("tid=") {
                     tid = query.components(separatedBy: "=")[1]
@@ -178,6 +183,11 @@ struct HomeContentView: View {
         CacheInfo.shared.selectedTab = .home
         selection.index = .home
         isActive = true
+    }
+
+    private func goNotice() {
+        CacheInfo.shared.selectedTab = .notice
+        selection.index = .notice
     }
 }
 

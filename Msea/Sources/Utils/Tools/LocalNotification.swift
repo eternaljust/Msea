@@ -32,7 +32,7 @@ struct LocalNotification {
             if isAuthorization {
                 let content = UNMutableNotificationContent()
                 content.title = "每日签到"
-                content.body = "打开 Msea 签到，立即获取 Bit 奖励！"
+                content.body = "点击打开 Msea 签到，立即获取 Bit 奖励！"
                 content.badge = 1
                 content.sound = .default
                 content.userInfo = [Constants.localNotificatonAction: NotificationAction.daysign.rawValue]
@@ -67,6 +67,8 @@ struct LocalNotification {
                 switch action {
                 case .daysign:
                     routingDaysign()
+                case .notice:
+                    routingNotice()
                 }
             }
         }
@@ -84,8 +86,16 @@ struct LocalNotification {
             NotificationCenter.default.post(name: .daysign, object: nil)
         }
     }
+
+    func routingNotice() {
+        print("Router notice")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            NotificationCenter.default.post(name: .notice, object: nil)
+        }
+    }
 }
 
 enum NotificationAction: String {
     case daysign
+    case notice
 }

@@ -9,6 +9,7 @@
 import WidgetKit
 import SwiftUI
 import Kanna
+import UserNotifications
 
 struct NoticeProvider: IntentTimelineProvider {
     private static let widgetGroup: UserDefaults? = UserDefaults(suiteName: "group.com.eternaljust.Msea.Topic.Widget")
@@ -30,8 +31,27 @@ struct NoticeProvider: IntentTimelineProvider {
     func getTimeline(for configuration: NoticeIntent, in context: Context, completion: @escaping (Timeline<NoticeEntry>) -> Void) {
         Task {
             let entry = try await NoticeEntry(date: .now, configuration: configuration, notice: getNotice(for: configuration))
-            let timeline = Timeline(entries: [entry], policy: .after(.now.advanced(by: configuration.time?.doubleValue ?? 5 * 60)))
+            let timeline = Timeline(entries: [entry], policy: .after(.now.advanced(by: getSpacingTime(configuration.time) * 60)))
             completion(timeline)
+        }
+    }
+
+    private func getSpacingTime(_ time: SpacingTime) -> Double {
+        switch time {
+        case .one:
+            return 1
+        case .three:
+            return 3
+        case .five:
+            return 5
+        case .ten:
+            return 10
+        case .twenty:
+            return 20
+        case .halfhour:
+            return 30
+        case .unknown:
+            return 5
         }
     }
 
@@ -47,12 +67,28 @@ struct NoticeProvider: IntentTimelineProvider {
         let (data, _) = try await URLSession.shared.data(for: requset)
         var noticeNumber = ""
         if let html = try? HTML(html: data, encoding: .utf8) {
-            if let notice = html.at_xpath("//a[@id='myprompt']", namespaces: nil)?.text, notice.contains("(") {
-                noticeNumber = notice
+            if let notice = html.at_xpath("//a[@id='myprompt']", namespaces: nil)?.text,
+               notice.contains("("),
+               notice.contains(")") {
+                noticeNumber = notice.components(separatedBy: "(")[1].components(separatedBy: ")")[0]
             }
         }
         var notice = NoticeModel()
         notice.number = noticeNumber
+        if !noticeNumber.isEmpty {
+            let content = UNMutableNotificationContent()
+            content.title = "您有消息提醒(\(noticeNumber))"
+            content.body = "点击打开 Msea，立即查看新的消息！"
+            content.badge = NSNumber(value: Int(noticeNumber) ?? 1)
+            content.sound = .default
+            content.userInfo = ["localNotificatonAction": "notice"]
+
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+            let request = UNNotificationRequest(identifier: "noticeIdentifier", content: content, trigger: trigger)
+
+            try await UNUserNotificationCenter.current().add(request)
+            print("LocalNotification notice")
+        }
         return notice
     }
 }
@@ -69,11 +105,39 @@ struct NoticeWidgetEntryView : View {
     var body: some View {
         VStack {
             if entry.notice.number.isEmpty {
-                Text("暂无消息提醒")
+                Image(systemName: "bell.fill")
+                    .resizable()
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(Color.theme)
+                    .frame(width: 40, height: 40)
+
+                Text("暂无提醒")
+                    .foregroundColor(.secondaryTheme)
             } else {
-                Text("您有通知\(entry.notice.number)")
+                Image(systemName: "bell.badge.fill")
+                    .resizable()
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(.red, Color.theme)
+                    .frame(width: 40, height: 40)
+
+                if let num = Int(entry.notice.number), num > 50 {
+                    Text("消息提醒 ")
+                    + Text(entry.notice.number)
+                        .foregroundColor(.red)
+                } else {
+                    HStack {
+                        Text("消息提醒")
+
+                        Image(systemName: "\(entry.notice.number).circle.fill")
+                            .resizable()
+                            .symbolRenderingMode(.palette)
+                            .foregroundStyle(.white, .red)
+                            .frame(width: 20, height: 20)
+                    }
+                }
             }
         }
+        .widgetURL(URL(string: "msea://notice"))
     }
 }
 
@@ -91,7 +155,7 @@ struct NoticeWidget: Widget {
                 .background(Color(light: .white, dark: .widgetBlack))
         }
         .configurationDisplayName("新消息提醒")
-        .description("收到消息本地推送通知")
+        .description("收到消息可弹出推送通知")
         .supportedFamilies([.systemSmall])
     }
 }
@@ -102,10 +166,3 @@ struct NoticeWidget_Previews: PreviewProvider {
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }
-
-/*
- Cookie": "1aG4_2132_saltkey=xsfz1ZZr; 1aG4_2132_lastvisit=1644558349; 1aG4_2132_lastact=1644567320%09forum.php%09; 1aG4_2132_ulastactivity=1644567224%7C0; 1aG4_2132_lastcheckfeed=17719%7C1644563386; 1aG4_2132_sid=0; acw_tc=707c9fc316445657099871022e01dc5f1c873ab3d574df3c3da8b56a16cac5; 1aG4_2132_auth=4c88zAH2JR2VV18T3tyrT0rU88RCQPGJxayif1KCGH6Wv5n6wNJI%2FfheUFD39xDesL8uz3TOGt4PWwATg8sE4NWqOw;", "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_0_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.1 Safari/605.1.15
- */
-/*
- "Cookie": "1aG4_2132_saltkey=xsfz1ZZr; 1aG4_2132_lastvisit=1644558349; 1aG4_2132_lastact=1644567517%09forum.php%09; 1aG4_2132_ulastactivity=1644567224%7C0; 1aG4_2132_lastcheckfeed=17719%7C1644563386; 1aG4_2132_sid=0; acw_tc=707c9fc416445675171021899e5f4b0fecaa44061820c44a991e8cd8317362; 1aG4_2132_auth=4c88zAH2JR2VV18T3tyrT0rU88RCQPGJxayif1KCGH6Wv5n6wNJI%2FfheUFD39xDesL8uz3TOGt4PWwATg8sE4NWqOw;", "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_0_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.1 Safari/605.1.15"
- */
