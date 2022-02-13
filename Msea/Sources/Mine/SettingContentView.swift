@@ -506,6 +506,11 @@ struct MessageNoticeView: View {
                             isOn = false
                         } else {
                             CacheInfo.shared.groupNoticeIsOn = value
+                            if value {
+                                if try await !LocalNotification.shared.authorization() {
+                                    isOn = false
+                                }
+                            }
                         }
                     }
                 }

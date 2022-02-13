@@ -38,8 +38,6 @@ struct NoticeProvider: IntentTimelineProvider {
 
     private func getSpacingTime(_ time: SpacingTime) -> Double {
         switch time {
-        case .one:
-            return 1
         case .three:
             return 3
         case .five:

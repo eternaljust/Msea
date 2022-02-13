@@ -13,7 +13,7 @@ struct MseeageNoticeContentView: View {
     var body: some View {
         VStack(alignment: .center) {
             ScrollView {
-                Text("特别说明：新消息提醒通知开关需开启后才能收到系统的消息推送通知\n")
+                Text("特别说明：新消息提醒通知需添加小组件到桌面进行辅助，会根据设置的刷新间隔时间来循环加载一次数据，若有新的提醒需要通知开关开启后才能收到系统的消息推送\n")
                     .foregroundColor(.red)
 
                 Text("第一步，长按【桌面】空白区域，右上角或者左上角点击【+】图标\n")

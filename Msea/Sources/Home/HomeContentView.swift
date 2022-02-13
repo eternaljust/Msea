@@ -107,7 +107,7 @@ struct HomeContentView: View {
             .onReceive(NotificationCenter.default.publisher(for: .daysign, object: nil)) { _ in
                 goDaysign()
             }
-            .onReceive(NotificationCenter.default.publisher(for: .daysign, object: nil)) { _ in
+            .onReceive(NotificationCenter.default.publisher(for: .notice, object: nil)) { _ in
                 goNotice()
             }
             .task {

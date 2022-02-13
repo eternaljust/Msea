@@ -72,6 +72,10 @@ final class FSAppDelegate: NSObject, UIApplicationDelegate, UIWindowSceneDelegat
         return .portrait
     }
 
+    func applicationWillTerminate(_ application: UIApplication) {
+        CacheInfo.shared.selectedTab = .home
+    }
+
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         if scene is UIWindowScene, let windowScene = scene as? UIWindowScene {
             window = UIWindow(windowScene: windowScene)
@@ -80,13 +84,12 @@ final class FSAppDelegate: NSObject, UIApplicationDelegate, UIWindowSceneDelegat
     }
 
     private func configSDK() {
-        var channel = ""
+        var channel: String?
         #if DEBUG
           channel = "Debug"
         #else
-          channel = Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt" ? "TestFlight" : "App Store"
+          channel = Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt" ? "TestFlight" : nil
         #endif
-        print("channel: \(channel)")
         UMConfigure.initWithAppkey("5dbb9469570df3e553000449", channel: channel)
         UMCrashConfigure.setCrashCBBlock {
             return ""

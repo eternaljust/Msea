@@ -27,16 +27,6 @@
 				</dict>
 				<dict>
 					<key>INEnumValueDisplayName</key>
-					<string>一分钟</string>
-					<key>INEnumValueDisplayNameID</key>
-					<string>KZsnd9</string>
-					<key>INEnumValueIndex</key>
-					<integer>1</integer>
-					<key>INEnumValueName</key>
-					<string>one</string>
-				</dict>
-				<dict>
-					<key>INEnumValueDisplayName</key>
 					<string>三分钟</string>
 					<key>INEnumValueDisplayNameID</key>
 					<string>EjfVKd</string>
@@ -93,7 +83,7 @@
 	<key>INIntentDefinitionNamespace</key>
 	<string>VzbbI5</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>21D49</string>
+	<string>21D62</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
 	<string>13C100</string>
 	<key>INIntentDefinitionToolsVersion</key>
