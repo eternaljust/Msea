@@ -20,10 +20,16 @@ struct TopicDetailContentView: View {
     @State private var page = 1
     @State private var isRefreshing = false
     @State private var nextPage = false
-    @State private var inputComment = ""
-    @FocusState private var focused: Bool
+    @State private var pageSize = 1
+    @State private var isSelectedPage = false
+    @State private var isConfirming = false
+
     @State private var needLogin = false
     @EnvironmentObject private var hud: HUDState
+
+    @State private var inputComment = ""
+    @FocusState private var focused: Bool
+
     @State private var isReply = false
     @State private var replyName = ""
     @State private var replyContent = ""
@@ -31,6 +37,7 @@ struct TopicDetailContentView: View {
     @FocusState private var replyFocused: Bool
     @State private var showAlert = false
     @Environment(\.dismiss) private var dismiss
+
     @State private var disAgree = false
     @State private var isPosterShielding = false
     @State private var favoriteAction = ""
@@ -95,6 +102,7 @@ struct TopicDetailContentView: View {
                                             if comment.id == comments.last?.id {
                                                 if nextPage {
                                                     page += 1
+                                                    isSelectedPage = false
                                                     Task {
                                                         await loadData()
                                                     }
@@ -106,6 +114,7 @@ struct TopicDetailContentView: View {
                                             Text(comment.content)
                                                 .font(.font15)
                                                 .multilineTextAlignment(.leading)
+                                                .fixedSize(horizontal: false, vertical: true)
                                         } else {
                                             Web(bodyHTMLString: comment.content, didFinish: { scrollHeight in
                                                 if comment.webViewHeight == .zero, let index = comments.firstIndex(where: { obj in obj.id == comment.id }) {
@@ -146,11 +155,36 @@ struct TopicDetailContentView: View {
                                     }
                                 }
                             } header: {
-                                TopicDetailHeaderView(title: title, commentCount: commentCount)
-                                    .onTapGesture {
-                                        UIPasteboard.general.string = tid
-                                        hud.show(message: "已复制 tid")
+                                HStack {
+                                    TopicDetailHeaderView(title: title, commentCount: commentCount)
+                                        .onTapGesture {
+                                            UIPasteboard.general.string = tid
+                                            hud.show(message: "已复制 tid")
+                                        }
+
+                                    if pageSize > 1 {
+                                        Spacer()
+
+                                        Button {
+                                            isConfirming.toggle()
+                                        } label: {
+                                            Image(systemName: "arrow.up.arrow.down")
+                                        }
+                                        .confirmationDialog("", isPresented: $isConfirming) {
+                                            ForEach((1...pageSize), id: \.self) { index in
+                                                Button("\(index)") {
+                                                    page = index
+                                                    isSelectedPage = true
+                                                    Task {
+                                                        await loadData()
+                                                    }
+                                                }
+                                            }
+                                        } message: {
+                                            Text("分页选择")
+                                        }
                                     }
+                                }
                             }
                         }
                         //                    .simultaneousGesture(DragGesture().onChanged({ _ in
@@ -161,10 +195,13 @@ struct TopicDetailContentView: View {
                         .listStyle(.plain)
                         .refreshable {
                             page = 1
+                            isSelectedPage = false
                             await loadData()
                         }
                         .task {
                             if !isHidden {
+                                page = 1
+                                isSelectedPage = false
                                 await loadData()
                             }
                         }
@@ -354,6 +391,8 @@ struct TopicDetailContentView: View {
 
     private func loadData() async {
         isRefreshing = true
+        print("pageSize: \(pageSize)")
+        print("page: \(page)")
         Task {
             // swiftlint:disable force_unwrapping
             let url = URL(string: "https://www.chongbuluo.com/forum.php?mod=viewthread&tid=\(tid)&extra=&page=\(page)")!
@@ -375,6 +414,12 @@ struct TopicDetailContentView: View {
                     nextPage = true
                 } else {
                     nextPage = false
+                }
+                if var size = html.at_xpath("//div[@class='pgs mtm mbm cl']/div[@class='pg']/a[last()-1]", namespaces: nil)?.text {
+                    size = size.replacingOccurrences(of: "... ", with: "")
+                    if let num = Int(size), num > 1 {
+                        pageSize = num
+                    }
                 }
                 let node = html.xpath("//table[@class='plhin']", namespaces: nil)
                 var list = [TopicCommentModel]()
@@ -436,6 +481,9 @@ struct TopicDetailContentView: View {
                 }
                 html.getFormhash()
 
+                if isSelectedPage {
+                    comments = []
+                }
                 if page == 1 {
                     comments = list
                     isRefreshing = false
