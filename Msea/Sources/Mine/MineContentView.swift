@@ -34,6 +34,7 @@ struct MineContentView: View {
                     .cornerRadius(5)
 
                     Text("\(UserInfo.shared.name) uid(\(UserInfo.shared.uid))")
+                        .font(.font17Blod)
                         .padding(.bottom, -2)
                         .onTapGesture {
                             UIPasteboard.general.string = UserInfo.shared.uid
@@ -41,14 +42,14 @@ struct MineContentView: View {
                         }
 
                     Text("已有 \(Text(UserInfo.shared.views).foregroundColor(.red)) 人来访过")
-                        .font(.font15)
+                        .font(.font16)
                         .padding(.bottom, 1)
 
                     Text("积分: \(Text(UserInfo.shared.integral).foregroundColor(.theme))  Bit: \(Text(UserInfo.shared.bits).foregroundColor(.theme))  好友: \(Text(UserInfo.shared.friend).foregroundColor(.theme))  主题: \(Text(UserInfo.shared.topic).foregroundColor(.theme))")
-                        .font(.font15)
+                        .font(.font16)
 
                     Text("违规: \(Text(UserInfo.shared.violation).foregroundColor(.theme))  日志: \(Text(UserInfo.shared.blog).foregroundColor(.theme))  相册:  \(Text(UserInfo.shared.album).foregroundColor(.theme))  分享: \(Text(UserInfo.shared.share).foregroundColor(.theme))")
-                        .font(.font15)
+                        .font(.font16)
 
                     Picker("ProfileTabMine", selection: $selectedProfileTab) {
                         ForEach(ProfileTab.allCases) { view in

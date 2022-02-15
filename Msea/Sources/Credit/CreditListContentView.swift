@@ -25,23 +25,23 @@ struct CreditListContentView: View {
                         ForEach(creditList) { credit in
                             HStack {
                                 Text(credit.action)
-                                    .font(.font12)
-                                    .frame(width: 60)
+                                    .font(.font15)
+                                    .frame(minWidth: 60)
 
                                 Text(credit.bit)
-                                    .font(.font12)
+                                    .font(.font15)
                                     .foregroundColor(credit.isAdd ? .red : .gray)
-                                    .frame(width: 40)
+                                    .frame(minWidth: 40)
 
                                 Text(credit.content)
-                                    .font(.font12)
+                                    .font(.font15)
 
                                 Spacer()
 
                                 Text(credit.time)
                                     .frame(width: 70)
-                                    .font(.font12.weight(.thin))
-                                    .lineLimit(2)
+                                    .font(.font15.weight(.thin))
+                                    .lineLimit(3)
                                     .multilineTextAlignment(.center)
                                     .onAppear {
                                         if credit.id == creditList.last?.id {

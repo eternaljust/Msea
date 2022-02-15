@@ -61,6 +61,7 @@ struct TopicListContentView: View {
                                 }
                             }
                     }
+                    .padding([.top, .bottom], 5)
 
                     NavigationLink(destination: TopicDetailContentView(tid: topic.tid)) {
                         EmptyView()

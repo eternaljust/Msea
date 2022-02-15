@@ -31,7 +31,7 @@ struct SearchPostConentView: View {
                     Section {
                         ForEach(searchList) { searchModel in
                             ZStack(alignment: .leading) {
-                                VStack(alignment: .leading) {
+                                VStack(alignment: .leading, spacing: 5) {
                                     getContentView(searchModel.title)
                                         .font(.font17Blod)
                                         .foregroundColor(.secondaryTheme)
@@ -42,6 +42,9 @@ struct SearchPostConentView: View {
                                         .foregroundColor(.secondary)
 
                                     getContentView(searchModel.content)
+                                        .font(.font16)
+                                        .multilineTextAlignment(.leading)
+                                        .lineSpacing(5)
                                         .fixedSize(horizontal: false, vertical: true)
 
                                     Text("\(Text(searchModel.time).foregroundColor(.theme)) - \(Text(searchModel.name).foregroundColor(.secondary)) - \(Text(searchModel.plate).foregroundColor(.secondary))")
@@ -61,6 +64,7 @@ struct SearchPostConentView: View {
                                 }
                                 .opacity(0.0)
                             }
+                            .padding([.top, .bottom], 5)
                         }
                     } header: {
                         Text(result)

@@ -13,6 +13,7 @@ img {
 
 td {
     font-size: tdFontSize;
+    line-height: tdLineHeight;
 }
 
 body {

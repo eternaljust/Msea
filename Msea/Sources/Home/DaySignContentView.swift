@@ -78,24 +78,26 @@ struct DaySignContentView: View {
                 }
                 .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
 
-                HStack {
-                    Label("\(daySign.today)", systemImage: "leaf.fill")
-                        .foregroundColor(.theme)
-                        .font(.font15)
+                VStack(alignment: .center, spacing: 5) {
+                    HStack {
+                        Label("\(daySign.today)", systemImage: "leaf.fill")
+                            .foregroundColor(.theme)
+                            .font(.font15)
 
-                    Label("\(daySign.yesterday)", systemImage: "leaf.fill")
-                        .foregroundColor(.secondaryTheme)
-                        .font(.font15)
-                }
+                        Label("\(daySign.yesterday)", systemImage: "leaf.fill")
+                            .foregroundColor(.secondaryTheme)
+                            .font(.font15)
+                    }
 
-                HStack(alignment: .center, spacing: 20) {
-                    Label("\(daySign.month)", systemImage: "checkmark.circle")
-                        .foregroundColor(.secondaryTheme)
-                        .font(.font15)
+                    HStack(alignment: .center, spacing: 20) {
+                        Label("\(daySign.month)", systemImage: "checkmark.circle")
+                            .foregroundColor(.secondaryTheme)
+                            .font(.font15)
 
-                    Label("\(daySign.total)", systemImage: "text.badge.checkmark")
-                        .foregroundColor(.theme)
-                        .font(.font15)
+                        Label("\(daySign.total)", systemImage: "text.badge.checkmark")
+                            .foregroundColor(.theme)
+                            .font(.font15)
+                    }
                 }
 
                 Picker("SignTab", selection: $selectedSignTab) {

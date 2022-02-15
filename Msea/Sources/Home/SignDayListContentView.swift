@@ -29,7 +29,7 @@ struct SignDayListContentView: View {
                                 .padding(.trailing, 10)
 
                             Text(sign.name)
-                                .font(.font12)
+                                .font(.font13)
                                 .fixedSize(horizontal: false, vertical: true)
                                 .multilineTextAlignment(.center)
                                 .frame(width: 80)
@@ -37,24 +37,24 @@ struct SignDayListContentView: View {
                             Spacer()
 
                             Text(sign.continuous)
-                                .font(.font12)
+                                .font(.font13)
                                 .padding(.trailing, 13)
 
                             Text(sign.month)
-                                .font(.font12)
+                                .font(.font13)
                                 .padding(.trailing, 13)
 
                             Text(sign.total)
-                                .font(.font12)
+                                .font(.font13)
 
                             Spacer()
 
                             Text(sign.bits)
-                                .font(.font12)
+                                .font(.font13)
                                 .foregroundColor(.theme)
 
                             Text(sign.time)
-                                .font(.font12.weight(.thin))
+                                .font(.font13.weight(.thin))
                                 .lineLimit(4)
                                 .multilineTextAlignment(.center)
                                 .minimumScaleFactor(0.5)

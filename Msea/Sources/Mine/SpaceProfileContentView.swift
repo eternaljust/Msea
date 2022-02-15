@@ -33,6 +33,7 @@ struct SpaceProfileContentView: View {
             .cornerRadius(5)
 
             Text("\(profile.name) uid(\(uid))")
+                .font(.font17Blod)
                 .padding(.bottom, -2)
                 .onTapGesture {
                     UIPasteboard.general.string = uid
@@ -40,14 +41,14 @@ struct SpaceProfileContentView: View {
                 }
 
             Text("已有 \(Text(profile.views).foregroundColor(.red)) 人来访过")
-                .font(.font15)
+                .font(.font16)
                 .padding(.bottom, 1)
 
             Text("积分: \(Text(profile.integral).foregroundColor(.theme))  Bit: \(Text(profile.bits).foregroundColor(.theme))  好友: \(Text(profile.friend).foregroundColor(.theme))  主题: \(Text(profile.topic).foregroundColor(.theme))")
-                .font(.font15)
+                .font(.font16)
 
             Text("违规: \(Text(profile.violation).foregroundColor(.theme))  日志: \(Text(profile.blog).foregroundColor(.theme))  相册:  \(Text(profile.album).foregroundColor(.theme))  分享: \(Text(profile.share).foregroundColor(.theme))")
-                .font(.font15)
+                .font(.font16)
 
             Picker("ProfileTab", selection: $selectedProfileTab) {
                 ForEach(tabs) { view in

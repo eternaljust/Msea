@@ -36,10 +36,10 @@ struct SearchUserContentView: View {
 
                                     VStack(alignment: .leading) {
                                         Text(user.name)
-                                            .font(.font15)
+                                            .font(.font17Blod)
 
                                         Text(user.content)
-                                            .font(.font12)
+                                            .font(.font16)
                                             .foregroundColor(.secondary)
                                     }
                                 }

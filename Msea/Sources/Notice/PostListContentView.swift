@@ -31,13 +31,14 @@ struct PostListContentView: View {
                         .frame(width: 40, height: 40)
                         .cornerRadius(5)
 
-                        VStack(alignment: .leading) {
+                        VStack(alignment: .leading, spacing: 5) {
                             Text(post.time)
                                 .font(.font13)
 
                             ZStack(alignment: .leading) {
                                 Text("\(Text(post.name).foregroundColor(.secondaryTheme)) \(type.body) \(Text(post.title).foregroundColor(.secondaryTheme))")
-                                    .font(.font13)
+                                    .font(.font16)
+                                    .fixedSize(horizontal: false, vertical: true)
 
                                 NavigationLink(destination: TopicDetailContentView(tid: post.ptid)) {
                                     EmptyView()
@@ -45,6 +46,7 @@ struct PostListContentView: View {
                                 .opacity(0.0)
                             }
                         }
+                        .padding([.top, .bottom], 5)
                         .onAppear {
                             if post.id == postList.last?.id {
                                 page += 1

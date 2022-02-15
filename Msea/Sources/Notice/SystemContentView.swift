@@ -27,13 +27,13 @@ struct SystemContentView: View {
                             .imageScale(.large)
                             .frame(width: 40, height: 40)
 
-                        VStack(alignment: .leading) {
+                        VStack(alignment: .leading, spacing: 5) {
                             Text(system.time)
                                 .font(.font13)
                                 .padding(.bottom, 1)
 
                             Text(system.content)
-                                .font(.font15)
+                                .font(.font16)
                                 .fixedSize(horizontal: false, vertical: true)
                                 .onTapGesture(perform: {
                                     if system.content.contains("看看我能做什么") {

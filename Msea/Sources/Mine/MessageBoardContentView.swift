@@ -43,7 +43,8 @@ struct MessageBoardContentView: View {
 
                             VStack(alignment: .leading) {
                                 Text(message.name)
-                                    .font(.font15)
+                                    .font(.font17Blod)
+
                                 Text(message.time)
                                     .font(.font13)
                             }
@@ -59,18 +60,18 @@ struct MessageBoardContentView: View {
 
                         if !message.replyName.isEmpty && !message.quote.isEmpty {
                             Text("   \(Text(message.replyName)): \(Text(message.quote).foregroundColor(.secondary))")
-                                .font(.font15)
+                                .font(.font16)
                         }
 
                         if message.gifURL.isEmpty {
                             Text(message.comment)
-                                .font(.font15)
+                                .font(.font16)
                                 .fixedSize(horizontal: false, vertical: true)
                         } else {
                             HStack {
                                 if !message.gifLeft {
                                     Text(message.comment)
-                                        .font(.font15)
+                                        .font(.font16)
                                         .fixedSize(horizontal: false, vertical: true)
                                 }
                                 if let url = URL(string: message.gifURL) {
@@ -79,12 +80,13 @@ struct MessageBoardContentView: View {
                                 }
                                 if message.gifLeft {
                                     Text(message.comment)
-                                        .font(.font15)
+                                        .font(.font16)
                                         .fixedSize(horizontal: false, vertical: true)
                                 }
                             }
                         }
                     }
+                    .padding([.top, .bottom], 5)
                 }
                 .listStyle(.plain)
                 .refreshable {

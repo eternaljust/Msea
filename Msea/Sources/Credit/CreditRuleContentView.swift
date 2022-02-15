@@ -25,26 +25,22 @@ struct CreditRuleContentView: View {
                         ForEach(ruleList) { rule in
                             HStack {
                                 Text(rule.action)
-                                    .font(.font12)
-                                    .frame(width: 60)
+                                    .frame(minWidth: 65)
 
                                 Text(rule.cycles)
-                                    .font(.font12)
-                                    .frame(width: 60)
+                                    .frame(minWidth: 60)
 
                                 Text(rule.count)
-                                    .font(.font12)
 
                                 Spacer()
 
                                 Text(rule.bit)
-                                    .font(.font12)
                                     .frame(width: 40)
 
                                 Text(rule.violation)
-                                    .font(.font12)
                                     .frame(width: 20)
                             }
+                            .font(.font15)
                         }
                     } header: {
                         Text("进行以下事件动作，会得到积分奖励。不过，在一个周期内，您最多得到的奖励次数有限制")

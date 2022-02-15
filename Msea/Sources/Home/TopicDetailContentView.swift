@@ -112,8 +112,9 @@ struct TopicDetailContentView: View {
 
                                         if comment.isText {
                                             Text(comment.content)
-                                                .font(.font15)
+                                                .font(.font16)
                                                 .multilineTextAlignment(.leading)
+                                                .lineSpacing(5)
                                                 .fixedSize(horizontal: false, vertical: true)
                                         } else {
                                             Web(bodyHTMLString: comment.content, didFinish: { scrollHeight in
@@ -135,6 +136,7 @@ struct TopicDetailContentView: View {
                                                 .frame(height: comment.webViewHeight)
                                         }
                                     }
+                                    .padding([.top, .bottom], 5)
                                     .id(comment.pid)
                                     .swipeActions {
                                         if comment.id == comments.first?.id && UserInfo.shared.isLogin() && !comment.favorite.isEmpty {

@@ -31,7 +31,7 @@ struct ShieldUserContentView: View {
                                     .cornerRadius(5)
 
                                     Text(user.name)
-                                        .font(.font15)
+                                        .font(.font17Blod)
                                 }
                             }
                         }

@@ -24,11 +24,11 @@ struct SignListContentView: View {
                         HStack {
                             Text(sign.no)
                                 .padding(.trailing, 10)
-                                .font(.font12.weight(.light))
+                                .font(.font15.weight(.light))
 
                             Text(sign.name)
                                 .fixedSize(horizontal: false, vertical: true)
-                                .font(.font12)
+                                .font(.font13)
                                 .multilineTextAlignment(.center)
                                 .frame(width: 60)
 
@@ -36,8 +36,9 @@ struct SignListContentView: View {
 
                             Text(sign.content)
                                 .padding(.trailing, 15)
+                                .multilineTextAlignment(.center)
                                 .fixedSize(horizontal: false, vertical: true)
-                                .font(.font12)
+                                .font(.font13)
 
                             Spacer()
 

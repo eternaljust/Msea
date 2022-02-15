@@ -27,32 +27,27 @@ struct CreditSystemContentView: View {
                         ForEach(systemList) { system in
                             HStack {
                                 Text(system.action)
-                                    .font(.font12)
-                                    .frame(width: 60)
+                                    .frame(minWidth: 65)
 
                                 Text(system.count)
-                                    .font(.font12)
-                                    .frame(width: 45)
+                                    .frame(minWidth: 45)
 
                                 Text(system.cycles)
-                                    .font(.font12)
                                     .frame(width: 60)
 
                                 Text(system.bit)
-                                    .font(.font12)
                                     .frame(width: 40)
 
                                 Spacer()
 
                                 Text(system.violation)
-                                    .font(.font12)
 
                                 Spacer()
 
                                 Text(system.time)
                                     .frame(width: 70)
-                                    .font(.font12.weight(.thin))
-                                    .lineLimit(2)
+                                    .font(.font15.weight(.thin))
+                                    .lineLimit(3)
                                     .multilineTextAlignment(.center)
                                     .onAppear {
                                         if system.id == systemList.last?.id {
@@ -63,6 +58,7 @@ struct CreditSystemContentView: View {
                                         }
                                     }
                             }
+                            .font(.font15)
                             .onTapGesture {
                                 rule.rid = system.rid
                                 selectedCreditTab = .rule
