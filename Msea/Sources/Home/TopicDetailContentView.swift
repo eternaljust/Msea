@@ -29,6 +29,9 @@ struct TopicDetailContentView: View {
 
     @State private var inputComment = ""
     @FocusState private var focused: Bool
+    @State private var isPresented = false
+    @State private var isShowing = false
+    @State var bottomTrigger = false
 
     @State private var isReply = false
     @State private var replyName = ""
@@ -215,81 +218,68 @@ struct TopicDetailContentView: View {
                                 }
                             }
                         }
-                    }
-
-                    ZStack {
-                        HStack {
-                            ZStack(alignment: .leading) {
-                                TextEditor(text: $inputComment)
-                                    .multilineTextAlignment(.leading)
-                                    .font(.font12)
-                                    .focused($focused)
-                                    .onChange(of: inputComment) { newValue in
-                                        print(newValue)
-                                    }
-                                    .border(Color.theme)
-                                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 20, trailing: 0))
-
-                                if inputComment.isEmpty {
-                                    Text("输入内容")
-                                        .multilineTextAlignment(.leading)
-                                        .font(.font12)
-                                        .foregroundColor(.secondary)
-                                        .padding(EdgeInsets(top: 0, leading: 16, bottom: 30, trailing: 0))
-                                }
-                            }
-
-                            Spacer()
-
-                            Button("评论") {
-                                if !UserInfo.shared.isLogin() {
-                                    needLogin.toggle()
-                                } else {
-                                    Task {
-                                        await comment()
-                                    }
-                                }
-                            }
-                            .offset(x: 0, y: -10)
-                            .padding(.trailing, 10)
-                        }
-                        .frame(height: 60)
-                        .isHidden(isReply)
-
-                        VStack {
-                            Text("回复\(replyName)")
-
+                        .safeAreaInset(edge: .bottom) {
                             HStack {
-                                TextEditor(text: $replyContent)
-                                    .multilineTextAlignment(.leading)
-                                    .font(.font12)
-                                    .focused($replyFocused)
-                                    .onChange(of: replyContent) { newValue in
-                                        print(newValue)
-                                    }
-                                    .border(Color.theme)
-                                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 20, trailing: 0))
-
-                                Spacer()
-
-                                Button("回复") {
-                                    if !UserInfo.shared.isLogin() {
-                                        needLogin.toggle()
+                                Button {
+                                    if UserInfo.shared.isLogin() {
+                                        isPresented.toggle()
                                     } else {
-                                        Task {
-                                            await getReply()
-                                        }
+                                        needLogin.toggle()
                                     }
+                                } label: {
+                                    Label(title: {
+                                        Text("输入评论内容")
+                                    }, icon: {
+                                        Image(systemName: "rectangle.and.pencil.and.ellipsis")
+                                    })
+                                        .frame(maxWidth: UIScreen.main.bounds.width - 60, minHeight: 30)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .stroke(.secondary, lineWidth: 1)
+                                        )
                                 }
-                                .offset(x: 0, y: -10)
-                                .padding(.trailing, 10)
                             }
+                            .frame(maxWidth: .infinity, maxHeight: 66)
+                            .background(.regularMaterial)
                         }
-                        .frame(maxWidth: UIScreen.main.bounds.width - 20)
-                        .isHidden(!isReply)
                     }
-                    .frame(height: 65)
-                    .background(Color(light: .white, dark: .black))
+
+//                    ZStack {
+
+//                        VStack {
+//                            Text("回复\(replyName)")
+//
+//                            HStack {
+//                                TextEditor(text: $replyContent)
+//                                    .multilineTextAlignment(.leading)
+//                                    .font(.font12)
+//                                    .focused($replyFocused)
+//                                    .onChange(of: replyContent) { newValue in
+//                                        print(newValue)
+//                                    }
+//                                    .border(Color.theme)
+//                                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 20, trailing: 0))
+//
+//                                Spacer()
+//
+//                                Button("回复") {
+//                                    if !UserInfo.shared.isLogin() {
+//                                        needLogin.toggle()
+//                                    } else {
+//                                        Task {
+//                                            await getReply()
+//                                        }
+//                                    }
+//                                }
+//                                .offset(x: 0, y: -10)
+//                                .padding(.trailing, 10)
+//                            }
+//                        }
+//                        .frame(maxWidth: UIScreen.main.bounds.width - 20)
+//                        .isHidden(!isReply)
+//                    }
+//                    .frame(minHeight: 65)
+//                    .background(Color(light: .white, dark: .black))
 
                     NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isSpace) {
                         EmptyView()
@@ -313,7 +303,6 @@ struct TopicDetailContentView: View {
                     }
                 }
         }
-        .keyboardAdaptive()
         .edgesIgnoringSafeArea(UIDevice.current.isPad ? [] : [.bottom])
         .navigationTitle("帖子详情")
         .onAppear {
@@ -327,6 +316,58 @@ struct TopicDetailContentView: View {
                 } else {
                     shieldUsers()
                 }
+            }
+        }
+        .dialog(isPresented: $isPresented, paddingTop: 100) {
+            VStack {
+                HStack {
+                    Spacer()
+
+                    Text("评论帖子")
+                        .font(.font17)
+
+                    Spacer()
+
+                    Button {
+                        closeDialog()
+                    } label: {
+                        Image(systemName: "xmark.circle")
+                    }
+                }
+
+                ZStack(alignment: .leading) {
+                    TextEditor(text: $inputComment)
+                        .multilineTextAlignment(.leading)
+                        .font(.font16)
+                        .focused($focused)
+                        .onChange(of: inputComment) { newValue in
+                            print(newValue)
+                        }
+                        .border(Color.theme)
+                        .padding(EdgeInsets(top: 0, leading: 10, bottom: 20, trailing: 0))
+
+                    if inputComment.isEmpty {
+                        Text("输入评论内容")
+                            .multilineTextAlignment(.leading)
+                            .font(.font16)
+                            .foregroundColor(.secondary)
+                            .padding(EdgeInsets(top: -43, leading: 16, bottom: 30, trailing: 0))
+                    }
+                }
+
+                Button(isShowing ? " " : "发表评论", action: {
+                    Task {
+                        await comment()
+                    }
+                })
+                    .showProgress(isShowing: $isShowing, color: .white)
+                    .disabled(isShowing)
+                    .buttonStyle(BigButtonStyle())
+                    .padding(EdgeInsets(top: 20, leading: 0, bottom: 10, trailing: 0))
+            }
+            .frame(width: 300, height: 200)
+            .onAppear {
+                focused.toggle()
             }
         }
         .sheet(isPresented: $needLogin) {
@@ -381,6 +422,16 @@ struct TopicDetailContentView: View {
                     Image(systemName: "ellipsis")
                 }
                 .isHidden(disAgree)
+            }
+        }
+    }
+
+    private func closeDialog() {
+        withAnimation {
+            focused = false
+            isPresented.toggle()
+            if !UIDevice.current.isPad {
+                TabBarTool.showTabBar(false)
             }
         }
     }
@@ -525,8 +576,13 @@ struct TopicDetailContentView: View {
     }
 
     private func comment() async {
+        if inputComment.isEmpty {
+            hud.show(message: "请输入评论内容")
+            return
+        }
+
         Task {
-            if UserInfo.shared.formhash.isEmpty {
+            if !UserInfo.shared.isLogin() {
                 needLogin.toggle()
                 return
             }
@@ -548,7 +604,7 @@ struct TopicDetailContentView: View {
                 } else {
                     hud.show(message: "评论失败")
                 }
-                focused = false
+                closeDialog()
                 await loadData()
             }
         }

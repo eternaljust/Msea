@@ -11,6 +11,7 @@ import SwiftUI
 extension View {
     func dialog<Content: View>(
         isPresented: Binding<Bool>,
+        paddingTop: CGFloat = 0,
         @ViewBuilder content: () -> Content
     ) -> some View {
         ZStack(alignment: .top) {
@@ -19,6 +20,7 @@ extension View {
                 Dialog(content: content)
                     .transition(AnyTransition.scale.combined(with: .opacity))
                     .zIndex(1)
+                    .padding(.top, paddingTop)
             }
         }
     }

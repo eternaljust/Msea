@@ -139,7 +139,7 @@ struct DaySignContentView: View {
                 HStack {
                     Text(CacheInfo.shared.signExpression)
                         .multilineTextAlignment(.leading)
-                        .font(.font15)
+                        .font(.font17)
 
                     Spacer()
 
@@ -153,7 +153,7 @@ struct DaySignContentView: View {
                 ZStack {
                     TextEditor(text: $signMessage)
                         .multilineTextAlignment(.leading)
-                        .font(.font12)
+                        .font(.font15)
                         .focused($focused)
                         .onChange(of: signMessage) { newValue in
                             print(newValue)
@@ -162,7 +162,8 @@ struct DaySignContentView: View {
                     if self.signMessage.isEmpty {
                         Text(signPlaceholder)
                             .multilineTextAlignment(.leading)
-                            .font(.font12)
+                            .font(.font15)
+                            .foregroundColor(.secondary)
                             .padding(.top, -10)
                     }
                 }
@@ -177,7 +178,7 @@ struct DaySignContentView: View {
                     .buttonStyle(BigButtonStyle())
                     .padding(EdgeInsets(top: 20, leading: 0, bottom: 10, trailing: 0))
             }
-            .frame(width: 300, height: 160)
+            .frame(width: 300, height: 200)
         }
         .sheet(isPresented: $needLogin) {
             LoginContentView()
