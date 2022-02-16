@@ -18,13 +18,15 @@ struct DynamicFontContentView: View {
                 Image("DynamicFont1")
                     .resizable()
                     .scaledToFit()
+                    .padding(.bottom, 15)
 
-                Text("第二步，打开【Msea】，让【Msea】处于打开的状态\n")
+                Text("第二步，打开【Msea】，让【Msea】处于打开的状态")
 
                 Text("第三步，从屏幕底部向上轻扫来显示“控制中心”，或者从屏幕右上方边缘向下轻扫来显示“控制中心”，再点击【AA】图标")
                 Image("DynamicFont2")
                     .resizable()
                     .scaledToFit()
+                    .padding(.bottom, 15)
 
                 Text("第四步，选择【仅限Msea】，上下拖动滑块来调整字体大小比例")
                 Image("DynamicFont3")
