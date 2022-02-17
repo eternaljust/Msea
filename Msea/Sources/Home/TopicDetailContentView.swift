@@ -587,10 +587,9 @@ struct TopicDetailContentView: View {
                 return
             }
 
-            let message = inputComment.replacingOccurrences(of: " ", with: "")
             let time = Int(Date().timeIntervalSince1970)
             // swiftlint:disable force_unwrapping
-            let parames = "&formhash=\(UserInfo.shared.formhash)&message=\(message)&posttime=\(time)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+            let parames = "&formhash=\(UserInfo.shared.formhash)&message=\(inputComment)&posttime=\(time)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
             let url = URL(string: "https://www.chongbuluo.com/\(action)\(parames)")!
             // swiftlint:enble force_unwrapping
             var requset = URLRequest(url: url)
