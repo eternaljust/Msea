@@ -31,13 +31,14 @@ struct TopicDetailContentView: View {
     @FocusState private var focused: Bool
     @State private var isPresented = false
     @State private var isShowing = false
-    @State var bottomTrigger = false
 
-    @State private var isReply = false
     @State private var replyName = ""
     @State private var replyContent = ""
     @State private var replyAction = ""
     @FocusState private var replyFocused: Bool
+    @State private var isPresentedReply = false
+    @State private var isShowingReply = false
+
     @State private var showAlert = false
     @Environment(\.dismiss) private var dismiss
 
@@ -118,6 +119,7 @@ struct TopicDetailContentView: View {
                                                 .font(.font16)
                                                 .multilineTextAlignment(.leading)
                                                 .lineSpacing(5)
+                                                .textSelection(.enabled)
                                                 .fixedSize(horizontal: false, vertical: true)
                                         } else {
                                             Web(bodyHTMLString: comment.content, didFinish: { scrollHeight in
@@ -142,21 +144,29 @@ struct TopicDetailContentView: View {
                                     .padding([.top, .bottom], 5)
                                     .id(comment.pid)
                                     .swipeActions {
-                                        if comment.id == comments.first?.id && UserInfo.shared.isLogin() && !comment.favorite.isEmpty {
+                                        if comment.id == comments.first?.id && !comment.favorite.isEmpty {
                                             Button("收藏") {
-                                                favoriteAction = comment.favorite
-                                                Task {
-                                                    await favorite()
+                                                if UserInfo.shared.isLogin() {
+                                                    favoriteAction = comment.favorite
+                                                    Task {
+                                                        await favorite()
+                                                    }
+                                                } else {
+                                                    needLogin.toggle()
+                                                }
+                                            }
+                                        } else {
+                                            Button("回复") {
+                                                if UserInfo.shared.isLogin() {
+                                                    replyName = comment.name
+                                                    replyAction = comment.reply
+                                                    focused = false
+                                                    isPresentedReply.toggle()
+                                                } else {
+                                                    needLogin.toggle()
                                                 }
                                             }
                                         }
-//                                        Button("回复") {
-//                                            replyName = comment.name
-//                                            replyAction = comment.reply
-//                                            focused = false
-//                                            isReply = true
-//                                            replyFocused.toggle()
-//                                        }
                                     }
                                 }
                             } header: {
@@ -192,22 +202,15 @@ struct TopicDetailContentView: View {
                                 }
                             }
                         }
-                        //                    .simultaneousGesture(DragGesture().onChanged({ _ in
-                        //                        focused = false
-                        //                        isReply = false
-                        //                        replyFocused = false
-                        //                    }))
                         .listStyle(.plain)
                         .refreshable {
-                            page = 1
-                            isSelectedPage = false
-                            await loadData()
+                            Task {
+                                await reloadData()
+                            }
                         }
                         .task {
                             if !isHidden {
-                                page = 1
-                                isSelectedPage = false
-                                await loadData()
+                                await reloadData()
                             }
                         }
                         .onOpenURL { url in
@@ -239,47 +242,10 @@ struct TopicDetailContentView: View {
                                         )
                                 }
                             }
-                            .frame(maxWidth: .infinity, maxHeight: 66)
+                            .frame(maxWidth: .infinity, maxHeight: 70)
                             .background(.regularMaterial)
                         }
                     }
-
-//                    ZStack {
-
-//                        VStack {
-//                            Text("回复\(replyName)")
-//
-//                            HStack {
-//                                TextEditor(text: $replyContent)
-//                                    .multilineTextAlignment(.leading)
-//                                    .font(.font12)
-//                                    .focused($replyFocused)
-//                                    .onChange(of: replyContent) { newValue in
-//                                        print(newValue)
-//                                    }
-//                                    .border(Color.theme)
-//                                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 20, trailing: 0))
-//
-//                                Spacer()
-//
-//                                Button("回复") {
-//                                    if !UserInfo.shared.isLogin() {
-//                                        needLogin.toggle()
-//                                    } else {
-//                                        Task {
-//                                            await getReply()
-//                                        }
-//                                    }
-//                                }
-//                                .offset(x: 0, y: -10)
-//                                .padding(.trailing, 10)
-//                            }
-//                        }
-//                        .frame(maxWidth: UIScreen.main.bounds.width - 20)
-//                        .isHidden(!isReply)
-//                    }
-//                    .frame(minHeight: 65)
-//                    .background(Color(light: .white, dark: .black))
 
                     NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isSpace) {
                         EmptyView()
@@ -370,6 +336,58 @@ struct TopicDetailContentView: View {
                 focused.toggle()
             }
         }
+        .dialog(isPresented: $isPresentedReply, paddingTop: 100) {
+            VStack {
+                HStack {
+                    Spacer()
+
+                    Text("回复帖子")
+                        .font(.font17)
+
+                    Spacer()
+
+                    Button {
+                        closeDialog()
+                    } label: {
+                        Image(systemName: "xmark.circle")
+                    }
+                }
+
+                ZStack(alignment: .leading) {
+                    TextEditor(text: $replyContent)
+                        .multilineTextAlignment(.leading)
+                        .font(.font16)
+                        .focused($replyFocused)
+                        .onChange(of: replyContent) { newValue in
+                            print(newValue)
+                        }
+                        .border(Color.theme)
+                        .padding(EdgeInsets(top: 0, leading: 10, bottom: 20, trailing: 0))
+
+                    if replyContent.isEmpty {
+                        Text("输入回复内容")
+                            .multilineTextAlignment(.leading)
+                            .font(.font16)
+                            .foregroundColor(.secondary)
+                            .padding(EdgeInsets(top: -43, leading: 16, bottom: 30, trailing: 0))
+                    }
+                }
+
+                Button(isShowingReply ? " " : "发表回复", action: {
+                    Task {
+                        await getReply()
+                    }
+                })
+                    .showProgress(isShowing: $isShowing, color: .white)
+                    .disabled(isShowing)
+                    .buttonStyle(BigButtonStyle())
+                    .padding(EdgeInsets(top: 20, leading: 0, bottom: 10, trailing: 0))
+            }
+            .frame(width: 300, height: 200)
+            .onAppear {
+                replyFocused.toggle()
+            }
+        }
         .sheet(isPresented: $needLogin) {
             LoginContentView()
         }
@@ -424,12 +442,27 @@ struct TopicDetailContentView: View {
                 .isHidden(disAgree)
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: .login, object: nil)) { _ in
+            Task {
+                await reloadData()
+            }
+        }
     }
 
     private func closeDialog() {
         withAnimation {
             focused = false
-            isPresented.toggle()
+            if isPresented {
+                inputComment = ""
+                isPresented.toggle()
+            }
+
+            replyFocused = false
+            if isPresentedReply {
+                replyContent = ""
+                isPresentedReply.toggle()
+            }
+
             if !UIDevice.current.isPad {
                 TabBarTool.showTabBar(false)
             }
@@ -440,6 +473,12 @@ struct TopicDetailContentView: View {
         comments = comments.filter { model in
             !UserInfo.shared.shieldUsers.contains { $0.uid == model.uid }
         }
+    }
+
+    private func reloadData() async {
+        page = 1
+        isSelectedPage = false
+        await loadData()
     }
 
     private func loadData() async {
@@ -630,9 +669,32 @@ struct TopicDetailContentView: View {
                 if let noticeauthor = html.at_xpath("//input[@name='noticeauthor']/@value", namespaces: nil)?.text {
                     param += "&noticeauthor=\(noticeauthor)"
                 }
-                // FIXME: 回复提交提示 [quote][url=forum.php?mod=redirect
-                if let noticetrimstr = html.at_xpath("//input[@name='noticetrimstr']/@value", namespaces: nil)?.text {
+                // FIXME: 回复暂时缺少跳转链接 [url=forum.php?mod=redirect&goto=findpost&pid=id&ptid=id]
+                if var noticetrimstr = html.at_xpath("//input[@name='noticetrimstr']/@value", namespaces: nil)?.text,
+                   noticetrimstr.contains("[url=") {
+                    noticetrimstr = noticetrimstr.components(separatedBy: "[color=#999999]")[1]
+                    let list = noticetrimstr.components(separatedBy: "[/color][/url][/size]\n")
+                    let post_reply_quote = list[0]
+                    let message = list[1].components(separatedBy: "[/quote]")[0]
+                    noticetrimstr = "[quote][size=2][color=#999999]\(post_reply_quote)[/color][/size]\n\(message)[/quote]"
+                    print(noticetrimstr)
+                    /*
+                     [quote][size=2][url=forum.php?mod=redirect&goto=findpost&pid=155892&ptid=11726][color=#999999]逍遥叹 发表于 2022-1-14 16:31[/color][/url][/size]
+                     有app确实会更加方便一些，手机网页端说实话就是用来签下道。[/quote]
+                     */
+                    /*
+                     if(!defined('IN_MOBILE')) {
+                     $message = "[quote][size=2][url=forum.php?mod=redirect&goto=findpost&pid=$_GET[repquote]&ptid={$_G['tid']}][color=#999999]{$post_reply_quote}[/color][/url][/size]\n{$message}[/quote]";
+                     } else {
+                     $message = "[quote][color=#999999]{$post_reply_quote}[/color]\n[color=#999999]{$message}[/color][/quote]";
+                     }
+                     */
+                    /*
+                     <div class="quote"><blockquote><font size="2"><a href="https://www.chongbuluo.com/forum.php?mod=redirect&amp;goto=findpost&amp;pid=158920&amp;ptid=11916" target="_blank"><font color="#999999">Nullptr 发表于 2022-2-15 14:33</font></a></font><br />
+                     请问老哥用什么工具订阅的呢</blockquote></div><br />
+                     */
                     param += "&noticetrimstr=\(noticetrimstr)"
+                    print(noticetrimstr)
                 }
                 if let noticeauthormsg = html.at_xpath("//input[@name='noticeauthormsg']/@value", namespaces: nil)?.text {
                     param += "&noticeauthormsg=\(noticeauthormsg)"
@@ -659,6 +721,12 @@ struct TopicDetailContentView: View {
             var requset = URLRequest(url: url)
             requset.httpMethod = "POST"
             requset.configHeaderFields()
+//            requset.setValue("https://www.chongbuluo.com", forHTTPHeaderField: "Origin")
+//            requset.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+//            requset.setValue("same-origin", forHTTPHeaderField: "Sec-Fetch-Site")
+//            requset.setValue("navigate", forHTTPHeaderField: "Sec-Fetch-Mode")
+//            requset.setValue("?1", forHTTPHeaderField: "Sec-Fetch-User")
+//            requset.setValue("document", forHTTPHeaderField: "Sec-Fetch-Dest")
             let (data, _) = try await URLSession.shared.data(for: requset)
             if let html = try? HTML(html: data, encoding: .utf8) {
                 if let text = html.toHTML, text.contains("刚刚") || text.contains("秒前") {
@@ -667,7 +735,7 @@ struct TopicDetailContentView: View {
                 } else {
                     hud.show(message: "回复失败")
                 }
-                replyFocused = false
+                closeDialog()
                 await loadData()
             }
         }
