@@ -65,6 +65,7 @@ struct SystemContentView: View {
         .navigationTitle("系统提醒")
         .task {
             if !isHidden {
+                page = 1
                 await loadData()
             }
         }

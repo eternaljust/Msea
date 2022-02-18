@@ -20,6 +20,8 @@ struct GifImage: UIViewRepresentable {
             webView.load(data, mimeType: "image/gif", characterEncodingName: "UTF-8", baseURL: url.deletingLastPathComponent())
         }
         webView.scrollView.isScrollEnabled = false
+        webView.backgroundColor = .clear
+        webView.isOpaque = false
 
         return webView
     }

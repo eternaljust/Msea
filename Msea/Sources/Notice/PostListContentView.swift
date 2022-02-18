@@ -70,6 +70,7 @@ struct PostListContentView: View {
         }
         .task {
             if !isHidden {
+                page = 1
                 await loadData()
             }
         }

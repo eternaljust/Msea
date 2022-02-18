@@ -23,6 +23,7 @@ struct TopicDetailContentView: View {
     @State private var pageSize = 1
     @State private var isSelectedPage = false
     @State private var isConfirming = false
+    @EnvironmentObject private var selection: TabItemSelection
 
     @State private var needLogin = false
     @EnvironmentObject private var hud: HUDState
@@ -90,8 +91,13 @@ struct TopicDetailContentView: View {
                                             .cornerRadius(5)
                                             .onTapGesture {
                                                 if !comment.uid.isEmpty {
-                                                    uid = comment.uid
-                                                    isSpace.toggle()
+                                                    if comment.uid == UserInfo.shared.uid {
+                                                        selection.index = .mine
+                                                        CacheInfo.shared.selectedTab = .mine
+                                                    } else {
+                                                        uid = comment.uid
+                                                        isSpace.toggle()
+                                                    }
                                                 }
                                             }
 
@@ -768,8 +774,13 @@ struct TopicDetailContentView: View {
             if absoluteString.contains("uid=") {
                 let uid = getUid(url: absoluteString)
                 if !uid.isEmpty {
-                    self.uid = uid
-                    isSpace.toggle()
+                    if uid == UserInfo.shared.uid {
+                        selection.index = .mine
+                        CacheInfo.shared.selectedTab = .mine
+                    } else {
+                        self.uid = uid
+                        isSpace.toggle()
+                    }
                 }
             } else {
                 if absoluteString.contains("&tid=") {

@@ -90,6 +90,7 @@ struct CreditListContentView: View {
         .navigationTitle("积分收益")
         .task {
             if !isHidden {
+                page = 1
                 await loadUser()
                 await loadData()
             }

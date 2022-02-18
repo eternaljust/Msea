@@ -97,6 +97,7 @@ struct CreditSystemContentView: View {
         .navigationTitle("系统奖励")
         .task {
             if !isHidden {
+                page = 1
                 await loadData()
             }
         }

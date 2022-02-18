@@ -35,6 +35,7 @@ struct TopicListContentView: View {
                             VStack(alignment: .leading) {
                                 Text(topic.name)
                                     .font(.font17Blod)
+
                                 Text(topic.time)
                                     .font(.font13)
                             }
