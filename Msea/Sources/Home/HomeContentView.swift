@@ -29,7 +29,6 @@ struct HomeContentView: View {
                         Image(systemName: "leaf.fill")
                             .foregroundColor(.theme)
                             .imageScale(.large)
-                            .padding(.leading, 20)
                     }
 
                     NavigationLink {
@@ -40,7 +39,7 @@ struct HomeContentView: View {
                         }, icon: {
                             Image(systemName: "magnifyingglass")
                         })
-                            .frame(maxWidth: UIScreen.main.bounds.width - 80, minHeight: 34)
+                            .frame(maxWidth: .infinity, minHeight: 34)
                             .padding(.leading, 5)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 10)
@@ -48,23 +47,31 @@ struct HomeContentView: View {
                             )
                     }
 
-                    Spacer()
-
-                    Button {
-                        CacheInfo.shared.selectedTab = .notice
-                        selection.index = .notice
+                    NavigationLink {
+                        RankListContentView()
                     } label: {
-                        Label {
-                           Text(notice)
-                        } icon: {
-                            Image(systemName: "bell.fill")
-                                .imageScale(.large)
+                        Image(systemName: "list.number")
+                            .imageScale(.large)
+                            .foregroundColor(.theme)
+                    }
+
+                    if !notice.isEmpty {
+                        Button {
+                            CacheInfo.shared.selectedTab = .notice
+                            selection.index = .notice
+                        } label: {
+                            Label {
+                               Text(notice)
+                            } icon: {
+                                Image(systemName: "bell.fill")
+                                    .imageScale(.large)
+                            }
+                            .foregroundColor(.theme)
                         }
-                        .foregroundColor(.theme)
-                        .padding(.trailing, 10)
                     }
                 }
                 .frame(height: 40)
+                .padding([.leading, .trailing], 20)
 
                 Picker("ViewTab", selection: $selectedViewTab) {
                     ForEach(ViewTab.allCases) { view in
@@ -113,6 +120,13 @@ struct HomeContentView: View {
             .task {
                 if UserInfo.shared.isLogin() {
                     await checkNotice()
+                }
+            }
+            .onAppear {
+                Task {
+                    if UserInfo.shared.isLogin() {
+                        await checkNotice()
+                    }
                 }
             }
 
