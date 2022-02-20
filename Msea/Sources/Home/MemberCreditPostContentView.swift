@@ -40,7 +40,7 @@ struct MemberCreditPostContentView: View {
                                 .cornerRadius(5)
                                 .padding(.leading, 5)
 
-                                VStack(alignment: .leading, spacing: 10) {
+                                VStack(alignment: .leading, spacing: 5) {
                                     Text(user.name)
                                         .font(.font17Blod)
 

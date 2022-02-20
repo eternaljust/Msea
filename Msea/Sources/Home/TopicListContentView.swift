@@ -32,7 +32,7 @@ struct TopicListContentView: View {
                             .frame(width: 40, height: 40)
                             .cornerRadius(5)
 
-                            VStack(alignment: .leading) {
+                            VStack(alignment: .leading, spacing: 5) {
                                 Text(topic.name)
                                     .font(.font17Blod)
 

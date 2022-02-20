@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		810E24B327C0E26600E8E895 /* RankListContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810E24B227C0E26500E8E895 /* RankListContentView.swift */; };
 		810E24B527C0E33B00E8E895 /* MemberCreditPostContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810E24B427C0E33B00E8E895 /* MemberCreditPostContentView.swift */; };
-		810E24B727C0E36A00E8E895 /* CreditPostListContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810E24B627C0E36900E8E895 /* CreditPostListContentView.swift */; };
-		810E24B927C0E54600E8E895 /* ThreadRankListContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810E24B827C0E54600E8E895 /* ThreadRankListContentView.swift */; };
 		810E24BB27C0E59200E8E895 /* TreadRankContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810E24BA27C0E59100E8E895 /* TreadRankContentView.swift */; };
 		8143D171275C8F5D0036198D /* MineContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8143D170275C8F5C0036198D /* MineContentView.swift */; };
 		8143D173275C9DFB0036198D /* HomeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8143D172275C9DFA0036198D /* HomeContentView.swift */; };
@@ -136,8 +134,6 @@
 		7606A8EEA1BD777F45CBF959 /* Pods_Msea.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Msea.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		810E24B227C0E26500E8E895 /* RankListContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankListContentView.swift; sourceTree = "<group>"; };
 		810E24B427C0E33B00E8E895 /* MemberCreditPostContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCreditPostContentView.swift; sourceTree = "<group>"; };
-		810E24B627C0E36900E8E895 /* CreditPostListContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditPostListContentView.swift; sourceTree = "<group>"; };
-		810E24B827C0E54600E8E895 /* ThreadRankListContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadRankListContentView.swift; sourceTree = "<group>"; };
 		810E24BA27C0E59100E8E895 /* TreadRankContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreadRankContentView.swift; sourceTree = "<group>"; };
 		8143D170275C8F5C0036198D /* MineContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineContentView.swift; sourceTree = "<group>"; };
 		8143D172275C9DFA0036198D /* HomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentView.swift; sourceTree = "<group>"; };
@@ -301,9 +297,7 @@
 				EF6FDDBF27992A7B0087885C /* SearchUserContentView.swift */,
 				810E24B227C0E26500E8E895 /* RankListContentView.swift */,
 				810E24B427C0E33B00E8E895 /* MemberCreditPostContentView.swift */,
-				810E24B627C0E36900E8E895 /* CreditPostListContentView.swift */,
 				810E24BA27C0E59100E8E895 /* TreadRankContentView.swift */,
-				810E24B827C0E54600E8E895 /* ThreadRankListContentView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -798,7 +792,6 @@
 				EF55F4C9275A0B0500B78C95 /* View+Extension.swift in Sources */,
 				EFB4314F2760ACB300319073 /* LoginContentView.swift in Sources */,
 				EFD7EBEE27955228004C1609 /* CustomView.swift in Sources */,
-				810E24B927C0E54600E8E895 /* ThreadRankListContentView.swift in Sources */,
 				EF80EFA62786D9EB00CE1EE1 /* TopicDetailContentView.swift in Sources */,
 				EFA87A0B279F931500DAD877 /* CreditSystemContentView.swift in Sources */,
 				EF6211D52761D8FA00F833B4 /* ApplicationDelegate.swift in Sources */,
@@ -846,7 +839,6 @@
 				EFA87A0D279F933000DAD877 /* CreditRuleContentView.swift in Sources */,
 				EF8A7A2B2766F3950092E53C /* Constants.swift in Sources */,
 				EFE2B11C278D56F400B12FC4 /* Keyboard.swift in Sources */,
-				810E24B727C0E36A00E8E895 /* CreditPostListContentView.swift in Sources */,
 				EFBE964E277D4FED00481170 /* FriendVisitorContentView.swift in Sources */,
 				EF80AAC927682EF700C045D6 /* CacheInfo.swift in Sources */,
 				EFE76C5D2759EE3B00D89EA6 /* MseaApp.swift in Sources */,
@@ -882,7 +874,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = TopicWidget/TopicWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 25;
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TopicWidget/Info.plist;
@@ -894,7 +886,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.8;
+				MARKETING_VERSION = 1.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.eternaljust.Msea.TopicWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -912,7 +904,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = TopicWidget/TopicWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 25;
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TopicWidget/Info.plist;
@@ -924,7 +916,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.8;
+				MARKETING_VERSION = 1.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.eternaljust.Msea.TopicWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -939,7 +931,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = WidgetIntentHandler/WidgetIntentHandler.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 25;
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WidgetIntentHandler/Info.plist;
@@ -951,7 +943,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.8;
+				MARKETING_VERSION = 1.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.eternaljust.Msea.WidgetIntentHandler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -966,7 +958,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = WidgetIntentHandler/WidgetIntentHandler.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 25;
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WidgetIntentHandler/Info.plist;
@@ -978,7 +970,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.8;
+				MARKETING_VERSION = 1.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.eternaljust.Msea.WidgetIntentHandler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1113,7 +1105,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/Msea/Supporting Files/Msea.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 25;
 				DEVELOPMENT_ASSET_PATHS = "\"Msea/Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				ENABLE_PREVIEWS = YES;
@@ -1129,7 +1121,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.8;
+				MARKETING_VERSION = 1.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.eternaljust.Msea;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1148,7 +1140,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/Msea/Supporting Files/Msea.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 25;
 				DEVELOPMENT_ASSET_PATHS = "\"Msea/Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				ENABLE_PREVIEWS = YES;
@@ -1164,7 +1156,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.8;
+				MARKETING_VERSION = 1.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.eternaljust.Msea;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

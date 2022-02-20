@@ -34,7 +34,7 @@ struct SearchUserContentView: View {
                                     .frame(width: 45, height: 45)
                                     .cornerRadius(5)
 
-                                    VStack(alignment: .leading, spacing: 10) {
+                                    VStack(alignment: .leading, spacing: 5) {
                                         Text(user.name)
                                             .font(.font17Blod)
 

@@ -13,16 +13,38 @@ import Kanna
 struct SearchContentView: View {
     @State private var search = ""
     @StateObject private var searchState = SearchState()
-
-    @Environment(\.dismiss) private var dismiss
     @FocusState private var focused: Bool
     @EnvironmentObject private var hud: HUDState
+
     @State private var needLogin = false
     @State private var showAlert = false
     @State private var selectedSearchTab = SearchTab.post
 
     var body: some View {
         VStack {
+            TextField("请输入搜索内容", text: $search)
+                .textFieldStyle(.roundedBorder)
+                .focused($focused)
+                .submitLabel(.search)
+                .padding([.leading, .trailing], 10)
+                .onSubmit {
+                    Task {
+                        if search.isEmpty {
+                            hud.show(message: "请输入内容")
+                            return
+                        }
+                        if !UserInfo.shared.isLogin() {
+                            showAlert.toggle()
+                        }
+                        searchState.keywrod = search
+                    }
+                }
+                .onAppear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                        focused = search.isEmpty
+                    }
+                }
+
             Picker("SearchTab", selection: $selectedSearchTab) {
                 ForEach(SearchTab.allCases) { tab in
                     Text(tab.title)
@@ -47,37 +69,6 @@ struct SearchContentView: View {
             .tabViewStyle(.page(indexDisplayMode: .never))
             .edgesIgnoringSafeArea(UIDevice.current.isPad ? [] : [.bottom])
         }
-        .toolbar(content: {
-            ToolbarItem(placement: .principal) {
-                TextField("站内搜索", text: $search)
-                    .textFieldStyle(.roundedBorder)
-                    .focused($focused)
-                    .submitLabel(.search)
-                    .onSubmit {
-                        Task {
-                            if search.isEmpty {
-                                hud.show(message: "请输入内容")
-                                return
-                            }
-                            if !UserInfo.shared.isLogin() {
-                                showAlert.toggle()
-                            }
-                            searchState.keywrod = search
-                        }
-                    }
-            }
-
-            ToolbarItem(placement: .navigationBarTrailing) {
-                if !UIDevice.current.isPad {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Text("取消")
-                    }
-                }
-            }
-        })
-        .navigationBarBackButtonHidden(true)
         .navigationBarTitle("站内搜索")
         .onAppear {
             if !UIDevice.current.isPad {
