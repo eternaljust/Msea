@@ -106,22 +106,22 @@ struct CreditListContentView: View {
             request.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: request)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                let dl = html.xpath("//table[@class='dt']/tr", namespaces: nil)
+                let dl = html.xpath("//table[@class='dt']/tr")
                 var list = [CreditListModel]()
                 dl.forEach({ element in
                     if let toHTML = element.toHTML, toHTML.contains("td") {
                         var system = CreditListModel()
-                        if let action = element.at_xpath("/td[1]", namespaces: nil)?.text {
+                        if let action = element.at_xpath("/td[1]")?.text {
                             system.action = action
                         }
-                        if let bit = element.at_xpath("/td[2]/span", namespaces: nil)?.text {
+                        if let bit = element.at_xpath("/td[2]/span")?.text {
                             system.bit = bit
                             system.isAdd = bit.hasPrefix("+")
                         }
-                        if let content = element.at_xpath("/td[3]", namespaces: nil)?.text {
+                        if let content = element.at_xpath("/td[3]")?.text {
                             system.content = content
                         }
-                        if let time = element.at_xpath("/td[4]", namespaces: nil)?.text {
+                        if let time = element.at_xpath("/td[4]")?.text {
                             system.time = time
                         }
 
@@ -150,17 +150,17 @@ struct CreditListContentView: View {
                 request.configHeaderFields()
                 let (data, _) = try await URLSession.shared.data(for: request)
                 if let html = try? HTML(html: data, encoding: .utf8) {
-                    let li1 = html.at_xpath("//ul[@class='creditl mtm bbda cl']/li[1]", namespaces: nil)
+                    let li1 = html.at_xpath("//ul[@class='creditl mtm bbda cl']/li[1]")
                     if let bits = li1?.text, bits.contains(":") {
                         let bit = bits.replacingOccurrences(of: " ", with: "")
                         UserInfo.shared.bits = bit.components(separatedBy: ":")[1]
                     }
-                    let li2 = html.at_xpath("//ul[@class='creditl mtm bbda cl']/li[2]", namespaces: nil)
+                    let li2 = html.at_xpath("//ul[@class='creditl mtm bbda cl']/li[2]")
                     if let violation = li2?.text, violation.contains(":") {
                         let v = violation.replacingOccurrences(of: " ", with: "")
                         UserInfo.shared.violation = v.components(separatedBy: ":")[1]
                     }
-                    let li3 = html.at_xpath("//ul[@class='creditl mtm bbda cl']/li[3]", namespaces: nil)
+                    let li3 = html.at_xpath("//ul[@class='creditl mtm bbda cl']/li[3]")
                     if let integral = li3?.text, integral.contains("("), integral.contains(":") {
                         let i = integral.replacingOccurrences(of: " ", with: "")
                         UserInfo.shared.integral = i.components(separatedBy: "(")[0].components(separatedBy: ":")[1]

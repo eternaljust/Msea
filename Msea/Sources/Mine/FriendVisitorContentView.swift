@@ -84,18 +84,18 @@ struct FriendVisitorContentView: View {
             if let html = try? HTML(html: data, encoding: .utf8) {
                 friendVisitors = [FriendVisitorListModel(type: .friend, persons: [FriendVisitorModel]()),
                                   FriendVisitorListModel(type: .visitor, persons: [FriendVisitorModel]())]
-                let friend_content = html.xpath("//div[@id='friend_content']/ul/li", namespaces: nil)
+                let friend_content = html.xpath("//div[@id='friend_content']/ul/li")
                 var friends = [FriendVisitorModel]()
                 friend_content.forEach { element in
                     var friend = FriendVisitorModel()
                     if let name = element.text {
                         friend.name = name
                     }
-                    let img = element.at_xpath("/a/img/@src", namespaces: nil)
+                    let img = element.at_xpath("/a/img/@src")
                     if let avatar = img?.text {
                         friend.avatar = avatar.replacingOccurrences(of: "&size=small", with: "")
                     }
-                    if let href = element.at_xpath("/a/@href", namespaces: nil)?.text {
+                    if let href = element.at_xpath("/a/@href")?.text {
                         let uids = href.components(separatedBy: "-")
                         if let uid = uids.last {
                             friend.uid = uid.replacingOccurrences(of: ".html", with: "")
@@ -106,23 +106,23 @@ struct FriendVisitorContentView: View {
                 friendVisitors[0].persons = friends
 
                 //
-                let visitor_content = html.xpath("//div[@id='visitor_content']/ul/li", namespaces: nil)
+                let visitor_content = html.xpath("//div[@id='visitor_content']/ul/li")
                 var visitors = [FriendVisitorModel]()
                 visitor_content.forEach { element in
                     var visitor = FriendVisitorModel()
-                    let a = element.at_xpath("/p/a", namespaces: nil)
+                    let a = element.at_xpath("/p/a")
                     if let name = a?.text {
                         visitor.name = name
                     }
-                    let span = element.at_xpath("span", namespaces: nil)
+                    let span = element.at_xpath("span")
                     if let time = span?.text {
                         visitor.time = time
                     }
-                    let img = element.at_xpath("/a/img/@src", namespaces: nil)
+                    let img = element.at_xpath("/a/img/@src")
                     if let avatar = img?.text {
                         visitor.avatar = avatar.replacingOccurrences(of: "&size=small", with: "")
                     }
-                    if let href = element.at_xpath("/a/@href", namespaces: nil)?.text {
+                    if let href = element.at_xpath("/a/@href")?.text {
                         let uids = href.components(separatedBy: "-")
                         if let uid = uids.last {
                             visitor.uid = uid.replacingOccurrences(of: ".html", with: "")

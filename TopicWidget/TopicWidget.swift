@@ -37,21 +37,21 @@ struct TopicProvider: TimelineProvider {
         let (data, _) = try await URLSession.shared.data(from: url)
         var list = [TopicModel]()
         if let html = try? HTML(html: data, encoding: .utf8) {
-            let hot = html.xpath("//div[@class='module cl xl xl1 rs_hot bls']//li", namespaces: nil)
+            let hot = html.xpath("//div[@class='module cl xl xl1 rs_hot bls']//li")
             print(hot.count)
 
             hot.forEach { element in
                 var topic = TopicModel()
-                if let avatar = element.at_xpath("//@src", namespaces: nil)?.content {
+                if let avatar = element.at_xpath("//@src")?.content {
                     topic.avatar = avatar
                 }
-                if let title = element.at_xpath("//@title", namespaces: nil)?.content {
+                if let title = element.at_xpath("//@title")?.content {
                     topic.title = title
                 }
-                if let em = element.at_xpath("//em", namespaces: nil)?.content, let examine = Int(em) {
+                if let em = element.at_xpath("//em")?.content, let examine = Int(em) {
                     topic.examine = examine
                 }
-                if let href = element.at_xpath("//@href", namespaces: nil)?.content {
+                if let href = element.at_xpath("//@href")?.content {
                     let ids = href.components(separatedBy: "-")
                     if ids.count > 2 {
                         let tid = ids[1]

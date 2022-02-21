@@ -499,13 +499,13 @@ struct TopicDetailContentView: View {
             requset.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: requset)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                if let text = html.at_xpath("//div[@id='f_pst']/form/@action", namespaces: nil)?.text {
+                if let text = html.at_xpath("//div[@id='f_pst']/form/@action")?.text {
                     action = text
                 }
-                if let text = html.at_xpath("//td[@class='plc ptm pbn vwthd']/h1/span", namespaces: nil)?.text {
+                if let text = html.at_xpath("//td[@class='plc ptm pbn vwthd']/h1/span")?.text {
                     title = text
                 }
-                if let text1 = html.at_xpath("//td[@class='plc ptm pbn vwthd']/div[@class='ptn']/span[2]", namespaces: nil)?.text, let text2 = html.at_xpath("//td[@class='plc ptm pbn vwthd']/div[@class='ptn']/span[5]", namespaces: nil)?.text {
+                if let text1 = html.at_xpath("//td[@class='plc ptm pbn vwthd']/div[@class='ptn']/span[2]")?.text, let text2 = html.at_xpath("//td[@class='plc ptm pbn vwthd']/div[@class='ptn']/span[5]")?.text {
                     commentCount = "查看: \(text1)  |  回复: \(text2)  |  tid(\(tid))"
                 }
                 if let text = html.toHTML, text.contains("下一页") {
@@ -513,48 +513,48 @@ struct TopicDetailContentView: View {
                 } else {
                     nextPage = false
                 }
-                if var size = html.at_xpath("//div[@class='pgs mtm mbm cl']/div[@class='pg']/a[last()-1]", namespaces: nil)?.text {
+                if var size = html.at_xpath("//div[@class='pgs mtm mbm cl']/div[@class='pg']/a[last()-1]")?.text {
                     size = size.replacingOccurrences(of: "... ", with: "")
                     if let num = Int(size), num > 1 {
                         pageSize = num
                     }
                 }
-                let node = html.xpath("//table[@class='plhin']", namespaces: nil)
+                let node = html.xpath("//table[@class='plhin']")
                 var list = [TopicCommentModel]()
                 node.forEach { element in
                     var comment = TopicCommentModel()
-                    if let url = element.at_xpath("//div[@class='imicn']/a/@href", namespaces: nil)?.text {
+                    if let url = element.at_xpath("//div[@class='imicn']/a/@href")?.text {
                         let uid = getUid(url: url)
                         if !uid.isEmpty {
                             comment.uid = uid
                         }
                     }
-                    if let avatar = element.at_xpath("//div[@class='avatar']//img/@src", namespaces: nil)?.text {
+                    if let avatar = element.at_xpath("//div[@class='avatar']//img/@src")?.text {
                         comment.avatar = avatar
                     }
-                    if let name = element.at_xpath("//div[@class='authi']/a", namespaces: nil)?.text {
+                    if let name = element.at_xpath("//div[@class='authi']/a")?.text {
                         comment.name = name
                     }
-                    if let time = element.at_xpath("//div[@class='authi']/em", namespaces: nil)?.text {
+                    if let time = element.at_xpath("//div[@class='authi']/em")?.text {
                         comment.time = time
                     }
-                    let a = element.xpath("//div[@class='pob cl']//a", namespaces: nil)
+                    let a = element.xpath("//div[@class='pob cl']//a")
                     a.forEach { ele in
                         if let text = ele.text, text.contains("回复") {
-                            if let reply = ele.at_xpath("/@href", namespaces: nil)?.text {
+                            if let reply = ele.at_xpath("/@href")?.text {
                                 comment.reply = reply
                             }
                         }
                     }
-                    var table = element.at_xpath("//div[@class='t_fsz']/table", namespaces: nil)
+                    var table = element.at_xpath("//div[@class='t_fsz']/table")
                     if table?.toHTML == nil {
-                        table = element.at_xpath("//div[@class='pcbs']/table", namespaces: nil)
+                        table = element.at_xpath("//div[@class='pcbs']/table")
                     }
                     if table?.toHTML == nil {
-                        table = element.at_xpath("//div[@class='pcbs']", namespaces: nil)
+                        table = element.at_xpath("//div[@class='pcbs']")
                     }
                     if let content = table?.toHTML {
-                        if let id = table?.at_xpath("//td/@id", namespaces: nil)?.text, id.contains("_") {
+                        if let id = table?.at_xpath("//td/@id")?.text, id.contains("_") {
                             comment.pid = id.components(separatedBy: "_")[1]
                         }
                         comment.content = content
@@ -571,7 +571,7 @@ struct TopicDetailContentView: View {
                         if let i = comment.content.firstIndex(of: "\r\n") {
                             comment.content.remove(at: i)
                         }
-                        if let action = element.at_xpath("//div[@class='pob cl']//a[1]/@href", namespaces: nil)?.text, action.contains("favorite") {
+                        if let action = element.at_xpath("//div[@class='pob cl']//a[1]/@href")?.text, action.contains("favorite") {
                             comment.favorite = action
                         }
                     }
@@ -672,11 +672,11 @@ struct TopicDetailContentView: View {
                 html.getFormhash()
                 let time = Int(Date().timeIntervalSince1970)
                 var param = "&formhash=\(UserInfo.shared.formhash)&message=\(replyContent)&posttime=\(time)&checkbox=0&wysiwyg=0&replysubmit=yes"
-                if let noticeauthor = html.at_xpath("//input[@name='noticeauthor']/@value", namespaces: nil)?.text {
+                if let noticeauthor = html.at_xpath("//input[@name='noticeauthor']/@value")?.text {
                     param += "&noticeauthor=\(noticeauthor)"
                 }
                 // FIXME: 回复暂时缺少跳转链接 [url=forum.php?mod=redirect&goto=findpost&pid=id&ptid=id]
-                if var noticetrimstr = html.at_xpath("//input[@name='noticetrimstr']/@value", namespaces: nil)?.text,
+                if var noticetrimstr = html.at_xpath("//input[@name='noticetrimstr']/@value")?.text,
                    noticetrimstr.contains("[url=") {
                     noticetrimstr = noticetrimstr.components(separatedBy: "[color=#999999]")[1]
                     let list = noticetrimstr.components(separatedBy: "[/color][/url][/size]\n")
@@ -702,13 +702,13 @@ struct TopicDetailContentView: View {
                     param += "&noticetrimstr=\(noticetrimstr)"
                     print(noticetrimstr)
                 }
-                if let noticeauthormsg = html.at_xpath("//input[@name='noticeauthormsg']/@value", namespaces: nil)?.text {
+                if let noticeauthormsg = html.at_xpath("//input[@name='noticeauthormsg']/@value")?.text {
                     param += "&noticeauthormsg=\(noticeauthormsg)"
                 }
-                if let reppid = html.at_xpath("//input[@name='reppid']/@value", namespaces: nil)?.text {
+                if let reppid = html.at_xpath("//input[@name='reppid']/@value")?.text {
                     param += "&reppid=\(reppid)"
                 }
-                if let reppost = html.at_xpath("//input[@name='reppost']/@value", namespaces: nil)?.text {
+                if let reppost = html.at_xpath("//input[@name='reppost']/@value")?.text {
                     param += "&reppost=\(reppost)"
                 }
                 param = param.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""

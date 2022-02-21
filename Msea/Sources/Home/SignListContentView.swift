@@ -94,36 +94,36 @@ struct SignListContentView: View {
             requst.addValue(UserAgentType.mac.description, forHTTPHeaderField: HTTPHeaderField.userAgent.description)
             let (data, _) = try await URLSession.shared.data(for: requst)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                let table = html.at_xpath("//div[@class='wqpc_sign_table']", namespaces: nil)
-                let tr = table?.xpath("//tr", namespaces: nil)
+                let table = html.at_xpath("//div[@class='wqpc_sign_table']")
+                let tr = table?.xpath("//tr")
                 var list = [SignListModel]()
                 tr?.forEach({ element in
                     if let text = element.text, text.contains("NO.") {
                         var signModel = SignListModel()
-                        let td = element.at_xpath("//td", namespaces: nil)
+                        let td = element.at_xpath("//td")
                         if let no = td?.text, no.contains("NO.") {
                             signModel.no = no.replacingOccurrences(of: "NO.", with: "")
                         }
-                        let a = element.at_xpath("//a", namespaces: nil)
+                        let a = element.at_xpath("//a")
                         if let name = a?.text {
                             signModel.name = name
                         }
-                        let href = element.at_xpath("//a/@href", namespaces: nil)
+                        let href = element.at_xpath("//a/@href")
                         if let uid = href?.text, uid.contains("uid-") {
                             let uids = uid.components(separatedBy: "uid-")[1]
                             if uids.contains(".html") {
                                 signModel.uid = uids.components(separatedBy: ".")[0]
                             }
                         }
-                        let con = element.at_xpath("//p[@class='wqpc_con']", namespaces: nil)
+                        let con = element.at_xpath("//p[@class='wqpc_con']")
                         if let content = con?.text {
                             signModel.content = content
                         }
-                        let span = element.at_xpath("//span[@class='wqpc_red']", namespaces: nil)
+                        let span = element.at_xpath("//span[@class='wqpc_red']")
                         if let bits = span?.text {
                             signModel.bits = bits
                         }
-                        let spanTitle = element.at_xpath("//span[@title]", namespaces: nil)
+                        let spanTitle = element.at_xpath("//span[@title]")
                         if let time = spanTitle?.text {
                             signModel.time = time.replacingOccurrences(of: " ", with: "")
                         }

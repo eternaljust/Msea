@@ -208,8 +208,8 @@ struct DaySignContentView: View {
             requset.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: requset)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                let node = html.at_xpath("//div[@class='wqpc_sign_info']", namespaces: nil)
-                let nums = node?.xpath("//li", namespaces: nil)
+                let node = html.at_xpath("//div[@class='wqpc_sign_info']")
+                let nums = node?.xpath("//li")
                 nums?.forEach({ element in
                     if let toHTML = element.toHTML, let text = element.text {
                         if toHTML.contains("today") {
@@ -224,7 +224,7 @@ struct DaySignContentView: View {
                     }
                 })
 
-                let continuity = html.xpath("//div[@class='wqpc_sign_continuity']//span", namespaces: nil)
+                let continuity = html.xpath("//div[@class='wqpc_sign_continuity']//span")
                 continuity.forEach { element in
                     if let text = element.text {
                         if let days = Int(text), days != 0 {
@@ -235,7 +235,7 @@ struct DaySignContentView: View {
                     }
                 }
 
-                let sign_rule = html.xpath("//div[@class='wqc_sign_rule']/p", namespaces: nil)
+                let sign_rule = html.xpath("//div[@class='wqc_sign_rule']/p")
                 var rules = [String]()
                 sign_rule.forEach { element in
                     if let text = element.text {
@@ -246,8 +246,8 @@ struct DaySignContentView: View {
                     CacheInfo.shared.signRule = rules.joined(separator: "\n")
                 }
 
-                let sign = html.at_xpath("//a[@class='wqpc_sign_btn_red']", namespaces: nil)
-                let sign_btn = html.at_xpath("//div[@class='wqpc_sign_btna']", namespaces: nil)
+                let sign = html.at_xpath("//a[@class='wqpc_sign_btn_red']")
+                let sign_btn = html.at_xpath("//div[@class='wqpc_sign_btna']")
                 var text_btn = signText
                 if let text = sign?.text {
                     text_btn = text
@@ -269,8 +269,8 @@ struct DaySignContentView: View {
             requset1.configHeaderFields()
             let (data1, _) = try await URLSession.shared.data(for: requset1)
             if let html1 = try? HTML(html: data1, encoding: .utf8) {
-                let sign_expression = html1.at_xpath("//em[@id='return_pc_click_wqsign']", namespaces: nil)
-                let wqpc_textarea = html1.at_xpath("//textarea[@class='wqpc_textarea']/@placeholder", namespaces: nil)
+                let sign_expression = html1.at_xpath("//em[@id='return_pc_click_wqsign']")
+                let wqpc_textarea = html1.at_xpath("//textarea[@class='wqpc_textarea']/@placeholder")
                 if let expression = sign_expression?.text {
                     CacheInfo.shared.signExpression = expression
                 }
@@ -297,8 +297,8 @@ struct DaySignContentView: View {
             requset.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: requset)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                let messagetext = html.at_xpath("//div[@id='messagetext']/p[1]", namespaces: nil)
-                let script = html.at_xpath("//div[@id='messagetext']/p[1]/script", namespaces: nil)
+                let messagetext = html.at_xpath("//div[@id='messagetext']/p[1]")
+                let script = html.at_xpath("//div[@id='messagetext']/p[1]/script")
                 if let message = messagetext?.text {
                     if let text = script?.text, message.contains(text) {
                         hud.show(message: message.replacingOccurrences(of: text, with: ""))

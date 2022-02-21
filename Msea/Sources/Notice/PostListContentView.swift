@@ -97,27 +97,27 @@ struct PostListContentView: View {
             request.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: request)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                let dl = html.xpath("//dl[@class='cl ']", namespaces: nil)
+                let dl = html.xpath("//dl[@class='cl ']")
                 var list = [PostListModel]()
                 dl.forEach({ element in
                     var post = PostListModel()
-                    if let time = element.at_xpath("//span[@class='xg1 xw0']", namespaces: nil)?.text {
+                    if let time = element.at_xpath("//span[@class='xg1 xw0']")?.text {
                         post.time = time
                     }
-                    if let avatar = element.at_xpath("//dd[@class='m avt mbn']/a/img/@src", namespaces: nil)?.text {
+                    if let avatar = element.at_xpath("//dd[@class='m avt mbn']/a/img/@src")?.text {
                         post.avatar = avatar.replacingOccurrences(of: "&size=small", with: "")
                     }
-                    if let name = element.at_xpath("//dd[@class='ntc_body']/a[1]", namespaces: nil)?.text {
+                    if let name = element.at_xpath("//dd[@class='ntc_body']/a[1]")?.text {
                         post.name = name
                     }
-                    if let uid = element.at_xpath("//dd[@class='ntc_body']/a[1]/@href", namespaces: nil)?.text,
+                    if let uid = element.at_xpath("//dd[@class='ntc_body']/a[1]/@href")?.text,
                        uid.contains("uid=") {
                         post.uid = uid.components(separatedBy: "uid=")[1]
                     }
-                    if let title = element.at_xpath("//dd[@class='ntc_body']/a[2]", namespaces: nil)?.text {
+                    if let title = element.at_xpath("//dd[@class='ntc_body']/a[2]")?.text {
                         post.title = title
                     }
-                    if let href = element.at_xpath("//dd[@class='ntc_body']/a[2]/@href", namespaces: nil)?.text {
+                    if let href = element.at_xpath("//dd[@class='ntc_body']/a[2]/@href")?.text {
                         let ids = href.components(separatedBy: "&")
                         if ids.count > 2 {
                             let ptid = ids[2].components(separatedBy: "=")

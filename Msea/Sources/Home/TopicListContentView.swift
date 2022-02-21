@@ -108,34 +108,34 @@ struct TopicListContentView: View {
             requset.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: requset)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                let node = html.xpath("//tbody", namespaces: nil)
+                let node = html.xpath("//tbody")
                 var list = [TopicListModel]()
                 node.forEach { element in
                     var topic = TopicListModel()
-                    if let avatar = element.at_xpath("//img//@src", namespaces: nil)?.text {
+                    if let avatar = element.at_xpath("//img//@src")?.text {
                         topic.avatar = avatar
                     }
-                    if let name = element.at_xpath("//cite/a", namespaces: nil)?.text {
+                    if let name = element.at_xpath("//cite/a")?.text {
                         topic.name = name
                     }
-                    if let title = element.at_xpath("//th/a[@class='xst']", namespaces: nil)?.text {
+                    if let title = element.at_xpath("//th/a[@class='xst']")?.text {
                         topic.title = title
-                        if let time = element.at_xpath("//td[@class='by']//span//@title", namespaces: nil)?.text {
+                        if let time = element.at_xpath("//td[@class='by']//span//@title")?.text {
                             topic.time = time
                         }
-                        if let xi2 = element.at_xpath("//td/a[@class='xi2']", namespaces: nil)?.text, let reply = Int(xi2) {
+                        if let xi2 = element.at_xpath("//td/a[@class='xi2']")?.text, let reply = Int(xi2) {
                             topic.reply = reply
                         }
-                        if let em = element.at_xpath("//td[@class='num']/em", namespaces: nil)?.text, let examine = Int(em) {
+                        if let em = element.at_xpath("//td[@class='num']/em")?.text, let examine = Int(em) {
                             topic.examine = examine
                         }
-                        if let uid = element.at_xpath("//cite/a//@href", namespaces: nil)?.text {
+                        if let uid = element.at_xpath("//cite/a//@href")?.text {
                             let uids = uid.components(separatedBy: "uid=")
                             if uid.contains("uid"), uids.count == 2 {
                                 topic.uid = uids[1]
                             }
                         }
-                        if let id = element.at_xpath("//@id", namespaces: nil)?.text, let tid = id.components(separatedBy: "_").last {
+                        if let id = element.at_xpath("//@id")?.text, let tid = id.components(separatedBy: "_").last {
                             topic.tid = tid
                         }
                         list.append(topic)

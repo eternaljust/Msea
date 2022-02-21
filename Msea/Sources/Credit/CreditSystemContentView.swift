@@ -112,33 +112,33 @@ struct CreditSystemContentView: View {
             request.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: request)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                let dl = html.xpath("//table[@class='dt']/tr", namespaces: nil)
+                let dl = html.xpath("//table[@class='dt']/tr")
                 var list = [CreditSystemListModel]()
                 dl.forEach({ element in
                     if let toHTML = element.toHTML, toHTML.contains("td") {
                         var system = CreditSystemListModel()
-                        if let action = element.at_xpath("/td[1]/a", namespaces: nil)?.text {
+                        if let action = element.at_xpath("/td[1]/a")?.text {
                             system.action = action
-                            if let href = element.at_xpath("/td[1]/a/@href", namespaces: nil)?.text, href.contains("rid=") {
+                            if let href = element.at_xpath("/td[1]/a/@href")?.text, href.contains("rid=") {
                                 let rids = href.components(separatedBy: "rid=")
                                 if rids.count == 2 {
                                     system.rid = rids[1]
                                 }
                             }
                         }
-                        if let count = element.at_xpath("/td[2]", namespaces: nil)?.text {
+                        if let count = element.at_xpath("/td[2]")?.text {
                             system.count = count
                         }
-                        if let cycles = element.at_xpath("/td[3]", namespaces: nil)?.text {
+                        if let cycles = element.at_xpath("/td[3]")?.text {
                             system.cycles = cycles
                         }
-                        if let bit = element.at_xpath("/td[4]", namespaces: nil)?.text {
+                        if let bit = element.at_xpath("/td[4]")?.text {
                             system.bit = bit
                         }
-                        if let violation = element.at_xpath("/td[5]", namespaces: nil)?.text {
+                        if let violation = element.at_xpath("/td[5]")?.text {
                             system.violation = violation
                         }
-                        if let time = element.at_xpath("/td[6]", namespaces: nil)?.text {
+                        if let time = element.at_xpath("/td[6]")?.text {
                             system.time = time
                         }
 

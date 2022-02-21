@@ -80,14 +80,14 @@ struct SystemContentView: View {
             request.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: request)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                let dl = html.xpath("//div[@class='nts']/dl", namespaces: nil)
+                let dl = html.xpath("//div[@class='nts']/dl")
                 var list = [SystemListModel]()
                 dl.forEach({ element in
                     var system = SystemListModel()
-                    if let time = element.at_xpath("//span[@class='xg1 xw0']", namespaces: nil)?.text {
+                    if let time = element.at_xpath("//span[@class='xg1 xw0']")?.text {
                         system.time = time
                     }
-                    if var content = element.at_xpath("//dd[@class='ntc_body']", namespaces: nil)?.text {
+                    if var content = element.at_xpath("//dd[@class='ntc_body']")?.text {
                         if let i = content.firstIndex(of: "\r\n") {
                             content.remove(at: i)
                         }

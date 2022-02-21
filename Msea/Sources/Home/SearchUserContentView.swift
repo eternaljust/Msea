@@ -81,19 +81,19 @@ struct SearchUserContentView: View {
             let (data, _) = try await URLSession.shared.data(for: requset)
             if let html = try? HTML(html: data, encoding: .utf8) {
                 var list = [UserListModel]()
-                let li = html.xpath("//li[@class='bbda cl']", namespaces: nil)
+                let li = html.xpath("//li[@class='bbda cl']")
                 li.forEach { element in
                     var user = UserListModel()
-                    if let avatar = element.at_xpath("/div[@class='avt']/a/img/@src", namespaces: nil)?.text {
+                    if let avatar = element.at_xpath("/div[@class='avt']/a/img/@src")?.text {
                         user.avatar = avatar.replacingOccurrences(of: "&size=small", with: "")
                     }
-                    if let name = element.at_xpath("/h4/a/@title", namespaces: nil)?.text {
+                    if let name = element.at_xpath("/h4/a/@title")?.text {
                         user.name = name
                     }
-                    if let content = element.at_xpath("/p[@class='maxh']", namespaces: nil)?.text {
+                    if let content = element.at_xpath("/p[@class='maxh']")?.text {
                         user.content = content.replacingOccurrences(of: "\r\n", with: "")
                     }
-                    if let uid = element.at_xpath("/h4/a/@href", namespaces: nil)?.text {
+                    if let uid = element.at_xpath("/h4/a/@href")?.text {
                         let uids = uid.components(separatedBy: "uid=")
                         if uid.contains("uid"), uids.count == 2 {
                             user.uid = uids[1]

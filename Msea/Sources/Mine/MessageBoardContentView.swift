@@ -121,27 +121,27 @@ struct MessageBoardContentView: View {
             requset.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: requset)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                let node = html.xpath("//dl[@class='bbda cl']", namespaces: nil)
+                let node = html.xpath("//dl[@class='bbda cl']")
                 var list = [MessageBoardListModel]()
                 node.forEach { element in
                     var message = MessageBoardListModel()
-                    if let avatar = element.at_xpath("/dd[@class='m avt']//img//@src", namespaces: nil)?.text {
+                    if let avatar = element.at_xpath("/dd[@class='m avt']//img//@src")?.text {
                         message.avatar = avatar.replacingOccurrences(of: "&size=small", with: "")
                     }
-                    if let name = element.at_xpath("/dt/a", namespaces: nil)?.text {
+                    if let name = element.at_xpath("/dt/a")?.text {
                         message.name = name
                     }
-                    if let href = element.at_xpath("/dt/a/@href", namespaces: nil)?.text {
+                    if let href = element.at_xpath("/dt/a/@href")?.text {
                         let uids = href.components(separatedBy: "=")
                         if let uid = uids.last {
                             message.uid = uid
                         }
                     }
-                    if let time = element.at_xpath("/dt/span[@class='xg1 xw0']", namespaces: nil)?.text {
+                    if let time = element.at_xpath("/dt/span[@class='xg1 xw0']")?.text {
                         message.time = time
                     }
-                    if let comment = element.at_xpath("/dd[2]", namespaces: nil)?.text {
-                        if let quote = element.at_xpath("/dd[2]//blockquote", namespaces: nil)?.text {
+                    if let comment = element.at_xpath("/dd[2]")?.text {
+                        if let quote = element.at_xpath("/dd[2]//blockquote")?.text {
                             message.comment = comment.replacingOccurrences(of: quote, with: "")
                             let texts = quote.components(separatedBy: ": ")
                             if texts.count == 2 {
@@ -151,9 +151,9 @@ struct MessageBoardContentView: View {
                         } else {
                             message.comment = comment
                         }
-                        if let src = element.at_xpath("/dd[2]/img/@src", namespaces: nil)?.text {
+                        if let src = element.at_xpath("/dd[2]/img/@src")?.text {
                             message.gifURL = "https://www.chongbuluo.com/" + src
-                            if let dd2 = element.at_xpath("/dd[2]", namespaces: nil)?.toHTML {
+                            if let dd2 = element.at_xpath("/dd[2]")?.toHTML {
                                 if !message.comment.isEmpty {
                                     if let range1 = dd2.range(of: message.comment), let range2 = dd2.range(of: "<img") {
                                         message.gifLeft = range2.lowerBound < range1.lowerBound

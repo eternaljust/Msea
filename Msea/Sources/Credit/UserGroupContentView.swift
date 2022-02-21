@@ -144,57 +144,57 @@ struct UserGroupContentView: View {
             if let html = try? HTML(html: data, encoding: .utf8) {
                 sections = []
 
-                let tdats = html.at_xpath("//div[@class='tdats']", namespaces: nil)
+                let tdats = html.at_xpath("//div[@class='tdats']")
                 var firstHeader = UserGroupHeaderModel()
-                if let title = tdats?.at_xpath("/table[@class='tdat']//th[@class='c0']", namespaces: nil)?.text {
+                if let title = tdats?.at_xpath("/table[@class='tdat']//th[@class='c0']")?.text {
                     firstHeader.title = title
                 }
-                if let current = tdats?.at_xpath("/table[@class='tdat tfx']//th[@class='c0']", namespaces: nil)?.text {
+                if let current = tdats?.at_xpath("/table[@class='tdat tfx']//th[@class='c0']")?.text {
                     firstHeader.current = current
                 }
-                if let other = tdats?.at_xpath("/ul[@class='tb c1']/li[@id='c1']", namespaces: nil)?.text {
+                if let other = tdats?.at_xpath("/ul[@class='tb c1']/li[@id='c1']")?.text {
                     firstHeader.other = other
                 }
-                if firstHeader.other.isEmpty, let other = tdats?.at_xpath("/ul[@class='tb c2']/li[@id='c2']", namespaces: nil)?.text {
+                if firstHeader.other.isEmpty, let other = tdats?.at_xpath("/ul[@class='tb c2']/li[@id='c2']")?.text {
                     firstHeader.other = other
                 }
-                if firstHeader.other.isEmpty, let other = tdats?.at_xpath("/ul[@class='tb c3']/li[@id='c3']", namespaces: nil)?.text {
+                if firstHeader.other.isEmpty, let other = tdats?.at_xpath("/ul[@class='tb c3']/li[@id='c3']")?.text {
                     firstHeader.other = other
                 }
 
                 var first = UserGroupListModel()
-                if let title = tdats?.at_xpath("/table[@class='tdat']//th[@class='alt']", namespaces: nil)?.text {
+                if let title = tdats?.at_xpath("/table[@class='tdat']//th[@class='alt']")?.text {
                     first.title = title
                 }
-                if var current = tdats?.at_xpath("/table[@class='tdat tfx']//th[@class='alt']", namespaces: nil)?.text {
+                if var current = tdats?.at_xpath("/table[@class='tdat tfx']//th[@class='alt']")?.text {
                     removeSpace(&current)
                     first.current = current
                 }
-                if var other = tdats?.at_xpath("/div[@class='tscr']/table[@class='tdat']//th[@class='alt h']", namespaces: nil)?.text {
+                if var other = tdats?.at_xpath("/div[@class='tscr']/table[@class='tdat']//th[@class='alt h']")?.text {
                     removeSpace(&other)
                     first.other = other
                 }
                 firstHeader.list.append(first)
-                let ca = tdats?.xpath("/table[@class='tdat']/tbody[@class='ca']/tr", namespaces: nil)
+                let ca = tdats?.xpath("/table[@class='tdat']/tbody[@class='ca']/tr")
                 ca?.forEach({ element in
                     var usergroup = UserGroupListModel()
-                    if let title = element.at_xpath("/td", namespaces: nil)?.text {
+                    if let title = element.at_xpath("/td")?.text {
                         usergroup.title = title
                     }
                     firstHeader.list.append(usergroup)
                 })
                 for index in firstHeader.list.indices where index != 0 && index != 1 {
-                    let tr = tdats?.at_xpath("/table[@class='tdat tfx']/tbody[@class='ca']/tr[\(index - 1)]", namespaces: nil)
-                    if let img = tr?.at_xpath("/td/img/@alt", namespaces: nil)?.text {
+                    let tr = tdats?.at_xpath("/table[@class='tdat tfx']/tbody[@class='ca']/tr[\(index - 1)]")
+                    if let img = tr?.at_xpath("/td/img/@alt")?.text {
                         firstHeader.list[index].currentImage = img == "data_valid" ? "checkmark" : "xmark"
-                    } else if var current = tr?.at_xpath("/td", namespaces: nil)?.text {
+                    } else if var current = tr?.at_xpath("/td")?.text {
                         removeSpace(&current)
                         firstHeader.list[index].current = current
                     }
-                    let tr1 = tdats?.at_xpath("/div[@class='tscr']/table[@class='tdat']/tbody[@class='ca']/tr[\(index - 1)]", namespaces: nil)
-                    if let img = tr1?.at_xpath("/td/img/@alt", namespaces: nil)?.text {
+                    let tr1 = tdats?.at_xpath("/div[@class='tscr']/table[@class='tdat']/tbody[@class='ca']/tr[\(index - 1)]")
+                    if let img = tr1?.at_xpath("/td/img/@alt")?.text {
                         firstHeader.list[index].otherImage = img == "data_valid" ? "checkmark" : "xmark"
-                    } else if var other = tr1?.at_xpath("/td", namespaces: nil)?.text {
+                    } else if var other = tr1?.at_xpath("/td")?.text {
                         removeSpace(&other)
                         firstHeader.list[index].other = other
                     }
@@ -234,38 +234,38 @@ struct UserGroupContentView: View {
 
     private func getHeader(index: Int, tag: String, html: XMLElement?) -> UserGroupHeaderModel {
         var header = UserGroupHeaderModel()
-        if var title = html?.at_xpath("/table[@class='tdat']//tr[@class='alt h'][\(index)]", namespaces: nil)?.text {
+        if var title = html?.at_xpath("/table[@class='tdat']//tr[@class='alt h'][\(index)]")?.text {
             removeSpace(&title)
             header.title = title
         }
-        if var current = html?.at_xpath("/table[@class='tdat tfx']//tr[@class='alt h'][\(index)]", namespaces: nil)?.text {
+        if var current = html?.at_xpath("/table[@class='tdat tfx']//tr[@class='alt h'][\(index)]")?.text {
             removeSpace(&current)
             header.current = current
         }
-        if var other = html?.at_xpath("/div[@class='tscr']/table[@class='tdat']//tr[@class='alt h'][\(index)]", namespaces: nil)?.text {
+        if var other = html?.at_xpath("/div[@class='tscr']/table[@class='tdat']//tr[@class='alt h'][\(index)]")?.text {
             removeSpace(&other)
             header.other = other
         }
-        let cd = html?.xpath("/table[@class='tdat']/tbody[@class='\(tag)']/tr", namespaces: nil)
+        let cd = html?.xpath("/table[@class='tdat']/tbody[@class='\(tag)']/tr")
         cd?.forEach({ element in
             var usergroup = UserGroupListModel()
-            if let title = element.at_xpath("/td", namespaces: nil)?.text {
+            if let title = element.at_xpath("/td")?.text {
                 usergroup.title = title
             }
             header.list.append(usergroup)
         })
         for idx in header.list.indices {
-            let tr = html?.at_xpath("/table[@class='tdat tfx']/tbody[@class='\(tag)']/tr[\(idx + 1)]", namespaces: nil)
-            if let img = tr?.at_xpath("/td/img/@alt", namespaces: nil)?.text {
+            let tr = html?.at_xpath("/table[@class='tdat tfx']/tbody[@class='\(tag)']/tr[\(idx + 1)]")
+            if let img = tr?.at_xpath("/td/img/@alt")?.text {
                 header.list[idx].currentImage = img == "data_valid" ? "checkmark" : "xmark"
-            } else if var current = tr?.at_xpath("/td", namespaces: nil)?.text {
+            } else if var current = tr?.at_xpath("/td")?.text {
                 removeSpace(&current)
                 header.list[idx].current = current
             }
-            let tr1 = html?.at_xpath("/div[@class='tscr']/table[@class='tdat']/tbody[@class='\(tag)']/tr[\(idx + 1)]", namespaces: nil)
-            if let img = tr1?.at_xpath("/td/img/@alt", namespaces: nil)?.text {
+            let tr1 = html?.at_xpath("/div[@class='tscr']/table[@class='tdat']/tbody[@class='\(tag)']/tr[\(idx + 1)]")
+            if let img = tr1?.at_xpath("/td/img/@alt")?.text {
                 header.list[idx].otherImage = img == "data_valid" ? "checkmark" : "xmark"
-            } else if var other = tr1?.at_xpath("/td", namespaces: nil)?.text {
+            } else if var other = tr1?.at_xpath("/td")?.text {
                 removeSpace(&other)
                 header.list[idx].other = other
             }

@@ -135,11 +135,11 @@ struct LoginContentView: View {
             // swiftlint:enble force_unwrapping
             let (data, _) = try await URLSession.shared.data(from: url)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                let form = html.at_xpath("//form[@name='login']/@action", namespaces: nil)
+                let form = html.at_xpath("//form[@name='login']/@action")
                 if let url = form?.text {
                     action = url
                 }
-                let value = html.at_xpath("//input[@name='formhash']/@value", namespaces: nil)
+                let value = html.at_xpath("//input[@name='formhash']/@value")
                 if let hash = value?.text {
                     formhash = hash
                 }
@@ -168,18 +168,18 @@ struct LoginContentView: View {
             let (data, _) = try await URLSession.shared.data(for: request)
             isShowing = false
             if let html = try? HTML(html: data, encoding: .utf8) {
-                let messagetext = html.at_xpath("//div[@class='alert_error']/p", namespaces: nil)
-                let info = html.at_xpath("//div[@class='info']/li", namespaces: nil)
-                let myinfo = html.at_xpath("//div[@id='myinfo']/p", namespaces: nil)
+                let messagetext = html.at_xpath("//div[@class='alert_error']/p")
+                let info = html.at_xpath("//div[@class='info']/li")
+                let myinfo = html.at_xpath("//div[@id='myinfo']/p")
                 if let message = messagetext?.text {
                     hud.show(message: message)
                 } else if let message = info?.text {
                     hud.show(message: message)
                 } else if let message = myinfo?.text, !message.isEmpty {
-                    let usergroup = myinfo?.at_xpath("//a[@id='g_upmine']", namespaces: nil)
-                    let blank = myinfo?.at_xpath("//a[@target='_blank']", namespaces: nil)
-                    let href = myinfo?.at_xpath("//a[@target='_blank']/@href", namespaces: nil)
-                    let img = html.at_xpath("//div[@id='um']//img/@src", namespaces: nil)
+                    let usergroup = myinfo?.at_xpath("//a[@id='g_upmine']")
+                    let blank = myinfo?.at_xpath("//a[@target='_blank']")
+                    let href = myinfo?.at_xpath("//a[@target='_blank']/@href")
+                    let img = html.at_xpath("//div[@id='um']//img/@src")
                     if let space = href?.text {
                         UserInfo.shared.space = space
                         let params = space.components(separatedBy: "&")

@@ -94,24 +94,24 @@ struct CreditRuleContentView: View {
             request.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: request)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                let tr = html.xpath("//table[@class='dt valt']/tr", namespaces: nil)
+                let tr = html.xpath("//table[@class='dt valt']/tr")
                 var list = [CreditRuleListModel]()
                 tr.forEach({ element in
                     if let toHTML = element.toHTML, toHTML.contains("td") {
                         var rule = CreditRuleListModel()
-                        if let action = element.at_xpath("/td[1]", namespaces: nil)?.text {
+                        if let action = element.at_xpath("/td[1]")?.text {
                             rule.action = action
                         }
-                        if let cycles = element.at_xpath("/td[2]", namespaces: nil)?.text {
+                        if let cycles = element.at_xpath("/td[2]")?.text {
                             rule.cycles = cycles
                         }
-                        if let count = element.at_xpath("/td[3]", namespaces: nil)?.text {
+                        if let count = element.at_xpath("/td[3]")?.text {
                             rule.count = count
                         }
-                        if let bit = element.at_xpath("/td[4]", namespaces: nil)?.text {
+                        if let bit = element.at_xpath("/td[4]")?.text {
                             rule.bit = bit
                         }
-                        if let violation = element.at_xpath("/td[5]", namespaces: nil)?.text {
+                        if let violation = element.at_xpath("/td[5]")?.text {
                             rule.violation = violation
                         }
 

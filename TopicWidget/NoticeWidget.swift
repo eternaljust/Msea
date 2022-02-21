@@ -65,7 +65,7 @@ struct NoticeProvider: IntentTimelineProvider {
         let (data, _) = try await URLSession.shared.data(for: requset)
         var noticeNumber = ""
         if let html = try? HTML(html: data, encoding: .utf8) {
-            if let notice = html.at_xpath("//a[@id='myprompt']", namespaces: nil)?.text,
+            if let notice = html.at_xpath("//a[@id='myprompt']")?.text,
                notice.contains("("),
                notice.contains(")") {
                 noticeNumber = notice.components(separatedBy: "(")[1].components(separatedBy: ")")[0]

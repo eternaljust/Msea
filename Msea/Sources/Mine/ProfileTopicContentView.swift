@@ -134,35 +134,35 @@ struct ProfileTopicContentView: View {
             request.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: request)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                let content = html.xpath("//div[@class='bm_c']//table/tr", namespaces: nil)
+                let content = html.xpath("//div[@class='bm_c']//table/tr")
                 var list = [ProfileTopicListModel]()
                 content.forEach { element in
-                    if let gif = element.at_xpath("/td[@class='icn']/a/img/@src", namespaces: nil)?.text {
+                    if let gif = element.at_xpath("/td[@class='icn']/a/img/@src")?.text {
                         var topic = ProfileTopicListModel()
                         topic.gif = "https://www.chongbuluo.com/" + gif
 
-                        if let text = element.at_xpath("/th/a", namespaces: nil)?.text {
+                        if let text = element.at_xpath("/th/a")?.text {
                             topic.title = text
                         }
-                        if let text = element.at_xpath("/th/a/@href", namespaces: nil)?.text {
+                        if let text = element.at_xpath("/th/a/@href")?.text {
                             let tids = text.components(separatedBy: "tid=")
                             if tids.count == 2 {
                                 topic.tid = tids[1]
                             }
                         }
-                        if let xg1 = element.at_xpath("/td/a[@class='xg1']", namespaces: nil)?.text {
+                        if let xg1 = element.at_xpath("/td/a[@class='xg1']")?.text {
                             topic.plate = xg1
                         }
-                        if let xi2 = element.at_xpath("/td[@class='num']/a[@class='xi2']", namespaces: nil)?.text, let reply = Int(xi2) {
+                        if let xi2 = element.at_xpath("/td[@class='num']/a[@class='xi2']")?.text, let reply = Int(xi2) {
                             topic.reply = reply
                         }
-                        if let em = element.at_xpath("/td[@class='num']/em", namespaces: nil)?.text, let examine = Int(em) {
+                        if let em = element.at_xpath("/td[@class='num']/em")?.text, let examine = Int(em) {
                             topic.examine = examine
                         }
-                        if let name = element.at_xpath("/td[@class='by']/cite", namespaces: nil)?.text {
+                        if let name = element.at_xpath("/td[@class='by']/cite")?.text {
                             topic.name = name
                         }
-                        if let time = element.at_xpath("/td[@class='by']/em", namespaces: nil)?.text {
+                        if let time = element.at_xpath("/td[@class='by']/em")?.text {
                             topic.time = time
                         }
 

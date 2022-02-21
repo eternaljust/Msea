@@ -43,69 +43,69 @@ struct ProfileProvider: IntentTimelineProvider {
         profile.uid = uid
         if let html = try? HTML(html: data, encoding: .utf8) {
             if let text = html.toHTML, text.contains("隐私提醒") {
-                let img = html.at_xpath("//div[@class='avt avtm']//img/@src", namespaces: nil)
+                let img = html.at_xpath("//div[@class='avt avtm']//img/@src")
                 if let avatar = img?.text {
                     profile.avatar = avatar
                 }
-                let a = html.at_xpath("//p[@class='mtm xw1 xi2 xs2']", namespaces: nil)
+                let a = html.at_xpath("//p[@class='mtm xw1 xi2 xs2']")
                 if let name = a?.text {
                     profile.name = name
                 }
-                let li1 = html.at_xpath("//ul[@class='pbm mbm bbda cl xl xl2 '][1]/li[1]", namespaces: nil)
+                let li1 = html.at_xpath("//ul[@class='pbm mbm bbda cl xl xl2 '][1]/li[1]")
                 if let views = li1?.text {
                     profile.views = getNumbers(views)
                 }
-                let li2 = html.at_xpath("//ul[@class='pbm mbm bbda cl xl xl2 '][1]/li[2]", namespaces: nil)
+                let li2 = html.at_xpath("//ul[@class='pbm mbm bbda cl xl xl2 '][1]/li[2]")
                 if let friend = li2?.text {
                     profile.friend = getNumbers(friend)
                 }
-                let li3 = html.at_xpath("//ul[@class='pbm mbm bbda cl xl xl2 '][1]/li[3]", namespaces: nil)
+                let li3 = html.at_xpath("//ul[@class='pbm mbm bbda cl xl xl2 '][1]/li[3]")
                 if let post = li3?.text {
                     profile.post = getNumbers(post)
                 }
-                let li4 = html.at_xpath("//ul[@class='pbm mbm bbda cl xl xl2 '][1]/li[4]", namespaces: nil)
+                let li4 = html.at_xpath("//ul[@class='pbm mbm bbda cl xl xl2 '][1]/li[4]")
                 if let topic = li4?.text {
                     profile.topic = getNumbers(topic)
                 }
 
-                let li5 = html.at_xpath("//ul[@class='pbm mbm bbda cl xl xl2 '][2]/li[1]", namespaces: nil)
+                let li5 = html.at_xpath("//ul[@class='pbm mbm bbda cl xl xl2 '][2]/li[1]")
                 if let integral = li5?.text {
                     profile.integral = getNumbers(integral)
                 }
-                let li6 = html.at_xpath("//ul[@class='pbm mbm bbda cl xl xl2 '][2]/li[2]", namespaces: nil)
+                let li6 = html.at_xpath("//ul[@class='pbm mbm bbda cl xl xl2 '][2]/li[2]")
                 if let bits = li6?.text {
                     profile.bits = getNumbers(bits)
                 }
             } else {
-                let img = html.at_xpath("//div[@id='profile_content']//img/@src", namespaces: nil)
+                let img = html.at_xpath("//div[@id='profile_content']//img/@src")
                 if let avatar = img?.text {
                     profile.avatar = avatar
                 }
-                let mbn = html.at_xpath("//div[@id='profile_content']//h2", namespaces: nil)
+                let mbn = html.at_xpath("//div[@id='profile_content']//h2")
                 if let name = mbn?.text {
                     profile.name = name
                 }
-                let xi1 = html.at_xpath("//div[@id='statistic_content']//strong[@class='xi1']", namespaces: nil)
+                let xi1 = html.at_xpath("//div[@id='statistic_content']//strong[@class='xi1']")
                 if let views = xi1?.text {
                     profile.views = views
                 }
-                let li1 = html.at_xpath("//ul[@class='xl xl2 cl']/li[1]/a", namespaces: nil)
+                let li1 = html.at_xpath("//ul[@class='xl xl2 cl']/li[1]/a")
                 if let integral = li1?.text {
                     profile.integral = integral
                 }
-                let li2 = html.at_xpath("//ul[@class='xl xl2 cl']/li[2]/a", namespaces: nil)
+                let li2 = html.at_xpath("//ul[@class='xl xl2 cl']/li[2]/a")
                 if let bits = li2?.text {
                     profile.bits = bits
                 }
-                let li4 = html.at_xpath("//ul[@class='xl xl2 cl']/li[4]/a", namespaces: nil)
+                let li4 = html.at_xpath("//ul[@class='xl xl2 cl']/li[4]/a")
                 if let friend = li4?.text {
                     profile.friend = friend
                 }
-                let li5 = html.at_xpath("//ul[@class='xl xl2 cl']/li[5]/a", namespaces: nil)
+                let li5 = html.at_xpath("//ul[@class='xl xl2 cl']/li[5]/a")
                 if let topic = li5?.text {
                     profile.topic = topic
                 }
-                let li6 = html.at_xpath("//ul[@class='xl xl2 cl']/li[6]/a", namespaces: nil)
+                let li6 = html.at_xpath("//ul[@class='xl xl2 cl']/li[6]/a")
                 if let blog = li6?.text {
                     profile.blog = blog
                 }

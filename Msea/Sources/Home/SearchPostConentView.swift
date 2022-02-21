@@ -111,33 +111,33 @@ struct SearchPostConentView: View {
                 } else {
                     nextPage = false
                 }
-                if let h2 = html.at_xpath("//h2", namespaces: nil)?.text {
+                if let h2 = html.at_xpath("//h2")?.text {
                     result = h2
                 }
 
                 var list = [SearchListModel]()
-                let li = html.xpath("//ul/li[@class='pbw']", namespaces: nil)
+                let li = html.xpath("//ul/li[@class='pbw']")
                 li.forEach { element in
                     var search = SearchListModel()
-                    if let tid = element.at_xpath("/@id", namespaces: nil)?.text {
+                    if let tid = element.at_xpath("/@id")?.text {
                         search.tid = tid
                     }
-                    if let title = element.at_xpath("//a[1]", namespaces: nil)?.text {
+                    if let title = element.at_xpath("//a[1]")?.text {
                         search.title = title
                     }
-                    if let views = element.at_xpath("/p[@class='xg1']", namespaces: nil)?.text {
+                    if let views = element.at_xpath("/p[@class='xg1']")?.text {
                         search.replyViews = views
                     }
-                    if let content = element.at_xpath("/p[2]", namespaces: nil)?.text {
+                    if let content = element.at_xpath("/p[2]")?.text {
                         search.content = content
                     }
-                    if let time = element.at_xpath("//span[1]", namespaces: nil)?.text {
+                    if let time = element.at_xpath("//span[1]")?.text {
                         search.time = time
                     }
-                    if let name = element.at_xpath("//span/a[1]", namespaces: nil)?.text {
+                    if let name = element.at_xpath("//span/a[1]")?.text {
                         search.name = name
                     }
-                    if let plate = element.at_xpath("//span/a[@class='xi1']", namespaces: nil)?.text {
+                    if let plate = element.at_xpath("//span/a[@class='xi1']")?.text {
                         search.plate = plate
                     }
                     list.append(search)
@@ -148,9 +148,9 @@ struct SearchPostConentView: View {
                 } else {
                     searchList += list
                 }
-                let a = html.xpath("//div[@class='pgs cl mbm']//a", namespaces: nil)
+                let a = html.xpath("//div[@class='pgs cl mbm']//a")
                 a.forEach { element in
-                    if let text = element.text, text == "\(page + 1)", let href = element.at_xpath("/@href", namespaces: nil)?.text {
+                    if let text = element.text, text == "\(page + 1)", let href = element.at_xpath("/@href")?.text {
                         self.href = href
                     }
                 }

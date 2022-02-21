@@ -79,12 +79,12 @@ struct PublishPostContentView: View {
             request.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: request)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                if let error = html.at_xpath("//div[@class='alert_error']", namespaces: nil)?.text, error.contains("没有权限") {
+                if let error = html.at_xpath("//div[@class='alert_error']")?.text, error.contains("没有权限") {
                     canPublish = false
                 } else {
                     canPublish = true
                 }
-                let a = html.xpath("//div[@class='z']/a", namespaces: nil)
+                let a = html.xpath("//div[@class='z']/a")
                 var plates = [String]()
                 a.forEach { element in
                     if let text = element.text, !text.contains("虫部落") {

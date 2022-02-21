@@ -103,44 +103,44 @@ struct SignDayListContentView: View {
             requst.addValue(UserAgentType.mac.description, forHTTPHeaderField: HTTPHeaderField.userAgent.description)
             let (data, _) = try await URLSession.shared.data(for: requst)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                let table = html.at_xpath("//div[@id='sign_one_2']", namespaces: nil)
-                let tr = table?.xpath("//tr", namespaces: nil)
+                let table = html.at_xpath("//div[@id='sign_one_2']")
+                let tr = table?.xpath("//tr")
                 var list = [SignDayListModel]()
                 tr?.forEach({ element in
                     if let text = element.text, text.contains("NO.") {
                         var signModel = SignDayListModel()
-                        let td = element.at_xpath("//td", namespaces: nil)
+                        let td = element.at_xpath("//td")
                         if let no = td?.text, no.contains("NO.") {
                             signModel.no = no.replacingOccurrences(of: "NO.", with: "")
                         }
-                        let a = element.at_xpath("//a", namespaces: nil)
+                        let a = element.at_xpath("//a")
                         if let name = a?.text {
                             signModel.name = name
                         }
-                        let href = element.at_xpath("//a/@href", namespaces: nil)
+                        let href = element.at_xpath("//a/@href")
                         if let uid = href?.text, uid.contains("uid-") {
                             let uids = uid.components(separatedBy: "uid-")[1]
                             if uids.contains(".html") {
                                 signModel.uid = uids.components(separatedBy: ".")[0]
                             }
                         }
-                        let td3 = element.at_xpath("//td[3]", namespaces: nil)
+                        let td3 = element.at_xpath("//td[3]")
                         if let continuous = td3?.text {
                             signModel.continuous = continuous
                         }
-                        let td4 = element.at_xpath("//td[4]", namespaces: nil)
+                        let td4 = element.at_xpath("//td[4]")
                         if let month = td4?.text {
                             signModel.month = month
                         }
-                        let td5 = element.at_xpath("//td[5]", namespaces: nil)
+                        let td5 = element.at_xpath("//td[5]")
                         if let total = td5?.text {
                             signModel.total = total
                         }
-                        let span = element.at_xpath("//span[@class='wqpc_red']", namespaces: nil)
+                        let span = element.at_xpath("//span[@class='wqpc_red']")
                         if let bits = span?.text {
                             signModel.bits = bits
                         }
-                        let td7 = element.at_xpath("//td[7]", namespaces: nil)
+                        let td7 = element.at_xpath("//td[7]")
                         if let time = td7?.text {
                             signModel.time = time.replacingOccurrences(of: " ", with: "\n")
                         }

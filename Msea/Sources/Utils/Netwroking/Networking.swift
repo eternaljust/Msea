@@ -71,17 +71,17 @@ extension URLRequest {
 
 extension HTMLDocument {
     func getFormhash() {
-        let myinfo = self.at_xpath("//div[@id='myinfo']//a[4]/@href", namespaces: nil)
+        let myinfo = self.at_xpath("//div[@id='myinfo']//a[4]/@href")
         if let text = myinfo?.text, text.contains("formhash"), text.contains("&") {
             let components = text.components(separatedBy: "&")
             if let formhash = components.last, let hash = formhash.components(separatedBy: "=").last {
                 UserInfo.shared.formhash = hash
             }
         }
-        if let formhash = self.at_xpath("//input[@id='formhash']/@value", namespaces: nil)?.text {
+        if let formhash = self.at_xpath("//input[@id='formhash']/@value")?.text {
             UserInfo.shared.formhash = formhash
         }
-        if let href = self.at_xpath("//div[@id='toptb']//a[6]/@href", namespaces: nil)?.text, href.contains("formhash") {
+        if let href = self.at_xpath("//div[@id='toptb']//a[6]/@href")?.text, href.contains("formhash") {
             if let hash = href.components(separatedBy: "&").last, hash.contains("=") {
                 UserInfo.shared.formhash = hash.components(separatedBy: "=")[1]
             }

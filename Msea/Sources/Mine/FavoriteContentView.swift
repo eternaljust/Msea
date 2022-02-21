@@ -82,22 +82,22 @@ struct FavoriteContentView: View {
             request.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: request)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                let li = html.xpath("//ul[@id='favorite_ul']/li", namespaces: nil)
+                let li = html.xpath("//ul[@id='favorite_ul']/li")
                 var list = [FavoritePostModel]()
                 li.forEach({ element in
                     var post = FavoritePostModel()
-                    if let time = element.at_xpath("//span[@class='xg1']", namespaces: nil)?.text {
+                    if let time = element.at_xpath("//span[@class='xg1']")?.text {
                         post.time = time
                     }
-                    if let tid = element.at_xpath("/a[2]/@href", namespaces: nil)?.text,
+                    if let tid = element.at_xpath("/a[2]/@href")?.text,
                        tid.contains("tid=") {
                         post.tid = tid.components(separatedBy: "tid=")[1]
                     }
-                    if let title = element.at_xpath("/a[2]", namespaces: nil)?.text {
+                    if let title = element.at_xpath("/a[2]")?.text {
                         post.title = title
                     }
-                    if let action = element.at_xpath("/a[1]/@href", namespaces: nil)?.text,
-                       var id = element.at_xpath("/a[1]/@id", namespaces: nil)?.text {
+                    if let action = element.at_xpath("/a[1]/@href")?.text,
+                       var id = element.at_xpath("/a[1]/@id")?.text {
                         id = id.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
                         post.action = "https://www.chongbuluo.com/\(action)&formhash=\(UserInfo.shared.formhash)&deletesubmit=true&handlekey=\(id)"
                         print(post.action)

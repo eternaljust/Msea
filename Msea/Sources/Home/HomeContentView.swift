@@ -149,7 +149,7 @@ struct HomeContentView: View {
             requset.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: requset)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                if let notice = html.at_xpath("//a[@id='myprompt']", namespaces: nil)?.text, notice.contains("(") {
+                if let notice = html.at_xpath("//a[@id='myprompt']")?.text, notice.contains("(") {
                     self.notice = notice
                 } else {
                     self.notice = ""
