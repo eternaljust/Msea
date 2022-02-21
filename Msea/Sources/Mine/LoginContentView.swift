@@ -11,8 +11,7 @@ import Kanna
 
 /// 登录界面
 struct LoginContentView: View {
-    @EnvironmentObject private var hud: HUDState
-    @EnvironmentObject var sceneDelegate: FSSceneDelegate
+    @StateObject private var hud = HUDState()
     @Environment(\.dismiss) private var dismiss
     @State private var loginField: LoginField = .username
     @State private var loginQuestion: LoginQuestion = .no
@@ -118,12 +117,12 @@ struct LoginContentView: View {
                 .buttonStyle(BigButtonStyle())
                 .padding(.top, 20)
         }
+        .hud(isPresented: $hud.isPresented) {
+            Text(hud.message)
+        }
         .sheet(item: $webURLItem, content: { item in
             Safari(url: URL(string: item.url))
         })
-        .onAppear {
-            sceneDelegate.hudState = hud
-        }
         .task {
             await loadData()
         }

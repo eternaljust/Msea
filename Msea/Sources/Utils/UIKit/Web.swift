@@ -26,7 +26,7 @@ struct Web: UIViewRepresentable {
     func makeUIView(context: Context) -> WKWebView {
         let webView = WKWebView()
         webView.backgroundColor = .clear
-        webView.scrollView.backgroundColor = .clear
+        webView.isOpaque = false
         webView.navigationDelegate = context.coordinator
 //        webView.allowsLinkPreview = false
 

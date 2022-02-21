@@ -10,6 +10,7 @@ import Kanna
 
 struct ContentView: View {
     @StateObject private var selection = TabItemSelection()
+    @State var preferredColorScheme: ColorScheme?
 
     var body: some View {
         TabView(selection: $selection.index) {
@@ -25,8 +26,13 @@ struct ContentView: View {
         .onChange(of: selection.index, perform: { newValue in
             print(newValue)
         })
+        .preferredColorScheme(preferredColorScheme)
         .tint(.theme)
+        .onReceive(NotificationCenter.default.publisher(for: .colorScheme, object: nil)) { _ in
+            getColorScheme()
+        }
         .onAppear {
+            getColorScheme()
             UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = UIColor(named: "AccentColor")
             UIPageControl.appearance().currentPageIndicatorTintColor = .theme
             UIPageControl.appearance().pageIndicatorTintColor = .separator
@@ -34,7 +40,19 @@ struct ContentView: View {
             UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
             UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.secondaryLabel], for: .normal)
             UITableView.appearance().sectionHeaderTopPadding = 0.1
-            UITabBar.appearance().backgroundColor = UIColor(light: .white, dark: .black)
+            let appearance = UITabBarAppearance()
+            appearance.configureWithDefaultBackground()
+            UITabBar.appearance().scrollEdgeAppearance = appearance
+        }
+    }
+
+    private func getColorScheme() {
+        if CacheInfo.shared.colorScheme == .unspecified {
+            preferredColorScheme = nil
+        } else if CacheInfo.shared.colorScheme == .light {
+            preferredColorScheme = .light
+        } else if CacheInfo.shared.colorScheme == .dark {
+            preferredColorScheme = .dark
         }
     }
 

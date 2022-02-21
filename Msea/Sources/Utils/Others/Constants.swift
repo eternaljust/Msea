@@ -72,6 +72,8 @@ struct CacheKeys {
 
     /// 消息提醒开关
     static let groupNoticeIsOn = "groupNoticeIsOnKey"
+    /// 主题风格设置
+    static let colorScheme = "colorSchemeKey"
 }
 
 /// 通知
@@ -81,6 +83,7 @@ extension NSNotification.Name {
     static let daysign = Notification.Name("DaysignNotification")
     static let notice = Notification.Name("NoticeNotification")
     static let shieldUser = Notification.Name("ShieldUserNotification")
+    static let colorScheme = Notification.Name("ColorSchemeNotification")
 }
 
 /// 常量

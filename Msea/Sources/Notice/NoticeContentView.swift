@@ -57,6 +57,7 @@ struct NoticeContentView: View {
                 }
             }
             .navigationTitle("通知")
+            .ignoresSafeArea(edges: .bottom)
             .onAppear(perform: {
                 isLogin = UserInfo.shared.isLogin()
                 TabBarTool.showTabBar(true)

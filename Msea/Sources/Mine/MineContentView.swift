@@ -137,6 +137,7 @@ struct MineContentView: View {
             }
             .navigationTitle("我的")
             .navigationBarTitleDisplayMode(.inline)
+            .ignoresSafeArea(edges: .bottom)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {

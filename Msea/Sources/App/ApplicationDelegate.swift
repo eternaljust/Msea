@@ -8,43 +8,6 @@
 
 import SwiftUI
 
-final class FSSceneDelegate: UIResponder, UIWindowSceneDelegate, ObservableObject {
-    var hudState: HUDState? {
-        didSet {
-            setupHudWindow()
-        }
-    }
-    var toastWindow: UIWindow?
-    weak var windowScene: UIWindowScene?
-
-    func scene(
-        _ scene: UIScene,
-        willConnectTo session: UISceneSession,
-        options connectionOptions: UIScene.ConnectionOptions
-    ) {
-        windowScene = scene as? UIWindowScene
-    }
-
-    func windowScene(_ windowScene: UIWindowScene, performActionFor shortcutItem: UIApplicationShortcutItem) async -> Bool {
-        FSAppDelegate.shortcutItem = shortcutItem
-        return true
-    }
-
-    func setupHudWindow() {
-        guard let windowScene = windowScene, let toastState = hudState else {
-            return
-        }
-
-        let toastViewController = UIHostingController(rootView: HudSceneView().environmentObject(toastState))
-        toastViewController.view.backgroundColor = .clear
-
-        let toastWindow = PassThroughWindow(windowScene: windowScene)
-        toastWindow.rootViewController = toastViewController
-        toastWindow.isHidden = false
-        self.toastWindow = toastWindow
-    }
-}
-
 final class FSAppDelegate: NSObject, UIApplicationDelegate, UIWindowSceneDelegate {
     static var shortcutItem: UIApplicationShortcutItem?
     var window: UIWindow?
@@ -55,7 +18,6 @@ final class FSAppDelegate: NSObject, UIApplicationDelegate, UIWindowSceneDelegat
         options: UIScene.ConnectionOptions
     ) -> UISceneConfiguration {
         let sceneConfig = UISceneConfiguration(name: nil, sessionRole: connectingSceneSession.role)
-        sceneConfig.delegateClass = FSSceneDelegate.self // 👈🏻
         UNUserNotificationCenter.current().delegate = self
         UIApplication.shared.shortcutItems = [UIApplicationShortcutItem(type: "签到", localizedTitle: "签到", localizedSubtitle: nil, icon: UIApplicationShortcutIcon(systemImageName: "leaf.fill"), userInfo: nil)]
         if let shortcutItem = options.shortcutItem {
@@ -113,12 +75,5 @@ struct HudSceneView: View {
             .hud(isPresented: $hudState.isPresented) {
                 Text(hudState.message)
             }
-    }
-}
-
-class PassThroughWindow: UIWindow {
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        guard let hitView = super.hitTest(point, with: event) else { return nil }
-        return rootViewController?.view == hitView ? nil : hitView
     }
 }

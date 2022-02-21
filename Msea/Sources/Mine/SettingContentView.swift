@@ -15,9 +15,10 @@ struct SettingContentView: View {
     @EnvironmentObject private var hud: HUDState
     @Environment(\.dismiss) private var dismiss
     @State private var isOn = false
+    @State private var colorSchemeTab: ColorSchemeTab = CacheInfo.shared.colorScheme
 
     @State private var itemSections: [SettingSection] = [
-        SettingSection(items: [.signalert, .notice]),
+        SettingSection(items: [.signalert, .notice, .colorscheme]),
         SettingSection(items: [.feedback, .review, .contactus, .share, .testflight]),
         SettingSection(items: [.cleancache, .dynamicfont]),
         SettingSection(items: [.urlschemes, .termsofservice, .about])
@@ -101,6 +102,33 @@ struct SettingContentView: View {
                                     }
                                     .opacity(0.0)
                                 }
+                            case .colorscheme:
+                                HStack {
+                                    Image(systemName: item.icon)
+                                        .foregroundColor(.theme)
+
+                                    Text("主题风格")
+
+//                                    Text(item.title)
+
+                                    Spacer()
+
+                                    Picker("ColorSchemeTab", selection: $colorSchemeTab) {
+                                        ForEach(ColorSchemeTab.allCases) { view in
+                                            Text(view.title)
+                                                .tag(view)
+                                        }
+                                    }
+                                    .pickerStyle(.segmented)
+                                    .frame(width: 120)
+                                    .onChange(of: colorSchemeTab) { newValue in
+                                        print(newValue)
+                                        CacheInfo.shared.colorScheme = newValue
+                                        print(CacheInfo.shared.colorScheme)
+                                        print("---")
+                                        NotificationCenter.default.post(name: .colorScheme, object: nil)
+                                    }
+                                }
                             case .logout:
                                 Button {
                                     Task {
@@ -169,6 +197,7 @@ struct SettingContentView: View {
         }
         .navigationBarTitle("设置")
         .onAppear {
+            colorSchemeTab = CacheInfo.shared.colorScheme
             cacheSize = FileManager.default.getCacheSize()
             addLogoutSection()
             if !UIDevice.current.isPad {
@@ -288,7 +317,7 @@ struct SettingContentView: View {
 
     @ViewBuilder private func getContentView(_ item: SettingItem) -> some View {
         switch item {
-        case .signalert, .review, .share, .feedback,
+        case .signalert, .review, .colorscheme, .share, .feedback,
              .contactus, .testflight, .cleancache, .logout:
             EmptyView()
         case .notice:
@@ -319,6 +348,7 @@ struct SettingSection: Identifiable {
 enum SettingItem: String, CaseIterable, Identifiable {
     case signalert
     case notice
+    case colorscheme
     case review
     case share
     case feedback
@@ -336,9 +366,11 @@ enum SettingItem: String, CaseIterable, Identifiable {
     var icon: String {
         switch self {
         case .signalert:
-            return "clock"
+            return "clock.fill"
         case .notice:
-            return "bell.badge"
+            return "bell.badge.fill"
+        case .colorscheme:
+            return "circle.lefthalf.filled"
         case .review:
             return "star.fill"
         case .share:
@@ -370,6 +402,8 @@ enum SettingItem: String, CaseIterable, Identifiable {
             return "签到提醒"
         case .notice:
             return "新消息提醒通知"
+        case .colorscheme:
+            return "主题风格"
         case .review:
             return "评价应用"
         case .share:
@@ -400,6 +434,21 @@ enum SettingItem: String, CaseIterable, Identifiable {
             return "需添加桌面小组件辅助"
         }
         return ""
+    }
+}
+
+enum ColorSchemeTab: String, CaseIterable, Identifiable {
+    case unspecified
+    case light
+    case dark
+
+    var id: String { self.rawValue }
+    var title: String {
+        switch self {
+        case .unspecified: return "自动"
+        case .light: return "浅色"
+        case .dark: return "深色"
+        }
     }
 }
 

@@ -33,4 +33,5 @@ class CacheInfo: NSObject {
     @AppStorage(CacheKeys.selectedTab) var selectedTab: TabBarItem = .home
     @AppStorage(CacheKeys.defaultUid) var defaultUid = "4"
     @AppStorage(CacheKeys.agreeTermsOfService) var agreeTermsOfService = false
+    @AppStorage(CacheKeys.colorScheme) var colorScheme: ColorSchemeTab = .unspecified
 }

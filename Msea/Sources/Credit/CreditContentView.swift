@@ -55,6 +55,7 @@ struct CreditContentView: View {
                 }
             }
             .navigationTitle("积分")
+            .ignoresSafeArea(edges: .bottom)
             .onAppear(perform: {
                 isLogin = UserInfo.shared.isLogin()
                 TabBarTool.showTabBar(true)

@@ -111,6 +111,7 @@ struct HomeContentView: View {
             .navigationTitle("首页")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarHidden(navigationBarHidden)
+            .ignoresSafeArea(edges: .bottom)
             .onReceive(NotificationCenter.default.publisher(for: .daysign, object: nil)) { _ in
                 goDaysign()
             }
