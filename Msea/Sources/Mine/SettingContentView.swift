@@ -9,6 +9,7 @@
 import SwiftUI
 import Kanna
 import MessageUI
+import StoreKit
 
 /// 设置相关
 struct SettingContentView: View {
@@ -202,6 +203,10 @@ struct SettingContentView: View {
             addLogoutSection()
             if !UIDevice.current.isPad {
                 TabBarTool.showTabBar(false)
+            }
+
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                SKStoreReviewController.requestReview(in: windowScene)
             }
         }
         .sheet(isPresented: $isShowingMail) {
