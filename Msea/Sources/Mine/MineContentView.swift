@@ -16,6 +16,7 @@ struct MineContentView: View {
     @State private var selectedProfileTab = ProfileTab.topic
     @State private var isNewPost = false
     @EnvironmentObject private var hud: HUDState
+    @StateObject private var rule = CreditRuleObject()
 
     private let columns = [
         GridItem(.adaptive(minimum: 60, maximum: 80), spacing: 10)
@@ -185,6 +186,7 @@ struct MineContentView: View {
                 Text("登录后可获得更多的信息")
             }
         }
+        .environmentObject(rule)
     }
 
     private func loadData() async {

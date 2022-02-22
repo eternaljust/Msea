@@ -21,6 +21,8 @@ struct HomeContentView: View {
     @State private var uid = ""
     @State private var isSpace = false
 
+    @StateObject private var rule = CreditRuleObject()
+
     var body: some View {
         NavigationView {
             VStack {
@@ -133,6 +135,7 @@ struct HomeContentView: View {
 
             Text("选择你感兴趣的帖子吧")
         }
+        .environmentObject(rule)
         .onOpenURL { url in
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self.urlSchemes(url)

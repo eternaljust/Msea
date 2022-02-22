@@ -17,6 +17,8 @@ struct MemberCreditPostContentView: View {
 
     @State private var userList = [CreditPostListModel]()
     @State private var headerTitle = ""
+    @State private var creditTitle = ""
+    @State private var creditRank = ""
 
     var body: some View {
         VStack {
@@ -53,8 +55,27 @@ struct MemberCreditPostContentView: View {
                         }
                     }
                 } header: {
-                    HStack {
-                        Text(headerTitle)
+                    if !creditTitle.isEmpty && !creditRank.isEmpty {
+                        NavigationLink(destination: MyCreditContentView()) {
+                            VStack(alignment: .leading) {
+                                Text(creditTitle)
+                                    .foregroundColor(.secondaryTheme)
+
+                                Text("当前排名 \(Text(creditRank).foregroundColor(.red).font(.font20)) ,再接再厉!")
+                            }
+                            .font(.font15)
+                        }
+                    } else {
+                        HStack {
+                            Text(headerTitle)
+                        }
+                    }
+                } footer: {
+                    if !creditTitle.isEmpty && !creditRank.isEmpty {
+                        HStack {
+                            Text(headerTitle)
+                                .font(.font15)
+                        }
                     }
                 }
             }
@@ -85,6 +106,8 @@ struct MemberCreditPostContentView: View {
                                 selectedTab = .post
                                 orderby = item.orderby
                                 orderbyTitle = item.title
+                                creditTitle = ""
+                                creditRank = ""
 
                                 Task {
                                     await loadData()
@@ -107,6 +130,9 @@ struct MemberCreditPostContentView: View {
     }
 
     private func loadData() async {
+        headerTitle = ""
+        creditTitle = ""
+        creditRank = ""
         Task {
             // swiftlint:disable force_unwrapping
             let url = URL(string: "https://www.chongbuluo.com/misc.php?mod=ranklist&type=member&view=\(selectedTab.id)&orderby=\(orderby)")!
@@ -145,6 +171,12 @@ struct MemberCreditPostContentView: View {
 
                 if let notice = html.at_xpath("//div[@class='notice']")?.text {
                     headerTitle = notice
+                }
+                if let title = html.at_xpath("//div[@class='tbmu']/a")?.text {
+                    creditTitle = title
+                }
+                if let rank = html.at_xpath("//div[@class='tbmu']/span")?.text {
+                    creditRank = rank
                 }
                 userList = list
             }

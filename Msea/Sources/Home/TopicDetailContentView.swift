@@ -54,6 +54,10 @@ struct TopicDetailContentView: View {
     @State private var webURLItem: WebURLItem?
     @State private var pid = ""
 
+    @State private var isDaysign = false
+    @State private var isCredit = false
+    @State private var isRanklist = false
+
     var body: some View {
         ZStack {
             if disAgree || isPosterShielding {
@@ -259,6 +263,21 @@ struct TopicDetailContentView: View {
                     .opacity(0.0)
 
                     NavigationLink(destination: TopicDetailContentView(tid: newTid), isActive: $isViewthread) {
+                        EmptyView()
+                    }
+                    .opacity(0.0)
+
+                    NavigationLink(destination: DaySignContentView(), isActive: $isDaysign) {
+                        EmptyView()
+                    }
+                    .opacity(0.0)
+
+                    NavigationLink(destination: MyCreditContentView(), isActive: $isCredit) {
+                        EmptyView()
+                    }
+                    .opacity(0.0)
+
+                    NavigationLink(destination: RankListContentView(), isActive: $isRanklist) {
                         EmptyView()
                     }
                     .opacity(0.0)
@@ -771,6 +790,7 @@ struct TopicDetailContentView: View {
         }
         print(absoluteString)
         if absoluteString.contains("chongbuluo"), absoluteString.contains("thread") || absoluteString.contains("uid=") {
+            // 帖子 个人空间
             if absoluteString.contains("uid=") {
                 let uid = getUid(url: absoluteString)
                 if !uid.isEmpty {
@@ -804,14 +824,34 @@ struct TopicDetailContentView: View {
                     }
                 }
             }
+        } else if absoluteString.contains("chongbuluo") {
+            // 签到 排行 积分 通知
+            if absoluteString.contains("ac=daysign") {
+                isDaysign.toggle()
+            } else if absoluteString.contains("mod=ranklist") {
+                isRanklist.toggle()
+            } else if absoluteString.contains("ac=credit") {
+                if UserInfo.shared.isLogin() {
+                    isCredit.toggle()
+                } else {
+                    CacheInfo.shared.selectedTab = .credit
+                    selection.index = .credit
+                }
+            } else if absoluteString.contains("do=notice") {
+                CacheInfo.shared.selectedTab = .notice
+                selection.index = .notice
+            }
         } else if absoluteString.hasPrefix("mailto:") {
+            // 邮件
             UIApplication.shared.open(url)
         } else if absoluteString.contains("&pid=") {
+            // 跳转楼层
             let pid = getPid(url: absoluteString)
             if !pid.isEmpty, let postURL = URL(string: "msea://post?pid=\(pid)") {
                 UIApplication.shared.open(postURL)
             }
         } else {
+            // 打开 Safari
             webURLItem = WebURLItem(url: absoluteString)
         }
     }
