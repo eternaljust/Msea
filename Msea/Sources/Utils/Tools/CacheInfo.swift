@@ -34,4 +34,5 @@ class CacheInfo: NSObject {
     @AppStorage(CacheKeys.defaultUid) var defaultUid = "4"
     @AppStorage(CacheKeys.agreeTermsOfService) var agreeTermsOfService = false
     @AppStorage(CacheKeys.colorScheme) var colorScheme: ColorSchemeTab = .unspecified
+    @AppStorage(CacheKeys.reviewCount) var reviewCount = 0
 }

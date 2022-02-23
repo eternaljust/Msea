@@ -17,7 +17,7 @@ struct PublishPostContentView: View {
     @State private var title = ""
     @State private var content = ""
     @FocusState private var focused: Bool
-    @EnvironmentObject var hud: HUDState
+    @StateObject private var hud = HUDState()
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -49,6 +49,9 @@ struct PublishPostContentView: View {
             }
         }
         .navigationTitle(naviTitle)
+        .hud(isPresented: $hud.isPresented) {
+            Text(hud.message)
+        }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
@@ -101,7 +104,7 @@ struct PublishPostContentView: View {
     }
 
     private func publish() async {
-        focused.toggle()
+        focused = false
         if title.isEmpty || content.isEmpty {
             hud.show(message: "抱歉，您尚未输入标题或内容")
             return

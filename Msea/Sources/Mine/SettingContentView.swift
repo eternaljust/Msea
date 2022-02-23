@@ -205,9 +205,12 @@ struct SettingContentView: View {
                 TabBarTool.showTabBar(false)
             }
 
-            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-                SKStoreReviewController.requestReview(in: windowScene)
+            if CacheInfo.shared.reviewCount.isMultiple(of: 18) {
+                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                    SKStoreReviewController.requestReview(in: windowScene)
+                }
             }
+            CacheInfo.shared.reviewCount += 1
         }
         .sheet(isPresented: $isShowingMail) {
             Email(isShowing: $isShowingMail)

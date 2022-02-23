@@ -74,6 +74,8 @@ struct CacheKeys {
     static let groupNoticeIsOn = "groupNoticeIsOnKey"
     /// 主题风格设置
     static let colorScheme = "colorSchemeKey"
+    /// 评分弹框间隔
+    static let reviewCount = "reviewCountKey"
 }
 
 /// 通知
