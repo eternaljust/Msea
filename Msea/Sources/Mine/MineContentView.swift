@@ -42,6 +42,15 @@ struct MineContentView: View {
                             hud.show(message: "已复制 uid")
                         }
 
+                    NavigationLink(destination: UserGroupContentView(isDetail: true)) {
+                        Text(UserInfo.shared.level)
+                            .font(.font17)
+                            .foregroundColor(.secondaryTheme)
+                            .multilineTextAlignment(.center)
+                            .frame(maxWidth: 300)
+                            .padding(.bottom, -2)
+                    }
+
                     Text("已有 \(Text(UserInfo.shared.views).foregroundColor(.red)) 人来访过")
                         .font(.font16)
                         .padding(.bottom, 1)
@@ -244,6 +253,37 @@ struct MineContentView: View {
                 }
 
                 html.getFormhash()
+            }
+        }
+
+        await loadProfile()
+    }
+
+    private func loadProfile() async {
+        Task {
+            // swiftlint:disable force_unwrapping
+            let url = URL(string: "https://www.chongbuluo.com/home.php?mod=space&uid=\(UserInfo.shared.uid)&do=profile")!
+            // swiftlint:enble force_unwrapping
+            var request = URLRequest(url: url)
+            request.configHeaderFields()
+            let (data, _) = try await URLSession.shared.data(for: request)
+            if let html = try? HTML(html: data, encoding: .utf8) {
+                let li = html.xpath("//div[@class='bm_c u_profile']/div[@class='pbm mbm bbda cl'][last()]/ul[1]/li")
+                var level = [String]()
+                li.forEach { element in
+                    if var name = element.at_xpath("/em[@class='xg1']")?.text {
+                        name = name.trimmingCharacters(in: .whitespaces)
+                        var lv = ""
+                        if let text = element.at_xpath("/span")?.text, !text.isEmpty {
+                            lv = text.trimmingCharacters(in: .whitespaces)
+                        } else if let text = element.text, !text.isEmpty {
+                            lv = text.replacingOccurrences(of: name, with: "").trimmingCharacters(in: .whitespaces)
+                        }
+
+                        level.append("\(name)(\(lv))")
+                    }
+                }
+                UserInfo.shared.level = level.joined(separator: "  ")
             }
         }
     }

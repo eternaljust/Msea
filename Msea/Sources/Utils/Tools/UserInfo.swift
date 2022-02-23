@@ -44,7 +44,7 @@ class UserInfo: NSObject {
 
     @AppStorage(UserKeys.uid) var uid = ""
     @AppStorage(UserKeys.space) var space = ""
-    @AppStorage(UserKeys.level) var level = "LV0"
+    @AppStorage(UserKeys.level) var level = ""
     @AppStorage(UserKeys.name) var name = ""
     @AppStorage(UserKeys.avatar) var avatar = ""
     @AppStorage(UserKeys.auth) var auth = ""

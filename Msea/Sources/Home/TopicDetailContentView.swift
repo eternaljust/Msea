@@ -105,9 +105,10 @@ struct TopicDetailContentView: View {
                                                 }
                                             }
 
-                                            VStack(alignment: .leading) {
+                                            VStack(alignment: .leading, spacing: 5) {
                                                 Text(comment.name)
                                                     .font(.font17Blod)
+
                                                 Text(comment.time)
                                                     .font(.font13)
                                             }
