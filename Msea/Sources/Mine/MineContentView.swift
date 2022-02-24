@@ -156,7 +156,6 @@ struct MineContentView: View {
                         Image(systemName: "square.and.pencil")
                             .foregroundColor(.theme)
                     }
-                    .isHidden(true)
                 }
 
                 ToolbarItem(placement: .navigationBarTrailing) {

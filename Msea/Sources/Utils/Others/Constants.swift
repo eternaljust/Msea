@@ -86,6 +86,7 @@ extension NSNotification.Name {
     static let notice = Notification.Name("NoticeNotification")
     static let shieldUser = Notification.Name("ShieldUserNotification")
     static let colorScheme = Notification.Name("ColorSchemeNotification")
+    static let postPublish = Notification.Name("PostPublishNotification")
 }
 
 /// 常量

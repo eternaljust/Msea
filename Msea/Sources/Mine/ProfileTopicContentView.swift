@@ -18,6 +18,8 @@ struct ProfileTopicContentView: View {
     @State private var isHidden = false
     @State private var isPosterShielding = false
 
+    @EnvironmentObject private var hud: HUDState
+
     var body: some View {
         ZStack {
             if topics.isEmpty || isPosterShielding {
@@ -122,6 +124,15 @@ struct ProfileTopicContentView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .shieldUser, object: nil)) { _ in
             isPosterShielding = UserInfo.shared.shieldUsers.contains { $0.uid == uid }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .postPublish, object: nil)) { _ in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                hud.show(message: "帖子发表成功")
+            }
+            Task {
+                page = 1
+                await loadData()
+            }
         }
     }
 
