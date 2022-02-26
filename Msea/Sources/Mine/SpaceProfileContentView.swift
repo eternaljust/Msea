@@ -11,7 +11,10 @@ import Kanna
 
 /// 个人空间资料
 struct SpaceProfileContentView: View {
-    var uid = CacheInfo.shared.defaultUid
+    var uid = ""
+    var username = ""
+    @StateObject private var profileUid = ProfileUidModel()
+
     @State private var selectedProfileTab = ProfileTab.topic
     @State private var profile = ProfileModel()
     @EnvironmentObject private var hud: HUDState
@@ -80,13 +83,13 @@ struct SpaceProfileContentView: View {
                 ForEach(tabs) { tab in
                     switch tab {
                     case .topic:
-                        ProfileTopicContentView(uid: uid)
+                        ProfileTopicContentView(profile: profileUid)
                             .tag(tab)
                     case .firendvisitor:
-                        FriendVisitorContentView(uid: uid)
+                        FriendVisitorContentView(profile: profileUid)
                             .tag(tab)
                     case .messageboard:
-                        MessageBoardContentView(uid: uid)
+                        MessageBoardContentView(profile: profileUid)
                             .tag(tab)
                     case .shielduser, .favorite:
                         EmptyView()
@@ -98,6 +101,9 @@ struct SpaceProfileContentView: View {
         }
         .navigationTitle("个人空间")
         .onAppear(perform: {
+            if uid != profile.uid {
+                profileUid.uid = uid
+            }
             isShielding = UserInfo.shared.shieldUsers.contains { $0.uid == uid }
             isShieldHidden = UserInfo.shared.isLogin() ? uid == UserInfo.shared.uid : false
 
@@ -164,7 +170,11 @@ struct SpaceProfileContentView: View {
     private func loadData() async {
         Task {
             // swiftlint:disable force_unwrapping
-            let url = URL(string: "https://www.chongbuluo.com/home.php?mod=space&uid=\(uid)")!
+            var url = URL(string: "https://www.chongbuluo.com/home.php?mod=space&uid=\(uid)")!
+            if !username.isEmpty {
+                let parames = "&username=\(username)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+                url = URL(string: "https://www.chongbuluo.com/home.php?mod=space\(parames)")!
+            }
             // swiftlint:enble force_unwrapping
             var request = URLRequest(url: url)
             request.configHeaderFields()
@@ -173,6 +183,10 @@ struct SpaceProfileContentView: View {
                 let img = html.at_xpath("//div[@id='profile_content']//img/@src")
                 if let avatar = img?.text {
                     profile.avatar = avatar
+                }
+                if var id = img?.text {
+                    id = id.replacingOccurrences(of: "&size=middle", with: "")
+                    profileUid.uid = id.components(separatedBy: "uid=")[1]
                 }
                 let mbn = html.at_xpath("//div[@id='profile_content']//h2")
                 if let name = mbn?.text {
@@ -279,4 +293,8 @@ struct ShieldUserModel: Codable, Identifiable {
     var uid = ""
     var name = ""
     var avatar = ""
+}
+
+class ProfileUidModel: ObservableObject {
+    @Published var uid = ""
 }

@@ -11,7 +11,8 @@ import Kanna
 
 /// 个人主题列表
 struct ProfileTopicContentView: View {
-    var uid = CacheInfo.shared.defaultUid
+    @StateObject var profile: ProfileUidModel
+    @State private var uid = ""
 
     @State private var page = 1
     @State private var topics = [ProfileTopicListModel]()
@@ -134,6 +135,14 @@ struct ProfileTopicContentView: View {
                 await loadData()
             }
         }
+        .onChange(of: profile.uid) { newValue in
+            Task {
+                if newValue != uid {
+                    uid = newValue
+                    await loadData()
+                }
+            }
+        }
     }
 
     private func loadData() async {
@@ -194,7 +203,7 @@ struct ProfileTopicContentView: View {
 
 struct ProfileTopicContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileTopicContentView()
+        ProfileTopicContentView(profile: ProfileUidModel())
     }
 }
 
