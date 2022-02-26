@@ -11,73 +11,30 @@ import SwiftUI
 struct CreditContentView: View {
     @State private var selectedItem = CreditItem.mycredit
     @State private var selectedIndex = 0
-    @StateObject private var rule = CreditRuleObject()
-    @State private var isPresented = false
-    @State private var isLogin = UserInfo.shared.isLogin()
 
     var body: some View {
-        NavigationView {
-            VStack {
-                if isLogin {
-                    if UIDevice.current.isPad {
-                        List {
-                            ForEach(CreditItem.allCases) { item in
-                                ZStack(alignment: .leading) {
-                                    Text(item.title)
-
-                                    NavigationLink(destination: getContentView(item)) {
-                                        EmptyView()
-                                    }
-                                    .opacity(0.0)
-                                }
-                            }
-                        }
-                        .listStyle(.inset)
-                    } else {
-                        TabView(selection: $selectedIndex) {
-                            ForEach(CreditItem.allCases) { item in
-                                getContentView(item)
-                                    .tag(item.index)
-                            }
-                        }
-                        .tabViewStyle(.page(indexDisplayMode: .always))
-                        .toolbar(content: {
-                            ToolbarItem(placement: .principal) {
-                                SegmentedControlView(selectedIndex: $selectedIndex, titles: CreditItem.allCases.map { $0.title })
-                                    .frame(width: 180)
-                            }
-                        })
-                    }
-                } else {
-                    Button("登录") {
-                        isPresented.toggle()
-                    }
+        VStack {
+            TabView(selection: $selectedIndex) {
+                ForEach(CreditItem.allCases) { item in
+                    getContentView(item)
+                        .tag(item.index)
                 }
             }
-            .navigationTitle("积分")
-            .ignoresSafeArea(edges: .bottom)
-            .onAppear(perform: {
-                isLogin = UserInfo.shared.isLogin()
-                TabBarTool.showTabBar(true)
-                CacheInfo.shared.selectedTab = .credit
+            .tabViewStyle(.page(indexDisplayMode: .always))
+            .toolbar(content: {
+                ToolbarItem(placement: .principal) {
+                    SegmentedControlView(selectedIndex: $selectedIndex, titles: CreditItem.allCases.map { $0.title })
+                        .frame(width: 180)
+                }
             })
-            .sheet(isPresented: $isPresented) {
-                LoginContentView()
-            }
-            .onReceive(NotificationCenter.default.publisher(for: .login, object: nil)) { _ in
-                isLogin = true
-            }
-            .onReceive(NotificationCenter.default.publisher(for: .logout, object: nil)) { _ in
-                isLogin = false
-            }
-
-            if isLogin {
-                Text("积分用户组")
-            } else {
-                Text("登录后可查看积分信息")
-            }
         }
-        .environmentObject(rule)
+        .navigationTitle("积分")
+        .ignoresSafeArea(edges: .bottom)
+        .onAppear(perform: {
+            if !UIDevice.current.isPad {
+                TabBarTool.showTabBar(false)
+            }
+        })
     }
 
     @ViewBuilder private func getContentView(_ item: CreditItem) -> some View {

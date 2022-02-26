@@ -11,8 +11,6 @@ import Kanna
 
 /// 用户组
 struct UserGroupContentView: View {
-    var isDetail = false
-
     @State private var sections = [UserGroupHeaderModel]()
     @State private var isHidden = false
     @State private var gid = ""
@@ -135,7 +133,7 @@ struct UserGroupContentView: View {
         }
         .onAppear {
             if !UIDevice.current.isPad {
-                TabBarTool.showTabBar(!isDetail)
+                TabBarTool.showTabBar(false)
             }
         }
     }

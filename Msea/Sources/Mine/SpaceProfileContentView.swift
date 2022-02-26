@@ -41,7 +41,7 @@ struct SpaceProfileContentView: View {
                     hud.show(message: "已复制 uid")
                 }
 
-            NavigationLink(destination: UserGroupContentView(isDetail: true), isActive: $isUserGroup) {
+            NavigationLink(destination: UserGroupContentView(), isActive: $isUserGroup) {
                 Text(profile.level)
                     .font(.font17)
                     .foregroundColor(.secondaryTheme)

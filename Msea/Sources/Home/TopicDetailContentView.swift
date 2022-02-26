@@ -835,8 +835,7 @@ struct TopicDetailContentView: View {
                 if UserInfo.shared.isLogin() {
                     isCredit.toggle()
                 } else {
-                    CacheInfo.shared.selectedTab = .credit
-                    selection.index = .credit
+                    needLogin.toggle()
                 }
             } else if absoluteString.contains("do=notice") {
                 CacheInfo.shared.selectedTab = .notice

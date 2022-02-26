@@ -60,10 +60,10 @@ struct ContentView: View {
         switch item {
         case .home:
             HomeContentView()
+        case .node:
+            NodeContentView()
         case .notice:
             NoticeContentView()
-        case .credit:
-            CreditContentView()
         case .mine:
             MineContentView()
         }
@@ -78,24 +78,24 @@ struct ContentView_Previews: PreviewProvider {
 
 enum TabBarItem: String, CaseIterable, Identifiable {
     case home
+    case node
     case notice
-    case credit
     case mine
 
     var id: String { self.rawValue }
     var icon: String {
         switch self {
         case .home: return "house"
+        case .node: return "circle.grid.cross.fill"
         case .notice: return "bell.fill"
-        case .credit: return "yensign.circle"
         case .mine: return "person"
         }
     }
     var title: String {
         switch self {
         case .home: return "虫部落"
+        case .node: return "节点"
         case .notice: return "通知"
-        case .credit: return "积分"
         case .mine: return "我的"
         }
     }

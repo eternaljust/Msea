@@ -37,8 +37,8 @@ struct SystemContentView: View {
                                 .fixedSize(horizontal: false, vertical: true)
                                 .onTapGesture(perform: {
                                     if system.content.contains("看看我能做什么") {
-                                        CacheInfo.shared.selectedTab = .credit
-                                        selection.index = .credit
+//                                        CacheInfo.shared.selectedTab = .credit
+//                                        selection.index = .credit
                                     }
                                 })
                                 .onAppear {

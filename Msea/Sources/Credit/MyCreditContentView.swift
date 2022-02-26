@@ -33,6 +33,11 @@ struct MyCreditContentView: View {
         }
         .navigationTitle("我的积分")
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            if !UIDevice.current.isPad {
+                TabBarTool.showTabBar(false)
+            }
+        }
     }
 
     @ViewBuilder private func getContentView(_ tab: MyCreditTab) -> some View {

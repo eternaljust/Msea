@@ -15,6 +15,8 @@ struct MineContentView: View {
     @State private var isLogin = UserInfo.shared.isLogin()
     @State private var selectedProfileTab = ProfileTab.topic
     @State private var isNewPost = false
+    @State private var isCredit = false
+
     @EnvironmentObject private var hud: HUDState
     @StateObject private var rule = CreditRuleObject()
 
@@ -42,7 +44,7 @@ struct MineContentView: View {
                             hud.show(message: "已复制 uid")
                         }
 
-                    NavigationLink(destination: UserGroupContentView(isDetail: true)) {
+                    NavigationLink(destination: UserGroupContentView()) {
                         Text(UserInfo.shared.level)
                             .font(.font17)
                             .foregroundColor(.secondaryTheme)
@@ -93,7 +95,10 @@ struct MineContentView: View {
                     }
                     .tabViewStyle(.page(indexDisplayMode: .never))
 
-                    Spacer()
+                    NavigationLink(destination: CreditContentView(), isActive: $isCredit) {
+                        EmptyView()
+                    }
+                    .opacity(0.0)
                 } else {
                     Button("登录") {
                         isPresented.toggle()
@@ -154,8 +159,17 @@ struct MineContentView: View {
                         isNewPost.toggle()
                     } label: {
                         Image(systemName: "square.and.pencil")
-                            .foregroundColor(.theme)
                     }
+                    .isHidden(!isLogin)
+                }
+
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        isCredit.toggle()
+                    } label: {
+                        Image(systemName: "yensign.circle")
+                    }
+                    .isHidden(!isLogin)
                 }
 
                 ToolbarItem(placement: .navigationBarTrailing) {
