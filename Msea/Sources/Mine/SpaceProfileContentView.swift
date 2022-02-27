@@ -13,7 +13,6 @@ import Kanna
 struct SpaceProfileContentView: View {
     var uid = ""
     var username = ""
-    @StateObject private var profileUid = ProfileUidModel()
 
     @State private var selectedProfileTab = ProfileTab.topic
     @State private var profile = ProfileModel()
@@ -83,13 +82,13 @@ struct SpaceProfileContentView: View {
                 ForEach(tabs) { tab in
                     switch tab {
                     case .topic:
-                        ProfileTopicContentView(profile: profileUid)
+                        ProfileTopicContentView(uid: uid)
                             .tag(tab)
                     case .firendvisitor:
-                        FriendVisitorContentView(profile: profileUid)
+                        FriendVisitorContentView(uid: uid)
                             .tag(tab)
                     case .messageboard:
-                        MessageBoardContentView(profile: profileUid)
+                        MessageBoardContentView(uid: uid)
                             .tag(tab)
                     case .shielduser, .favorite:
                         EmptyView()
@@ -101,9 +100,6 @@ struct SpaceProfileContentView: View {
         }
         .navigationTitle("个人空间")
         .onAppear(perform: {
-            if uid != profile.uid {
-                profileUid.uid = uid
-            }
             isShielding = UserInfo.shared.shieldUsers.contains { $0.uid == uid }
             isShieldHidden = UserInfo.shared.isLogin() ? uid == UserInfo.shared.uid : false
 
@@ -180,13 +176,13 @@ struct SpaceProfileContentView: View {
             request.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: request)
             if let html = try? HTML(html: data, encoding: .utf8) {
+                if let message = html.at_xpath("//td[@class='xs1']/h2[@class='xs2']")?.text {
+                    hud.show(message: message.replacingOccurrences(of: "\r\n", with: ""))
+                    return
+                }
                 let img = html.at_xpath("//div[@id='profile_content']//img/@src")
                 if let avatar = img?.text {
                     profile.avatar = avatar
-                }
-                if var id = img?.text {
-                    id = id.replacingOccurrences(of: "&size=middle", with: "")
-                    profileUid.uid = id.components(separatedBy: "uid=")[1]
                 }
                 let mbn = html.at_xpath("//div[@id='profile_content']//h2")
                 if let name = mbn?.text {
@@ -228,7 +224,6 @@ struct SpaceProfileContentView: View {
                 if let share = li8?.text {
                     profile.share = share
                 }
-                profile.uid = uid
             }
         }
 
@@ -293,8 +288,4 @@ struct ShieldUserModel: Codable, Identifiable {
     var uid = ""
     var name = ""
     var avatar = ""
-}
-
-class ProfileUidModel: ObservableObject {
-    @Published var uid = ""
 }

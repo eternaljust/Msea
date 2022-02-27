@@ -11,8 +11,7 @@ import Kanna
 
 /// 留言板
 struct MessageBoardContentView: View {
-    @StateObject var profile: ProfileUidModel
-    @State private var uid = ""
+    var uid = ""
 
     @State private var messages = [MessageBoardListModel]()
     @State private var isHidden = false
@@ -111,14 +110,6 @@ struct MessageBoardContentView: View {
                 await loadData()
             }
         }
-        .onChange(of: profile.uid) { newValue in
-            Task {
-                if newValue != uid {
-                    uid = newValue
-                    await loadData()
-                }
-            }
-        }
     }
 
     private func loadData() async {
@@ -190,7 +181,7 @@ struct MessageBoardContentView: View {
 
 struct MessageBoardContentView_Previews: PreviewProvider {
     static var previews: some View {
-        MessageBoardContentView(profile: ProfileUidModel())
+        MessageBoardContentView()
     }
 }
 

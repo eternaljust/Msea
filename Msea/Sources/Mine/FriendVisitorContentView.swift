@@ -11,8 +11,7 @@ import Kanna
 
 /// 好友与访客
 struct FriendVisitorContentView: View {
-    @StateObject var profile: ProfileUidModel
-    @State private var uid = ""
+    var uid = ""
 
     @State private var friendVisitors = [FriendVisitorListModel(type: .friend, persons: [FriendVisitorModel]()),
                                          FriendVisitorListModel(type: .visitor, persons: [FriendVisitorModel]())]
@@ -75,14 +74,6 @@ struct FriendVisitorContentView: View {
         }
         .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
         .navigationBarTitle("好友访客")
-        .onChange(of: profile.uid) { newValue in
-            Task {
-                if newValue != uid {
-                    uid = newValue
-                    await loadData()
-                }
-            }
-        }
     }
 
     private func loadData() async {
@@ -164,7 +155,7 @@ struct FriendVisitorHeaderView: View {
 
 struct FriendVisitorContentView_Previews: PreviewProvider {
     static var previews: some View {
-        FriendVisitorContentView(profile: ProfileUidModel())
+        FriendVisitorContentView()
     }
 }
 

@@ -19,7 +19,6 @@ struct MineContentView: View {
 
     @EnvironmentObject private var hud: HUDState
     @StateObject private var rule = CreditRuleObject()
-    @StateObject private var profileUid = ProfileUidModel()
 
     private let columns = [
         GridItem(.adaptive(minimum: 60, maximum: 80), spacing: 10)
@@ -77,13 +76,13 @@ struct MineContentView: View {
                         ForEach(ProfileTab.allCases) { mine in
                             switch mine {
                             case .topic:
-                                ProfileTopicContentView(profile: profileUid)
+                                ProfileTopicContentView(uid: UserInfo.shared.uid)
                                     .tag(mine)
                             case .firendvisitor:
-                                FriendVisitorContentView(profile: profileUid)
+                                FriendVisitorContentView(uid: UserInfo.shared.uid)
                                     .tag(mine)
                             case .messageboard:
-                                MessageBoardContentView(profile: profileUid)
+                                MessageBoardContentView(uid: UserInfo.shared.uid)
                                     .tag(mine)
                             case .favorite:
                                 FavoriteContentView()
@@ -180,7 +179,6 @@ struct MineContentView: View {
                 }
             }
             .onAppear(perform: {
-                profileUid.uid = UserInfo.shared.uid
                 isLogin = UserInfo.shared.isLogin()
                 if isLogin {
                     Task {
@@ -195,14 +193,12 @@ struct MineContentView: View {
                 LoginContentView()
             }
             .onReceive(NotificationCenter.default.publisher(for: .login, object: nil)) { _ in
-                profileUid.uid = UserInfo.shared.uid
                 isLogin = true
                 Task {
                     await loadData()
                 }
             }
             .onReceive(NotificationCenter.default.publisher(for: .logout, object: nil)) { _ in
-                profileUid.uid = UserInfo.shared.uid
                 isLogin = false
             }
 

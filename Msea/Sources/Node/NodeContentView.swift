@@ -18,6 +18,7 @@ struct NodeContentView: View {
     @State private var tid = ""
     @State private var isProfile = false
     @State private var username = ""
+    @State private var uid = ""
 
     var body: some View {
         NavigationView {
@@ -70,7 +71,9 @@ struct NodeContentView: View {
                                             Text(forum.username)
                                                 .onTapGesture {
                                                     username = forum.username
-                                                    isProfile = true
+                                                    Task {
+                                                        await loadUid()
+                                                    }
                                                 }
                                         }
                                         .foregroundColor(.secondaryTheme)
@@ -90,6 +93,12 @@ struct NodeContentView: View {
                                         ForEach(node.moderators, id: \.self) { user in
                                             Text(user)
                                                 .foregroundColor(.secondaryTheme)
+                                                .onTapGesture {
+                                                    username = user
+                                                    Task {
+                                                        await loadUid()
+                                                    }
+                                                }
                                         }
                                     }
                                 }
@@ -117,7 +126,7 @@ struct NodeContentView: View {
                     }
                     .opacity(0.0)
 
-                    NavigationLink(destination: SpaceProfileContentView(username: username), isActive: $isProfile) {
+                    NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isProfile) {
                         EmptyView()
                     }
                     .opacity(0.0)
@@ -183,7 +192,6 @@ struct NodeContentView: View {
                             model.content = content
                         }
                         if let tid = dl.at_xpath("/dl/dd[2]/a/@href")?.text {
-                            print(tid)
                             if tid.contains("tid="), tid.contains("goto=") {
                                 model.tid = tid.components(separatedBy: "goto=")[0].components(separatedBy: "tid=")[1]
                             }
@@ -207,6 +215,40 @@ struct NodeContentView: View {
 
                 isHidden = true
                 self.nodes = nodes
+            }
+        }
+    }
+
+    private func loadUid() async {
+        uid = ""
+        Task {
+            isHidden = false
+            // swiftlint:disable force_unwrapping
+            let parames = "&username=\(username)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+            let url = URL(string: "https://www.chongbuluo.com/home.php?mod=space\(parames)")!
+            // swiftlint:enble force_unwrapping
+            var request = URLRequest(url: url)
+            request.configHeaderFields()
+            let (data, _) = try await URLSession.shared.data(for: request)
+            if let html = try? HTML(html: data, encoding: .utf8) {
+                var id = ""
+                if let src = html.at_xpath("//div[@id='profile_content']//img/@src")?.text, !src.isEmpty {
+                    id = src
+                } else if let src = html.at_xpath("//div[@class='wp cl']//span[@class='xs0 xw0']/a[last()]/@href")?.text {
+                    id = src
+                }
+                print(id)
+                id = id.replacingOccurrences(of: "&size=middle", with: "")
+                id = id.replacingOccurrences(of: "&size=big", with: "")
+                id = id.replacingOccurrences(of: "&size=small", with: "")
+                id = id.replacingOccurrences(of: "&boan_h5avatar=yes", with: "")
+                if id.contains("uid=") {
+                    uid = id.components(separatedBy: "uid=")[1]
+                }
+                if !uid.isEmpty {
+                    isProfile = true
+                }
+                isHidden = true
             }
         }
     }
