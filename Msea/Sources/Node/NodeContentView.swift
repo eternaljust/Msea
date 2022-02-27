@@ -19,6 +19,8 @@ struct NodeContentView: View {
     @State private var isProfile = false
     @State private var username = ""
     @State private var uid = ""
+    @State private var isNode = false
+    @State private var selectedNode = NodeListModel()
 
     var body: some View {
         NavigationView {
@@ -54,6 +56,10 @@ struct NodeContentView: View {
                                             }
 
                                             Spacer()
+                                        }
+                                        .onTapGesture {
+                                            selectedNode = forum
+                                            isNode = true
                                         }
 
                                         HStack {
@@ -127,6 +133,11 @@ struct NodeContentView: View {
                     .opacity(0.0)
 
                     NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isProfile) {
+                        EmptyView()
+                    }
+                    .opacity(0.0)
+
+                    NavigationLink(destination: NodeListContentView(node: selectedNode), isActive: $isNode) {
                         EmptyView()
                     }
                     .opacity(0.0)

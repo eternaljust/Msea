@@ -99,6 +99,7 @@ struct SpaceProfileContentView: View {
             .edgesIgnoringSafeArea(UIDevice.current.isPad ? [] : [.bottom])
         }
         .navigationTitle("个人空间")
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear(perform: {
             isShielding = UserInfo.shared.shieldUsers.contains { $0.uid == uid }
             isShieldHidden = UserInfo.shared.isLogin() ? uid == UserInfo.shared.uid : false
