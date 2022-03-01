@@ -16,6 +16,11 @@ struct PostListContentView: View {
     @State private var postList = [PostListModel]()
     @State private var isHidden = false
 
+    @State private var uid = ""
+    @State private var isSpace = false
+    @State private var tid = ""
+    @State private var isTopic = false
+
     var body: some View {
         ZStack {
             if postList.isEmpty {
@@ -30,21 +35,26 @@ struct PostListContentView: View {
                         }
                         .frame(width: 40, height: 40)
                         .cornerRadius(5)
+                        .onTapGesture(perform: {
+                            if !post.uid.isEmpty {
+                                uid = post.uid
+                                isSpace = true
+                            }
+                        })
 
                         VStack(alignment: .leading, spacing: 5) {
                             Text(post.time)
                                 .font(.font13)
 
-                            ZStack(alignment: .leading) {
-                                Text("\(Text(post.name).foregroundColor(.secondaryTheme)) \(type.body) \(Text(post.title).foregroundColor(.secondaryTheme))")
-                                    .font(.font16)
-                                    .fixedSize(horizontal: false, vertical: true)
-
-                                NavigationLink(destination: TopicDetailContentView(tid: post.ptid)) {
-                                    EmptyView()
-                                }
-                                .opacity(0.0)
-                            }
+                            Text("\(Text(post.name).foregroundColor(.secondaryTheme)) \(type.body) \(Text(post.title).foregroundColor(.secondaryTheme))")
+                                .font(.font16)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .onTapGesture(perform: {
+                                    if !post.ptid.isEmpty {
+                                        tid = post.ptid
+                                        isTopic = true
+                                    }
+                                })
                         }
                         .padding([.top, .bottom], 5)
                         .onAppear {
@@ -67,6 +77,16 @@ struct PostListContentView: View {
 
             ProgressView()
                 .isHidden(isHidden)
+
+            NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isSpace) {
+                EmptyView()
+            }
+            .opacity(0.0)
+
+            NavigationLink(destination: TopicDetailContentView(tid: tid), isActive: $isTopic) {
+                EmptyView()
+            }
+            .opacity(0.0)
         }
         .task {
             if !isHidden {

@@ -217,7 +217,10 @@ struct NodeContentView: View {
                             model.time = time.replacingOccurrences(of: " \(model.username)", with: "")
                         }
 
-                        list.append(model)
+                        // 暂时屏蔽 WiKi 石沉大海
+                        if model.fid != "98" && model.fid != "125" {
+                            list.append(model)
+                        }
                     }
                     node.list = list
 

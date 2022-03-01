@@ -17,57 +17,67 @@ struct TreadRankContentView: View {
     @State private var treadList = [TreadRankListModel]()
     @State private var headerTitle = ""
 
+    @State private var uid = ""
+    @State private var isSpace = false
+    @State private var tid = ""
+    @State private var isTopic = false
+
     var body: some View {
         VStack {
             List {
                 Section {
                     ForEach(treadList) { tread in
-                        ZStack(alignment: .leading) {
-                            VStack(alignment: .leading) {
+                        VStack(alignment: .leading) {
+                            HStack {
                                 HStack {
-                                    HStack {
-                                        Image(systemName: "\(tread.num).circle.fill")
-                                            .resizable()
-                                            .symbolRenderingMode(.palette)
-                                            .foregroundStyle(.white, tread.numTop ? .red : Color.theme)
-                                            .frame(width: 20, height: 20)
+                                    Image(systemName: "\(tread.num).circle.fill")
+                                        .resizable()
+                                        .symbolRenderingMode(.palette)
+                                        .foregroundStyle(.white, tread.numTop ? .red : Color.theme)
+                                        .frame(width: 20, height: 20)
 
-                                        VStack(alignment: .leading) {
-                                            Text(tread.name)
-                                                .font(.font15)
+                                    VStack(alignment: .leading) {
+                                        Text(tread.name)
+                                            .font(.font15)
 
-                                            Text(tread.time)
-                                                .font(.font12)
-                                        }
+                                        Text(tread.time)
+                                            .font(.font12)
                                     }
-                                    .frame(width: UIDevice.current.isPad ? 250 : 130, alignment: .leading)
-                                    .fixedSize(horizontal: false, vertical: true)
-
-                                    Spacer()
-
-                                    Text(tread.plate)
-                                        .font(.font15)
-                                        .frame(width: UIDevice.current.isPad ? 140 : 70)
-                                        .fixedSize(horizontal: false, vertical: true)
-
-                                    Spacer()
-
-                                    Text(tread.count)
-                                        .foregroundColor(.secondaryTheme)
-                                        .frame(width: UIDevice.current.isPad ? 250 : 130, alignment: .trailing)
-                                        .fixedSize(horizontal: false, vertical: true)
                                 }
+                                .frame(width: UIDevice.current.isPad ? 250 : 130, alignment: .leading)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .onTapGesture(perform: {
+                                    if !tread.uid.isEmpty {
+                                        uid = tread.uid
+                                        isSpace = true
+                                    }
+                                })
 
-                                Text(tread.title)
+                                Spacer()
+
+                                Text(tread.plate)
+                                    .font(.font15)
+                                    .frame(width: UIDevice.current.isPad ? 140 : 70)
+                                    .fixedSize(horizontal: false, vertical: true)
+
+                                Spacer()
+
+                                Text(tread.count)
+                                    .foregroundColor(.secondaryTheme)
+                                    .frame(width: UIDevice.current.isPad ? 250 : 130, alignment: .trailing)
                                     .fixedSize(horizontal: false, vertical: true)
                             }
-                            .padding([.top, .bottom], 5)
 
-                            NavigationLink(destination: TopicDetailContentView(tid: tread.tid)) {
-                                EmptyView()
-                            }
-                            .opacity(0.0)
+                            Text(tread.title)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .onTapGesture(perform: {
+                                    if !tread.tid.isEmpty {
+                                        tid = tread.tid
+                                        isTopic = true
+                                    }
+                                })
                         }
+                        .padding([.top, .bottom], 5)
                     }
                 } header: {
                     HStack {
@@ -90,6 +100,16 @@ struct TreadRankContentView: View {
                 }
             }
             .listStyle(.plain)
+
+            NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isSpace) {
+                EmptyView()
+            }
+            .opacity(0.0)
+
+            NavigationLink(destination: TopicDetailContentView(tid: tid), isActive: $isTopic) {
+                EmptyView()
+            }
+            .opacity(0.0)
         }
         .navigationTitle("\(selectedTab.title)排行 • \(orderbyTab.title)")
         .toolbar {

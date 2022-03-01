@@ -93,17 +93,6 @@ struct TopicDetailContentView: View {
                                             }
                                             .frame(width: 40, height: 40)
                                             .cornerRadius(5)
-                                            .onTapGesture {
-                                                if !comment.uid.isEmpty {
-                                                    if comment.uid == UserInfo.shared.uid {
-                                                        selection.index = .mine
-                                                        CacheInfo.shared.selectedTab = .mine
-                                                    } else {
-                                                        uid = comment.uid
-                                                        isSpace.toggle()
-                                                    }
-                                                }
-                                            }
 
                                             VStack(alignment: .leading, spacing: 5) {
                                                 Text(comment.name)
@@ -111,6 +100,17 @@ struct TopicDetailContentView: View {
 
                                                 Text(comment.time)
                                                     .font(.font13)
+                                            }
+                                        }
+                                        .onTapGesture {
+                                            if !comment.uid.isEmpty {
+                                                if comment.uid == UserInfo.shared.uid {
+                                                    selection.index = .mine
+                                                    CacheInfo.shared.selectedTab = .mine
+                                                } else {
+                                                    uid = comment.uid
+                                                    isSpace.toggle()
+                                                }
                                             }
                                         }
                                         .onAppear {

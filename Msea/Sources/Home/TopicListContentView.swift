@@ -18,57 +18,67 @@ struct TopicListContentView: View {
     @State private var page = 1
     @State private var isRefreshing = false
 
+    @State private var uid = ""
+    @State private var isSpace = false
+    @State private var tid = ""
+    @State private var isTopic = false
+
     var body: some View {
         ZStack {
             List(topics) { topic in
-                ZStack {
-                    VStack(alignment: .leading) {
-                        HStack {
-                            AsyncImage(url: URL(string: "https://www.chongbuluo.com/\(topic.avatar)")) { image in
-                                image.resizable()
-                            } placeholder: {
-                                ProgressView()
+                VStack(alignment: .leading) {
+                    HStack {
+                        AsyncImage(url: URL(string: "https://www.chongbuluo.com/\(topic.avatar)")) { image in
+                            image.resizable()
+                        } placeholder: {
+                            ProgressView()
+                        }
+                        .frame(width: 40, height: 40)
+                        .cornerRadius(5)
+                        .onTapGesture(perform: {
+                            if !topic.uid.isEmpty {
+                                uid = topic.uid
+                                isSpace = true
                             }
-                            .frame(width: 40, height: 40)
-                            .cornerRadius(5)
+                        })
 
-                            VStack(alignment: .leading, spacing: 5) {
-                                Text(topic.name)
-                                    .font(.font17Blod)
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text(topic.name)
+                                .font(.font17Blod)
 
-                                Text(topic.time)
-                                    .font(.font13)
-                            }
-
-                            Spacer()
-
-                            Text("\(topic.reply)/\(topic.examine)")
-                                .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5))
-                                .foregroundColor(.white)
-                                .background(
-                                    Capsule()
-                                        .foregroundColor(.secondaryTheme.opacity(0.8))
-                                )
+                            Text(topic.time)
+                                .font(.font13)
                         }
 
-                        Text(topic.title)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .onAppear {
-                                if topic.id == topics.last?.id {
-                                    page += 1
-                                    Task {
-                                        await loadData()
-                                    }
+                        Spacer()
+
+                        Text("\(topic.reply)/\(topic.examine)")
+                            .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5))
+                            .foregroundColor(.white)
+                            .background(
+                                Capsule()
+                                    .foregroundColor(.secondaryTheme.opacity(0.8))
+                            )
+                    }
+
+                    Text(topic.title)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .onTapGesture(perform: {
+                            if !topic.tid.isEmpty {
+                                tid = topic.tid
+                                isTopic = true
+                            }
+                        })
+                        .onAppear {
+                            if topic.id == topics.last?.id {
+                                page += 1
+                                Task {
+                                    await loadData()
                                 }
                             }
-                    }
-                    .padding([.top, .bottom], 5)
-
-                    NavigationLink(destination: TopicDetailContentView(tid: topic.tid)) {
-                        EmptyView()
-                    }
-                    .opacity(0.0)
+                        }
                 }
+                .padding([.top, .bottom], 5)
             }
             .listStyle(.plain)
             .refreshable {
@@ -83,6 +93,16 @@ struct TopicListContentView: View {
 
             ProgressView()
                 .isHidden(isHidden)
+
+            NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isSpace) {
+                EmptyView()
+            }
+            .opacity(0.0)
+
+            NavigationLink(destination: TopicDetailContentView(tid: tid), isActive: $isTopic) {
+                EmptyView()
+            }
+            .opacity(0.0)
         }
         .onAppear {
             shieldUsers()
@@ -130,9 +150,10 @@ struct TopicListContentView: View {
                             topic.examine = examine
                         }
                         if let uid = element.at_xpath("//cite/a//@href")?.text {
-                            let uids = uid.components(separatedBy: "uid=")
-                            if uid.contains("uid"), uids.count == 2 {
-                                topic.uid = uids[1]
+                            if uid.contains("space-uid-") {
+                                topic.uid = uid.components(separatedBy: "space-uid-")[1].components(separatedBy: ".")[0]
+                            } else if uid.contains("uid=") {
+                                topic.uid = uid.components(separatedBy: "uid=")[1]
                             }
                         }
                         if let id = element.at_xpath("//@id")?.text, let tid = id.components(separatedBy: "_").last {

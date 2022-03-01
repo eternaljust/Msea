@@ -101,6 +101,11 @@ struct CreditSystemContentView: View {
                 await loadData()
             }
         }
+        .onAppear {
+            if !UIDevice.current.isPad {
+                TabBarTool.showTabBar(false)
+            }
+        }
     }
 
     private func loadData() async {
