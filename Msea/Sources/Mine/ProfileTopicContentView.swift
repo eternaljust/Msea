@@ -18,6 +18,12 @@ struct ProfileTopicContentView: View {
     @State private var isHidden = false
     @State private var isPosterShielding = false
 
+    @State private var username = ""
+    @State private var theUid = ""
+    @State private var isSpace = false
+    @State private var tid = ""
+    @State private var isTopic = false
+
     @EnvironmentObject private var hud: HUDState
 
     var body: some View {
@@ -32,62 +38,67 @@ struct ProfileTopicContentView: View {
                 List {
                     Section {
                         ForEach(topics) { topic in
-                            ZStack(alignment: .leading) {
-                                VStack(alignment: .leading) {
+                            VStack(alignment: .leading) {
+                                HStack {
                                     HStack {
-                                        HStack {
-                                            GifImage(url: URL(string: topic.gif))
-                                                .frame(width: 20, height: 20)
+                                        GifImage(url: URL(string: topic.gif))
+                                            .frame(width: 20, height: 20)
 
-                                            VStack(alignment: .leading) {
-                                                Text(topic.name)
-                                                    .font(.font15)
+                                        VStack(alignment: .leading) {
+                                            Text(topic.name)
+                                                .font(.font15)
 
-                                                Text(topic.time)
-                                                    .font(.font12)
-                                            }
+                                            Text(topic.time)
+                                                .font(.font12)
                                         }
-                                        .frame(width: uid == UserInfo.shared.uid ? (UIDevice.current.isPad ? 100 : 130) : (UIDevice.current.isPad ? 250 : 130), alignment: .leading)
-
-                                        Spacer()
-
-                                        Text(topic.plate)
-                                            .font(.font15)
-                                            .frame(width: uid == UserInfo.shared.uid ? 70 : (UIDevice.current.isPad ? 140 : 70))
-                                            .fixedSize(horizontal: false, vertical: true)
-
-                                        Spacer()
-
-                                        VStack {
-                                            Text("\(topic.reply)/\(topic.examine)")
-                                                .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5))
-                                                .foregroundColor(.white)
-                                                .background(
-                                                    Capsule()
-                                                        .foregroundColor(.secondaryTheme.opacity(0.8))
-                                                )
+                                    }
+                                    .frame(width: uid == UserInfo.shared.uid ? (UIDevice.current.isPad ? 100 : 130) : (UIDevice.current.isPad ? 250 : 130), alignment: .leading)
+                                    .onTapGesture {
+                                        username = topic.name
+                                        Task {
+                                            await loadUid()
                                         }
-                                        .frame(width: uid == UserInfo.shared.uid ? (UIDevice.current.isPad ? 100 : 130) : (UIDevice.current.isPad ? 250 : 130), alignment: .trailing)
                                     }
 
-                                    Text(topic.title)
+                                    Spacer()
+
+                                    Text(topic.plate)
+                                        .font(.font15)
+                                        .frame(width: uid == UserInfo.shared.uid ? 70 : (UIDevice.current.isPad ? 140 : 70))
                                         .fixedSize(horizontal: false, vertical: true)
-                                        .onAppear {
-                                            if topic.id == topics.last?.id {
-                                                page += 1
-                                                Task {
-                                                    await loadData()
-                                                }
+
+                                    Spacer()
+
+                                    VStack {
+                                        Text("\(topic.reply)/\(topic.examine)")
+                                            .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5))
+                                            .foregroundColor(.white)
+                                            .background(
+                                                Capsule()
+                                                    .foregroundColor(.secondaryTheme.opacity(0.8))
+                                            )
+                                    }
+                                    .frame(width: uid == UserInfo.shared.uid ? (UIDevice.current.isPad ? 100 : 130) : (UIDevice.current.isPad ? 250 : 130), alignment: .trailing)
+                                }
+
+                                Text(topic.title)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .onTapGesture(perform: {
+                                        if !topic.tid.isEmpty {
+                                            tid = topic.tid
+                                            isTopic = true
+                                        }
+                                    })
+                                    .onAppear {
+                                        if topic.id == topics.last?.id {
+                                            page += 1
+                                            Task {
+                                                await loadData()
                                             }
                                         }
-                                }
-                                .padding([.top, .bottom], 5)
-
-                                NavigationLink(destination: TopicDetailContentView(tid: topic.tid)) {
-                                    EmptyView()
-                                }
-                                .opacity(0.0)
+                                    }
                             }
+                            .padding([.top, .bottom], 5)
                         }
                     } header: {
                         HStack {
@@ -112,6 +123,16 @@ struct ProfileTopicContentView: View {
 
             ProgressView()
                 .isHidden(isHidden)
+
+            NavigationLink(destination: SpaceProfileContentView(uid: theUid), isActive: $isSpace) {
+                EmptyView()
+            }
+            .opacity(0.0)
+
+            NavigationLink(destination: TopicDetailContentView(tid: tid), isActive: $isTopic) {
+                EmptyView()
+            }
+            .opacity(0.0)
         }
         .task {
             if !isHidden {
@@ -132,6 +153,20 @@ struct ProfileTopicContentView: View {
             Task {
                 page = 1
                 await loadData()
+            }
+        }
+        .onChange(of: isTopic) { newValue in
+            if UIDevice.current.isPad && newValue {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    isTopic.toggle()
+                }
+            }
+        }
+        .onChange(of: isSpace) { newValue in
+            if UIDevice.current.isPad && newValue {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    isSpace.toggle()
+                }
             }
         }
     }
@@ -190,6 +225,31 @@ struct ProfileTopicContentView: View {
             isHidden = true
         }
     }
+
+    private func loadUid() async {
+        theUid = ""
+        Task {
+            isHidden = false
+            // swiftlint:disable force_unwrapping
+            let parames = "&username=\(username)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+            let url = URL(string: "https://www.chongbuluo.com/home.php?mod=space\(parames)")!
+            // swiftlint:enble force_unwrapping
+            var request = URLRequest(url: url)
+            request.configHeaderFields()
+            let (data, _) = try await URLSession.shared.data(for: request)
+            if let html = try? HTML(html: data, encoding: .utf8) {
+                theUid = html.getProfileUid()
+                if !theUid.isEmpty {
+                    if UIDevice.current.isPad {
+                        isSpace.toggle()
+                    } else {
+                        isSpace = true
+                    }
+                }
+                isHidden = true
+            }
+        }
+    }
 }
 
 struct ProfileTopicContentView_Previews: PreviewProvider {
@@ -200,6 +260,7 @@ struct ProfileTopicContentView_Previews: PreviewProvider {
 
 struct ProfileTopicListModel: Identifiable {
     var id = UUID()
+    var uid = ""
     var title = ""
     var tid = ""
     var gif = ""

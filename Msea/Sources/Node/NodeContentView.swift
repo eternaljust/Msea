@@ -274,20 +274,7 @@ struct NodeContentView: View {
             request.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: request)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                var id = ""
-                if let src = html.at_xpath("//div[@id='profile_content']//img/@src")?.text, !src.isEmpty {
-                    id = src
-                } else if let src = html.at_xpath("//div[@class='wp cl']//span[@class='xs0 xw0']/a[last()]/@href")?.text {
-                    id = src
-                }
-                print(id)
-                id = id.replacingOccurrences(of: "&size=middle", with: "")
-                id = id.replacingOccurrences(of: "&size=big", with: "")
-                id = id.replacingOccurrences(of: "&size=small", with: "")
-                id = id.replacingOccurrences(of: "&boan_h5avatar=yes", with: "")
-                if id.contains("uid=") {
-                    uid = id.components(separatedBy: "uid=")[1]
-                }
+                uid = html.getProfileUid()
                 if !uid.isEmpty {
                     if await UIDevice.current.isPad {
                         isProfile.toggle()

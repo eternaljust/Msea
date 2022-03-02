@@ -87,4 +87,22 @@ extension HTMLDocument {
             }
         }
     }
+
+    func getProfileUid() -> String {
+        var id = ""
+        if let src = self.at_xpath("//div[@id='profile_content']//img/@src")?.text, !src.isEmpty {
+            id = src
+        } else if let src = self.at_xpath("//div[@class='wp cl']//span[@class='xs0 xw0']/a[last()]/@href")?.text {
+            id = src
+        }
+        print(id)
+        id = id.replacingOccurrences(of: "&size=middle", with: "")
+        id = id.replacingOccurrences(of: "&size=big", with: "")
+        id = id.replacingOccurrences(of: "&size=small", with: "")
+        id = id.replacingOccurrences(of: "&boan_h5avatar=yes", with: "")
+        if id.contains("uid=") {
+            return id.components(separatedBy: "uid=")[1]
+        }
+        return ""
+    }
 }

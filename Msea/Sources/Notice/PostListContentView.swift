@@ -9,6 +9,7 @@
 import SwiftUI
 import Kanna
 
+/// 我的帖子列表
 struct PostListContentView: View {
     var type = MyPostTab.post
 
@@ -72,7 +73,7 @@ struct PostListContentView: View {
                     page = 1
                     await loadData()
                 }
-                .navigationTitle("系统提醒")
+                .navigationTitle("我的帖子")
             }
 
             ProgressView()

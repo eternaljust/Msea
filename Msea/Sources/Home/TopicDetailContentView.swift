@@ -57,6 +57,7 @@ struct TopicDetailContentView: View {
     @State private var isDaysign = false
     @State private var isCredit = false
     @State private var isRanklist = false
+    @State private var isSharePresented = false
 
     var body: some View {
         ZStack {
@@ -414,6 +415,13 @@ struct TopicDetailContentView: View {
                 replyFocused.toggle()
             }
         }
+        .sheet(isPresented: $isSharePresented) {
+            if let url = URL(string: "https://www.chongbuluo.com/forum.php?mod=viewthread&tid=\(tid)") {
+                ShareSheet(items: [
+                    url
+                ])
+            }
+        }
         .sheet(isPresented: $needLogin) {
             LoginContentView()
         }
@@ -447,8 +455,14 @@ struct TopicDetailContentView: View {
                                 }
                             }
                         } label: {
-                            Label("收藏", systemImage: "star.fill")
+                            Label("收藏", systemImage: "star")
                         }
+                    }
+
+                    Button {
+                        isSharePresented.toggle()
+                    } label: {
+                        Label("分享", systemImage: "square.and.arrow.up")
                     }
 
                     Menu("举报") {

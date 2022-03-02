@@ -28,13 +28,23 @@ struct TopicListContentView: View {
             List(topics) { topic in
                 VStack(alignment: .leading) {
                     HStack {
-                        AsyncImage(url: URL(string: "https://www.chongbuluo.com/\(topic.avatar)")) { image in
-                            image.resizable()
-                        } placeholder: {
-                            ProgressView()
+                        HStack {
+                            AsyncImage(url: URL(string: "https://www.chongbuluo.com/\(topic.avatar)")) { image in
+                                image.resizable()
+                            } placeholder: {
+                                ProgressView()
+                            }
+                            .frame(width: 40, height: 40)
+                            .cornerRadius(5)
+
+                            VStack(alignment: .leading, spacing: 5) {
+                                Text(topic.name)
+                                    .font(.font17Blod)
+
+                                Text(topic.time)
+                                    .font(.font13)
+                            }
                         }
-                        .frame(width: 40, height: 40)
-                        .cornerRadius(5)
                         .onTapGesture(perform: {
                             if !topic.uid.isEmpty {
                                 uid = topic.uid
@@ -45,14 +55,6 @@ struct TopicListContentView: View {
                                 }
                             }
                         })
-
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text(topic.name)
-                                .font(.font17Blod)
-
-                            Text(topic.time)
-                                .font(.font13)
-                        }
 
                         Spacer()
 
@@ -67,16 +69,6 @@ struct TopicListContentView: View {
 
                     Text(topic.title)
                         .fixedSize(horizontal: false, vertical: true)
-                        .onTapGesture(perform: {
-                            if !topic.tid.isEmpty {
-                                tid = topic.tid
-                                if UIDevice.current.isPad {
-                                    isTopic.toggle()
-                                } else {
-                                    isTopic = true
-                                }
-                            }
-                        })
                         .onAppear {
                             if topic.id == topics.last?.id {
                                 page += 1
@@ -87,6 +79,16 @@ struct TopicListContentView: View {
                         }
                 }
                 .padding([.top, .bottom], 5)
+                .onTapGesture(perform: {
+                    if !topic.tid.isEmpty {
+                        tid = topic.tid
+                        if UIDevice.current.isPad {
+                            isTopic.toggle()
+                        } else {
+                            isTopic = true
+                        }
+                    }
+                })
             }
             .listStyle(.plain)
             .refreshable {
