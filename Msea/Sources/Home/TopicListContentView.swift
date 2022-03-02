@@ -38,7 +38,11 @@ struct TopicListContentView: View {
                         .onTapGesture(perform: {
                             if !topic.uid.isEmpty {
                                 uid = topic.uid
-                                isSpace = true
+                                if UIDevice.current.isPad {
+                                    isSpace.toggle()
+                                } else {
+                                    isSpace = true
+                                }
                             }
                         })
 
@@ -66,7 +70,11 @@ struct TopicListContentView: View {
                         .onTapGesture(perform: {
                             if !topic.tid.isEmpty {
                                 tid = topic.tid
-                                isTopic = true
+                                if UIDevice.current.isPad {
+                                    isTopic.toggle()
+                                } else {
+                                    isTopic = true
+                                }
                             }
                         })
                         .onAppear {
@@ -109,6 +117,20 @@ struct TopicListContentView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .shieldUser, object: nil)) { _ in
             shieldUsers()
+        }
+        .onChange(of: isSpace) { newValue in
+            if UIDevice.current.isPad && newValue {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    isSpace.toggle()
+                }
+            }
+        }
+        .onChange(of: isTopic) { newValue in
+            if UIDevice.current.isPad && newValue {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    isTopic.toggle()
+                }
+            }
         }
     }
 

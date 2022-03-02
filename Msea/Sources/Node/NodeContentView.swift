@@ -59,14 +59,22 @@ struct NodeContentView: View {
                                         }
                                         .onTapGesture {
                                             selectedNode = forum
-                                            isNode = true
+                                            if UIDevice.current.isPad {
+                                                isNode.toggle()
+                                            } else {
+                                                isNode = true
+                                            }
                                         }
 
                                         HStack {
                                             Text(forum.content)
                                                 .onTapGesture {
                                                     tid = forum.tid
-                                                    isTopic = true
+                                                    if UIDevice.current.isPad {
+                                                        isTopic.toggle()
+                                                    } else {
+                                                        isTopic = true
+                                                    }
                                                 }
 
                                             Spacer()
@@ -148,6 +156,27 @@ struct NodeContentView: View {
                 TabBarTool.showTabBar(true)
                 CacheInfo.shared.selectedTab = .node
             })
+            .onChange(of: isProfile) { newValue in
+                if UIDevice.current.isPad && newValue {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        isProfile.toggle()
+                    }
+                }
+            }
+            .onChange(of: isTopic) { newValue in
+                if UIDevice.current.isPad && newValue {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        isTopic.toggle()
+                    }
+                }
+            }
+            .onChange(of: isNode) { newValue in
+                if UIDevice.current.isPad && newValue {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        isNode.toggle()
+                    }
+                }
+            }
 
             Text("选择你感兴趣的分区吧")
         }
@@ -260,7 +289,11 @@ struct NodeContentView: View {
                     uid = id.components(separatedBy: "uid=")[1]
                 }
                 if !uid.isEmpty {
-                    isProfile = true
+                    if await UIDevice.current.isPad {
+                        isProfile.toggle()
+                    } else {
+                        isProfile = true
+                    }
                 }
                 isHidden = true
             }
