@@ -21,6 +21,9 @@ struct TreadRankContentView: View {
     @State private var isSpace = false
     @State private var tid = ""
     @State private var isTopic = false
+    @State private var nodeTitle = ""
+    @State private var nodeFid = ""
+    @State private var isNode = false
 
     var body: some View {
         VStack {
@@ -59,6 +62,13 @@ struct TreadRankContentView: View {
                                     .font(.font15)
                                     .frame(width: UIDevice.current.isPad ? 140 : 70)
                                     .fixedSize(horizontal: false, vertical: true)
+                                    .onTapGesture {
+                                        if !tread.plate.isEmpty && !tread.fid.isEmpty {
+                                            nodeTitle = tread.plate
+                                            nodeFid = tread.fid
+                                            isNode = true
+                                        }
+                                    }
 
                                 Spacer()
 
@@ -107,6 +117,11 @@ struct TreadRankContentView: View {
             .opacity(0.0)
 
             NavigationLink(destination: TopicDetailContentView(tid: tid), isActive: $isTopic) {
+                EmptyView()
+            }
+            .opacity(0.0)
+
+            NavigationLink(destination: NodeListContentView(nodeTitle: nodeTitle, nodeFid: nodeFid), isActive: $isNode) {
                 EmptyView()
             }
             .opacity(0.0)
@@ -168,6 +183,9 @@ struct TreadRankContentView: View {
                     }
                     if let plate = element.at_xpath("/td[@class='frm']/a")?.text {
                         model.plate = plate
+                    }
+                    if let href = element.at_xpath("/td[@class='frm']/a/@href")?.text, href.contains("fid=") {
+                        model.fid = href.components(separatedBy: "fid=")[1]
                     }
                     if let name = element.at_xpath("/td[@class='by']/cite/a")?.text {
                         model.name = name
@@ -249,6 +267,7 @@ struct TreadRankListModel: Identifiable {
     var id = UUID()
     var tid = ""
     var uid = ""
+    var fid = ""
     var num = ""
     var numTop = false
     var name = ""

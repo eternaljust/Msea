@@ -145,7 +145,7 @@ struct NodeContentView: View {
                     }
                     .opacity(0.0)
 
-                    NavigationLink(destination: NodeListContentView(node: selectedNode), isActive: $isNode) {
+                    NavigationLink(destination: NodeListContentView(nodeTitle: selectedNode.title, nodeFid: selectedNode.fid), isActive: $isNode) {
                         EmptyView()
                     }
                     .opacity(0.0)

@@ -11,7 +11,8 @@ import Kanna
 
 /// 节点分区列表
 struct NodeListContentView: View {
-    var node = NodeListModel()
+    var nodeTitle = ""
+    var nodeFid = ""
 
     @State private var topics = [TopicListModel]()
     @State private var isHidden = false
@@ -158,7 +159,7 @@ struct NodeListContentView: View {
             }
             .opacity(0.0)
         }
-        .navigationBarTitle(node.title)
+        .navigationBarTitle(nodeTitle)
         .onAppear {
             if !UIDevice.current.isPad {
                 TabBarTool.showTabBar(false)
@@ -185,7 +186,7 @@ struct NodeListContentView: View {
         isRefreshing = true
         Task {
             // swiftlint:disable force_unwrapping
-            let url = URL(string: "https://www.chongbuluo.com/forum.php?mod=forumdisplay&fid=\(node.fid)&page=\(page)")!
+            let url = URL(string: "https://www.chongbuluo.com/forum.php?mod=forumdisplay&fid=\(nodeFid)&page=\(page)")!
             // swiftlint:enble force_unwrapping
             var requset = URLRequest(url: url)
             requset.configHeaderFields()

@@ -23,6 +23,9 @@ struct ProfileTopicContentView: View {
     @State private var isSpace = false
     @State private var tid = ""
     @State private var isTopic = false
+    @State private var nodeTitle = ""
+    @State private var nodeFid = ""
+    @State private var isNode = false
 
     @EnvironmentObject private var hud: HUDState
 
@@ -66,6 +69,13 @@ struct ProfileTopicContentView: View {
                                         .font(.font15)
                                         .frame(width: uid == UserInfo.shared.uid ? 70 : (UIDevice.current.isPad ? 140 : 70))
                                         .fixedSize(horizontal: false, vertical: true)
+                                        .onTapGesture {
+                                            if !topic.plate.isEmpty && !topic.fid.isEmpty {
+                                                nodeTitle = topic.plate
+                                                nodeFid = topic.fid
+                                                isNode = true
+                                            }
+                                        }
 
                                     Spacer()
 
@@ -130,6 +140,11 @@ struct ProfileTopicContentView: View {
             .opacity(0.0)
 
             NavigationLink(destination: TopicDetailContentView(tid: tid), isActive: $isTopic) {
+                EmptyView()
+            }
+            .opacity(0.0)
+
+            NavigationLink(destination: NodeListContentView(nodeTitle: nodeTitle, nodeFid: nodeFid), isActive: $isNode) {
                 EmptyView()
             }
             .opacity(0.0)
@@ -199,6 +214,9 @@ struct ProfileTopicContentView: View {
                         if let xg1 = element.at_xpath("/td/a[@class='xg1']")?.text {
                             topic.plate = xg1
                         }
+                        if let href = element.at_xpath("/td/a[@class='xg1']/@href")?.text, href.contains("fid=") {
+                            topic.fid = href.components(separatedBy: "fid=")[1]
+                        }
                         if let xi2 = element.at_xpath("/td[@class='num']/a[@class='xi2']")?.text, let reply = Int(xi2) {
                             topic.reply = reply
                         }
@@ -261,6 +279,7 @@ struct ProfileTopicContentView_Previews: PreviewProvider {
 struct ProfileTopicListModel: Identifiable {
     var id = UUID()
     var uid = ""
+    var fid = ""
     var title = ""
     var tid = ""
     var gif = ""

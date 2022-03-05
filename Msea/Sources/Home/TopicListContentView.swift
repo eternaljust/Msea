@@ -36,25 +36,25 @@ struct TopicListContentView: View {
                             }
                             .frame(width: 40, height: 40)
                             .cornerRadius(5)
+                            .onTapGesture(perform: {
+                                if !topic.uid.isEmpty {
+                                    gotoProfileSpace(topic.uid)
+                                }
+                            })
 
                             VStack(alignment: .leading, spacing: 5) {
                                 Text(topic.name)
                                     .font(.font17Blod)
+                                    .onTapGesture(perform: {
+                                        if !topic.uid.isEmpty {
+                                            gotoProfileSpace(topic.uid)
+                                        }
+                                    })
 
                                 Text(topic.time)
                                     .font(.font13)
                             }
                         }
-                        .onTapGesture(perform: {
-                            if !topic.uid.isEmpty {
-                                uid = topic.uid
-                                if UIDevice.current.isPad {
-                                    isSpace.toggle()
-                                } else {
-                                    isSpace = true
-                                }
-                            }
-                        })
 
                         Spacer()
 
@@ -133,6 +133,15 @@ struct TopicListContentView: View {
                     isTopic.toggle()
                 }
             }
+        }
+    }
+
+    private func gotoProfileSpace(_ uid: String) {
+        self.uid = uid
+        if UIDevice.current.isPad {
+            isSpace.toggle()
+        } else {
+            isSpace = true
         }
     }
 
