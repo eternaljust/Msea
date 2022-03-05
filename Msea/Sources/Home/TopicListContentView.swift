@@ -43,31 +43,55 @@ struct TopicListContentView: View {
                             })
 
                             VStack(alignment: .leading, spacing: 5) {
-                                Text(topic.name)
-                                    .font(.font17Blod)
-                                    .onTapGesture(perform: {
-                                        if !topic.uid.isEmpty {
-                                            gotoProfileSpace(topic.uid)
-                                        }
-                                    })
+                                HStack {
+                                    Text(topic.name)
+                                        .font(.font17Blod)
+                                        .onTapGesture(perform: {
+                                            if !topic.uid.isEmpty {
+                                                gotoProfileSpace(topic.uid)
+                                            }
+                                        })
 
-                                Text(topic.time)
-                                    .font(.font13)
+                                    Spacer()
+
+                                    Text("\(topic.reply)/\(topic.examine)")
+                                        .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5))
+                                        .foregroundColor(.white)
+                                        .background(
+                                            Capsule()
+                                                .foregroundColor(.secondaryTheme.opacity(0.8))
+                                        )
+                                }
+
+                                HStack {
+                                    Text(topic.time)
+                                        .font(.font13)
+
+                                    if !topic.icon1.isEmpty {
+                                        Image(systemName: topic.icon1)
+                                            .foregroundColor(getColor(topic.icon1))
+                                    }
+
+                                    if !topic.icon2.isEmpty {
+                                        Image(systemName: topic.icon2)
+                                            .foregroundColor(getColor(topic.icon2))
+                                    }
+
+                                    if !topic.icon3.isEmpty {
+                                        Image(systemName: topic.icon3)
+                                            .foregroundColor(getColor(topic.icon3))
+                                    }
+
+                                    if !topic.icon4.isEmpty {
+                                        Image(systemName: topic.icon4)
+                                            .foregroundColor(getColor(topic.icon4))
+                                    }
+                                }
                             }
                         }
-
-                        Spacer()
-
-                        Text("\(topic.reply)/\(topic.examine)")
-                            .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5))
-                            .foregroundColor(.white)
-                            .background(
-                                Capsule()
-                                    .foregroundColor(.secondaryTheme.opacity(0.8))
-                            )
                     }
 
-                    Text(topic.title)
+                    Text("\(topic.title)\(Text(topic.attachment).foregroundColor(topic.attachmentColorRed ? .red : Color(light: .black, dark: .white)))")
                         .fixedSize(horizontal: false, vertical: true)
                         .onAppear {
                             if topic.id == topics.last?.id {
@@ -173,6 +197,34 @@ struct TopicListContentView: View {
                     }
                     if let title = element.at_xpath("//th/a[@class='xst']")?.text {
                         topic.title = title
+                        if let name = element.at_xpath("//th[@class='common']/span[1]/@class")?.text {
+                            topic.icon1 = getIcon(name)
+                        }
+                        if let name = element.at_xpath("//th[@class='common']/span[2]/@class")?.text {
+                            topic.icon2 = getIcon(name)
+                        }
+                        if let name = element.at_xpath("//th[@class='common']/span[3]/@class")?.text {
+                            topic.icon3 = getIcon(name)
+                        }
+                        if let name = element.at_xpath("//th[@class='common']/span[4]/@class")?.text {
+                            topic.icon4 = getIcon(name)
+                        }
+                        if let text = element.at_xpath("//th[@class='common']/span[@class='xi1']")?.text, !text.isEmpty {
+                            topic.attachment = text
+                        } else if var text = element.at_xpath("//th[@class='common']")?.text, text.count != title.count {
+                            text = text.replacingOccurrences(of: "\r\n", with: "")
+                            var attachment = text.replacingOccurrences(of: title, with: "")
+                            if let num = element.at_xpath("//th[@class='common']/span[@class='tps']")?.text {
+                                attachment = attachment.replacingOccurrences(of: num, with: "")
+                            }
+                            attachment = attachment.replacingOccurrences(of: " ", with: "")
+                            topic.attachment = attachment
+                        }
+                        if !topic.attachment.isEmpty {
+                            topic.attachment = topic.attachment.replacingOccurrences(of: "-", with: "")
+                            topic.attachment = " - \(topic.attachment)"
+                            topic.attachmentColorRed = topic.attachment.contains("回帖") || topic.attachment.contains("悬赏")
+                        }
                         if let time = element.at_xpath("//td[@class='by']//span//@title")?.text {
                             topic.time = time
                         }
@@ -209,6 +261,36 @@ struct TopicListContentView: View {
             }
         }
     }
+
+    private func getIcon(_ name: String) -> String {
+        if name == "iconfont icon-image" {
+            return "photo"
+        } else if name == "iconfont icon-fire" {
+            return "flame"
+        } else if name == "iconfont icon-guzhang1" {
+            return "hands.sparkles"
+        } else if name == "iconfont icon-attachment1" {
+            return "link"
+        } else if name == "iconfont icon-jinghua" {
+            return "rosette"
+        }
+        return ""
+    }
+
+    private func getColor(_ icon: String) -> Color {
+        if icon == "photo" {
+            return .theme
+        } else if icon == "flame" {
+            return .red
+        } else if icon == "hands.sparkles" {
+            return .secondaryTheme
+        } else if icon == "link" {
+            return .blue
+        } else if icon == "rosette" {
+            return .brown
+        }
+        return .theme
+    }
 }
 
 struct TopicListContentView_Previews: PreviewProvider {
@@ -225,6 +307,12 @@ struct TopicListModel: Identifiable {
     var avatar = ""
     var title = ""
     var time = ""
+    var icon1 = ""
+    var icon2 = ""
+    var icon3 = ""
+    var icon4 = ""
+    var attachment = ""
+    var attachmentColorRed = false
     var examine = 0
     var reply = 0
 }

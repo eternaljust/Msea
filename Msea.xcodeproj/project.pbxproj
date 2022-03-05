@@ -894,7 +894,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = TopicWidget/TopicWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 33;
+				CURRENT_PROJECT_VERSION = 34;
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TopicWidget/Info.plist;
@@ -924,7 +924,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = TopicWidget/TopicWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 33;
+				CURRENT_PROJECT_VERSION = 34;
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TopicWidget/Info.plist;
@@ -951,7 +951,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = WidgetIntentHandler/WidgetIntentHandler.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 33;
+				CURRENT_PROJECT_VERSION = 34;
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WidgetIntentHandler/Info.plist;
@@ -978,7 +978,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = WidgetIntentHandler/WidgetIntentHandler.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 33;
+				CURRENT_PROJECT_VERSION = 34;
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WidgetIntentHandler/Info.plist;
@@ -1125,7 +1125,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/Msea/Supporting Files/Msea.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 33;
+				CURRENT_PROJECT_VERSION = 34;
 				DEVELOPMENT_ASSET_PATHS = "\"Msea/Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				ENABLE_PREVIEWS = YES;
@@ -1160,7 +1160,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/Msea/Supporting Files/Msea.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 33;
+				CURRENT_PROJECT_VERSION = 34;
 				DEVELOPMENT_ASSET_PATHS = "\"Msea/Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				ENABLE_PREVIEWS = YES;
