@@ -22,6 +22,7 @@
 		8180BB33275B78880055E1F5 /* TopicListContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8180BB32275B78870055E1F5 /* TopicListContentView.swift */; };
 		81922B3327C9CC6600D53A0B /* NodeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81922B3227C9CC6600D53A0B /* NodeContentView.swift */; };
 		81922B3527CA1E5100D53A0B /* SVGImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81922B3427CA1E5100D53A0B /* SVGImage.swift */; };
+		81AB458627D37355006B46FB /* NodeWikiContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AB458527D37354006B46FB /* NodeWikiContentView.swift */; };
 		EF082E73278ED031002744EC /* PostListContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF082E72278ED031002744EC /* PostListContentView.swift */; };
 		EF082EEB275EF85900056BCA /* DaySignContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF082EEA275EF85900056BCA /* DaySignContentView.swift */; };
 		EF082EED275F0C6A00056BCA /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF082EEC275F0C6A00056BCA /* Color+Extension.swift */; };
@@ -151,6 +152,7 @@
 		8180BB32275B78870055E1F5 /* TopicListContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicListContentView.swift; sourceTree = "<group>"; };
 		81922B3227C9CC6600D53A0B /* NodeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeContentView.swift; sourceTree = "<group>"; };
 		81922B3427CA1E5100D53A0B /* SVGImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVGImage.swift; sourceTree = "<group>"; };
+		81AB458527D37354006B46FB /* NodeWikiContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeWikiContentView.swift; sourceTree = "<group>"; };
 		9A536744D188758A4840C194 /* Pods-Msea.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Msea.release.xcconfig"; path = "Target Support Files/Pods-Msea/Pods-Msea.release.xcconfig"; sourceTree = "<group>"; };
 		A50DF2A3B18C0CBCE0319DC6 /* Pods_TopicWidgetExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TopicWidgetExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA26334146152E48BA4E44D8 /* Pods-Msea.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Msea.debug.xcconfig"; path = "Target Support Files/Pods-Msea/Pods-Msea.debug.xcconfig"; sourceTree = "<group>"; };
@@ -313,6 +315,7 @@
 			children = (
 				81922B3227C9CC6600D53A0B /* NodeContentView.swift */,
 				815ADAE727CB613F00F25A7B /* NodeListContentView.swift */,
+				81AB458527D37354006B46FB /* NodeWikiContentView.swift */,
 			);
 			path = Node;
 			sourceTree = "<group>";
@@ -806,6 +809,7 @@
 				810E24B527C0E33B00E8E895 /* MemberCreditPostContentView.swift in Sources */,
 				EFE76C5F2759EE3B00D89EA6 /* ContentView.swift in Sources */,
 				EFD7EBE6279537BA004C1609 /* AboutContentView.swift in Sources */,
+				81AB458627D37355006B46FB /* NodeWikiContentView.swift in Sources */,
 				EF55F4C9275A0B0500B78C95 /* View+Extension.swift in Sources */,
 				EFB4314F2760ACB300319073 /* LoginContentView.swift in Sources */,
 				EFD7EBEE27955228004C1609 /* CustomView.swift in Sources */,
@@ -894,7 +898,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = TopicWidget/TopicWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TopicWidget/Info.plist;
@@ -906,7 +910,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.eternaljust.Msea.TopicWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -924,7 +928,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = TopicWidget/TopicWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TopicWidget/Info.plist;
@@ -936,7 +940,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.eternaljust.Msea.TopicWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -951,7 +955,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = WidgetIntentHandler/WidgetIntentHandler.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WidgetIntentHandler/Info.plist;
@@ -963,7 +967,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.eternaljust.Msea.WidgetIntentHandler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -978,7 +982,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = WidgetIntentHandler/WidgetIntentHandler.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WidgetIntentHandler/Info.plist;
@@ -990,7 +994,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.eternaljust.Msea.WidgetIntentHandler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1125,7 +1129,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/Msea/Supporting Files/Msea.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_ASSET_PATHS = "\"Msea/Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				ENABLE_PREVIEWS = YES;
@@ -1141,7 +1145,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.eternaljust.Msea;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1160,7 +1164,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/Msea/Supporting Files/Msea.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_ASSET_PATHS = "\"Msea/Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				ENABLE_PREVIEWS = YES;
@@ -1176,7 +1180,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.eternaljust.Msea;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

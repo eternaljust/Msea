@@ -21,6 +21,7 @@ struct NodeContentView: View {
     @State private var uid = ""
     @State private var isNode = false
     @State private var selectedNode = NodeListModel()
+    @State private var isWiki = false
 
     var body: some View {
         NavigationView {
@@ -58,11 +59,19 @@ struct NodeContentView: View {
                                             Spacer()
                                         }
                                         .onTapGesture {
-                                            selectedNode = forum
-                                            if UIDevice.current.isPad {
-                                                isNode.toggle()
+                                            if forum.fid == "98" {
+                                                if UIDevice.current.isPad {
+                                                    isWiki.toggle()
+                                                } else {
+                                                    isWiki = true
+                                                }
                                             } else {
-                                                isNode = true
+                                                selectedNode = forum
+                                                if UIDevice.current.isPad {
+                                                    isNode.toggle()
+                                                } else {
+                                                    isNode = true
+                                                }
                                             }
                                         }
 
@@ -149,6 +158,11 @@ struct NodeContentView: View {
                         EmptyView()
                     }
                     .opacity(0.0)
+
+                    NavigationLink(destination: NodeWikiContentView(), isActive: $isWiki) {
+                        EmptyView()
+                    }
+                    .opacity(0.0)
                 }
             }
             .navigationBarTitle("节点")
@@ -174,6 +188,13 @@ struct NodeContentView: View {
                 if UIDevice.current.isPad && newValue {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         isNode.toggle()
+                    }
+                }
+            }
+            .onChange(of: isWiki) { newValue in
+                if UIDevice.current.isPad && newValue {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        isWiki.toggle()
                     }
                 }
             }
@@ -247,7 +268,7 @@ struct NodeContentView: View {
                         }
 
                         // 暂时屏蔽 WiKi 石沉大海
-                        if model.fid != "98" && model.fid != "125" {
+                        if model.fid != "125" {
                             list.append(model)
                         }
                     }
