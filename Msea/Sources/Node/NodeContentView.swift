@@ -16,6 +16,7 @@ struct NodeContentView: View {
 
     @State private var isTopic = false
     @State private var tid = ""
+    @State private var fid = ""
     @State private var isProfile = false
     @State private var username = ""
     @State private var uid = ""
@@ -79,6 +80,7 @@ struct NodeContentView: View {
                                             Text(forum.content)
                                                 .onTapGesture {
                                                     tid = forum.tid
+                                                    fid = forum.fid
                                                     if UIDevice.current.isPad {
                                                         isTopic.toggle()
                                                     } else {
@@ -144,7 +146,7 @@ struct NodeContentView: View {
                     ProgressView()
                         .isHidden(isHidden)
 
-                    NavigationLink(destination: TopicDetailContentView(tid: tid), isActive: $isTopic) {
+                    NavigationLink(destination: TopicDetailContentView(tid: tid, isNodeFid125: fid == "125"), isActive: $isTopic) {
                         EmptyView()
                     }
                     .opacity(0.0)
@@ -267,10 +269,7 @@ struct NodeContentView: View {
                             model.time = time.replacingOccurrences(of: " \(model.username)", with: "")
                         }
 
-                        // 暂时屏蔽 WiKi 石沉大海
-                        if model.fid != "125" {
-                            list.append(model)
-                        }
+                        list.append(model)
                     }
                     node.list = list
 

@@ -11,6 +11,8 @@ import Kanna
 
 struct TopicDetailContentView: View {
     var tid: String = ""
+    /// 石沉大海
+    @State var isNodeFid125 = false
 
     @State private var action = ""
     @State private var title = ""
@@ -23,6 +25,7 @@ struct TopicDetailContentView: View {
     @State private var pageSize = 1
     @State private var isSelectedPage = false
     @State private var isConfirming = false
+    @State private var fid = ""
     @EnvironmentObject private var selection: TabItemSelection
 
     @State private var needLogin = false
@@ -88,9 +91,19 @@ struct TopicDetailContentView: View {
                                     VStack(alignment: .leading) {
                                         HStack {
                                             AsyncImage(url: URL(string: comment.avatar)) { image in
-                                                image.resizable()
+                                                image
+                                                    .resizable()
+                                                    .overlay {
+                                                        if isNodeFid125 {
+                                                            Color.gray.opacity(0.9)
+                                                        }
+                                                    }
                                             } placeholder: {
-                                                ProgressView()
+                                                if isNodeFid125 {
+                                                    Color.gray.opacity(0.9)
+                                                } else {
+                                                    ProgressView()
+                                                }
                                             }
                                             .frame(width: 40, height: 40)
                                             .cornerRadius(5)
@@ -134,7 +147,7 @@ struct TopicDetailContentView: View {
                                                 .textSelection(.enabled)
                                                 .fixedSize(horizontal: false, vertical: true)
                                         } else {
-                                            Web(bodyHTMLString: comment.content, didFinish: { scrollHeight in
+                                            Web(bodyHTMLString: comment.content, isNodeFid125: isNodeFid125, didFinish: { scrollHeight in
                                                 if comment.webViewHeight == .zero, let index = comments.firstIndex(where: { obj in obj.id == comment.id }) {
                                                     var model = comment
                                                     model.webViewHeight = scrollHeight
@@ -157,25 +170,29 @@ struct TopicDetailContentView: View {
                                     .id(comment.pid)
                                     .swipeActions {
                                         if comment.id == comments.first?.id && !comment.favorite.isEmpty {
-                                            Button("收藏") {
-                                                if UserInfo.shared.isLogin() {
-                                                    favoriteAction = comment.favorite
-                                                    Task {
-                                                        await favorite()
+                                            if !isNodeFid125 {
+                                                Button("收藏") {
+                                                    if UserInfo.shared.isLogin() {
+                                                        favoriteAction = comment.favorite
+                                                        Task {
+                                                            await favorite()
+                                                        }
+                                                    } else {
+                                                        needLogin.toggle()
                                                     }
-                                                } else {
-                                                    needLogin.toggle()
                                                 }
                                             }
                                         } else {
-                                            Button("回复") {
-                                                if UserInfo.shared.isLogin() {
-                                                    replyName = comment.name
-                                                    replyAction = comment.reply
-                                                    focused = false
-                                                    isPresentedReply.toggle()
-                                                } else {
-                                                    needLogin.toggle()
+                                            if !isNodeFid125 {
+                                                Button("回复") {
+                                                    if UserInfo.shared.isLogin() {
+                                                        replyName = comment.name
+                                                        replyAction = comment.reply
+                                                        focused = false
+                                                        isPresentedReply.toggle()
+                                                    } else {
+                                                        needLogin.toggle()
+                                                    }
                                                 }
                                             }
                                         }
@@ -256,6 +273,7 @@ struct TopicDetailContentView: View {
                             }
                             .frame(maxWidth: .infinity, maxHeight: 70)
                             .background(.regularMaterial)
+                            .isHidden(isNodeFid125)
                         }
                     }
 
@@ -533,6 +551,15 @@ struct TopicDetailContentView: View {
             requset.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: requset)
             if let html = try? HTML(html: data, encoding: .utf8) {
+                if let href = html.at_xpath("//div[@class='bm cl']/div[@class='z']/a[last()]/@href")?.text {
+                    print(href)
+                    if href.contains("fid=") {
+                        self.fid = href.components(separatedBy: "fid=")[1]
+                        if self.fid == "125", !self.isNodeFid125 {
+                            self.isNodeFid125 = true
+                        }
+                    }
+                }
                 if let text = html.at_xpath("//div[@id='f_pst']/form/@action")?.text {
                     action = text
                 }

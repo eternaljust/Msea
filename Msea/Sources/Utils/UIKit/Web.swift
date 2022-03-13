@@ -14,6 +14,7 @@ struct Web: UIViewRepresentable {
 
     var url: URL?
     var bodyHTMLString: String?
+    var isNodeFid125 = false
     var didFinish: ((_ scrollHeight: CGFloat) -> Void)?
     var decisionHandler: ((_ url: URL?) -> Void)?
 
@@ -46,7 +47,11 @@ struct Web: UIViewRepresentable {
                     let lineheight = fontpx + 10
                     cssString = cssString.replacingOccurrences(of: "tdFontSize", with: "\(fontpx)px")
                     cssString = cssString.replacingOccurrences(of: "tdLineHeight", with: "\(lineheight)px")
-                    let head = "<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\"><style>\(cssString + themeString)</style></head>"
+                    var gray = ""
+                    if isNodeFid125 {
+                        gray = "html {-webkit-filter: grayscale(100%);}"
+                    }
+                    let head = "<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\"><style>\(cssString + themeString + gray)</style></head>"
                     let body = "<body><div id=\"Wrapper\">\(bodyHTMLString)</div></body>"
                     let html = "<html>\(head)\(body)</html>"
                     uiView.loadHTMLString(html, baseURL: nil)

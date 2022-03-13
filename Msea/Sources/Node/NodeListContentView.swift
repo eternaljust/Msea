@@ -40,9 +40,19 @@ struct NodeListContentView: View {
                         VStack(alignment: .leading) {
                             HStack {
                                 AsyncImage(url: URL(string: "https://www.chongbuluo.com/\(topic.avatar)")) { image in
-                                    image.resizable()
+                                    image
+                                        .resizable()
+                                        .overlay {
+                                            if nodeFid == "125" {
+                                                Color.gray.opacity(0.9)
+                                            }
+                                        }
                                 } placeholder: {
-                                    ProgressView()
+                                    if nodeFid == "125" {
+                                        Color.gray.opacity(0.9)
+                                    } else {
+                                        ProgressView()
+                                    }
                                 }
                                 .frame(width: 40, height: 40)
                                 .cornerRadius(5)
@@ -68,7 +78,7 @@ struct NodeListContentView: View {
                                     .foregroundColor(.white)
                                     .background(
                                         Capsule()
-                                            .foregroundColor(.secondaryTheme.opacity(0.8))
+                                            .foregroundColor(getContentColor().opacity(0.8))
                                     )
                             }
 
@@ -96,11 +106,11 @@ struct NodeListContentView: View {
                         Text("今日: ")
 
                         Text(today)
-                            .foregroundColor(.red)
+                            .foregroundColor(getTextColor())
 
                         if !todayImage.isEmpty {
                             Image(systemName: todayImage)
-                                .foregroundColor(.secondaryTheme)
+                                .foregroundColor(getContentColor())
                         }
 
                         Text(" | ")
@@ -108,18 +118,18 @@ struct NodeListContentView: View {
                         Text("主题: ")
 
                         Text(topicCount)
-                            .foregroundColor(.red)
+                            .foregroundColor(getTextColor())
 
                         Text(" | ")
 
                         Text("排名: ")
 
                         Text(rank)
-                            .foregroundColor(.red)
+                            .foregroundColor(getTextColor())
 
                         if !rankImage.isEmpty {
                             Image(systemName: rankImage)
-                                .foregroundColor(.secondaryTheme)
+                                .foregroundColor(getContentColor())
                         }
                     }
                     .font(.font17)
@@ -154,7 +164,7 @@ struct NodeListContentView: View {
             }
             .opacity(0.0)
 
-            NavigationLink(destination: TopicDetailContentView(tid: tid), isActive: $isTopic) {
+            NavigationLink(destination: TopicDetailContentView(tid: tid, isNodeFid125: nodeFid == "125"), isActive: $isTopic) {
                 EmptyView()
             }
             .opacity(0.0)
@@ -174,6 +184,15 @@ struct NodeListContentView: View {
         .onReceive(NotificationCenter.default.publisher(for: .shieldUser, object: nil)) { _ in
             shieldUsers()
         }
+    }
+
+    private func getTextColor() -> Color {
+        // 石沉大海
+        return nodeFid == "125" ? .gray : .red
+    }
+
+    private func getContentColor() -> Color {
+        return nodeFid == "125" ? .gray : .secondaryTheme
     }
 
     private func shieldUsers() {
