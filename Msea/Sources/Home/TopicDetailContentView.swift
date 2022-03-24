@@ -62,6 +62,13 @@ struct TopicDetailContentView: View {
     @State private var isRanklist = false
     @State private var isSharePresented = false
 
+    @State private var indexTitle = ""
+    @State private var gid = ""
+    @State private var nodeTitle = ""
+    @State private var nodeFid = ""
+    @State private var isNode = false
+    @State private var isNodeList = false
+
     var body: some View {
         ZStack {
             if disAgree || isPosterShielding {
@@ -200,11 +207,47 @@ struct TopicDetailContentView: View {
                                 }
                             } header: {
                                 HStack {
-                                    TopicDetailHeaderView(title: title, commentCount: commentCount)
-                                        .onTapGesture {
-                                            UIPasteboard.general.string = tid
-                                            hud.show(message: "已复制 tid")
+                                    VStack(alignment: .leading, spacing: 5) {
+                                        HStack {
+                                            Image(systemName: "circle.grid.cross.fill")
+
+                                            Text("节点")
+                                                .onTapGesture {
+                                                    selection.index = .node
+                                                    CacheInfo.shared.selectedTab = .node
+                                                }
+
+                                            if !indexTitle.isEmpty && !gid.isEmpty {
+                                                Image(systemName: "chevron.right")
+
+                                                Text(indexTitle)
+                                                    .onTapGesture {
+                                                        isNode.toggle()
+                                                    }
+                                            }
+
+                                            if !nodeTitle.isEmpty && !nodeFid.isEmpty {
+                                                Image(systemName: "chevron.right")
+
+                                                Text(nodeTitle)
+                                                    .onTapGesture {
+                                                        isNodeList.toggle()
+                                                    }
+                                            }
                                         }
+                                        .font(.font17)
+                                        .foregroundColor(.secondaryTheme)
+
+                                        Text(title)
+                                            .font(.font20)
+                                            .foregroundColor(Color(light: .black, dark: .white))
+                                            .onTapGesture {
+                                                UIPasteboard.general.string = tid
+                                                hud.show(message: "已复制 tid")
+                                            }
+
+                                        Text(commentCount)
+                                    }
 
                                     if pageSize > 1 {
                                         Spacer()
@@ -298,6 +341,16 @@ struct TopicDetailContentView: View {
                     .opacity(0.0)
 
                     NavigationLink(destination: RankListContentView(), isActive: $isRanklist) {
+                        EmptyView()
+                    }
+                    .opacity(0.0)
+
+                    NavigationLink(destination: NodeContentView(gid: gid), isActive: $isNode) {
+                        EmptyView()
+                    }
+                    .opacity(0.0)
+
+                    NavigationLink(destination: NodeListContentView(nodeTitle: nodeTitle, nodeFid: nodeFid), isActive: $isNodeList) {
                         EmptyView()
                     }
                     .opacity(0.0)
@@ -568,6 +621,24 @@ struct TopicDetailContentView: View {
                 }
                 if let text1 = html.at_xpath("//td[@class='plc ptm pbn vwthd']/div[@class='ptn']/span[2]")?.text, let text2 = html.at_xpath("//td[@class='plc ptm pbn vwthd']/div[@class='ptn']/span[5]")?.text {
                     commentCount = "查看: \(text1)  |  回复: \(text2)  |  tid(\(tid))"
+                }
+                if let href = html.at_xpath("//div[@class='bm cl']/div[@class='z']/a[3]/@href")?.text, href.contains("gid=") {
+                    print(href)
+                    gid = href.components(separatedBy: "gid=")[1]
+                }
+                if let text = html.at_xpath("//div[@class='bm cl']/div[@class='z']/a[3]")?.text {
+                    indexTitle = text
+                }
+                if let forum = html.at_xpath("//div[@class='bm cl']/div[@class='z']/a[4]/@href")?.text {
+                    if forum.contains("forum-") {
+                        let id = forum.components(separatedBy: "forum-")[1].components(separatedBy: "-")[0]
+                        nodeFid = id
+                    } else if forum.contains("fid=") {
+                        nodeFid = forum.components(separatedBy: "fid=")[1]
+                    }
+                }
+                if let text = html.at_xpath("//div[@class='bm cl']/div[@class='z']/a[4]")?.text {
+                    nodeTitle = text
                 }
                 if let text = html.toHTML, text.contains("下一页") {
                     nextPage = true
@@ -931,19 +1002,6 @@ struct TopicDetailContentView: View {
             return ""
         }
         return ""
-    }
-}
-
-struct TopicDetailHeaderView: View {
-    var title = ""
-    var commentCount = ""
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text(title)
-                .font(.font20)
-
-            Text(commentCount)
-        }
     }
 }
 

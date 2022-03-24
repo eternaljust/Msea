@@ -11,6 +11,8 @@ import Kanna
 
 /// 节点分区导航
 struct NodeContentView: View {
+    var gid = ""
+
     @State private var nodes = [NodeModel]()
     @State private var isHidden = false
 
@@ -25,182 +27,192 @@ struct NodeContentView: View {
     @State private var isWiki = false
 
     var body: some View {
-        NavigationView {
-            VStack {
-                ZStack {
-                    List {
-                        ForEach(nodes) { node in
-                            Section {
-                                ForEach(node.list) { forum in
-                                    VStack(alignment: .leading) {
-                                        HStack {
-                                            Image(systemName: forum.icon)
-                                                .imageScale(.large)
-                                                .foregroundColor(.theme)
-                                                .frame(width: 40, height: 40)
+        if gid.isEmpty {
+            NavigationView {
+                getContentView()
+            }
+        } else {
+            getContentView()
+        }
+    }
 
-                                            VStack(alignment: .leading, spacing: 5) {
-                                                HStack {
-                                                    Text(forum.title)
-                                                        .font(.font17Blod)
+    @ViewBuilder private func getContentView() -> some View {
+        VStack {
+            ZStack {
+                List {
+                    ForEach(nodes) { node in
+                        Section {
+                            ForEach(node.list) { forum in
+                                VStack(alignment: .leading) {
+                                    HStack {
+                                        Image(systemName: forum.icon)
+                                            .imageScale(.large)
+                                            .foregroundColor(.theme)
+                                            .frame(width: 40, height: 40)
 
-                                                    if !forum.today.isEmpty {
-                                                        Image(systemName: "\(forum.today).circle.fill")
-                                                            .resizable()
-                                                            .symbolRenderingMode(.palette)
-                                                            .foregroundStyle(.white, .red)
-                                                            .frame(width: 18, height: 18)
-                                                    }
+                                        VStack(alignment: .leading, spacing: 5) {
+                                            HStack {
+                                                Text(forum.title)
+                                                    .font(.font17Blod)
+
+                                                if !forum.today.isEmpty {
+                                                    Image(systemName: "\(forum.today).circle.fill")
+                                                        .resizable()
+                                                        .symbolRenderingMode(.palette)
+                                                        .foregroundStyle(.white, .red)
+                                                        .frame(width: 18, height: 18)
                                                 }
-
-                                                Text(forum.count)
-                                                    .font(.font13)
                                             }
 
-                                            Spacer()
+                                            Text(forum.count)
+                                                .font(.font13)
                                         }
-                                        .onTapGesture {
-                                            if forum.fid == "98" {
-                                                if UIDevice.current.isPad {
-                                                    isWiki.toggle()
-                                                } else {
-                                                    isWiki = true
-                                                }
+
+                                        Spacer()
+                                    }
+                                    .onTapGesture {
+                                        if forum.fid == "98" {
+                                            if UIDevice.current.isPad {
+                                                isWiki.toggle()
                                             } else {
-                                                selectedNode = forum
-                                                if UIDevice.current.isPad {
-                                                    isNode.toggle()
-                                                } else {
-                                                    isNode = true
-                                                }
+                                                isWiki = true
+                                            }
+                                        } else {
+                                            selectedNode = forum
+                                            if UIDevice.current.isPad {
+                                                isNode.toggle()
+                                            } else {
+                                                isNode = true
                                             }
                                         }
-
-                                        HStack {
-                                            Text(forum.content)
-                                                .onTapGesture {
-                                                    tid = forum.tid
-                                                    fid = forum.fid
-                                                    if UIDevice.current.isPad {
-                                                        isTopic.toggle()
-                                                    } else {
-                                                        isTopic = true
-                                                    }
-                                                }
-
-                                            Spacer()
-
-                                            Text(forum.time)
-                                                .foregroundColor(.secondary)
-
-                                            Text(forum.username)
-                                                .onTapGesture {
-                                                    username = forum.username
-                                                    Task {
-                                                        await loadUid()
-                                                    }
-                                                }
-                                        }
-                                        .foregroundColor(.secondaryTheme)
-                                        .fixedSize(horizontal: false, vertical: true)
                                     }
-                                    .padding([.top, .bottom], 5)
-                                }
-                            } header: {
-                                HStack {
-                                    Text(node.title)
 
-                                    Spacer()
-
-                                    if !node.moderators.isEmpty {
-                                        Text("分区版主：")
-
-                                        ForEach(node.moderators, id: \.self) { user in
-                                            Text(user)
-                                                .foregroundColor(.secondaryTheme)
-                                                .onTapGesture {
-                                                    username = user
-                                                    Task {
-                                                        await loadUid()
-                                                    }
+                                    HStack {
+                                        Text(forum.content)
+                                            .onTapGesture {
+                                                tid = forum.tid
+                                                fid = forum.fid
+                                                if UIDevice.current.isPad {
+                                                    isTopic.toggle()
+                                                } else {
+                                                    isTopic = true
                                                 }
-                                        }
+                                            }
+
+                                        Spacer()
+
+                                        Text(forum.time)
+                                            .foregroundColor(.secondary)
+
+                                        Text(forum.username)
+                                            .onTapGesture {
+                                                username = forum.username
+                                                Task {
+                                                    await loadUid()
+                                                }
+                                            }
                                     }
+                                    .foregroundColor(.secondaryTheme)
+                                    .fixedSize(horizontal: false, vertical: true)
                                 }
-                                .font(.font17)
+                                .padding([.top, .bottom], 5)
                             }
+                        } header: {
+                            HStack {
+                                Text(node.title)
+
+                                Spacer()
+
+                                if !node.moderators.isEmpty {
+                                    Text("分区版主：")
+
+                                    ForEach(node.moderators, id: \.self) { user in
+                                        Text(user)
+                                            .foregroundColor(.secondaryTheme)
+                                            .onTapGesture {
+                                                username = user
+                                                Task {
+                                                    await loadUid()
+                                                }
+                                            }
+                                    }
+                                }
+                            }
+                            .font(.font17)
                         }
                     }
-                    .listStyle(.plain)
-                    .refreshable {
-                        Task {
-                            await loadData()
-                        }
-                    }
-                    .task {
-                        if !isHidden {
-                            await loadData()
-                        }
-                    }
-
-                    ProgressView()
-                        .isHidden(isHidden)
-
-                    NavigationLink(destination: TopicDetailContentView(tid: tid, isNodeFid125: fid == "125"), isActive: $isTopic) {
-                        EmptyView()
-                    }
-                    .opacity(0.0)
-
-                    NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isProfile) {
-                        EmptyView()
-                    }
-                    .opacity(0.0)
-
-                    NavigationLink(destination: NodeListContentView(nodeTitle: selectedNode.title, nodeFid: selectedNode.fid), isActive: $isNode) {
-                        EmptyView()
-                    }
-                    .opacity(0.0)
-
-                    NavigationLink(destination: NodeWikiContentView(), isActive: $isWiki) {
-                        EmptyView()
-                    }
-                    .opacity(0.0)
                 }
-            }
-            .navigationBarTitle("节点")
-            .onAppear(perform: {
-                TabBarTool.showTabBar(true)
-                CacheInfo.shared.selectedTab = .node
-            })
-            .onChange(of: isProfile) { newValue in
-                if UIDevice.current.isPad && newValue {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        isProfile.toggle()
+                .listStyle(.plain)
+                .refreshable {
+                    Task {
+                        await loadData()
                     }
                 }
-            }
-            .onChange(of: isTopic) { newValue in
-                if UIDevice.current.isPad && newValue {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        isTopic.toggle()
+                .task {
+                    if !isHidden {
+                        await loadData()
                     }
                 }
-            }
-            .onChange(of: isNode) { newValue in
-                if UIDevice.current.isPad && newValue {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        isNode.toggle()
-                    }
-                }
-            }
-            .onChange(of: isWiki) { newValue in
-                if UIDevice.current.isPad && newValue {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        isWiki.toggle()
-                    }
-                }
-            }
 
+                ProgressView()
+                    .isHidden(isHidden)
+
+                NavigationLink(destination: TopicDetailContentView(tid: tid, isNodeFid125: fid == "125"), isActive: $isTopic) {
+                    EmptyView()
+                }
+                .opacity(0.0)
+
+                NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isProfile) {
+                    EmptyView()
+                }
+                .opacity(0.0)
+
+                NavigationLink(destination: NodeListContentView(nodeTitle: selectedNode.title, nodeFid: selectedNode.fid), isActive: $isNode) {
+                    EmptyView()
+                }
+                .opacity(0.0)
+
+                NavigationLink(destination: NodeWikiContentView(), isActive: $isWiki) {
+                    EmptyView()
+                }
+                .opacity(0.0)
+            }
+        }
+        .navigationBarTitle("节点")
+        .onAppear(perform: {
+            TabBarTool.showTabBar(gid.isEmpty)
+            CacheInfo.shared.selectedTab = .node
+        })
+        .onChange(of: isProfile) { newValue in
+            if UIDevice.current.isPad && newValue {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    isProfile.toggle()
+                }
+            }
+        }
+        .onChange(of: isTopic) { newValue in
+            if UIDevice.current.isPad && newValue {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    isTopic.toggle()
+                }
+            }
+        }
+        .onChange(of: isNode) { newValue in
+            if UIDevice.current.isPad && newValue {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    isNode.toggle()
+                }
+            }
+        }
+        .onChange(of: isWiki) { newValue in
+            if UIDevice.current.isPad && newValue {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    isWiki.toggle()
+                }
+            }
+        }
+
+        if gid.isEmpty {
             Text("选择你感兴趣的分区吧")
         }
     }
@@ -208,13 +220,16 @@ struct NodeContentView: View {
     private func loadData() async {
         Task {
             // swiftlint:disable force_unwrapping
-            let url = URL(string: "https://www.chongbuluo.com/forum.php?mod=index")!
+            let url = URL(string: "https://www.chongbuluo.com/forum.php?mod=index&gid=\(gid)")!
             // swiftlint:enble force_unwrapping
             var requset = URLRequest(url: url)
             requset.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: requset)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                let category = html.xpath("//div[@class='bm bmw  flg cl']")
+                var category = html.xpath("//div[@class='bm bmw  flg cl']")
+                if category.first == nil {
+                    category = html.xpath("//div[@class='bm bmw  cl']")
+                }
                 var nodes = [NodeModel]()
                 category.forEach { element in
                     var node = NodeModel()
