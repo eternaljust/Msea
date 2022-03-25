@@ -286,6 +286,49 @@ struct NodeContentView: View {
 
                         list.append(model)
                     }
+                    // 搜索
+                    if gid == "92" && list.isEmpty {
+                        let tr = element.xpath("//table[@class='fl_tb']/tr")
+                        tr.forEach { dl in
+                            var model = NodeListModel()
+                            if let forum = dl.at_xpath("/td[2]/h2/a/@href")?.text {
+                                if forum.contains("forum-") {
+                                    let id = forum.components(separatedBy: "forum-")[1].components(separatedBy: "-")[0]
+                                    model.fid = id
+                                } else if forum.contains("fid=") {
+                                    model.fid = forum.components(separatedBy: "fid=")[1]
+                                }
+                            }
+                            if let title = dl.at_xpath("/td[2]/h2/a")?.text {
+                                model.title = title
+                            }
+                            if let today = dl.at_xpath("/td[2]/h2/em[@class='xw0 xi1']")?.text {
+                                model.today = today
+                            }
+                            if let count = dl.at_xpath("/td[@class='fl_i']")?.text {
+                                model.count = count.replacingOccurrences(of: "\r\n", with: "")
+                            }
+
+                            if let content = dl.at_xpath("/td[@class='fl_by']/div/a[@class='xi2']")?.text {
+                                model.content = content
+                            }
+                            if let tid = dl.at_xpath("/td[@class='fl_by']/div/a[@class='xi2']/@href")?.text {
+                                if tid.contains("tid="), tid.contains("goto=") {
+                                    model.tid = tid.components(separatedBy: "goto=")[0].components(separatedBy: "tid=")[1]
+                                }
+                            }
+                            if let time = dl.at_xpath("/td[@class='fl_by']/div/cite/span")?.text {
+                                model.time = time
+                            }
+                            if let name = dl.at_xpath("/td[@class='fl_by']/div/cite/a")?.text {
+                                model.username = name
+                            }
+
+                            if !model.title.isEmpty {
+                                list.append(model)
+                            }
+                        }
+                    }
                     node.list = list
 
                     nodes.append(node)

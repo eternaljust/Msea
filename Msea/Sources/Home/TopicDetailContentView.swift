@@ -685,6 +685,10 @@ struct TopicDetailContentView: View {
                     if table?.toHTML == nil {
                         table = element.at_xpath("//div[@class='pcbs']")
                     }
+                    let pattl = element.at_xpath("//div[@class='t_fsz']/div[@class='pattl']")
+                    if pattl != nil {
+                        table = element.at_xpath("//div[@class='t_fsz']")
+                    }
                     if let content = table?.toHTML {
                         if let id = table?.at_xpath("//td/@id")?.text, id.contains("_") {
                             comment.pid = id.components(separatedBy: "_")[1]
