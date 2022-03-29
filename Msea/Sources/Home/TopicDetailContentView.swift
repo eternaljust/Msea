@@ -69,6 +69,8 @@ struct TopicDetailContentView: View {
     @State private var isNode = false
     @State private var isNodeList = false
 
+    @State private var tagItems = [TagItemModel]()
+
     var body: some View {
         ZStack {
             if disAgree || isPosterShielding {
@@ -247,6 +249,26 @@ struct TopicDetailContentView: View {
                                             }
 
                                         Text(commentCount)
+
+                                        if !tagItems.isEmpty {
+                                            HStack {
+                                                Image(systemName: "tag")
+                                                    .foregroundColor(.secondaryTheme)
+
+                                                LazyVGrid(columns: [GridItem(.adaptive(minimum: 60, maximum: 200))]) {
+                                                    ForEach(tagItems) { t in
+                                                        Text(t.title)
+                                                            .lineLimit(1)
+                                                            .padding(EdgeInsets(top: 3, leading: 7, bottom: 3, trailing: 7))
+                                                            .foregroundColor(.white)
+                                                            .background(
+                                                                Capsule()
+                                                                    .foregroundColor(.secondaryTheme.opacity(0.8))
+                                                            )
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
 
                                     if pageSize > 1 {
@@ -651,6 +673,19 @@ struct TopicDetailContentView: View {
                         pageSize = num
                     }
                 }
+                let span = html.xpath("//span[@class='tag iconfont icon-tag-fill']/a")
+                var tags = [TagItemModel]()
+                span.forEach { e in
+                    var tag = TagItemModel()
+                    if let text = e.at_xpath("/@title")?.text {
+                        tag.title = text
+                    }
+                    if let href = e.at_xpath("/@href")?.text, href.contains("id=") {
+                        tag.tid = href.components(separatedBy: "id=")[1]
+                    }
+                    tags.append(tag)
+                }
+                tagItems = tags
                 let node = html.xpath("//table[@class='plhin']")
                 var list = [TopicCommentModel]()
                 node.forEach { element in
@@ -1033,6 +1068,12 @@ struct TopicCommentModel: Identifiable {
 struct WebURLItem: Identifiable {
     var id = UUID()
     var url = ""
+}
+
+struct TagItemModel: Identifiable {
+    var id = UUID()
+    var tid = ""
+    var title = ""
 }
 
 enum ReportMenuItem: String, CaseIterable, Identifiable {
