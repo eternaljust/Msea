@@ -15,6 +15,7 @@ struct NodeContentView: View {
 
     @State private var nodes = [NodeModel]()
     @State private var isHidden = false
+    @State private var isLogin = UserInfo.shared.isLogin()
 
     @State private var isTopic = false
     @State private var tid = ""
@@ -25,6 +26,7 @@ struct NodeContentView: View {
     @State private var isNode = false
     @State private var selectedNode = NodeListModel()
     @State private var isWiki = false
+    @State private var isTag = false
 
     var body: some View {
         if gid.isEmpty {
@@ -176,10 +178,26 @@ struct NodeContentView: View {
                     EmptyView()
                 }
                 .opacity(0.0)
+
+                NavigationLink(destination: TagContentView(), isActive: $isTag) {
+                    EmptyView()
+                }
+                .opacity(0.0)
             }
         }
         .navigationBarTitle("节点")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    isTag.toggle()
+                } label: {
+                    Image(systemName: "tag")
+                }
+                .isHidden(!isLogin)
+            }
+        }
         .onAppear(perform: {
+            isLogin = UserInfo.shared.isLogin()
             TabBarTool.showTabBar(gid.isEmpty)
             CacheInfo.shared.selectedTab = .node
         })
@@ -210,6 +228,12 @@ struct NodeContentView: View {
                     isWiki.toggle()
                 }
             }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .login, object: nil)) { _ in
+            isLogin = true
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .logout, object: nil)) { _ in
+            isLogin = false
         }
 
         if gid.isEmpty {

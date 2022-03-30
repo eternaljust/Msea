@@ -70,6 +70,8 @@ struct TopicDetailContentView: View {
     @State private var isNodeList = false
 
     @State private var tagItems = [TagItemModel]()
+    @State private var tagId = ""
+    @State private var isTag = false
 
     var body: some View {
         ZStack {
@@ -265,6 +267,10 @@ struct TopicDetailContentView: View {
                                                                 Capsule()
                                                                     .foregroundColor(.secondaryTheme.opacity(0.8))
                                                             )
+                                                            .onTapGesture {
+                                                                tagId = t.tid
+                                                                isTag.toggle()
+                                                            }
                                                     }
                                                 }
                                             }
@@ -373,6 +379,11 @@ struct TopicDetailContentView: View {
                     .opacity(0.0)
 
                     NavigationLink(destination: NodeListContentView(nodeTitle: nodeTitle, nodeFid: nodeFid), isActive: $isNodeList) {
+                        EmptyView()
+                    }
+                    .opacity(0.0)
+
+                    NavigationLink(destination: TagListContentView(id: tagId, searchState: SearchState()), isActive: $isTag) {
                         EmptyView()
                     }
                     .opacity(0.0)
