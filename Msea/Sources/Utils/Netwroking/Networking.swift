@@ -106,3 +106,11 @@ extension HTMLDocument {
         return ""
     }
 }
+
+extension String {
+    func encodeURIComponent() -> String {
+        let charactersToEscape = "?!@#$^&%*+,:;='\"`<>()[]{}/\\| "
+        let allowedCharacters = NSCharacterSet(charactersIn: charactersToEscape).inverted
+        return self.addingPercentEncoding(withAllowedCharacters: allowedCharacters) ?? self
+    }
+}

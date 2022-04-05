@@ -161,8 +161,10 @@ struct LoginContentView: View {
 
             isShowing = true
             // swiftlint:disable force_unwrapping
-            let parames = "&formhash=\(formhash)&loginfield=\(loginField.id)&username=\(username)&password=\(password)&questionid=\(loginQuestion.qid)&answer=\(answer)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+            var parames = "&formhash=\(formhash)&loginfield=\(loginField.id)&username=\(username)&questionid=\(loginQuestion.qid)&answer=\(answer)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+            parames += "&password=\(password.encodeURIComponent())"
             let url = URL(string: "\(kAppBaseURL)\(action)\(parames)")!
+            print(url.absoluteString)
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             let (data, _) = try await URLSession.shared.data(for: request)
@@ -204,7 +206,6 @@ struct LoginContentView: View {
                 }
             }
             if let cookies = HTTPCookieStorage.shared.cookies {
-                print(cookies)
                 for cookie in cookies {
                     if cookie.name.contains("auth") {
                         let auth = "\(cookie.name)=\(cookie.value);"

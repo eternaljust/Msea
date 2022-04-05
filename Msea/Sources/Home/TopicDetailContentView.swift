@@ -684,19 +684,21 @@ struct TopicDetailContentView: View {
                         pageSize = num
                     }
                 }
-                let span = html.xpath("//span[@class='tag iconfont icon-tag-fill']/a")
-                var tags = [TagItemModel]()
-                span.forEach { e in
-                    var tag = TagItemModel()
-                    if let text = e.at_xpath("/@title")?.text {
-                        tag.title = text
+                if page == 1 {
+                    let span = html.xpath("//span[@class='tag iconfont icon-tag-fill']/a")
+                    var tags = [TagItemModel]()
+                    span.forEach { e in
+                        var tag = TagItemModel()
+                        if let text = e.at_xpath("/@title")?.text {
+                            tag.title = text
+                        }
+                        if let href = e.at_xpath("/@href")?.text, href.contains("id=") {
+                            tag.tid = href.components(separatedBy: "id=")[1]
+                        }
+                        tags.append(tag)
                     }
-                    if let href = e.at_xpath("/@href")?.text, href.contains("id=") {
-                        tag.tid = href.components(separatedBy: "id=")[1]
-                    }
-                    tags.append(tag)
+                    tagItems = tags
                 }
-                tagItems = tags
                 let node = html.xpath("//table[@class='plhin']")
                 var list = [TopicCommentModel]()
                 node.forEach { element in
