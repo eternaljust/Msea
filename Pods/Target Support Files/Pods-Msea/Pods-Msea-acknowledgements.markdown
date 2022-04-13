@@ -50,11 +50,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
-## UMAPM
-
-Copyright 2011 - 2020 umeng.com. All rights reserved.
-
-
 ## UMCommon
 
 Copyright 2011 - 2021 umeng.com. All rights reserved.
