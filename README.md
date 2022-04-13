@@ -2,7 +2,7 @@
 <h1 align="center">Msea</h1>
 
 <p align="center">
-<a href="https://www.gnu.org/licenses/gpl-3.0.html"><img src="https://img.shields.io/badge/License-v3.0-green"></a>
+<a href="https://www.gnu.org/licenses/gpl-3.0.html"><img src="https://img.shields.io/badge/License-GPLv3.0-green"></a>
 <a href="https://developer.apple.com/cn/macos/"><img src="https://img.shields.io/badge/macOS-11.3-red"></a>
 <a href="https://developer.apple.com/cn/xcode/"><img src="https://img.shields.io/badge/Xcode-13-red"></a>
 <a href="https://developer.apple.com/cn/xcode/swiftui/"><img src="https://img.shields.io/badge/SwiftUI-3-red.svg"></a>
