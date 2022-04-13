@@ -137,7 +137,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1C2D4951103DE0C049C9D063 /* Pods-TopicWidgetExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TopicWidgetExtension.release.xcconfig"; path = "Target Support Files/Pods-TopicWidgetExtension/Pods-TopicWidgetExtension.release.xcconfig"; sourceTree = "<group>"; };
 		7606A8EEA1BD777F45CBF959 /* Pods_Msea.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Msea.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		810E24B227C0E26500E8E895 /* RankListContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankListContentView.swift; sourceTree = "<group>"; };
 		810E24B427C0E33B00E8E895 /* MemberCreditPostContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCreditPostContentView.swift; sourceTree = "<group>"; };
@@ -156,10 +155,7 @@
 		81922B3227C9CC6600D53A0B /* NodeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeContentView.swift; sourceTree = "<group>"; };
 		81922B3427CA1E5100D53A0B /* SVGImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVGImage.swift; sourceTree = "<group>"; };
 		81AB458527D37354006B46FB /* NodeWikiContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeWikiContentView.swift; sourceTree = "<group>"; };
-		9A536744D188758A4840C194 /* Pods-Msea.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Msea.release.xcconfig"; path = "Target Support Files/Pods-Msea/Pods-Msea.release.xcconfig"; sourceTree = "<group>"; };
 		A50DF2A3B18C0CBCE0319DC6 /* Pods_TopicWidgetExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TopicWidgetExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BA26334146152E48BA4E44D8 /* Pods-Msea.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Msea.debug.xcconfig"; path = "Target Support Files/Pods-Msea/Pods-Msea.debug.xcconfig"; sourceTree = "<group>"; };
-		BE4936BAEE7BB55407068ED7 /* Pods-TopicWidgetExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TopicWidgetExtension.debug.xcconfig"; path = "Target Support Files/Pods-TopicWidgetExtension/Pods-TopicWidgetExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		EF082E72278ED031002744EC /* PostListContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostListContentView.swift; sourceTree = "<group>"; };
 		EF082EEA275EF85900056BCA /* DaySignContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySignContentView.swift; sourceTree = "<group>"; };
 		EF082EEC275F0C6A00056BCA /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
@@ -339,17 +335,6 @@
 				EFD6BA6D277C07650060239D /* Intents.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		9C6C4775FCC0808EF699E19F /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				BA26334146152E48BA4E44D8 /* Pods-Msea.debug.xcconfig */,
-				9A536744D188758A4840C194 /* Pods-Msea.release.xcconfig */,
-				BE4936BAEE7BB55407068ED7 /* Pods-TopicWidgetExtension.debug.xcconfig */,
-				1C2D4951103DE0C049C9D063 /* Pods-TopicWidgetExtension.release.xcconfig */,
-			);
-			path = Pods;
 			sourceTree = "<group>";
 		};
 		EF2E32782759F75D005151DE /* App */ = {
@@ -534,7 +519,6 @@
 				EF70CDED277AA1B20049D830 /* TopicWidget */,
 				EFA1350D277C3A540060A172 /* WidgetIntentHandler */,
 				EFE76C5A2759EE3B00D89EA6 /* Products */,
-				9C6C4775FCC0808EF699E19F /* Pods */,
 				8E28B34AB5F4C4ED14A412FC /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -904,7 +888,6 @@
 /* Begin XCBuildConfiguration section */
 		EF70CDF7277AA1B30049D830 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BE4936BAEE7BB55407068ED7 /* Pods-TopicWidgetExtension.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
@@ -934,7 +917,6 @@
 		};
 		EF70CDF8277AA1B30049D830 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1C2D4951103DE0C049C9D063 /* Pods-TopicWidgetExtension.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
@@ -1134,7 +1116,6 @@
 		};
 		EFE76C682759EE3C00D89EA6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BA26334146152E48BA4E44D8 /* Pods-Msea.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1169,7 +1150,6 @@
 		};
 		EFE76C692759EE3C00D89EA6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9A536744D188758A4840C194 /* Pods-Msea.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
