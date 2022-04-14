@@ -1,4 +1,4 @@
-<p align="center"><img src="https://raw.githubusercontent.com/tzqiang/Msea/main/Msea/Resources/Assets.xcassets/AppIcon.appiconset/83.5%402x.png"></p>
+<p align="center"><img src="https://s1.ax1x.com/2022/04/14/L1iqbQ.png"></p>
 <h1 align="center">Msea</h1>
 
 <p align="center">
