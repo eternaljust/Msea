@@ -509,8 +509,8 @@ struct TopicDetailContentView: View {
                         await getReply()
                     }
                 })
-                    .showProgress(isShowing: $isShowing, color: .white)
-                    .disabled(isShowing)
+                    .showProgress(isShowing: $isShowingReply, color: .white)
+                    .disabled(isShowingReply)
                     .buttonStyle(BigButtonStyle())
                     .padding(EdgeInsets(top: 20, leading: 0, bottom: 10, trailing: 0))
             }
@@ -816,6 +816,7 @@ struct TopicDetailContentView: View {
                 return
             }
 
+            isShowing = true
             let time = Int(Date().timeIntervalSince1970)
             // swiftlint:disable force_unwrapping
             let parames = "&formhash=\(UserInfo.shared.formhash)&message=\(inputComment)&posttime=\(time)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
@@ -835,6 +836,7 @@ struct TopicDetailContentView: View {
                 closeDialog()
                 await loadData()
             }
+            isShowing = false
         }
     }
 
@@ -845,6 +847,7 @@ struct TopicDetailContentView: View {
         }
 
         Task {
+            isShowingReply = true
             // swiftlint:disable force_unwrapping
             let url = URL(string: "https://www.chongbuluo.com/\(replyAction)")!
             // swiftlint:enble force_unwrapping
@@ -898,6 +901,7 @@ struct TopicDetailContentView: View {
                 param = param.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
                 await reply(param)
             }
+            isShowingReply = false
         }
     }
 
