@@ -12,6 +12,7 @@ import Kanna
 /// 每日签到
 struct DaySignContentView: View {
     @State private var showAlert = false
+    @State private var showAlertCalendar = false
     @State private var selectedSignTab = SignTab.daysign
     @State private var daySign = DaySignModel()
     @State private var isHidden = false
@@ -23,6 +24,10 @@ struct DaySignContentView: View {
     @FocusState private var focused: Bool
     @State private var isShowing = false
     @State private var needLogin = false
+    @State private var monthTitle = ""
+    @State private var calendarList = [CalendarDayModel]()
+    @State private var isLogin = UserInfo.shared.isLogin()
+
     @EnvironmentObject private var hud: HUDState
 
     var body: some View {
@@ -54,16 +59,29 @@ struct DaySignContentView: View {
 
                     Spacer()
 
-                    Button {
-                        showAlert = true
-                    } label: {
-                        Image(systemName: "questionmark.circle")
+                    VStack {
+                        Button {
+                            showAlert = true
+                        } label: {
+                            Image(systemName: "questionmark.circle")
+                        }
+                        .alert("每日福利规则", isPresented: $showAlert) {
+                        } message: {
+                            Text(CacheInfo.shared.signRule)
+                                .font(.font16)
+                        }
+
+                        if isLogin {
+                            Spacer()
+
+                            Button {
+                                showAlertCalendar = true
+                            } label: {
+                                Image(systemName: "calendar.circle")
+                            }
+                        }
                     }
-                    .alert("每日福利规则", isPresented: $showAlert) {
-                    } message: {
-                        Text(CacheInfo.shared.signRule)
-                            .font(.font16)
-                    }
+                    .frame(height: 40)
 
                     Spacer()
 
@@ -180,6 +198,47 @@ struct DaySignContentView: View {
             }
             .frame(width: 300, height: 200)
         }
+        .dialog(isPresented: $showAlertCalendar) {
+            VStack(alignment: .center, spacing: 10) {
+                HStack {
+                    Spacer()
+
+                    Text(monthTitle)
+                        .font(.font17)
+
+                    Spacer()
+
+                    Button {
+                        showAlertCalendar = false
+                    } label: {
+                        Image(systemName: "xmark.circle")
+                    }
+                }
+
+                Spacer()
+
+                LazyVGrid(columns: [GridItem(.fixed(40)), GridItem(.fixed(40)), GridItem(.fixed(40)), GridItem(.fixed(40)), GridItem(.fixed(40)), GridItem(.fixed(40)), GridItem(.fixed(40))]) {
+                    ForEach(calendarList) { date in
+                        RoundedRectangle(cornerRadius: 5)
+                            .frame(height: 40)
+                            .foregroundColor(date.isToday ? .theme : Color(light: .white, dark: .black))
+                            .overlay(
+                                VStack(alignment: .center, spacing: 2) {
+                                    Text(date.title)
+                                        .foregroundColor(date.isToday ? .white : (date.isWeekend ? Color.theme : Color(light: .black, dark: .white)))
+
+                                    if date.isSign {
+                                        Circle()
+                                            .frame(width: 5, height: 5)
+                                            .foregroundColor(date.isToday ? .white : .theme)
+                                    }
+                                }
+                            )
+                    }
+                }
+            }
+            .frame(width: 320, height: calendarList.count == 49 ? 370 : 320)
+        }
         .sheet(isPresented: $needLogin) {
             LoginContentView()
         }
@@ -187,11 +246,14 @@ struct DaySignContentView: View {
             if !UIDevice.current.isPad {
                 TabBarTool.showTabBar(false)
             }
+            isLogin = UserInfo.shared.isLogin()
         }
         .onReceive(NotificationCenter.default.publisher(for: .login, object: nil)) { _ in
+            isLogin = true
             reloadData()
         }
         .onReceive(NotificationCenter.default.publisher(for: .logout, object: nil)) { _ in
+            isLogin = false
             daySign.days = "0"
             daySign.bits = "0"
             signText = "请先登录"
@@ -257,6 +319,40 @@ struct DaySignContentView: View {
                 }
                 signText = text_btn.trimmingCharacters(in: .whitespacesAndNewlines)
                 isSign = signText.contains("已签到")
+
+                let calendar = html.at_xpath("//div[@class='wqpc_sign_btn_calendar']")
+                if let title = calendar?.at_xpath("/h3[@class='wqpc_title']")?.text {
+                    monthTitle = title
+                }
+                var list = [CalendarDayModel]()
+                let weeks = calendar?.xpath("/ul[@class='wq_week']/li")
+                weeks?.forEach { element in
+                    var model = CalendarDayModel()
+                    if let text = element.text {
+                        model.title = text
+                    }
+                    model.isWeek = true
+                    if let text = element.at_xpath("/@style")?.text, !text.isEmpty {
+                        model.isWeekend = true
+                    }
+                    list.append(model)
+                }
+                let dates = calendar?.xpath("/ul[@class='wq_date']/li")
+                dates?.forEach { element in
+                    var model = CalendarDayModel()
+                    if let text = element.at_xpath("/span")?.text {
+                        model.title = text
+                    }
+                    if let text = element.at_xpath("/span/i/@class")?.text, text == "wqsign_dot_red" || text == "wqsign_dot_white" {
+                        model.isSign = true
+                    }
+                    if let text = element.at_xpath("/span/@class")?.text, text == "wq_sign_today" {
+                        model.isToday = true
+                    }
+                    list.append(model)
+                }
+
+                calendarList = list
 
                 isHidden = true
                 html.getFormhash()
@@ -354,4 +450,14 @@ struct DaySignModel {
     var total = "已有 0 人参与"
     var days = "0"
     var bits = "0"
+}
+
+struct CalendarDayModel: Identifiable {
+    var id = UUID()
+
+    var title = ""
+    var isWeek = false
+    var isWeekend = false
+    var isSign = false
+    var isToday = false
 }
