@@ -10,13 +10,56 @@ import SwiftUI
 
 /// 坛友互动
 struct InteractiveContentView: View {
+    @State private var selectedInteractiveTab = InteractiveTab.poke
+
     var body: some View {
-        Text("暂时没有提醒内容")
+        VStack {
+            Picker("InteractiveTab", selection: $selectedInteractiveTab) {
+                ForEach(InteractiveTab.allCases) { tab in
+                    Text(tab.title)
+                        .tag(tab)
+                }
+            }
+            .pickerStyle(.segmented)
+            .padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))
+
+            TabView(selection: $selectedInteractiveTab) {
+                ForEach(InteractiveTab.allCases) { tab in
+                    switch tab {
+                    case .poke:
+                        InteractivePokeContentView()
+                            .tag(tab)
+                    case.friend:
+                        InteractiveFriendContentView()
+                            .tag(tab)
+                    }
+                }
+            }
+            .tabViewStyle(.page(indexDisplayMode: .never))
+            .edgesIgnoringSafeArea(UIDevice.current.isPad ? [] : [.bottom])
+        }
+        .navigationTitle("坛友互动")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 struct InteractiveContentView_Previews: PreviewProvider {
     static var previews: some View {
         InteractiveContentView()
+    }
+}
+
+enum InteractiveTab: String, CaseIterable, Identifiable {
+    case poke
+    case friend
+
+    var id: String { self.rawValue }
+    var title: String {
+        switch self {
+        case .poke:
+            return "打招呼"
+        case .friend:
+            return "好友"
+        }
     }
 }

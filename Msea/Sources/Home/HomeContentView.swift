@@ -162,11 +162,13 @@ struct HomeContentView: View {
     }
 
     private func urlSchemes(_ url: URL) {
-        TabBarTool.showTabBar(true)
-        CacheInfo.shared.selectedTab = .home
-        selection.index = .home
+        print(url)
         if let host = url.host, let scheme = url.scheme, scheme == "msea" {
-            let item = URLSchemesItem(rawValue: host)
+            guard let item = URLSchemesItem(rawValue: host) else { return }
+            TabBarTool.showTabBar(true)
+            CacheInfo.shared.selectedTab = .home
+            selection.index = .home
+
             switch item {
             case .daysign:
                 goDaysign()
@@ -191,8 +193,6 @@ struct HomeContentView: View {
                         }
                     }
                 }
-            default:
-                print(url)
             }
         }
     }

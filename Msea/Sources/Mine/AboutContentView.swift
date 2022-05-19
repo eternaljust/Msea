@@ -97,9 +97,9 @@ enum AboutItem: String, CaseIterable, Identifiable {
     var url: String {
         switch self {
         case .license:
-            return "https://github.com/tzqiang/Msea/blob/main/LICENSE"
+            return ""
         case .sourceCode:
-            return "https://github.com/tzqiang/Msea"
+            return "https://github.com/eternaljust/Msea"
         case .sdklist:
             return ""
         }
