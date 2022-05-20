@@ -105,7 +105,7 @@ struct InteractiveFriendContentView: View {
             }
 
             Task {
-                await action(url.absoluteString.replacingOccurrences(of: "msea://", with: ""))
+                await action(url.absoluteString)
             }
         }
     }
@@ -122,32 +122,32 @@ struct InteractiveFriendContentView: View {
                 let dl = html.xpath("//dl[@class='cl ']")
                 var list = [InteractiveFriendListModel]()
                 dl.forEach({ element in
-                    var post = InteractiveFriendListModel()
+                    var friend = InteractiveFriendListModel()
                     if let time = element.at_xpath("//span[@class='xg1 xw0']")?.text {
-                        post.time = time
+                        friend.time = time
                     }
                     if let avatar = element.at_xpath("//dd[@class='m avt mbn']/a/img/@src")?.text {
-                        post.avatar = avatar.replacingOccurrences(of: "&size=small", with: "")
+                        friend.avatar = avatar.replacingOccurrences(of: "&size=small", with: "")
                     }
                     if let name = element.at_xpath("//dd[@class='ntc_body']/a[1]")?.text {
-                        post.name = name
+                        friend.name = name
                     }
                     if let uid = element.at_xpath("//dd[@class='ntc_body']/a[1]/@href")?.text,
                        uid.contains("uid=") {
-                        post.uid = uid.components(separatedBy: "uid=")[1]
+                        friend.uid = uid.components(separatedBy: "uid=")[1]
                     }
                     if let text = element.at_xpath("//dd[@class='ntc_body']/a[2]")?.text {
-                        post.action = text
+                        friend.action = text
                     }
                     if let text = element.at_xpath("//dd[@class='ntc_body']/a[2]/@href")?.text {
-                        post.actionURL = "msea://" + text
+                        friend.actionURL = "msea://" + text
                     }
                     if let content = element.at_xpath("//dd[@class='ntc_body']")?.text {
-                        post.content = content.replacingOccurrences(of: post.name, with: "")
-                        post.content = post.content.replacingOccurrences(of: post.action, with: "")
-                        post.content = post.content.replacingOccurrences(of: "\r\n", with: "")
+                        friend.content = content.replacingOccurrences(of: friend.name, with: "")
+                        friend.content = friend.content.replacingOccurrences(of: friend.action, with: "")
+                        friend.content = friend.content.replacingOccurrences(of: "\r\n", with: "")
                     }
-                    list.append(post)
+                    list.append(friend)
                 })
 
                 if page == 1 {
@@ -165,16 +165,23 @@ struct InteractiveFriendContentView: View {
         isHidden = false
         Task {
             // swiftlint:disable force_unwrapping
-            let url = URL(string: "https://www.chongbuluo.com/\(url)&formhash=\(UserInfo.shared.formhash)")!
+            let url = URL(string: "https://www.chongbuluo.com/\(url.replacingOccurrences(of: "msea://", with: ""))&formhash=\(UserInfo.shared.formhash)")!
             // swiftlint:enble force_unwrapping
             var request = URLRequest(url: url)
+            request.httpMethod = "POST"
             request.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: request)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                if let message = html.at_xpath("//div[@class='alert_error']/p")?.text, !message.isEmpty {
-                    hud.show(message: message)
-                } else if let message = html.at_xpath("//div[@class='alert_info']/p")?.text, !message.isEmpty {
-                    hud.show(message: message)
+                if let message = html.at_xpath("//div[@id='messagetext']/p")?.text, !message.isEmpty {
+                    if message.contains("setTimeout") {
+                        let text = message.components(separatedBy: "setTimeout")[0]
+                        hud.show(message: text)
+                    } else {
+                        hud.show(message: message)
+                    }
+
+                    page = 1
+                    await loadData()
                 } else {
                     let tds = html.xpath("//div[@class='bm bw0']//td[@valign='top']/table/tr/td")
                     var list = [FriendGroupModel]()

@@ -1,7 +1,7 @@
 PODS:
   - Kanna (5.2.7)
-  - SwiftLint (0.47.0)
-  - UMCommon (7.3.6):
+  - SwiftLint (0.47.1)
+  - UMCommon (7.3.7):
     - UMDevice
   - UMDevice (2.2.1)
 
@@ -20,10 +20,10 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Kanna: 01cfbddc127f5ff0963692f285fcbc8a9d62d234
-  SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
-  UMCommon: c61df8457c275afd4f8a2fca10c7446d66220ac0
+  SwiftLint: f80f1be7fa96d30e0aa68e58d45d4ea1ccaac519
+  UMCommon: 37fe35f498e92cf57bbb06a086f02915fc35f211
   UMDevice: 053478c4b4d7292f31f0a275c227d3c4007a5571
 
-PODFILE CHECKSUM: 91905c532b0da550aac2859dd9031a578742807b
+PODFILE CHECKSUM: bac0d9601e2b83c4898c7abdf83012facbfc5905
 
 COCOAPODS: 1.11.3
