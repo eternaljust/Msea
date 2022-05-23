@@ -240,7 +240,7 @@ struct TopicDetailContentView: View {
                                             }
                                         }
                                         .font(.font17)
-                                        .foregroundColor(.secondaryTheme)
+                                        .foregroundColor(isNodeFid125 ? .gray : .secondaryTheme)
 
                                         Text(title)
                                             .font(.font20)
@@ -255,9 +255,9 @@ struct TopicDetailContentView: View {
                                         if !tagItems.isEmpty {
                                             HStack {
                                                 Image(systemName: "tag")
-                                                    .foregroundColor(.secondaryTheme)
+                                                    .foregroundColor(isNodeFid125 ? .gray : .secondaryTheme)
 
-                                                LazyVGrid(columns: [GridItem(.adaptive(minimum: 60, maximum: 200))]) {
+                                                LazyHGrid(rows: [GridItem(.flexible())], alignment: .center) {
                                                     ForEach(tagItems) { t in
                                                         Text(t.title)
                                                             .lineLimit(1)
@@ -265,7 +265,7 @@ struct TopicDetailContentView: View {
                                                             .foregroundColor(.white)
                                                             .background(
                                                                 Capsule()
-                                                                    .foregroundColor(.secondaryTheme.opacity(0.8))
+                                                                    .foregroundColor((isNodeFid125 ? Color.gray : Color.secondaryTheme).opacity(0.8))
                                                             )
                                                             .onTapGesture {
                                                                 tagId = t.tid
