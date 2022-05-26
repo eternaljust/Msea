@@ -59,7 +59,21 @@ struct FriendVisitorContentView: View {
                             }
                         }
                     } header: {
-                        FriendVisitorHeaderView(title: section.type.title)
+                        HStack {
+                            Text(section.type.title)
+
+                            Spacer()
+
+                            Button {
+                            } label: {
+                                Label("更多", systemImage: "chevron.right")
+                                    .labelStyle(LabelLeftIconRightStyle())
+                            }
+                        }
+                        .foregroundColor(.secondary)
+                        .font(.font15)
+                        .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
+                        .background(Color.backGround)
                     }
                 }
             }
@@ -134,22 +148,6 @@ struct FriendVisitorContentView: View {
                 friendVisitors[1].persons = visitors
             }
         }
-    }
-}
-
-struct FriendVisitorHeaderView: View {
-    @State var title: String
-
-    var body: some View {
-        HStack {
-            Text(title)
-                .foregroundColor(.secondary)
-                .font(.font15)
-                .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
-
-            Spacer()
-        }
-        .background(Color.backGround)
     }
 }
 

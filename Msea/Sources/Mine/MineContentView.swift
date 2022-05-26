@@ -53,9 +53,12 @@ struct MineContentView: View {
                             .padding(.bottom, -2)
                     }
 
-                    Text("已有 \(Text(UserInfo.shared.views).foregroundColor(.red)) 人来访过")
-                        .font(.font16)
-                        .padding(.bottom, 1)
+                    NavigationLink(destination: MyFriendVisitorTraceContentView()) {
+                        Text("已有 \(Text(UserInfo.shared.views).foregroundColor(.red)) 人来访过")
+                            .font(.font16)
+                            .foregroundColor(Color(light: .black, dark: .white))
+                            .padding(.bottom, 1)
+                    }
 
                     Text("积分: \(Text(UserInfo.shared.integral).foregroundColor(.theme))  Bit: \(Text(UserInfo.shared.bits).foregroundColor(.theme))  好友: \(Text(UserInfo.shared.friend).foregroundColor(.theme))  主题: \(Text(UserInfo.shared.topic).foregroundColor(.theme))")
                         .font(.font16)

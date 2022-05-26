@@ -81,6 +81,8 @@
 		EFBE964C277D4F4800481170 /* ProfileTopicContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBE964B277D4F4800481170 /* ProfileTopicContentView.swift */; };
 		EFBE964E277D4FED00481170 /* FriendVisitorContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBE964D277D4FED00481170 /* FriendVisitorContentView.swift */; };
 		EFBE9650277D501200481170 /* MessageBoardContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBE964F277D501200481170 /* MessageBoardContentView.swift */; };
+		EFC4BB52283C86A500913182 /* MyFriendVisitorTraceContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC4BB51283C86A500913182 /* MyFriendVisitorTraceContentView.swift */; };
+		EFC4BB54283CAC2F00913182 /* MyFriendContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC4BB53283CAC2F00913182 /* MyFriendContentView.swift */; };
 		EFC4E1A92835E166009E319E /* InteractiveFriendContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC4E1A82835E166009E319E /* InteractiveFriendContentView.swift */; };
 		EFC4E1AB2835E1C6009E319E /* InteractivePokeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC4E1AA2835E1C6009E319E /* InteractivePokeContentView.swift */; };
 		EFC6D5D52772C2EC00C9B0E0 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFC6D5D42772C2EC00C9B0E0 /* Launch Screen.storyboard */; };
@@ -221,6 +223,8 @@
 		EFBE964B277D4F4800481170 /* ProfileTopicContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTopicContentView.swift; sourceTree = "<group>"; };
 		EFBE964D277D4FED00481170 /* FriendVisitorContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendVisitorContentView.swift; sourceTree = "<group>"; };
 		EFBE964F277D501200481170 /* MessageBoardContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBoardContentView.swift; sourceTree = "<group>"; };
+		EFC4BB51283C86A500913182 /* MyFriendVisitorTraceContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFriendVisitorTraceContentView.swift; sourceTree = "<group>"; };
+		EFC4BB53283CAC2F00913182 /* MyFriendContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFriendContentView.swift; sourceTree = "<group>"; };
 		EFC4E1A82835E166009E319E /* InteractiveFriendContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveFriendContentView.swift; sourceTree = "<group>"; };
 		EFC4E1AA2835E1C6009E319E /* InteractivePokeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractivePokeContentView.swift; sourceTree = "<group>"; };
 		EFC6D5D42772C2EC00C9B0E0 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
@@ -296,6 +300,8 @@
 				EFF883C82790048100A14CC7 /* PublishPostContentView.swift */,
 				EFBE964B277D4F4800481170 /* ProfileTopicContentView.swift */,
 				EFBE964D277D4FED00481170 /* FriendVisitorContentView.swift */,
+				EFC4BB51283C86A500913182 /* MyFriendVisitorTraceContentView.swift */,
+				EFC4BB53283CAC2F00913182 /* MyFriendContentView.swift */,
 				EFBE964F277D501200481170 /* MessageBoardContentView.swift */,
 				815E271127A62D2E007C36B2 /* ShieldUserContentView.swift */,
 				8174357927AD69F800B924B5 /* FavoriteContentView.swift */,
@@ -837,6 +843,7 @@
 				EF6211D72761ECEA00F833B4 /* Appearance.swift in Sources */,
 				EFB4314B276045A300319073 /* Networking.swift in Sources */,
 				EF082EF1275F4AC400056BCA /* SignListContentView.swift in Sources */,
+				EFC4BB54283CAC2F00913182 /* MyFriendContentView.swift in Sources */,
 				810E24B327C0E26600E8E895 /* RankListContentView.swift in Sources */,
 				81922B3527CA1E5100D53A0B /* SVGImage.swift in Sources */,
 				EF7177EE27857A8700113670 /* GifImage.swift in Sources */,
@@ -870,6 +877,7 @@
 				EF8C3E3B27B26EA900201A9E /* DynamicFontContentView.swift in Sources */,
 				EFF883C7278FBE2700A14CC7 /* MyPostContentView.swift in Sources */,
 				EF32F85C279E45B700846E95 /* NoticeContentView.swift in Sources */,
+				EFC4BB52283C86A500913182 /* MyFriendVisitorTraceContentView.swift in Sources */,
 				EF88888127F2FFC50048B78E /* TagSearchContentView.swift in Sources */,
 				EFC4E1A92835E166009E319E /* InteractiveFriendContentView.swift in Sources */,
 				EF32F862279E49F500846E95 /* AppContentView.swift in Sources */,

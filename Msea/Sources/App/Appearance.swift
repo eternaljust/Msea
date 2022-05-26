@@ -20,3 +20,14 @@ struct BigButtonStyle: ButtonStyle {
             .foregroundColor(.white)
     }
 }
+
+struct LabelLeftIconRightStyle: LabelStyle {
+    var spacing: CGFloat = 5
+
+    func makeBody(configuration: Configuration) -> some View {
+        HStack(alignment: .center, spacing: spacing) {
+            configuration.title
+            configuration.icon
+        }
+    }
+}
