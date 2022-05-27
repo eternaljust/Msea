@@ -17,74 +17,95 @@ struct FriendVisitorContentView: View {
                                          FriendVisitorListModel(type: .visitor, persons: [FriendVisitorModel]())]
     @State private var isHidden = false
 
+    @State private var selectedType = MyFriendVisitorTraceTab.visitor
+    @State private var isVisitorTrace = false
+
+    @EnvironmentObject private var selection: MyFriendVisitorTraceSelection
+
     let columns = [
         GridItem(.adaptive(minimum: 80, maximum: 120), spacing: 2)
     ]
 
     var body: some View {
-        ScrollView {
-            LazyVGrid(columns: columns, alignment: .leading, spacing: 10, pinnedViews: [.sectionHeaders]) {
-                ForEach(friendVisitors) { section in
-                    Section {
-                        if section.persons.isEmpty {
-                            Text("暂无")
-                                .font(.font15)
-                        } else {
-                            ForEach(section.persons, id: \.id) { persion in
-                                NavigationLink(destination: SpaceProfileContentView(uid: persion.uid)) {
-                                    VStack {
-                                        AsyncImage(url: URL(string: persion.avatar)) { image in
-                                            image.resizable()
-                                        } placeholder: {
-                                            ProgressView()
-                                        }
-                                        .frame(width: 45, height: 45)
-                                        .cornerRadius(5)
+        ZStack {
+            ScrollView {
+                LazyVGrid(columns: columns, alignment: .leading, spacing: 10, pinnedViews: [.sectionHeaders]) {
+                    ForEach(friendVisitors) { section in
+                        Section {
+                            if section.persons.isEmpty {
+                                Text("暂无")
+                                    .font(.font15)
+                            } else {
+                                ForEach(section.persons, id: \.id) { persion in
+                                    NavigationLink(destination: SpaceProfileContentView(uid: persion.uid)) {
+                                        VStack {
+                                            AsyncImage(url: URL(string: persion.avatar)) { image in
+                                                image.resizable()
+                                            } placeholder: {
+                                                ProgressView()
+                                            }
+                                            .frame(width: 45, height: 45)
+                                            .cornerRadius(5)
 
-                                        Text(persion.name)
-                                            .font(.font12)
-                                            .foregroundColor(.theme)
-                                            .lineLimit(2)
-                                            .multilineTextAlignment(.center)
-
-                                        if !persion.time.isEmpty {
-                                            Text(persion.time)
+                                            Text(persion.name)
                                                 .font(.font12)
-                                                .foregroundColor(.secondary)
+                                                .foregroundColor(.theme)
                                                 .lineLimit(2)
                                                 .multilineTextAlignment(.center)
+
+                                            if !persion.time.isEmpty {
+                                                Text(persion.time)
+                                                    .font(.font12)
+                                                    .foregroundColor(.secondary)
+                                                    .lineLimit(2)
+                                                    .multilineTextAlignment(.center)
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                    } header: {
-                        HStack {
-                            Text(section.type.title)
+                        } header: {
+                            HStack {
+                                Text(section.type.title)
 
-                            Spacer()
+                                Spacer()
 
-                            Button {
-                            } label: {
-                                Label("更多", systemImage: "chevron.right")
-                                    .labelStyle(LabelLeftIconRightStyle())
+                                Button {
+                                    isVisitorTrace = true
+                                    if section.type == .friend {
+                                        selection.tab = .friend
+                                    } else {
+                                        selection.tab = .visitor
+                                    }
+                                } label: {
+                                    Label("更多", systemImage: "chevron.right")
+                                        .labelStyle(LabelLeftIconRightStyle())
+                                }
                             }
+                            .foregroundColor(.secondary)
+                            .font(.font15)
+                            .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
+                            .background(Color.backGround)
                         }
-                        .foregroundColor(.secondary)
-                        .font(.font15)
-                        .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
-                        .background(Color.backGround)
+                    }
+                }
+                .refreshable {
+                    await loadData()
+                }
+                .task {
+                    if friendVisitors[0].persons.isEmpty && friendVisitors[1].persons.isEmpty {
+                        await loadData()
                     }
                 }
             }
-            .refreshable {
-                await loadData()
+
+            ProgressView()
+                .isHidden(isHidden)
+
+            NavigationLink(destination: MyFriendVisitorTraceContentView(), isActive: $isVisitorTrace) {
+                EmptyView()
             }
-            .task {
-                if friendVisitors[0].persons.isEmpty && friendVisitors[1].persons.isEmpty {
-                    await loadData()
-                }
-            }
+            .opacity(0.0)
         }
         .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
         .navigationBarTitle("好友访客")
@@ -147,6 +168,8 @@ struct FriendVisitorContentView: View {
                 }
                 friendVisitors[1].persons = visitors
             }
+
+            isHidden = true
         }
     }
 }

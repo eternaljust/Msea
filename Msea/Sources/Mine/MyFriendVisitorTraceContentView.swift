@@ -10,11 +10,11 @@ import SwiftUI
 
 /// 我的好友列表、访客、足迹
 struct MyFriendVisitorTraceContentView: View {
-    @State private var selectedTab = MyFriendVisitorTraceTab.friend
+    @EnvironmentObject private var selection: MyFriendVisitorTraceSelection
 
     var body: some View {
         VStack {
-            Picker("MyFriendVisitorTraceTab", selection: $selectedTab) {
+            Picker("MyFriendVisitorTraceTab", selection: $selection.tab) {
                 ForEach(MyFriendVisitorTraceTab.allCases) { tab in
                     Text(tab.title)
                         .tag(tab)
@@ -23,7 +23,7 @@ struct MyFriendVisitorTraceContentView: View {
             .pickerStyle(.segmented)
             .padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))
 
-            TabView(selection: $selectedTab) {
+            TabView(selection: $selection.tab) {
                 ForEach(MyFriendVisitorTraceTab.allCases) { tab in
                     getContentView(tab)
                         .tag(tab)
@@ -46,7 +46,7 @@ struct MyFriendVisitorTraceContentView: View {
         case .friend:
             MyFriendContentView()
         case .visitor, .trace:
-            Text(tab.title)
+            MyVisitorTraceContentView(type: tab)
         }
     }
 }
@@ -63,11 +63,24 @@ enum MyFriendVisitorTraceTab: String, CaseIterable, Identifiable {
     case trace
 
     var id: String { self.rawValue }
+
     var title: String {
         switch self {
-        case .friend: return "好友"
-        case .visitor: return "访客"
-        case .trace: return "足迹"
+        case .friend: return "好友列表"
+        case .visitor: return "我的访客"
+        case .trace: return "我的足迹"
         }
     }
+
+    var header: String {
+        switch self {
+        case .friend: return "按照好友热度排序"
+        case .visitor: return "他们拜访过您，回访一下吧"
+        case .trace: return "您曾经拜访过的用户列表"
+        }
+    }
+}
+
+class MyFriendVisitorTraceSelection: ObservableObject {
+    @Published var tab: MyFriendVisitorTraceTab = MyFriendVisitorTraceTab.friend
 }

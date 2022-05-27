@@ -1,23 +1,21 @@
 //
-//  MyFriendContentView.swift
+//  MyVisitorTraceContentView.swift
 //  Msea
 //
-//  Created by tzqiang on 2022/5/24.
+//  Created by tzqiang on 2022/5/27.
 //  Copyright © 2022 eternal.just. All rights reserved.
 //
 
 import SwiftUI
 import Kanna
 
-/// 我的好友
-struct MyFriendContentView: View {
-    @State private var myFriends = [MyFriendListModel]()
+/// 我的访客和我的足迹
+struct MyVisitorTraceContentView: View {
+    var type = MyFriendVisitorTraceTab.visitor
+
+    @State private var myFriends = [MyVisitorTraceModel]()
     @State private var page = 1
     @State private var isHidden = false
-    @State private var count = "0"
-    @State private var groups = [FriendGroupModel]()
-    @State private var gid = "-1"
-    @State private var title = "全部好友"
 
     @State private var uid = ""
     @State private var isSpace = false
@@ -25,7 +23,7 @@ struct MyFriendContentView: View {
     var body: some View {
         ZStack {
             if myFriends.isEmpty {
-                Text("暂无好友")
+                Text("暂无记录")
             } else {
                 ScrollView {
                     LazyVGrid(columns: [GridItem(.fixed(175)), GridItem(.fixed(175))],
@@ -55,7 +53,7 @@ struct MyFriendContentView: View {
 
                                             Spacer()
 
-                                            Text(friend.hot)
+                                            Text(friend.time)
                                                 .font(.font12)
                                                 .foregroundColor(.secondary)
                                                 .onAppear {
@@ -80,11 +78,9 @@ struct MyFriendContentView: View {
                             }
                         } header: {
                             HStack {
-                                Text("按照好友热度排序")
+                                Text(type.header)
 
                                 Spacer()
-
-                                Text("当前共有 \(Text(count).bold()) 个好友")
                             }
                             .foregroundColor(.secondary)
                             .font(.font15)
@@ -103,25 +99,10 @@ struct MyFriendContentView: View {
             }
             .opacity(0.0)
         }
-        .navigationBarTitle(title)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Menu {
-                    ForEach(groups) { item in
-                        Button {
-                            Task {
-                                gid = item.gid
-                                title = item.name
-                                page = 1
-                                await loadData()
-                            }
-                        } label: {
-                            Text(item.name)
-                        }
-                    }
-                } label: {
-                    Image(systemName: "ellipsis")
-                }
+        .navigationBarTitle(type.title)
+        .onAppear {
+            if !UIDevice.current.isPad {
+                TabBarTool.showTabBar(false)
             }
         }
         .task {
@@ -134,35 +115,16 @@ struct MyFriendContentView: View {
     private func loadData() async {
         Task {
             // swiftlint:disable force_unwrapping
-            let url = URL(string: "https://www.chongbuluo.com/home.php?mod=space&do=friend&order=num&group=\(gid)&page=\(page)")!
+            let url = URL(string: "https://www.chongbuluo.com/home.php?mod=space&uid=\(UserInfo.shared.uid)&do=friend&view=\(type.id)&page=\(page)")!
             // swiftlint:enble force_unwrapping
             var request = URLRequest(url: url)
             request.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: request)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                if let text = html.at_xpath("//div[@class='tbmu cl']/p/span[@class='xw1']")?.text {
-                    count = text
-                }
-                let group = html.xpath("//ul[@class='buddy_group']/li")
-                var list = [FriendGroupModel]()
-                group.forEach { element in
-                    var model = FriendGroupModel()
-                    if let text = element.at_xpath("/a[last()]/@href")?.text, text.contains("group=") {
-                        if let id = text.components(separatedBy: "group=").last {
-                            model.gid = id
-                        }
-                    }
-                    if let text = element.at_xpath("/a[last()]")?.text {
-                        model.name = text
-                    }
-                    list.append(model)
-                }
-                groups = list
-
                 let lis = html.xpath("//ul[@class='buddy cl']/li")
-                var friends = [MyFriendListModel]()
+                var friends = [MyVisitorTraceModel]()
                 lis.forEach { element in
-                    var friend = MyFriendListModel()
+                    var friend = MyVisitorTraceModel()
                     if let avatar = element.at_xpath("/div[@class='avt']/a/img/@src")?.text {
                         friend.avatar = avatar.replacingOccurrences(of: "&size=small", with: "")
                     }
@@ -170,7 +132,7 @@ struct MyFriendContentView: View {
                         friend.name = name
                     }
                     if let text = element.at_xpath("/h4/span[@class='xg1 xw0 y']")?.text {
-                        friend.hot = text.replacingOccurrences(of: "\n", with: "")
+                        friend.time = text.replacingOccurrences(of: "\n", with: "")
                     }
                     if let href = element.at_xpath("/h4/a/@href")?.text {
                         let uids = href.components(separatedBy: "uid=")
@@ -199,17 +161,17 @@ struct MyFriendContentView: View {
     }
 }
 
-struct MyFriendContentView_Previews: PreviewProvider {
+struct MyVisitorTraceContentView_Previews: PreviewProvider {
     static var previews: some View {
-        MyFriendContentView()
+        MyVisitorTraceContentView()
     }
 }
 
-struct MyFriendListModel: Identifiable {
+struct MyVisitorTraceModel: Identifiable {
     var id = UUID()
     var name = ""
     var uid = ""
     var avatar = ""
-    var hot = ""
+    var time = ""
     var topic = ""
 }
