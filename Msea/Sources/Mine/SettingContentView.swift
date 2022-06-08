@@ -31,6 +31,7 @@ struct SettingContentView: View {
     @State private var isConfirming = false
     @State private var dynamicTypeSize = UIFontMetrics(forTextStyle: .body).scaledFont(for: .preferredFont(forTextStyle: .body)).pointSize
     @State private var cacheSize = FileManager.default.getCacheSize()
+    @State private var showAlert = false
 
     var body: some View {
         VStack {
@@ -132,8 +133,12 @@ struct SettingContentView: View {
                                 }
                             case .logout:
                                 Button {
-                                    Task {
-                                        await logout()
+                                    if CacheInfo.shared.daysignIsOn || CacheInfo.shared.groupNoticeIsOn {
+                                        showAlert.toggle()
+                                    } else {
+                                        Task {
+                                            await logout()
+                                        }
                                     }
                                 } label: {
                                     Text(item.title)
@@ -211,6 +216,18 @@ struct SettingContentView: View {
                 }
             }
             CacheInfo.shared.reviewCount += 1
+        }
+        .alert("提示", isPresented: $showAlert) {
+            Button("取消", role: .cancel) {
+            }
+
+            Button("确认退出") {
+                Task {
+                    await logout()
+                }
+            }
+        } message: {
+            Text("退出登录后，已开启的“签到提醒”和“新消息通知”会被关闭，切换账号登录后需重新开启。")
         }
         .sheet(isPresented: $isShowingMail) {
             Email(isShowing: $isShowingMail)
@@ -464,6 +481,7 @@ struct SignalertContentView: View {
     @State private var isOn = false
     @State private var selectedDate = Date.now
     @State private var showAlert = false
+    @State private var needLogin = false
     @Environment(\.openURL) var openURL
 
     var body: some View {
@@ -496,22 +514,30 @@ struct SignalertContentView: View {
                     Text("可在设置中重新开启签到提醒")
                         .font(.font16)
                 }
+                .sheet(isPresented: $needLogin) {
+                    LoginContentView()
+                }
                 .onChange(of: isOn) { value in
-                    Task {
-                        print(value)
-                        if await LocalNotification.shared.isAuthorizationDenied() {
-                            if !isOn && !value {
-                                showAlert.toggle()
-                            }
-                            isOn = false
-                        } else {
-                            CacheInfo.shared.daysignIsOn = value
-                            if value {
-                                if await !LocalNotification.shared.daysign() {
-                                    isOn = false
+                    print(value)
+                    if value && !UserInfo.shared.isLogin() {
+                        isOn = false
+                        needLogin.toggle()
+                    } else {
+                        Task {
+                            if await LocalNotification.shared.isAuthorizationDenied() {
+                                if !isOn && !value {
+                                    showAlert.toggle()
                                 }
+                                isOn = false
                             } else {
-                                LocalNotification.shared.removeDaysign()
+                                CacheInfo.shared.daysignIsOn = value
+                                if value {
+                                    if await !LocalNotification.shared.daysign() {
+                                        isOn = false
+                                    }
+                                } else {
+                                    LocalNotification.shared.removeDaysign()
+                                }
                             }
                         }
                     }
@@ -535,6 +561,7 @@ struct SignalertContentView: View {
 struct MessageNoticeView: View {
     @State private var isOn = false
     @State private var showAlert = false
+    @State private var needLogin = false
     @Environment(\.openURL) var openURL
 
     var body: some View {
@@ -553,19 +580,27 @@ struct MessageNoticeView: View {
                     Text("可在设置中重新开启消息提醒")
                         .font(.font16)
                 }
+                .sheet(isPresented: $needLogin) {
+                    LoginContentView()
+                }
                 .onChange(of: isOn) { value in
-                    Task {
-                        print(value)
-                        if await LocalNotification.shared.isAuthorizationDenied() {
-                            if !isOn && !value {
-                                showAlert.toggle()
-                            }
-                            isOn = false
-                        } else {
-                            CacheInfo.shared.groupNoticeIsOn = value
-                            if value {
-                                if try await !LocalNotification.shared.authorization() {
-                                    isOn = false
+                    print(value)
+                    if value && !UserInfo.shared.isLogin() {
+                        isOn = false
+                        needLogin.toggle()
+                    } else {
+                        Task {
+                            if await LocalNotification.shared.isAuthorizationDenied() {
+                                if !isOn && !value {
+                                    showAlert.toggle()
+                                }
+                                isOn = false
+                            } else {
+                                CacheInfo.shared.groupNoticeIsOn = value
+                                if value {
+                                    if try await !LocalNotification.shared.authorization() {
+                                        isOn = false
+                                    }
                                 }
                             }
                         }

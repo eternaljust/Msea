@@ -82,7 +82,9 @@ struct Web: UIViewRepresentable {
 
         func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
             if let hander = self.parent.decisionHandler, let url = navigationAction.request.url, !url.absoluteString.contains("about:blank") {
-                if url.absoluteString.contains("matterportvr") {
+                // 处理部分帖子内嵌视频播放加载失败
+                let absoluteString = url.absoluteString
+                if absoluteString.contains("matterportvr") || absoluteString.contains("youtu") {
                     decisionHandler(.allow)
                 } else {
                     decisionHandler(.cancel)
