@@ -97,4 +97,8 @@ struct Constants {
     static let localNotificatonAction = "localNotificatonAction"
     /// 本地通知参数值
     static let localNotificatonJSONString = "localNotificatonJSONString"
+    /// 虫部落签到
+    static let daysignUserActivityType = "com.eternaljust.Msea.daysign"
+    /// 虫部落排行榜
+    static let ranklistUserActivityType = "com.eternaljust.Msea.ranklist"
 }

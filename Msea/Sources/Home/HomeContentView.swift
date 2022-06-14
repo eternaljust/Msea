@@ -20,6 +20,7 @@ struct HomeContentView: View {
     @State private var isViewthread = false
     @State private var uid = ""
     @State private var isSpace = false
+    @State private var isRanklist = false
 
     @StateObject private var rule = CreditRuleObject()
 
@@ -109,6 +110,11 @@ struct HomeContentView: View {
                     EmptyView()
                 }
                 .opacity(0.0)
+
+                NavigationLink(destination: RankListContentView(), isActive: $isRanklist) {
+                    EmptyView()
+                }
+                .opacity(0.0)
             }
             .navigationTitle("首页")
             .navigationBarTitleDisplayMode(.inline)
@@ -140,6 +146,14 @@ struct HomeContentView: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self.urlSchemes(url)
             }
+        }
+        .onContinueUserActivity(Constants.daysignUserActivityType) { _ in
+            print("continue daysignUserActivity")
+            goDaysign()
+        }
+        .onContinueUserActivity(Constants.ranklistUserActivityType) { _ in
+            print("continue ranklistUserActivity")
+            goRanklist()
         }
     }
 
@@ -174,6 +188,8 @@ struct HomeContentView: View {
                 goDaysign()
             case .notice:
                 goNotice()
+            case .ranklist:
+                goRanklist()
             case .viewthread:
                 if let query = url.query, query.contains("tid=") {
                     tid = query.components(separatedBy: "=")[1]
@@ -206,6 +222,12 @@ struct HomeContentView: View {
     private func goNotice() {
         CacheInfo.shared.selectedTab = .notice
         selection.index = .notice
+    }
+
+    private func goRanklist() {
+        CacheInfo.shared.selectedTab = .home
+        selection.index = .home
+        isRanklist = true
     }
 }
 

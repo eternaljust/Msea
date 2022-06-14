@@ -21,6 +21,8 @@
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>ProfileIntent</string>
+		<string>com.eternaljust.Msea.daysign</string>
+		<string>com.eternaljust.Msea.ranklist</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

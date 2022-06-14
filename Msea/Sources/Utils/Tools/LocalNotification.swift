@@ -32,7 +32,7 @@ struct LocalNotification {
             if isAuthorization {
                 let content = UNMutableNotificationContent()
                 content.title = "每日签到"
-                content.body = "点击打开 Msea 签到，立即获取 Bit 奖励！"
+                content.body = "点击打开 Msea 签到，立即获取虫部落 Bit 奖励！"
                 content.badge = 1
                 content.sound = .default
                 content.userInfo = [Constants.localNotificatonAction: NotificationAction.daysign.rawValue]

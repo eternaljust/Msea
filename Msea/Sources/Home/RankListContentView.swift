@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import CoreSpotlight
 
 /// 排行榜
 struct RankListContentView: View {
@@ -44,6 +45,19 @@ struct RankListContentView: View {
                 TabBarTool.showTabBar(false)
             }
         }
+        .userActivity(Constants.ranklistUserActivityType, { userActivity in
+            userActivity.persistentIdentifier = ""
+            userActivity.isEligibleForSearch = true
+            userActivity.isEligibleForPrediction = true
+            userActivity.isEligibleForPublicIndexing = true
+            userActivity.title = "虫部落排行榜"
+            userActivity.suggestedInvocationPhrase = "虫部落排行榜"
+            let attributes = CSSearchableItemAttributeSet()
+            attributes.contentDescription = "点击打开 Msea，查看虫部落积分帖子排行榜。"
+            userActivity.contentAttributeSet = attributes
+            userActivity.becomeCurrent()
+            print("set ranklistUserActivity")
+        })
     }
 }
 

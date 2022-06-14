@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Kanna
+import CoreSpotlight
 
 /// 每日签到
 struct DaySignContentView: View {
@@ -259,6 +260,19 @@ struct DaySignContentView: View {
             signText = "请先登录"
             isSign = false
         }
+        .userActivity(Constants.daysignUserActivityType, { userActivity in
+            userActivity.persistentIdentifier = ""
+            userActivity.isEligibleForSearch = true
+            userActivity.isEligibleForPrediction = true
+            userActivity.isEligibleForPublicIndexing = true
+            userActivity.title = "虫部落签到"
+            userActivity.suggestedInvocationPhrase = "虫部落签到"
+            let attributes = CSSearchableItemAttributeSet()
+            attributes.contentDescription = "点击打开 Msea，进行每日签到，立即获取虫部落 Bit 奖励！"
+            userActivity.contentAttributeSet = attributes
+            userActivity.becomeCurrent()
+            print("set daysignUserActivity")
+        })
     }
 
     private func loadData() async {
