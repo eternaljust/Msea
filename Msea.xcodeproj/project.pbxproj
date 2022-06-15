@@ -29,6 +29,8 @@
 		EF082EEF275F3ACB00056BCA /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF082EEE275F3ACB00056BCA /* UINavigationController+Extension.swift */; };
 		EF082EF1275F4AC400056BCA /* SignListContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF082EF0275F4AC400056BCA /* SignListContentView.swift */; };
 		EF082EF3275F4B1C00056BCA /* SignDayListContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF082EF2275F4B1C00056BCA /* SignDayListContentView.swift */; };
+		EF2C14CF2859C3F9000E188D /* SiriButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2C14CE2859C3F9000E188D /* SiriButton.swift */; };
+		EF2C14D12859CC88000E188D /* SiriShortcutContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2C14D02859CC88000E188D /* SiriShortcutContentView.swift */; };
 		EF32F85C279E45B700846E95 /* NoticeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF32F85B279E45B700846E95 /* NoticeContentView.swift */; };
 		EF32F85E279E49AF00846E95 /* InteractiveContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF32F85D279E49AF00846E95 /* InteractiveContentView.swift */; };
 		EF32F860279E49E500846E95 /* SystemContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF32F85F279E49E500846E95 /* SystemContentView.swift */; };
@@ -171,6 +173,8 @@
 		EF082EEE275F3ACB00056BCA /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
 		EF082EF0275F4AC400056BCA /* SignListContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignListContentView.swift; sourceTree = "<group>"; };
 		EF082EF2275F4B1C00056BCA /* SignDayListContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignDayListContentView.swift; sourceTree = "<group>"; };
+		EF2C14CE2859C3F9000E188D /* SiriButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriButton.swift; sourceTree = "<group>"; };
+		EF2C14D02859CC88000E188D /* SiriShortcutContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriShortcutContentView.swift; sourceTree = "<group>"; };
 		EF32F85B279E45B700846E95 /* NoticeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeContentView.swift; sourceTree = "<group>"; };
 		EF32F85D279E49AF00846E95 /* InteractiveContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveContentView.swift; sourceTree = "<group>"; };
 		EF32F85F279E49E500846E95 /* SystemContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemContentView.swift; sourceTree = "<group>"; };
@@ -317,6 +321,7 @@
 				814C39E127AA7A18004696D8 /* SDKListContentView.swift */,
 				EF8C3E3A27B26EA900201A9E /* DynamicFontContentView.swift */,
 				EFCB13BB27B36F1E00E50770 /* MseeageNoticeContentView.swift */,
+				EF2C14D02859CC88000E188D /* SiriShortcutContentView.swift */,
 			);
 			path = Mine;
 			sourceTree = "<group>";
@@ -466,6 +471,7 @@
 				EFD7EBEB27954702004C1609 /* Safari.swift */,
 				EFBC2DAE2796A005008D31EF /* Email.swift */,
 				814C39E327AAC7B8004696D8 /* ShareSheet.swift */,
+				EF2C14CE2859C3F9000E188D /* SiriButton.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -826,6 +832,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				814C39E227AA7A18004696D8 /* SDKListContentView.swift in Sources */,
+				EF2C14D12859CC88000E188D /* SiriShortcutContentView.swift in Sources */,
 				EF8A7A282766F3110092E53C /* UserInfo.swift in Sources */,
 				EFBC2DB12796AB7E008D31EF /* UIDevice+Extension.swift in Sources */,
 				EFF883C92790048100A14CC7 /* PublishPostContentView.swift in Sources */,
@@ -840,6 +847,7 @@
 				EFD7EBEE27955228004C1609 /* CustomView.swift in Sources */,
 				EF80EFA62786D9EB00CE1EE1 /* TopicDetailContentView.swift in Sources */,
 				EFA87A0B279F931500DAD877 /* CreditSystemContentView.swift in Sources */,
+				EF2C14CF2859C3F9000E188D /* SiriButton.swift in Sources */,
 				EF6211D52761D8FA00F833B4 /* ApplicationDelegate.swift in Sources */,
 				8180BB33275B78880055E1F5 /* TopicListContentView.swift in Sources */,
 				EFD7EBEC27954702004C1609 /* Safari.swift in Sources */,

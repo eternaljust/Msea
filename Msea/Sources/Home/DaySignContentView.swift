@@ -28,6 +28,7 @@ struct DaySignContentView: View {
     @State private var monthTitle = ""
     @State private var calendarList = [CalendarDayModel]()
     @State private var isLogin = UserInfo.shared.isLogin()
+    @State private var isSiriShortcut = false
 
     @EnvironmentObject private var hud: HUDState
 
@@ -152,6 +153,20 @@ struct DaySignContentView: View {
 
             ProgressView()
                 .isHidden(isHidden)
+
+            NavigationLink(destination: SiriShortcutContentView(), isActive: $isSiriShortcut) {
+                EmptyView()
+            }
+            .opacity(0.0)
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    isSiriShortcut.toggle()
+                } label: {
+                    Text("捷径")
+                }
+            }
         }
         .dialog(isPresented: $isPresented) {
             VStack {

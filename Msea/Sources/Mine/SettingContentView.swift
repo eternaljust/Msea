@@ -20,7 +20,7 @@ struct SettingContentView: View {
 
     @State private var itemSections: [SettingSection] = [
         SettingSection(items: [.signalert, .notice, .colorscheme]),
-        SettingSection(items: [.feedback, .review, .contactus, .share, .testflight]),
+        SettingSection(items: [.feedback, .review, .contactus, .share, .testflight, .sirishortcut]),
         SettingSection(items: [.cleancache, .dynamicfont]),
         SettingSection(items: [.urlschemes, .termsofservice, .about])
     ]
@@ -185,7 +185,7 @@ struct SettingContentView: View {
                                     }
                                     .foregroundColor(Color(light: .black, dark: .white))
                                 }
-                            case .urlschemes, .dynamicfont, .termsofservice, .about:
+                            case .sirishortcut, .urlschemes, .dynamicfont, .termsofservice, .about:
                                 NavigationLink(destination: getContentView(item)) {
                                     HStack {
                                         Image(systemName: item.icon)
@@ -347,6 +347,8 @@ struct SettingContentView: View {
             EmptyView()
         case .notice:
             MseeageNoticeContentView()
+        case .sirishortcut:
+            SiriShortcutContentView()
         case .urlschemes:
             URLSchemesContentView()
         case .dynamicfont:
@@ -379,6 +381,7 @@ enum SettingItem: String, CaseIterable, Identifiable {
     case feedback
     case contactus
     case testflight
+    case sirishortcut
     case urlschemes
     case dynamicfont
     case cleancache
@@ -406,6 +409,8 @@ enum SettingItem: String, CaseIterable, Identifiable {
             return "message.fill"
         case .testflight:
             return "app.fill"
+        case .sirishortcut:
+            return "rectangle.fill.on.rectangle.fill"
         case .urlschemes:
             return "personalhotspot.circle.fill"
         case .dynamicfont:
@@ -439,6 +444,8 @@ enum SettingItem: String, CaseIterable, Identifiable {
             return "联系我们"
         case .testflight:
             return "加入 TestFlight"
+        case .sirishortcut:
+            return "添加 Siri 捷径"
         case .urlschemes:
             return "URL Schemes"
         case .dynamicfont:
