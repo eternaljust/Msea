@@ -11,6 +11,8 @@ import SwiftUI
 import Kanna
 
 struct ProfileProvider: IntentTimelineProvider {
+    private static let widgetGroup: UserDefaults? = UserDefaults(suiteName: "group.com.eternaljust.Msea.Topic.Widget")
+
     typealias Entry = ProfileEntry
     typealias Intent = ProfileIntent
 
@@ -34,81 +36,53 @@ struct ProfileProvider: IntentTimelineProvider {
     }
 
     private func getProfile(for configuration: ProfileIntent) async throws -> ProfileModel {
+        let groupHeaderFields = ProfileProvider.widgetGroup?.data(forKey: "groupHTTPHeaderFieldsKey")
+        var headers = try? JSONDecoder().decode([String : String].self, from: groupHeaderFields ?? Data())
+        headers?["User-Agent"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_0_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.1 Safari/605.1.15"
         let uid = configuration.uid?.stringValue ?? "1"
         // swiftlint:disable force_unwrapping
-        let url = URL(string: "https://www.chongbuluo.com/home.php?mod=space&uid=\(uid)")!
+        let url = URL(string: "https://www.chongbuluo.com/home.php?mod=space&do=profile&from=space&uid=\(uid)")!
         // swiftlint:enble force_unwrapping
-        let (data, _) = try await URLSession.shared.data(from: url)
+        var requset = URLRequest(url: url)
+        requset.allHTTPHeaderFields = headers
+
+        let (data, _) = try await URLSession.shared.data(for: requset)
         var profile = ProfileModel()
         profile.uid = uid
         if let html = try? HTML(html: data, encoding: .utf8) {
-            if let text = html.toHTML, text.contains("隐私提醒") {
-                let img = html.at_xpath("//div[@class='avt avtm']//img/@src")
-                if let avatar = img?.text {
-                    profile.avatar = avatar
-                }
-                let a = html.at_xpath("//p[@class='mtm xw1 xi2 xs2']")
-                if let name = a?.text {
-                    profile.name = name
-                }
-                let li1 = html.at_xpath("//ul[@class='pbm mbm bbda cl xl xl2 '][1]/li[1]")
-                if let views = li1?.text {
-                    profile.views = getNumbers(views)
-                }
-                let li2 = html.at_xpath("//ul[@class='pbm mbm bbda cl xl xl2 '][1]/li[2]")
-                if let friend = li2?.text {
-                    profile.friend = getNumbers(friend)
-                }
-                let li3 = html.at_xpath("//ul[@class='pbm mbm bbda cl xl xl2 '][1]/li[3]")
-                if let post = li3?.text {
-                    profile.post = getNumbers(post)
-                }
-                let li4 = html.at_xpath("//ul[@class='pbm mbm bbda cl xl xl2 '][1]/li[4]")
-                if let topic = li4?.text {
-                    profile.topic = getNumbers(topic)
-                }
+            let img = html.at_xpath("//div[@class='h cl']//img/@src")
+            if let avatar = img?.text {
+                profile.avatar = avatar.replacingOccurrences(of: "&size=small", with: "")
+            }
+            let mbn = html.at_xpath("//div[@class='h cl']//h2")
+            if let name = mbn?.text {
+                profile.name = name.replacingOccurrences(of: "\n", with: "")
+            }
 
-                let li5 = html.at_xpath("//ul[@class='pbm mbm bbda cl xl xl2 '][2]/li[1]")
-                if let integral = li5?.text {
-                    profile.integral = getNumbers(integral)
-                }
-                let li6 = html.at_xpath("//ul[@class='pbm mbm bbda cl xl xl2 '][2]/li[2]")
-                if let bits = li6?.text {
-                    profile.bits = getNumbers(bits)
-                }
-            } else {
-                let img = html.at_xpath("//div[@id='profile_content']//img/@src")
-                if let avatar = img?.text {
-                    profile.avatar = avatar
-                }
-                let mbn = html.at_xpath("//div[@id='profile_content']//h2")
-                if let name = mbn?.text {
-                    profile.name = name
-                }
-                let xi1 = html.at_xpath("//div[@id='statistic_content']//strong[@class='xi1']")
-                if let views = xi1?.text {
-                    profile.views = views
-                }
-                let li1 = html.at_xpath("//ul[@class='xl xl2 cl']/li[1]/a")
-                if let integral = li1?.text {
-                    profile.integral = integral
-                }
-                let li2 = html.at_xpath("//ul[@class='xl xl2 cl']/li[2]/a")
-                if let bits = li2?.text {
-                    profile.bits = bits
-                }
-                let li4 = html.at_xpath("//ul[@class='xl xl2 cl']/li[4]/a")
-                if let friend = li4?.text {
-                    profile.friend = friend
-                }
-                let li5 = html.at_xpath("//ul[@class='xl xl2 cl']/li[5]/a")
-                if let topic = li5?.text {
-                    profile.topic = topic
-                }
-                let li6 = html.at_xpath("//ul[@class='xl xl2 cl']/li[6]/a")
-                if let blog = li6?.text {
-                    profile.blog = blog
-                }
+            let a1 = html.at_xpath("//ul[@class='cl bbda pbm mbm']//a[1]")?.text ?? ""
+            if let text = a1.components(separatedBy: " ").last, !text.isEmpty {
+                profile.friend = text
+            }
+            let a2 = html.at_xpath("//ul[@class='cl bbda pbm mbm']//a[2]")?.text ?? ""
+            if let text = a2.components(separatedBy: " ").last, !text.isEmpty {
+                profile.reply = text
+            }
+            let a3 = html.at_xpath("//ul[@class='cl bbda pbm mbm']//a[3]")?.text ?? ""
+            if let text = a3.components(separatedBy: " ").last, !text.isEmpty {
+                profile.thread = text
+            }
+
+            let li2 = html.at_xpath("//div[@id='psts']/ul[@class='pf_l']/li[2]")
+            if let text = li2?.text {
+                profile.integral = text.replacingOccurrences(of: "积分", with: "")
+            }
+            let li3 = html.at_xpath("//div[@id='psts']/ul[@class='pf_l']/li[3]")
+            if let text = li3?.text {
+                profile.bits = text.replacingOccurrences(of: "Bit", with: "")
+            }
+            let li4 = html.at_xpath("//div[@id='psts']/ul[@class='pf_l']/li[4]")
+            if let text = li4?.text {
+                profile.violation = text.replacingOccurrences(of: "违规", with: "")
             }
         }
 
@@ -157,13 +131,13 @@ struct ProfileWidgetEntryView : View {
                 .foregroundColor(.secondaryTheme)
                 .padding(.bottom, -2)
 
-            Text("访问: \(Text(entry.profile.views).foregroundColor(.theme)) 好友: \(Text(entry.profile.friend).foregroundColor(.theme))")
+            Text("好友: \(Text(entry.profile.friend).foregroundColor(.theme)) 回帖: \(Text(entry.profile.reply).foregroundColor(.theme))")
                 .font(.font12)
 
-            Text("积分: \(Text(entry.profile.integral).foregroundColor(.theme)) Bit: \(Text(entry.profile.bits).foregroundColor(.theme))")
+            Text("主题: \(Text(entry.profile.thread).foregroundColor(.theme)) 积分: \(Text(entry.profile.integral).foregroundColor(.theme))")
                 .font(.font12)
 
-            Text("主题: \(Text(entry.profile.topic).foregroundColor(.theme)) \(entry.profile.post != "--" ? "帖子" : "日志"): \(Text(entry.profile.post != "--" ? entry.profile.post : entry.profile.blog).foregroundColor(.theme))")
+            Text("Bit: \(Text(entry.profile.bits).foregroundColor(.theme)) \("违规"): \(Text(entry.profile.violation != "--" ? entry.profile.violation : entry.profile.violation).foregroundColor(.theme))")
                 .font(.font12)
         }
         .widgetURL(URL(string: "msea://space?uid=\(entry.profile.uid)"))
@@ -174,13 +148,12 @@ struct ProfileModel {
     var uid = ""
     var name = ""
     var avatar = ""
-    var views = "--"
     var integral = "--"
     var bits = "--"
     var friend = "--"
-    var topic = "--"
-    var post = "--"
-    var blog = "--"
+    var reply = "--"
+    var thread = "--"
+    var violation = "--"
     var imageData: Data?
 }
 

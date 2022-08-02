@@ -16,7 +16,7 @@ struct BigButtonStyle: ButtonStyle {
                     .foregroundColor(.theme)
                     .frame(width: 300, height: 40)
             )
-            .scaleEffect(configuration.isPressed ? 0.95: 1)
+            .scaleEffect(configuration.isPressed ? 0.95 : 1)
             .foregroundColor(.white)
     }
 }
