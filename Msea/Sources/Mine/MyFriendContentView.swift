@@ -212,4 +212,5 @@ struct MyFriendListModel: Identifiable {
     var avatar = ""
     var hot = ""
     var topic = ""
+    var integral = ""
 }

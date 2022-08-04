@@ -34,11 +34,11 @@ struct MyFriendVisitorTraceContentView: View {
         }
         .navigationTitle("我的好友")
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear {
-            if !UIDevice.current.isPad {
-                TabBarTool.showTabBar(false)
-            }
-        }
+//        .onAppear {
+//            if !UIDevice.current.isPad {
+//                TabBarTool.showTabBar(false)
+//            }
+//        }
     }
 
     @ViewBuilder private func getContentView(_ tab: MyFriendVisitorTraceTab) -> some View {

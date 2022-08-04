@@ -33,6 +33,7 @@ class UserInfo: NSObject {
         blog = "--"
         album = "--"
         share = "--"
+        reply = "--"
         shieldUsers = []
     }
 
@@ -58,5 +59,6 @@ class UserInfo: NSObject {
     @AppStorage(UserKeys.blog) var blog = "--"
     @AppStorage(UserKeys.album) var album = "--"
     @AppStorage(UserKeys.share) var share = "--"
+    @AppStorage(UserKeys.reply) var reply = "--"
     @AppStorage(UserKeys.shieldUsers) var shieldUsers = [ShieldUserModel]()
 }

@@ -18,7 +18,7 @@ struct SpaceProfileContentView: View {
     @State private var profile = ProfileModel()
     @EnvironmentObject private var hud: HUDState
     @State private var isShielding = false
-    @State private var tabs: [ProfileTab] = [.topic, .firendvisitor, .messageboard]
+    @State private var tabs: [ProfileTab] = [.topic, .firendvisitor]
     @State private var needLogin = false
     @State private var showAlert = false
     @State private var isShieldHidden = false
@@ -59,14 +59,10 @@ struct SpaceProfileContentView: View {
                     }
             }
 
-            Text("已有 \(Text(profile.views).foregroundColor(.red)) 人来访过")
-                .font(.font16)
-                .padding(.bottom, 1)
-
-            Text("积分: \(Text(profile.integral).foregroundColor(.theme))  Bit: \(Text(profile.bits).foregroundColor(.theme))  好友: \(Text(profile.friend).foregroundColor(.theme))  主题: \(Text(profile.topic).foregroundColor(.theme))")
+            Text("好友: \(Text(profile.friend).foregroundColor(.theme))  回帖: \(Text(profile.reply).foregroundColor(.theme))  主题: \(Text(profile.topic).foregroundColor(.theme))")
                 .font(.font16)
 
-            Text("违规: \(Text(profile.violation).foregroundColor(.theme))  日志: \(Text(profile.blog).foregroundColor(.theme))  相册:  \(Text(profile.album).foregroundColor(.theme))  分享: \(Text(profile.share).foregroundColor(.theme))")
+            Text("积分: \(Text(profile.integral).foregroundColor(.theme))  Bit: \(Text(profile.bits).foregroundColor(.theme))  违规:  \(Text(profile.violation).foregroundColor(.theme))")
                 .font(.font16)
 
             Picker("ProfileTab", selection: $selectedProfileTab) {
@@ -85,10 +81,7 @@ struct SpaceProfileContentView: View {
                         ProfileTopicContentView(uid: uid)
                             .tag(tab)
                     case .firendvisitor:
-                        FriendVisitorContentView(uid: uid)
-                            .tag(tab)
-                    case .messageboard:
-                        MessageBoardContentView(uid: uid)
+                        ProfileFriendContentView(uid: uid)
                             .tag(tab)
                     case .shielduser, .favorite:
                         EmptyView()
@@ -181,49 +174,39 @@ struct SpaceProfileContentView: View {
                     hud.show(message: message.replacingOccurrences(of: "\r\n", with: ""))
                     return
                 }
-                let img = html.at_xpath("//div[@id='profile_content']//img/@src")
+                let img = html.at_xpath("//div[@class='h cl']//img/@src")
                 if let avatar = img?.text {
-                    profile.avatar = avatar
+                    profile.avatar = avatar.replacingOccurrences(of: "&size=small", with: "")
                 }
-                let mbn = html.at_xpath("//div[@id='profile_content']//h2")
+                let mbn = html.at_xpath("//div[@class='h cl']//h2")
                 if let name = mbn?.text {
-                    profile.name = name
+                    profile.name = name.replacingOccurrences(of: "\n", with: "")
                 }
-                let xi1 = html.at_xpath("//div[@id='statistic_content']//strong[@class='xi1']")
-                if let views = xi1?.text {
-                    profile.views = views
+
+                let a1 = html.at_xpath("//ul[@class='cl bbda pbm mbm']//a[1]")?.text ?? ""
+                if let text = a1.components(separatedBy: " ").last, !text.isEmpty {
+                    profile.friend = text
                 }
-                let li1 = html.at_xpath("//ul[@class='xl xl2 cl']/li[1]/a")
-                if let integral = li1?.text {
-                    profile.integral = integral
+                let a2 = html.at_xpath("//ul[@class='cl bbda pbm mbm']//a[2]")?.text ?? ""
+                if let text = a2.components(separatedBy: " ").last, !text.isEmpty {
+                    profile.reply = text
                 }
-                let li2 = html.at_xpath("//ul[@class='xl xl2 cl']/li[2]/a")
-                if let bits = li2?.text {
-                    profile.bits = bits
+                let a3 = html.at_xpath("//ul[@class='cl bbda pbm mbm']//a[3]")?.text ?? ""
+                if let text = a3.components(separatedBy: " ").last, !text.isEmpty {
+                    profile.topic = text
                 }
-                let li3 = html.at_xpath("//ul[@class='xl xl2 cl']/li[3]/a")
-                if let violation = li3?.text {
-                    profile.violation = violation
+
+                let li2 = html.at_xpath("//div[@id='psts']/ul[@class='pf_l']/li[2]")
+                if let text = li2?.text {
+                    profile.integral = text.replacingOccurrences(of: "积分", with: "")
                 }
-                let li4 = html.at_xpath("//ul[@class='xl xl2 cl']/li[4]/a")
-                if let friend = li4?.text {
-                    profile.friend = friend
+                let li3 = html.at_xpath("//div[@id='psts']/ul[@class='pf_l']/li[3]")
+                if let text = li3?.text {
+                    profile.bits = text.replacingOccurrences(of: "Bit", with: "")
                 }
-                let li5 = html.at_xpath("//ul[@class='xl xl2 cl']/li[5]/a")
-                if let topic = li5?.text {
-                    profile.topic = topic
-                }
-                let li6 = html.at_xpath("//ul[@class='xl xl2 cl']/li[6]/a")
-                if let blog = li6?.text {
-                    profile.blog = blog
-                }
-                let li7 = html.at_xpath("//ul[@class='xl xl2 cl']/li[7]/a")
-                if let album = li7?.text {
-                    profile.album = album
-                }
-                let li8 = html.at_xpath("//ul[@class='xl xl2 cl']/li[8]/a")
-                if let share = li8?.text {
-                    profile.share = share
+                let li4 = html.at_xpath("//div[@id='psts']/ul[@class='pf_l']/li[4]")
+                if let text = li4?.text {
+                    profile.violation = text.replacingOccurrences(of: "违规", with: "")
                 }
             }
         }
@@ -282,6 +265,7 @@ struct ProfileModel {
     var blog = "--"
     var album = "--"
     var share = "--"
+    var reply = "--"
 }
 
 struct ShieldUserModel: Codable, Identifiable {

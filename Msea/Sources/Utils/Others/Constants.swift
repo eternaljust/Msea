@@ -42,6 +42,8 @@ struct UserKeys {
     static let album = "albumKey"
     /// 分享
     static let share = "shareKey"
+    /// 回帖
+    static let reply = "replyKey"
     /// 屏蔽用户
     static let shieldUsers = "shieldUsersKey"
 

@@ -16,6 +16,7 @@ struct MineContentView: View {
     @State private var selectedProfileTab = ProfileTab.topic
     @State private var isNewPost = false
     @State private var isCredit = false
+    @State private var profile = ProfileModel()
 
     @EnvironmentObject private var hud: HUDState
     @StateObject private var rule = CreditRuleObject()
@@ -31,7 +32,7 @@ struct MineContentView: View {
         NavigationView {
             VStack {
                 if isLogin {
-                    AsyncImage(url: URL(string: UserInfo.shared.avatar)) { image in
+                    AsyncImage(url: URL(string: profile.avatar)) { image in
                         image.resizable()
                     } placeholder: {
                         ProgressView()
@@ -39,7 +40,7 @@ struct MineContentView: View {
                     .frame(width: 80, height: 80)
                     .cornerRadius(5)
 
-                    Text("\(UserInfo.shared.name) uid(\(UserInfo.shared.uid))")
+                    Text("\(profile.name) uid(\(UserInfo.shared.uid))")
                         .font(.font17Blod)
                         .padding(.bottom, -2)
                         .onTapGesture {
@@ -48,7 +49,7 @@ struct MineContentView: View {
                         }
 
                     NavigationLink(destination: UserGroupContentView()) {
-                        Text(UserInfo.shared.level)
+                        Text(profile.level)
                             .font(.font17)
                             .foregroundColor(.secondaryTheme)
                             .multilineTextAlignment(.center)
@@ -56,19 +57,10 @@ struct MineContentView: View {
                             .padding(.bottom, -2)
                     }
 
-                    Text("已有 \(Text(UserInfo.shared.views).foregroundColor(.red)) 人来访过")
-                        .font(.font16)
-                        .foregroundColor(Color(light: .black, dark: .white))
-                        .padding(.bottom, 1)
-                        .onTapGesture {
-                            isVisitorTrace = true
-                            selection.tab = .visitor
-                        }
-
-                    Text("积分: \(Text(UserInfo.shared.integral).foregroundColor(.theme))  Bit: \(Text(UserInfo.shared.bits).foregroundColor(.theme))  好友: \(Text(UserInfo.shared.friend).foregroundColor(.theme))  主题: \(Text(UserInfo.shared.topic).foregroundColor(.theme))")
+                    Text("好友: \(Text(profile.friend).foregroundColor(.theme))  回帖: \(Text(profile.reply).foregroundColor(.theme))  主题: \(Text(profile.topic).foregroundColor(.theme))")
                         .font(.font16)
 
-                    Text("违规: \(Text(UserInfo.shared.violation).foregroundColor(.theme))  日志: \(Text(UserInfo.shared.blog).foregroundColor(.theme))  相册:  \(Text(UserInfo.shared.album).foregroundColor(.theme))  分享: \(Text(UserInfo.shared.share).foregroundColor(.theme))")
+                    Text("积分: \(Text(profile.integral).foregroundColor(.theme))  Bit: \(Text(profile.bits).foregroundColor(.theme))  违规:  \(Text(profile.violation).foregroundColor(.theme))")
                         .font(.font16)
 
                     Picker("ProfileTabMine", selection: $selectedProfileTab) {
@@ -87,10 +79,7 @@ struct MineContentView: View {
                                 ProfileTopicContentView(uid: UserInfo.shared.uid)
                                     .tag(mine)
                             case .firendvisitor:
-                                FriendVisitorContentView(uid: UserInfo.shared.uid)
-                                    .tag(mine)
-                            case .messageboard:
-                                MessageBoardContentView(uid: UserInfo.shared.uid)
+                                MyFriendVisitorTraceContentView()
                                     .tag(mine)
                             case .favorite:
                                 FavoriteContentView()
@@ -194,6 +183,8 @@ struct MineContentView: View {
             .onAppear(perform: {
                 isLogin = UserInfo.shared.isLogin()
                 if isLogin {
+                    updateProfile()
+
                     Task {
                         await loadData()
                     }
@@ -234,52 +225,44 @@ struct MineContentView: View {
             request.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: request)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                let img = html.at_xpath("//div[@id='profile_content']//img/@src")
+                let img = html.at_xpath("//div[@class='h cl']//img/@src")
                 if let avatar = img?.text {
-                    UserInfo.shared.avatar = avatar
+                    UserInfo.shared.avatar = avatar.replacingOccurrences(of: "&size=small", with: "")
                 }
-                let mbn = html.at_xpath("//div[@id='profile_content']//h2")
+                let mbn = html.at_xpath("//div[@class='h cl']//h2")
                 if let name = mbn?.text {
-                    UserInfo.shared.name = name
+                    UserInfo.shared.name = name.replacingOccurrences(of: "\n", with: "")
                 }
-                let xi1 = html.at_xpath("//div[@id='statistic_content']//strong[@class='xi1']")
-                if let views = xi1?.text {
-                    UserInfo.shared.views = views
+
+                let a1 = html.at_xpath("//ul[@class='cl bbda pbm mbm']//a[1]")?.text ?? ""
+                if let text = a1.components(separatedBy: " ").last, !text.isEmpty {
+                    UserInfo.shared.friend = text
                 }
-                let li1 = html.at_xpath("//ul[@class='xl xl2 cl']/li[1]/a")
-                if let integral = li1?.text {
-                    UserInfo.shared.integral = integral
+                let a2 = html.at_xpath("//ul[@class='cl bbda pbm mbm']//a[2]")?.text ?? ""
+                if let text = a2.components(separatedBy: " ").last, !text.isEmpty {
+                    UserInfo.shared.reply = text
                 }
-                let li2 = html.at_xpath("//ul[@class='xl xl2 cl']/li[2]/a")
-                if let bits = li2?.text {
-                    UserInfo.shared.bits = bits
+                let a3 = html.at_xpath("//ul[@class='cl bbda pbm mbm']//a[3]")?.text ?? ""
+                if let text = a3.components(separatedBy: " ").last, !text.isEmpty {
+                    UserInfo.shared.topic = text
                 }
-                let li3 = html.at_xpath("//ul[@class='xl xl2 cl']/li[3]/a")
-                if let violation = li3?.text {
-                    UserInfo.shared.violation = violation
+
+                let li2 = html.at_xpath("//div[@id='psts']/ul[@class='pf_l']/li[2]")
+                if let text = li2?.text {
+                    UserInfo.shared.integral = text.replacingOccurrences(of: "积分", with: "")
                 }
-                let li4 = html.at_xpath("//ul[@class='xl xl2 cl']/li[4]/a")
-                if let friend = li4?.text {
-                    UserInfo.shared.friend = friend
+                let li3 = html.at_xpath("//div[@id='psts']/ul[@class='pf_l']/li[3]")
+                if let text = li3?.text {
+                    UserInfo.shared.bits = text.replacingOccurrences(of: "Bit", with: "")
                 }
-                let li5 = html.at_xpath("//ul[@class='xl xl2 cl']/li[5]/a")
-                if let topic = li5?.text {
-                    UserInfo.shared.topic = topic
-                }
-                let li6 = html.at_xpath("//ul[@class='xl xl2 cl']/li[6]/a")
-                if let blog = li6?.text {
-                    UserInfo.shared.blog = blog
-                }
-                let li7 = html.at_xpath("//ul[@class='xl xl2 cl']/li[7]/a")
-                if let album = li7?.text {
-                    UserInfo.shared.album = album
-                }
-                let li8 = html.at_xpath("//ul[@class='xl xl2 cl']/li[8]/a")
-                if let share = li8?.text {
-                    UserInfo.shared.share = share
+                let li4 = html.at_xpath("//div[@id='psts']/ul[@class='pf_l']/li[4]")
+                if let text = li4?.text {
+                    UserInfo.shared.violation = text.replacingOccurrences(of: "违规", with: "")
                 }
 
                 html.getFormhash()
+
+                updateProfile()
             }
         }
 
@@ -311,8 +294,21 @@ struct MineContentView: View {
                     }
                 }
                 UserInfo.shared.level = level.joined(separator: "  ")
+                profile.level = UserInfo.shared.level
             }
         }
+    }
+
+    private func updateProfile() {
+        profile.avatar = UserInfo.shared.avatar
+        profile.name = UserInfo.shared.name
+        profile.friend = UserInfo.shared.friend
+        profile.reply = UserInfo.shared.reply
+        profile.topic = UserInfo.shared.topic
+        profile.integral = UserInfo.shared.integral
+        profile.bits = UserInfo.shared.bits
+        profile.violation = UserInfo.shared.violation
+        profile.level = UserInfo.shared.level
     }
 }
 
@@ -325,7 +321,7 @@ struct MineContentView_Previews: PreviewProvider {
 enum ProfileTab: String, CaseIterable, Identifiable {
     case topic
     case firendvisitor
-    case messageboard
+//    case messageboard
     case favorite
     case shielduser
 
@@ -334,7 +330,7 @@ enum ProfileTab: String, CaseIterable, Identifiable {
         switch self {
         case .topic: return "主题"
         case .firendvisitor: return "好友访客"
-        case .messageboard: return "留言板"
+//        case .messageboard: return "留言板"
         case .favorite: return "收藏"
         case .shielduser: return "屏蔽"
         }

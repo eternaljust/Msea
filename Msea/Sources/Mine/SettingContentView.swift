@@ -20,7 +20,7 @@ struct SettingContentView: View {
 
     @State private var itemSections: [SettingSection] = [
         SettingSection(items: [.signalert, .notice, .colorscheme]),
-        SettingSection(items: [.feedback, .review, .contactus, .share, .testflight, .sirishortcut]),
+        SettingSection(items: [.feedback, .review, .contactus, .share, .sirishortcut]),
         SettingSection(items: [.cleancache, .dynamicfont]),
         SettingSection(items: [.urlschemes, .termsofservice, .about])
     ]

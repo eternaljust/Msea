@@ -69,7 +69,7 @@ struct ProfileProvider: IntentTimelineProvider {
             }
             let a3 = html.at_xpath("//ul[@class='cl bbda pbm mbm']//a[3]")?.text ?? ""
             if let text = a3.components(separatedBy: " ").last, !text.isEmpty {
-                profile.thread = text
+                profile.topic = text
             }
 
             let li2 = html.at_xpath("//div[@id='psts']/ul[@class='pf_l']/li[2]")
@@ -134,10 +134,10 @@ struct ProfileWidgetEntryView : View {
             Text("好友: \(Text(entry.profile.friend).foregroundColor(.theme)) 回帖: \(Text(entry.profile.reply).foregroundColor(.theme))")
                 .font(.font12)
 
-            Text("主题: \(Text(entry.profile.thread).foregroundColor(.theme)) 积分: \(Text(entry.profile.integral).foregroundColor(.theme))")
+            Text("主题: \(Text(entry.profile.topic).foregroundColor(.theme)) 积分: \(Text(entry.profile.integral).foregroundColor(.theme))")
                 .font(.font12)
 
-            Text("Bit: \(Text(entry.profile.bits).foregroundColor(.theme)) \("违规"): \(Text(entry.profile.violation != "--" ? entry.profile.violation : entry.profile.violation).foregroundColor(.theme))")
+            Text("Bit: \(Text(entry.profile.bits).foregroundColor(.theme)) \("违规"): \(Text(entry.profile.violation).foregroundColor(.theme))")
                 .font(.font12)
         }
         .widgetURL(URL(string: "msea://space?uid=\(entry.profile.uid)"))
@@ -152,7 +152,7 @@ struct ProfileModel {
     var bits = "--"
     var friend = "--"
     var reply = "--"
-    var thread = "--"
+    var topic = "--"
     var violation = "--"
     var imageData: Data?
 }

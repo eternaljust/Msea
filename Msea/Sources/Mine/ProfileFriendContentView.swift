@@ -1,36 +1,37 @@
 //
-//  MyVisitorTraceContentView.swift
+//  ProfileFriendContentView.swift
 //  Msea
 //
-//  Created by tzqiang on 2022/5/27.
+//  Created by tzqiang on 2022/8/4.
 //  Copyright © 2022 eternal.just. All rights reserved.
 //
 
 import SwiftUI
 import Kanna
 
-/// 我的访客和我的足迹
-struct MyVisitorTraceContentView: View {
-    var type = MyFriendVisitorTraceTab.visitor
+/// 个人空间好友列表
+struct ProfileFriendContentView: View {
+    var uid = ""
 
-    @State private var myFriends = [MyVisitorTraceModel]()
     @State private var page = 1
     @State private var isHidden = false
+    @State private var count = "0"
+    @State private var friends = [MyFriendListModel]()
 
-    @State private var uid = ""
+    @State private var theUid = ""
     @State private var isSpace = false
 
     var body: some View {
         ZStack {
-            if myFriends.isEmpty {
-                Text("暂无记录")
+            if friends.isEmpty {
+                Text("暂无好友")
             } else {
                 ScrollView {
                     LazyVGrid(columns: [GridItem(.fixed(175)), GridItem(.fixed(175))],
                               alignment: .center,
                               pinnedViews: [.sectionHeaders]) {
                         Section {
-                            ForEach(myFriends) { friend in
+                            ForEach(friends) { friend in
                                 HStack {
                                     AsyncImage(url: URL(string: friend.avatar)) { image in
                                         image.resizable()
@@ -41,35 +42,26 @@ struct MyVisitorTraceContentView: View {
                                     .cornerRadius(5)
                                     .onTapGesture(perform: {
                                         if !friend.uid.isEmpty {
-                                            uid = friend.uid
+                                            theUid = friend.uid
                                             isSpace = true
                                         }
                                     })
 
                                     VStack(alignment: .leading, spacing: 5) {
-                                        HStack {
-                                            Text(friend.name)
-                                                .font(.font13)
-
-                                            Spacer()
-
-                                            Text(friend.time)
-                                                .font(.font12)
-                                                .foregroundColor(.secondary)
-                                                .onAppear {
-                                                    if friend.id == myFriends.last?.id {
-                                                        page += 1
-                                                        Task {
-                                                            await loadData()
-                                                        }
+                                        Text(friend.name)
+                                            .font(.font13)
+                                            .onAppear {
+                                                if friend.id == friends.last?.id {
+                                                    page += 1
+                                                    Task {
+                                                        await loadData()
                                                     }
                                                 }
-                                        }
-                                        .padding(.top, 0)
+                                            }
 
-                                        Text(friend.topic)
+                                        Text(friend.integral)
                                             .font(.font12)
-                                            .lineLimit(1)
+                                            .lineLimit(2)
                                     }
 
                                     Spacer()
@@ -78,7 +70,7 @@ struct MyVisitorTraceContentView: View {
                             }
                         } header: {
                             HStack {
-                                Text(type.header)
+                                Text("当前共有 \(Text(count).bold()) 个好友")
 
                                 Spacer()
                             }
@@ -94,17 +86,12 @@ struct MyVisitorTraceContentView: View {
             ProgressView()
                 .isHidden(isHidden)
 
-            NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isSpace) {
+            NavigationLink(destination: SpaceProfileContentView(uid: theUid), isActive: $isSpace) {
                 EmptyView()
             }
             .opacity(0.0)
         }
-        .navigationBarTitle(type.title)
-//        .onAppear {
-//            if !UIDevice.current.isPad {
-//                TabBarTool.showTabBar(false)
-//            }
-//        }
+        .navigationBarTitle("好友列表")
         .task {
             if !isHidden {
                 await loadData()
@@ -115,24 +102,22 @@ struct MyVisitorTraceContentView: View {
     private func loadData() async {
         Task {
             // swiftlint:disable force_unwrapping
-            let url = URL(string: "https://www.chongbuluo.com/home.php?mod=space&uid=\(UserInfo.shared.uid)&do=friend&view=\(type.id)&page=\(page)")!
+            let url = URL(string: "https://www.chongbuluo.com/home.php?mod=space&uid=\(uid)&do=friend&view=me&from=space&page=\(page)")!
             // swiftlint:enble force_unwrapping
             var request = URLRequest(url: url)
             request.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: request)
             if let html = try? HTML(html: data, encoding: .utf8) {
+                if let text = html.at_xpath("//div[@class='bm_c']/p/span[@class='xw1']")?.text {
+                    count = text
+                }
+
                 let lis = html.xpath("//ul[@class='buddy cl']/li")
-                var friends = [MyVisitorTraceModel]()
+                var friends = [MyFriendListModel]()
                 lis.forEach { element in
-                    var friend = MyVisitorTraceModel()
+                    var friend = MyFriendListModel()
                     if let avatar = element.at_xpath("/div[@class='avt']/a/img/@src")?.text {
                         friend.avatar = avatar.replacingOccurrences(of: "&size=small", with: "")
-                    }
-                    if let name = element.text {
-                        friend.name = name
-                    }
-                    if let text = element.at_xpath("/h4/span[@class='xg1 xw0 y']")?.text {
-                        friend.time = text.replacingOccurrences(of: "\n", with: "")
                     }
                     if let href = element.at_xpath("/h4/a/@href")?.text {
                         let uids = href.components(separatedBy: "uid=")
@@ -144,15 +129,15 @@ struct MyVisitorTraceContentView: View {
                         friend.name = text
                     }
                     if let text = element.at_xpath("/p[@class='maxh']")?.text {
-                        friend.topic = text
+                        friend.integral = text.replacingOccurrences(of: "\r\n", with: "")
                     }
 
                     friends.append(friend)
                 }
                 if page == 1 {
-                    myFriends = friends
+                    self.friends = friends
                 } else {
-                    myFriends += friends
+                    self.friends += friends
                 }
             }
 
@@ -161,17 +146,8 @@ struct MyVisitorTraceContentView: View {
     }
 }
 
-struct MyVisitorTraceContentView_Previews: PreviewProvider {
+struct ProfileFriendContentView_Previews: PreviewProvider {
     static var previews: some View {
-        MyVisitorTraceContentView()
+        ProfileFriendContentView()
     }
-}
-
-struct MyVisitorTraceModel: Identifiable {
-    var id = UUID()
-    var name = ""
-    var uid = ""
-    var avatar = ""
-    var time = ""
-    var topic = ""
 }
