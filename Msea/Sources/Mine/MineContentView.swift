@@ -92,7 +92,7 @@ struct MineContentView: View {
                     }
                     .tabViewStyle(.page(indexDisplayMode: .never))
 
-                    NavigationLink(destination: CreditContentView(), isActive: $isCredit) {
+                    NavigationLink(destination: MyCreditContentView(), isActive: $isCredit) {
                         EmptyView()
                     }
                     .opacity(0.0)

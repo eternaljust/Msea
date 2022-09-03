@@ -10,7 +10,7 @@ import SwiftUI
 
 /// 坛友互动
 struct InteractiveContentView: View {
-    @State private var selectedInteractiveTab = InteractiveTab.poke
+    @State private var selectedInteractiveTab = InteractiveTab.friend
 
     var body: some View {
         VStack {
@@ -50,8 +50,8 @@ struct InteractiveContentView_Previews: PreviewProvider {
 }
 
 enum InteractiveTab: String, CaseIterable, Identifiable {
-    case poke
     case friend
+    case poke
 
     var id: String { self.rawValue }
     var title: String {

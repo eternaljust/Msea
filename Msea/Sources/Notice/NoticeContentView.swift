@@ -13,6 +13,7 @@ struct NoticeContentView: View {
     @State private var selectedIndex = 0
     @State private var isPresented = false
     @State private var isLogin = UserInfo.shared.isLogin()
+    @State private var paddingTop: CGFloat = 0
 
     var body: some View {
         NavigationView {
@@ -37,16 +38,23 @@ struct NoticeContentView: View {
                         }
                         .listStyle(.inset)
                     } else {
-                        TabView(selection: $selectedIndex) {
+                        TabView(selection: $selectedItem) {
                             ForEach(NoticeItem.allCases) { item in
                                 getContentView(item)
-                                    .tag(item.index)
+                                    .tag(item)
+                                    .padding(.top, paddingTop)
                             }
                         }
                         .tabViewStyle(.page(indexDisplayMode: .always))
                         .toolbar(content: {
                             ToolbarItem(placement: .principal) {
-                                SegmentedControlView(selectedIndex: $selectedIndex, titles: NoticeItem.allCases.map { $0.title })
+                                Picker("NoticeItem", selection: $selectedItem) {
+                                    ForEach(NoticeItem.allCases) { view in
+                                        Text(view.title)
+                                            .tag(view)
+                                    }
+                                }
+                                .pickerStyle(.segmented)
                             }
                         })
                     }
@@ -57,11 +65,15 @@ struct NoticeContentView: View {
                 }
             }
             .navigationTitle("通知")
+            .navigationBarTitleDisplayMode(.inline)
             .ignoresSafeArea(edges: .bottom)
             .onAppear(perform: {
                 isLogin = UserInfo.shared.isLogin()
                 TabBarTool.showTabBar(true)
                 CacheInfo.shared.selectedTab = .notice
+                if #available(iOS 16.0, *) {
+                    paddingTop = 40
+                }
             })
             .sheet(isPresented: $isPresented) {
                 LoginContentView()
@@ -84,13 +96,13 @@ struct NoticeContentView: View {
     @ViewBuilder private func getContentView(_ item: NoticeItem) -> some View {
         switch item {
         case .mypost:
-            MyPostContentView()
+            PostListContentView()
         case .interactive:
             InteractiveContentView()
         case .system:
             SystemContentView()
-        case .app:
-            AppContentView()
+//        case .app:
+//            AppContentView()
         }
     }
 }
@@ -105,7 +117,7 @@ enum NoticeItem: String, CaseIterable, Identifiable {
     case mypost
     case interactive
     case system
-    case app
+//    case app
 
     var id: String { self.rawValue }
     var icon: String {
@@ -113,7 +125,7 @@ enum NoticeItem: String, CaseIterable, Identifiable {
         case .mypost: return "newspaper"
         case .interactive: return "repeat.circle"
         case .system: return "gearshape"
-        case .app: return "app.badge"
+//        case .app: return "app.badge"
         }
     }
     var title: String {
@@ -121,7 +133,7 @@ enum NoticeItem: String, CaseIterable, Identifiable {
         case .mypost: return "我的帖子"
         case .interactive: return "坛友互动"
         case .system: return "系统提醒"
-        case .app: return "应用提醒"
+//        case .app: return "应用提醒"
         }
     }
     var index: Int {
@@ -129,7 +141,7 @@ enum NoticeItem: String, CaseIterable, Identifiable {
         case .mypost: return 0
         case .interactive: return 1
         case .system: return 2
-        case .app: return 3
+//        case .app: return 3
         }
     }
 }
