@@ -111,11 +111,11 @@ struct LoginContentView: View {
                 .buttonStyle(BigButtonStyle())
                 .padding(.top, 20)
 
-            Button("注册", action: {
-                webURLItem = WebURLItem(url: "https://www.chongbuluo.com/member.php?mod=register")
-            })
-                .buttonStyle(BigButtonStyle())
-                .padding(.top, 20)
+//            Button("注册", action: {
+//                webURLItem = WebURLItem(url: "https://www.chongbuluo.com/member.php?mod=register")
+//            })
+//                .buttonStyle(BigButtonStyle())
+//                .padding(.top, 20)
         }
         .hud(isPresented: $hud.isPresented) {
             Text(hud.message)

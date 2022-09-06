@@ -72,7 +72,7 @@ struct NoticeContentView: View {
                 TabBarTool.showTabBar(true)
                 CacheInfo.shared.selectedTab = .notice
                 if #available(iOS 16.0, *) {
-                    paddingTop = 40
+                    paddingTop = 50
                 }
             })
             .sheet(isPresented: $isPresented) {
