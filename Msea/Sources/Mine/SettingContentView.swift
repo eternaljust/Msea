@@ -24,7 +24,7 @@ struct SettingContentView: View {
         SettingSection(items: [.cleancache, .dynamicfont]),
         SettingSection(items: [.urlschemes, .termsofservice, .about])
     ]
-    @State private var logoutSetion = SettingSection(items: [.logout])
+    @State private var logoutSetion = SettingSection(items: [.delete, .logout])
 
     @State var isShowingMail = false
     @State private var isSharePresented: Bool = false
@@ -32,6 +32,8 @@ struct SettingContentView: View {
     @State private var dynamicTypeSize = UIFontMetrics(forTextStyle: .body).scaledFont(for: .preferredFont(forTextStyle: .body)).pointSize
     @State private var cacheSize = FileManager.default.getCacheSize()
     @State private var showAlert = false
+    @State private var isDeleteAccount = false
+    @State private var confirmDelete = false
 
     var body: some View {
         VStack {
@@ -131,13 +133,17 @@ struct SettingContentView: View {
                                         NotificationCenter.default.post(name: .colorScheme, object: nil)
                                     }
                                 }
-                            case .logout:
+                            case .delete, .logout:
                                 Button {
-                                    if CacheInfo.shared.daysignIsOn || CacheInfo.shared.groupNoticeIsOn {
-                                        showAlert.toggle()
+                                    if item == .delete {
+                                        isDeleteAccount.toggle()
                                     } else {
-                                        Task {
-                                            await logout()
+                                        if CacheInfo.shared.daysignIsOn || CacheInfo.shared.groupNoticeIsOn {
+                                            showAlert.toggle()
+                                        } else {
+                                            Task {
+                                                await logout()
+                                            }
                                         }
                                     }
                                 } label: {
@@ -229,6 +235,20 @@ struct SettingContentView: View {
         } message: {
             Text("退出登录后，已开启的“签到提醒”和“新消息通知”会被关闭，切换账号登录后需重新开启。")
         }
+        .alert("是否注销账号？", isPresented: $isDeleteAccount) {
+            Button("取消", role: .cancel) {
+                confirmDelete = false
+            }
+
+            Button("确认注销") {
+                confirmDelete = true
+                Task {
+                    await logout()
+                }
+            }
+        } message: {
+            Text("⚠️警告⚠️，您一旦选择确认注销账号，我们会在七个工作日内将您的账号删除，账号注销删除后不可恢复，请您慎重决定！")
+        }
         .sheet(isPresented: $isShowingMail) {
             Email(isShowing: $isShowingMail)
         }
@@ -278,20 +298,16 @@ struct SettingContentView: View {
             // swiftlint:enble force_unwrapping
             var request = URLRequest(url: url)
             request.configHeaderFields()
-            let (data, _) = try await URLSession.shared.data(for: request)
-            if let html = try? HTML(html: data, encoding: .utf8), html.toHTML != nil {
-                CacheInfo.shared.daysignIsOn = false
-                CacheInfo.shared.groupNoticeIsOn = false
-                UserInfo.shared.reset()
-                NotificationCenter.default.post(name: .logout, object: nil)
-                hud.show(message: "您已退出登录！")
-                if itemSections.count == 4 {
-                    itemSections.remove(at: 3)
-                }
-                dismiss()
-            } else {
-                hud.show(message: "退出异常，请稍后重试！")
+            let (_, _) = try await URLSession.shared.data(for: request)
+            CacheInfo.shared.daysignIsOn = false
+            CacheInfo.shared.groupNoticeIsOn = false
+            UserInfo.shared.reset()
+            NotificationCenter.default.post(name: .logout, object: nil)
+            hud.show(message: confirmDelete ? "您已申请注销账号，结果将在七个工作日内完成！" : "您已退出登录！")
+            if itemSections.count == 4 {
+                itemSections.remove(at: 3)
             }
+            dismiss()
         }
     }
 
@@ -343,7 +359,7 @@ struct SettingContentView: View {
     @ViewBuilder private func getContentView(_ item: SettingItem) -> some View {
         switch item {
         case .signalert, .review, .colorscheme, .share, .feedback,
-             .contactus, .testflight, .cleancache, .logout:
+                .contactus, .testflight, .cleancache, .delete, .logout:
             EmptyView()
         case .notice:
             MseeageNoticeContentView()
@@ -387,6 +403,7 @@ enum SettingItem: String, CaseIterable, Identifiable {
     case cleancache
     case termsofservice
     case about
+    case delete
     case logout
 
     var id: String { self.rawValue }
@@ -421,6 +438,8 @@ enum SettingItem: String, CaseIterable, Identifiable {
             return "list.bullet.circle.fill"
         case .about:
             return "exclamationmark.circle.fill"
+        case .delete:
+            return ""
         case .logout:
             return ""
         }
@@ -456,6 +475,8 @@ enum SettingItem: String, CaseIterable, Identifiable {
             return "使用条款"
         case .about:
             return "关于 Msea"
+        case .delete:
+            return "注销账号"
         case .logout:
             return "退出登录"
         }
