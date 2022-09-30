@@ -184,11 +184,19 @@ struct LoginContentView: View {
                     let img = html.at_xpath("//div[@id='um']//img/@src")
                     if let space = href?.text {
                         UserInfo.shared.space = space
+                        print("space=", space)
                         let params = space.components(separatedBy: "&")
-                        if let last = params.last, last.contains("uid") {
+                        if let last = params.last, last.contains("uid=") {
                             let uid = last.components(separatedBy: "=")[1]
                             UserInfo.shared.uid = uid
+                        } else if let last = params.last,
+                                    last.contains("uid-") {
+                            let uid = last.components(separatedBy: "uid-")[1]
+                            if uid.contains(".html") {
+                                UserInfo.shared.uid = uid.replacingOccurrences(of: ".html", with: "")
+                            }
                         }
+                        print("uid=", UserInfo.shared.uid)
                     }
                     if let name = blank?.text {
                         UserInfo.shared.name = name
