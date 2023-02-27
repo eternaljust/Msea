@@ -202,8 +202,17 @@ struct Widgets: WidgetBundle {
     @WidgetBundleBuilder
 
     var body: some Widget {
-        TopicWidget()
-        ProfileWidget()
-        NoticeWidget()
+        if #available(iOS 16.0, *) {
+            return WidgetBundleBuilder.buildBlock(SignWidget(), allWidgets())
+        } else {
+            return allWidgets()
+        }
     }
+}
+
+@WidgetBundleBuilder
+private func allWidgets() -> some Widget {
+    TopicWidget()
+    ProfileWidget()
+    NoticeWidget()
 }

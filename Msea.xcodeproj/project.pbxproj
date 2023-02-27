@@ -90,6 +90,7 @@
 		EFC4E1A92835E166009E319E /* InteractiveFriendContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC4E1A82835E166009E319E /* InteractiveFriendContentView.swift */; };
 		EFC4E1AB2835E1C6009E319E /* InteractivePokeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC4E1AA2835E1C6009E319E /* InteractivePokeContentView.swift */; };
 		EFC6D5D52772C2EC00C9B0E0 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFC6D5D42772C2EC00C9B0E0 /* Launch Screen.storyboard */; };
+		EFC7088029AC83F200D2F0D6 /* SignWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC7087F29AC83F200D2F0D6 /* SignWidget.swift */; };
 		EFCB13BC27B36F1E00E50770 /* MseeageNoticeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCB13BB27B36F1E00E50770 /* MseeageNoticeContentView.swift */; };
 		EFCB13BE27B3A6B200E50770 /* NoticeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCB13BD27B3A6B200E50770 /* NoticeWidget.swift */; };
 		EFD6BA66277C05980060239D /* WidgetIntents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = EFD6BA62277BFA4F0060239D /* WidgetIntents.intentdefinition */; };
@@ -236,6 +237,7 @@
 		EFC4E1A82835E166009E319E /* InteractiveFriendContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveFriendContentView.swift; sourceTree = "<group>"; };
 		EFC4E1AA2835E1C6009E319E /* InteractivePokeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractivePokeContentView.swift; sourceTree = "<group>"; };
 		EFC6D5D42772C2EC00C9B0E0 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		EFC7087F29AC83F200D2F0D6 /* SignWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignWidget.swift; sourceTree = "<group>"; };
 		EFCB13BB27B36F1E00E50770 /* MseeageNoticeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MseeageNoticeContentView.swift; sourceTree = "<group>"; };
 		EFCB13BD27B3A6B200E50770 /* NoticeWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeWidget.swift; sourceTree = "<group>"; };
 		EFD6BA62277BFA4F0060239D /* WidgetIntents.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = WidgetIntents.intentdefinition; sourceTree = "<group>"; };
@@ -457,6 +459,7 @@
 				EF70CDEE277AA1B20049D830 /* TopicWidget.swift */,
 				EFD6BA64277C02BC0060239D /* ProfileWidget.swift */,
 				EFCB13BD27B3A6B200E50770 /* NoticeWidget.swift */,
+				EFC7087F29AC83F200D2F0D6 /* SignWidget.swift */,
 				EFD6BA62277BFA4F0060239D /* WidgetIntents.intentdefinition */,
 				EF70CDF0277AA1B30049D830 /* Assets.xcassets */,
 				EF70CDF2277AA1B30049D830 /* Info.plist */,
@@ -816,6 +819,7 @@
 				EFCB13BE27B3A6B200E50770 /* NoticeWidget.swift in Sources */,
 				EF70CDFA277AAA600049D830 /* Color+Extension.swift in Sources */,
 				EFD6BA67277C05B20060239D /* ProfileWidget.swift in Sources */,
+				EFC7088029AC83F200D2F0D6 /* SignWidget.swift in Sources */,
 				EFD6BA66277C05980060239D /* WidgetIntents.intentdefinition in Sources */,
 				EF70CDFB277AAA660049D830 /* Font+Extension.swift in Sources */,
 			);
