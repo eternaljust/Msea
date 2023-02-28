@@ -20,8 +20,10 @@ struct SignProvider: TimelineProvider {
     }
 
     func getSnapshot(in context: Context, completion: @escaping (SignEntry) -> Void) {
-        let entry = SignEntry(date: .now, sign: SignModel())
-        completion(entry)
+        Task {
+            let entry = try await SignEntry(date: .now, sign: getSign())
+            completion(entry)
+        }
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<SignEntry>) -> Void) {
@@ -53,6 +55,44 @@ struct SignProvider: TimelineProvider {
                 text_btn = text
             }
             signModel.signText = text_btn.trimmingCharacters(in: .whitespacesAndNewlines)
+
+            var list = [CalendarDayModel]()
+            let calendar = html.at_xpath("//div[@class='wqpc_sign_btn_calendar']")
+            let dates = calendar?.xpath("/ul[@class='wq_date']/li")
+            dates?.forEach { element in
+                var model = CalendarDayModel()
+                if let text = element.at_xpath("/span")?.text {
+                    model.title = text
+                }
+                if let text = element.at_xpath("/span/i/@class")?.text, text == "wqsign_dot_red" || text == "wqsign_dot_white" {
+                    model.isSign = true
+                }
+                if let text = element.at_xpath("/span/@class")?.text, text == "wq_sign_today" {
+                    model.isToday = true
+                }
+                list.append(model)
+            }
+            if !list.isEmpty {
+                var todayRow = 0
+                for (index, item) in list.enumerated() where item.isToday {
+                    todayRow = index / 7
+                }
+
+                var days = [CalendarDayModel]()
+                for (index, item) in list.enumerated() {
+                    if todayRow == 0 {
+                        if index / 7 == 0 || index / 7 == 1 {
+                            days.append(item)
+                        }
+                    } else {
+                        if index / 7 == todayRow - 1 || index / 7 == todayRow {
+                            days.append(item)
+                        }
+                    }
+                }
+
+                signModel.dates = days
+            }
         }
         return signModel
     }
@@ -60,12 +100,51 @@ struct SignProvider: TimelineProvider {
 
 struct SignEntry: TimelineEntry {
     var date: Date
-    var sign: SignModel
+    var sign = SignModel()
 }
 
 struct SignModel: Identifiable {
     var id = UUID()
     var signText = "今日未签到，点击签到"
+
+    var dates = [CalendarDayModel]()
+    private var weeks: [CalendarDayModel] = [
+        CalendarDayModel(title: "日"),
+        CalendarDayModel(title: "一"),
+        CalendarDayModel(title: "二"),
+        CalendarDayModel(title: "三"),
+        CalendarDayModel(title: "四"),
+        CalendarDayModel(title: "五"),
+        CalendarDayModel(title: "六")
+    ]
+    var list: [CalendarDayModel] {
+        // swiftlint:disable implicit_getter
+        get {
+            var days = [CalendarDayModel]()
+            days.append(contentsOf: weeks)
+
+            if dates.isEmpty {
+                for index in 1...14 {
+                    days.append(CalendarDayModel(title: "\(index)"))
+                }
+            } else {
+                dates.forEach { day in
+                    days.append(day)
+                }
+            }
+
+            return days
+        }
+        // swiftlint:enble implicit_getter
+    }
+}
+
+struct CalendarDayModel: Identifiable {
+    var id = UUID()
+
+    var title = ""
+    var isSign = false
+    var isToday = false
 }
 
 @available (iOSApplicationExtension 16, *)
@@ -79,15 +158,28 @@ struct SignWidgetEntryView: View {
             Text(entry.sign.signText)
                 .widgetURL(URL(string: "msea://daysign"))
         case .accessoryRectangular:
-            HStack(alignment: .center, spacing: 0) {
-                VStack(alignment: .leading) {
-                    Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-                        .font(.headline)
-                        .widgetAccentable()
+            let columns = [GridItem(.fixed(15)), GridItem(.fixed(15)), GridItem(.fixed(15)), GridItem(.fixed(15)), GridItem(.fixed(15)), GridItem(.fixed(15)), GridItem(.fixed(15))]
+            LazyVGrid(columns: columns, spacing: 3) {
+                ForEach(entry.sign.list) { date in
+                    RoundedRectangle(cornerRadius: 3)
+                        .frame(width: 18, height: 18)
+                        .foregroundColor(date.isToday ? Color(white: 1.0) : Color(white: 0.1))
+                        .overlay(
+                            VStack(alignment: .center, spacing: 0) {
+                                Text(date.title)
+                                    .font(.system(size: 10))
+                                    .foregroundColor(date.isToday ? .black : .white)
 
-                    Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-                }.frame(maxWidth: .infinity, alignment: .leading)
+                                if date.isSign {
+                                    Circle()
+                                        .frame(width: 3, height: 3)
+                                        .foregroundColor(date.isToday ? .black : .white)
+                                }
+                            }
+                        )
+                }
             }
+            .widgetURL(URL(string: "msea://daysign"))
         case .accessoryCircular:
             ZStack {
 //                AccessoryWidgetBackground()
@@ -98,7 +190,7 @@ struct SignWidgetEntryView: View {
             }
             .widgetURL(URL(string: "msea://daysign"))
         default:
-            Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+            Text("签到")
         }
     }
 }
@@ -113,7 +205,7 @@ struct SignWidget: Widget {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .configurationDisplayName("签到")
-        .description("签到相关的操作")
+        .description("签到按钮与签到月历")
         .supportedFamilies([.accessoryInline, .accessoryRectangular, .accessoryCircular])
     }
 }
@@ -122,11 +214,11 @@ struct SignWidget: Widget {
 struct SignWidget_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            SignWidgetEntryView(entry: SignEntry(date: .now, sign: SignModel()))
+            SignWidgetEntryView(entry: SignEntry(date: .now))
                 .previewContext(WidgetPreviewContext(family: .accessoryInline))
-            SignWidgetEntryView(entry: SignEntry(date: .now, sign: SignModel()))
+            SignWidgetEntryView(entry: SignEntry(date: .now))
                 .previewContext(WidgetPreviewContext(family: .accessoryRectangular))
-            SignWidgetEntryView(entry: SignEntry(date: .now, sign: SignModel()))
+            SignWidgetEntryView(entry: SignEntry(date: .now))
                 .previewContext(WidgetPreviewContext(family: .accessoryCircular))
         }
     }
