@@ -9,6 +9,18 @@
 import SwiftUI
 import WebKit
 
+let kJavaScriptClickImage =
+"""
+function registerImageClickAction() {
+    var imgs = document.getElementsByTagName('img');
+    for(var i = 0; i < imgs.length; i++) {
+        imgs[i].onclick = function() {
+            window.location.href = 'image-preview:' + this.src;
+        }
+   }
+}
+"""
+
 struct Web: UIViewRepresentable {
     @Environment(\.colorScheme) private var colorScheme
 
@@ -75,6 +87,9 @@ struct Web: UIViewRepresentable {
                     }
                 }
             })
+            // 点击图片
+            webView.evaluateJavaScript(kJavaScriptClickImage, completionHandler: nil)
+            webView.evaluateJavaScript("registerImageClickAction()", completionHandler: nil)
         }
 
         func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
@@ -85,6 +100,10 @@ struct Web: UIViewRepresentable {
                 // 处理部分帖子内嵌视频播放加载失败
                 let absoluteString = url.absoluteString
                 if absoluteString.contains("matterportvr") || absoluteString.contains("youtu") {
+                    decisionHandler(.allow)
+                } else if absoluteString.hasPrefix("image-preview:") {
+                    let imageUrl = absoluteString.suffix(from: "image-preview:".endIndex)
+                    print("imageUrl = \(imageUrl)")
                     decisionHandler(.allow)
                 } else {
                     decisionHandler(.cancel)
