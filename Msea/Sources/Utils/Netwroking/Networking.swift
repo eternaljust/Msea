@@ -94,16 +94,16 @@ extension HTMLDocument {
             id = src
         } else if let src = self.at_xpath("//div[@class='wp cl']//span[@class='xs0 xw0']/a[last()]/@href")?.text {
             id = src
+        } else if let scr = self.at_xpath("//div[@class='bm cl']/div/a[2]/@href")?.text {
+            id = scr
         }
         print(id)
         id = id.replacingOccurrences(of: "&size=middle", with: "")
         id = id.replacingOccurrences(of: "&size=big", with: "")
         id = id.replacingOccurrences(of: "&size=small", with: "")
         id = id.replacingOccurrences(of: "&boan_h5avatar=yes", with: "")
-        if id.contains("uid=") {
-            return id.components(separatedBy: "uid=")[1]
-        }
-        return ""
+
+        return id.getUid()
     }
 }
 
@@ -112,5 +112,14 @@ extension String {
         let charactersToEscape = "?!@#$^&%*+,:;='\"`<>()[]{}/\\| "
         let allowedCharacters = NSCharacterSet(charactersIn: charactersToEscape).inverted
         return self.addingPercentEncoding(withAllowedCharacters: allowedCharacters) ?? self
+    }
+
+    func getUid() -> String {
+        if self.contains("uid=") {
+            return self.components(separatedBy: "uid=")[1]
+        } else if self.contains("space-uid-") && self.contains(".html") {
+            return self.components(separatedBy: "space-uid-")[1].components(separatedBy: ".html")[0]
+        }
+        return ""
     }
 }

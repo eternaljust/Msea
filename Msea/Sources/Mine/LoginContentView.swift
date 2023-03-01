@@ -186,15 +186,8 @@ struct LoginContentView: View {
                         UserInfo.shared.space = space
                         print("space=", space)
                         let params = space.components(separatedBy: "&")
-                        if let last = params.last, last.contains("uid=") {
-                            let uid = last.components(separatedBy: "=")[1]
-                            UserInfo.shared.uid = uid
-                        } else if let last = params.last,
-                                    last.contains("uid-") {
-                            let uid = last.components(separatedBy: "uid-")[1]
-                            if uid.contains(".html") {
-                                UserInfo.shared.uid = uid.replacingOccurrences(of: ".html", with: "")
-                            }
+                        if let last = params.last, last.contains("uid") {
+                            UserInfo.shared.uid = last.getUid()
                         }
                         print("uid=", UserInfo.shared.uid)
                     }

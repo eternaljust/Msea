@@ -199,7 +199,7 @@ struct HomeContentView: View {
                 }
             case .space:
                 if let query = url.query, query.contains("uid=") {
-                    uid = query.components(separatedBy: "=")[1]
+                    uid = query.getUid()
                     if Int(uid) != nil {
                         if UserInfo.shared.isLogin(), UserInfo.shared.uid == uid {
                             CacheInfo.shared.selectedTab = .mine

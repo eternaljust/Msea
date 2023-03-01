@@ -197,11 +197,7 @@ struct TreadRankContentView: View {
                         model.count = count
                     }
                     if let uid = element.at_xpath("/td[@class='by']/cite/a/@href")?.text {
-                        if uid.contains("space-uid-") {
-                            model.uid = uid.components(separatedBy: "space-uid-")[1].components(separatedBy: ".")[0]
-                        } else if uid.contains("uid=") {
-                            model.uid = uid.components(separatedBy: "uid=")[1]
-                        }
+                        model.uid = uid.getUid()
                     }
                     if let tid = element.at_xpath("/th/a/@href")?.text {
                         if tid.contains("thread-") {

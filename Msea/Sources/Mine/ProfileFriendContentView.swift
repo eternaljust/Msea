@@ -120,10 +120,7 @@ struct ProfileFriendContentView: View {
                         friend.avatar = avatar.replacingOccurrences(of: "&size=small", with: "")
                     }
                     if let href = element.at_xpath("/h4/a/@href")?.text {
-                        let uids = href.components(separatedBy: "uid=")
-                        if let uid = uids.last {
-                            friend.uid = uid
-                        }
+                        friend.uid = href.getUid()
                     }
                     if let text = element.at_xpath("/h4/a")?.text {
                         friend.name = text

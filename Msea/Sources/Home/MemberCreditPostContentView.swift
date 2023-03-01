@@ -156,11 +156,7 @@ struct MemberCreditPostContentView: View {
                         model.name = name
                     }
                     if let uid = element.at_xpath("/dt[last()]/a/@href")?.text {
-                        if uid.contains("space-uid-") {
-                            model.uid = uid.components(separatedBy: "space-uid-")[1].components(separatedBy: ".")[0]
-                        } else if uid.contains("uid=") {
-                            model.uid = uid.components(separatedBy: "uid=")[1]
-                        }
+                        model.uid = uid.getUid()
                         model.avatar = "https://www.chongbuluo.com/uc_server/avatar.php?uid=\(model.uid)"
                     }
                     if let title = element.at_xpath("/dd[last()]/p")?.text {

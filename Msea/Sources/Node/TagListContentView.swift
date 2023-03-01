@@ -228,8 +228,8 @@ struct TagListContentView: View {
                         if let name = element.at_xpath("/td[@class='by']/cite")?.text {
                             topic.name = name.replacingOccurrences(of: "\n", with: "")
                         }
-                        if let uid = element.at_xpath("/td[@class='by']/cite/a/@href")?.text, uid.contains("uid=") {
-                            topic.uid = uid.components(separatedBy: "uid=")[1]
+                        if let uid = element.at_xpath("/td[@class='by']/cite/a/@href")?.text, uid.contains("uid") {
+                            topic.uid = uid.getUid()
                         }
                         if let name = element.at_xpath("/td[@class='by'][last()]/cite")?.text {
                             topic.lastName = name.replacingOccurrences(of: "\n", with: "")

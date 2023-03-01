@@ -170,8 +170,8 @@ struct InteractivePokeContentView: View {
                         poke.name = name
                     }
                     if let uid = element.at_xpath("//dd[@class='ntc_body']/a[1]/@href")?.text,
-                       uid.contains("uid=") {
-                        poke.uid = uid.components(separatedBy: "uid=")[1]
+                       uid.contains("uid") {
+                        poke.uid = uid.getUid()
                     }
                     if let text = element.at_xpath("//dd[@class='ntc_body']/a[2]")?.text {
                         poke.action = text

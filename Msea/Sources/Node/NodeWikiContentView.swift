@@ -325,11 +325,7 @@ struct NodeWikiContentView: View {
                         model.name = name
                     }
                     if let uid = element.at_xpath("/div[@class='info']/a[3]/@href")?.text {
-                        if uid.contains("space-uid-") {
-                            model.uid = uid.components(separatedBy: "space-uid-")[1].components(separatedBy: ".")[0]
-                        } else if uid.contains("uid=") {
-                            model.uid = uid.components(separatedBy: "uid=")[1]
-                        }
+                        model.uid = uid.getUid()
                     }
                     if let comment = element.at_xpath("/div[@class='info']/em[1]")?.text {
                         model.comment = comment.replacingOccurrences(of: " ", with: "")

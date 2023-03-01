@@ -270,11 +270,7 @@ struct NodeListContentView: View {
                             topic.examine = examine
                         }
                         if let uid = element.at_xpath("//cite/a//@href")?.text {
-                            if uid.contains("space-uid-") {
-                                topic.uid = uid.components(separatedBy: "space-uid-")[1].components(separatedBy: ".")[0]
-                            } else if uid.contains("uid=") {
-                                topic.uid = uid.components(separatedBy: "uid=")[1]
-                            }
+                            topic.uid = uid.getUid()
                         }
                         if let id = element.at_xpath("//@id")?.text, let tid = id.components(separatedBy: "_").last {
                             topic.tid = tid

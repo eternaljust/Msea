@@ -94,10 +94,7 @@ struct SearchUserContentView: View {
                         user.content = content.replacingOccurrences(of: "\r\n", with: "")
                     }
                     if let uid = element.at_xpath("/h4/a/@href")?.text {
-                        let uids = uid.components(separatedBy: "uid=")
-                        if uid.contains("uid"), uids.count == 2 {
-                            user.uid = uids[1]
-                        }
+                        user.uid = uid.getUid()
                     }
 
                     list.append(user)

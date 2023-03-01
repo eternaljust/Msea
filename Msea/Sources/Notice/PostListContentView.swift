@@ -132,8 +132,8 @@ struct PostListContentView: View {
                         post.name = name
                     }
                     if let uid = element.at_xpath("//dd[@class='ntc_body']/a[1]/@href")?.text,
-                       uid.contains("uid=") {
-                        post.uid = uid.components(separatedBy: "uid=")[1]
+                       uid.contains("uid") {
+                        post.uid = uid.getUid()
                     }
                     if let title = element.at_xpath("//dd[@class='ntc_body']/a[2]")?.text {
                         post.title = title

@@ -133,8 +133,8 @@ struct InteractiveFriendContentView: View {
                         friend.name = name
                     }
                     if let uid = element.at_xpath("//dd[@class='ntc_body']/a[1]/@href")?.text,
-                       uid.contains("uid=") {
-                        friend.uid = uid.components(separatedBy: "uid=")[1]
+                       uid.contains("uid") {
+                        friend.uid = uid.getUid()
                     }
                     if let text = element.at_xpath("//dd[@class='ntc_body']/a[2]")?.text {
                         friend.action = text
