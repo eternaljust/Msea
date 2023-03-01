@@ -53,6 +53,9 @@ final class FSAppDelegate: NSObject, UIApplicationDelegate, UIWindowSceneDelegat
           channel = Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt" ? "TestFlight" : nil
         #endif
         UMConfigure.initWithAppkey("5dbb9469570df3e553000449", channel: channel)
+        UMCrashConfigure.setCrashCBBlock {
+            return ""
+        }
     }
 }
 

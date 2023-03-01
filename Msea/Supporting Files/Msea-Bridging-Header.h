@@ -11,5 +11,6 @@
 
 #import <UMCommon/UMCommon.h>
 #import <UMCommon/MobClick.h>
+#import <UMAPM/UMCrashConfigure.h>
 
 #endif /* Msea_Bridging_Header_h */

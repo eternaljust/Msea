@@ -47,7 +47,7 @@
 		EF70CDEC277AA1B20049D830 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF70CDEB277AA1B20049D830 /* SwiftUI.framework */; };
 		EF70CDEF277AA1B20049D830 /* TopicWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70CDEE277AA1B20049D830 /* TopicWidget.swift */; };
 		EF70CDF1277AA1B30049D830 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF70CDF0277AA1B30049D830 /* Assets.xcassets */; };
-		EF70CDF5277AA1B30049D830 /* TopicWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EF70CDE8277AA1B20049D830 /* TopicWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EF70CDF5277AA1B30049D830 /* TopicWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = EF70CDE8277AA1B20049D830 /* TopicWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EF70CDFA277AAA600049D830 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF082EEC275F0C6A00056BCA /* Color+Extension.swift */; };
 		EF70CDFB277AAA660049D830 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4314C27608B3A00319073 /* Font+Extension.swift */; };
 		EF7177EE27857A8700113670 /* GifImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7177ED27857A8700113670 /* GifImage.swift */; };
@@ -69,7 +69,7 @@
 		EF9012802761A3D90079BF4C /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF90127F2761A3D90079BF4C /* HUD.swift */; };
 		EFA1350C277C3A540060A172 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFD6BA6D277C07650060239D /* Intents.framework */; };
 		EFA1350F277C3A540060A172 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA1350E277C3A540060A172 /* IntentHandler.swift */; };
-		EFA13513277C3A540060A172 /* WidgetIntentHandler.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EFA1350B277C3A540060A172 /* WidgetIntentHandler.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EFA13513277C3A540060A172 /* WidgetIntentHandler.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = EFA1350B277C3A540060A172 /* WidgetIntentHandler.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EFA87A03279F8EE100DAD877 /* CreditContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA87A02279F8EE100DAD877 /* CreditContentView.swift */; };
 		EFA87A05279F903000DAD877 /* MyCreditContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA87A04279F903000DAD877 /* MyCreditContentView.swift */; };
 		EFA87A07279F904000DAD877 /* UserGroupContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA87A06279F904000DAD877 /* UserGroupContentView.swift */; };
@@ -131,16 +131,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		EF70CDF6277AA1B30049D830 /* Embed App Extensions */ = {
+		EF70CDF6277AA1B30049D830 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				EF70CDF5277AA1B30049D830 /* TopicWidgetExtension.appex in Embed App Extensions */,
-				EFA13513277C3A540060A172 /* WidgetIntentHandler.appex in Embed App Extensions */,
+				EF70CDF5277AA1B30049D830 /* TopicWidgetExtension.appex in Embed Foundation Extensions */,
+				EFA13513277C3A540060A172 /* WidgetIntentHandler.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -642,7 +642,7 @@
 				EFE76C572759EE3B00D89EA6 /* Resources */,
 				EF2E327A2759F7E9005151DE /* Run SwiftLint */,
 				CFAFA79507B4B4B819430F75 /* [CP] Embed Pods Frameworks */,
-				EF70CDF6277AA1B30049D830 /* Embed App Extensions */,
+				EF70CDF6277AA1B30049D830 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -663,7 +663,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1320;
-				LastUpgradeCheck = 1310;
+				LastUpgradeCheck = 1420;
 				ORGANIZATIONNAME = eternal.just;
 				TargetAttributes = {
 					EF70CDE7277AA1B20049D830 = {
@@ -946,7 +946,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = TopicWidget/TopicWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 55;
+				CURRENT_PROJECT_VERSION = 58;
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TopicWidget/Info.plist;
@@ -958,7 +958,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.3.7;
+				MARKETING_VERSION = 1.3.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.eternaljust.Msea.TopicWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -976,7 +976,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = TopicWidget/TopicWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 55;
+				CURRENT_PROJECT_VERSION = 58;
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TopicWidget/Info.plist;
@@ -988,7 +988,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.3.7;
+				MARKETING_VERSION = 1.3.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.eternaljust.Msea.TopicWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1003,7 +1003,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = WidgetIntentHandler/WidgetIntentHandler.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 55;
+				CURRENT_PROJECT_VERSION = 58;
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WidgetIntentHandler/Info.plist;
@@ -1015,7 +1015,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.3.7;
+				MARKETING_VERSION = 1.3.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.eternaljust.Msea.WidgetIntentHandler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1030,7 +1030,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = WidgetIntentHandler/WidgetIntentHandler.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 55;
+				CURRENT_PROJECT_VERSION = 58;
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WidgetIntentHandler/Info.plist;
@@ -1042,7 +1042,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.3.7;
+				MARKETING_VERSION = 1.3.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.eternaljust.Msea.WidgetIntentHandler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1179,7 +1179,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/Msea/Supporting Files/Msea.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 55;
+				CURRENT_PROJECT_VERSION = 58;
 				DEVELOPMENT_ASSET_PATHS = "\"Msea/Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				ENABLE_PREVIEWS = YES;
@@ -1195,7 +1195,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.7;
+				MARKETING_VERSION = 1.3.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.eternaljust.Msea;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1214,7 +1214,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/Msea/Supporting Files/Msea.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 55;
+				CURRENT_PROJECT_VERSION = 58;
 				DEVELOPMENT_ASSET_PATHS = "\"Msea/Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = 936M5Y4RHX;
 				ENABLE_PREVIEWS = YES;
@@ -1230,7 +1230,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.7;
+				MARKETING_VERSION = 1.3.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.eternaljust.Msea;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

@@ -13,6 +13,7 @@ target 'Msea' do
   # 友盟
   pod 'UMCommon'
   pod 'UMDevice'
+  pod 'UMAPM'
   
 end
 

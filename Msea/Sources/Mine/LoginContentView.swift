@@ -214,12 +214,10 @@ struct LoginContentView: View {
                 }
             }
             if let cookies = HTTPCookieStorage.shared.cookies {
-                for cookie in cookies {
-                    if cookie.name.contains("auth") {
-                        let auth = "\(cookie.name)=\(cookie.value);"
-                        UserInfo.shared.auth = auth
-                        print(auth)
-                    }
+                for cookie in cookies where cookie.name.contains("auth") {
+                    let auth = "\(cookie.name)=\(cookie.value);"
+                    UserInfo.shared.auth = auth
+                    print(auth)
                 }
             }
         }
