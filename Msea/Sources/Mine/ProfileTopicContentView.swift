@@ -206,10 +206,7 @@ struct ProfileTopicContentView: View {
                             topic.title = text
                         }
                         if let text = element.at_xpath("/th/a/@href")?.text {
-                            let tids = text.components(separatedBy: "tid=")
-                            if tids.count == 2 {
-                                topic.tid = tids[1]
-                            }
+                            topic.tid = text.getTid()
                         }
                         if let xg1 = element.at_xpath("/td/a[@class='xg1']")?.text {
                             topic.plate = xg1

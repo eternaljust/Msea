@@ -122,4 +122,15 @@ extension String {
         }
         return ""
     }
+
+    func getTid() -> String {
+        if self.contains("thread-") && self.contains(".html") {
+            return self.components(separatedBy: "thread-")[1].components(separatedBy: "-")[0]
+        } else if self.contains("tid=") {
+            return self.components(separatedBy: "tid=")[1]
+        } else if self.contains("ptid=") {
+            return self.components(separatedBy: "ptid=")[1]
+        }
+        return ""
+    }
 }

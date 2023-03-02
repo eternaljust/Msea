@@ -200,11 +200,7 @@ struct TreadRankContentView: View {
                         model.uid = uid.getUid()
                     }
                     if let tid = element.at_xpath("/th/a/@href")?.text {
-                        if tid.contains("thread-") {
-                            model.tid = tid.components(separatedBy: "-")[1]
-                        } else if tid.contains("tid=") {
-                            model.tid = tid.components(separatedBy: "tid=")[1]
-                        }
+                        model.tid = tid.getTid()
                     }
                     list.append(model)
                 }

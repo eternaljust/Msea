@@ -89,9 +89,8 @@ struct FavoriteContentView: View {
                     if let time = element.at_xpath("//span[@class='xg1']")?.text {
                         post.time = time
                     }
-                    if let tid = element.at_xpath("/a[2]/@href")?.text,
-                       tid.contains("tid=") {
-                        post.tid = tid.components(separatedBy: "tid=")[1]
+                    if let tid = element.at_xpath("/a[2]/@href")?.text {
+                        post.tid = tid.getTid()
                     }
                     if let title = element.at_xpath("/a[2]")?.text {
                         post.title = title
