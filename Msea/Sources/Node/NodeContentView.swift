@@ -426,6 +426,7 @@ struct NodeListModel: Identifiable {
         case "126": return "g.circle"
         case "127": return "applelogo"
         case "128": return "gyroscope"
+        case "130": return "network"
         default: return "yensign.circle"
         }
     }

@@ -241,15 +241,13 @@ enum ViewTab: String, CaseIterable, Identifiable {
     case new
     case hot
     case newthread
-    case sofa
 
     var id: String { self.rawValue }
     var title: String {
         switch self {
         case .new: return "最新回复"
-        case .hot: return "热门"
+        case .hot: return "最新热门"
         case .newthread: return "最新发表"
-        case .sofa: return "前排"
         }
     }
 }
