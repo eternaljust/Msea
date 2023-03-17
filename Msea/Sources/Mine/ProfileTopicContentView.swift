@@ -189,44 +189,45 @@ struct ProfileTopicContentView: View {
     private func loadData() async {
         Task {
             // swiftlint:disable force_unwrapping
-            let url = URL(string: "https://www.chongbuluo.com/home.php?mod=space&uid=\(uid)&do=thread&view=me&order=dateline&from=space&page=\(page)")!
+            let url = URL(string: "https://www.chongbuluo.com/home.php?mod=space&uid=\(uid)&do=thread&view=me&from=space&type=thread&page=\(page)")!
             // swiftlint:enble force_unwrapping
             var request = URLRequest(url: url)
             request.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: request)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                let content = html.xpath("//div[@class='bm_c']//table/tr")
+                let content = html.xpath("//div[@class='tl']/form/table/tr")
                 var list = [ProfileTopicListModel]()
                 content.forEach { element in
+                    var topic = ProfileTopicListModel()
                     if let gif = element.at_xpath("/td[@class='icn']/a/img/@src")?.text {
-                        var topic = ProfileTopicListModel()
                         topic.gif = "https://www.chongbuluo.com/" + gif
+                    }
+                    if let text = element.at_xpath("/th/a")?.text {
+                        topic.title = text
+                    }
+                    if let text = element.at_xpath("/th/a/@href")?.text {
+                        topic.tid = text.getTid()
+                    }
+                    if let xg1 = element.at_xpath("/td/a[@class='xg1']")?.text {
+                        topic.plate = xg1
+                    }
+                    if let href = element.at_xpath("/td/a[@class='xg1']/@href")?.text, href.contains("fid=") {
+                        topic.fid = href.components(separatedBy: "fid=")[1]
+                    }
+                    if let xi2 = element.at_xpath("/td[@class='num']/a[@class='xi2']")?.text, let reply = Int(xi2) {
+                        topic.reply = reply
+                    }
+                    if let em = element.at_xpath("/td[@class='num']/em")?.text, let examine = Int(em) {
+                        topic.examine = examine
+                    }
+                    if let name = element.at_xpath("/td[@class='by']/cite")?.text {
+                        topic.name = name
+                    }
+                    if let time = element.at_xpath("/td[@class='by']/em")?.text {
+                        topic.time = time
+                    }
 
-                        if let text = element.at_xpath("/th/a")?.text {
-                            topic.title = text
-                        }
-                        if let text = element.at_xpath("/th/a/@href")?.text {
-                            topic.tid = text.getTid()
-                        }
-                        if let xg1 = element.at_xpath("/td/a[@class='xg1']")?.text {
-                            topic.plate = xg1
-                        }
-                        if let href = element.at_xpath("/td/a[@class='xg1']/@href")?.text, href.contains("fid=") {
-                            topic.fid = href.components(separatedBy: "fid=")[1]
-                        }
-                        if let xi2 = element.at_xpath("/td[@class='num']/a[@class='xi2']")?.text, let reply = Int(xi2) {
-                            topic.reply = reply
-                        }
-                        if let em = element.at_xpath("/td[@class='num']/em")?.text, let examine = Int(em) {
-                            topic.examine = examine
-                        }
-                        if let name = element.at_xpath("/td[@class='by']/cite")?.text {
-                            topic.name = name
-                        }
-                        if let time = element.at_xpath("/td[@class='by']/em")?.text {
-                            topic.time = time
-                        }
-
+                    if !topic.title.isEmpty {
                         list.append(topic)
                     }
                 }

@@ -59,16 +59,13 @@ struct ProfileProvider: IntentTimelineProvider {
                 profile.name = name.replacingOccurrences(of: "\n", with: "")
             }
 
+            profile.reply = ""
             let a1 = html.at_xpath("//ul[@class='cl bbda pbm mbm']//a[1]")?.text ?? ""
             if let text = a1.components(separatedBy: " ").last, !text.isEmpty {
-                profile.friend = text
+                profile.reply = text
             }
             let a2 = html.at_xpath("//ul[@class='cl bbda pbm mbm']//a[2]")?.text ?? ""
             if let text = a2.components(separatedBy: " ").last, !text.isEmpty {
-                profile.reply = text
-            }
-            let a3 = html.at_xpath("//ul[@class='cl bbda pbm mbm']//a[3]")?.text ?? ""
-            if let text = a3.components(separatedBy: " ").last, !text.isEmpty {
                 profile.topic = text
             }
 
@@ -131,7 +128,7 @@ struct ProfileWidgetEntryView : View {
                 .foregroundColor(.secondaryTheme)
                 .padding(.bottom, -2)
 
-            Text("好友: \(Text(entry.profile.friend).foregroundColor(.theme)) 回帖: \(Text(entry.profile.reply).foregroundColor(.theme))")
+            Text("回帖: \(Text(entry.profile.reply).foregroundColor(.theme))")
                 .font(.font12)
 
             Text("主题: \(Text(entry.profile.topic).foregroundColor(.theme)) 积分: \(Text(entry.profile.integral).foregroundColor(.theme))")

@@ -431,6 +431,7 @@ struct DaySignContentView: View {
                         hud.show(message: message)
                     }
                 }
+                signMessage = ""
                 closeDialog()
                 await loadData()
             }

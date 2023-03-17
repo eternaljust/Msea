@@ -24,6 +24,7 @@ struct MineContentView: View {
     @StateObject private var selection = MyFriendVisitorTraceSelection()
     @State private var isVisitorTrace = false
 
+    private let tabs = [ProfileTab.topic, ProfileTab.favorite, ProfileTab.shielduser]
     private let columns = [
         GridItem(.adaptive(minimum: 60, maximum: 80), spacing: 10)
     ]
@@ -57,14 +58,14 @@ struct MineContentView: View {
                             .padding(.bottom, -2)
                     }
 
-                    Text("好友: \(Text(profile.friend).foregroundColor(.theme))  回帖: \(Text(profile.reply).foregroundColor(.theme))  主题: \(Text(profile.topic).foregroundColor(.theme))")
+                    Text("回帖: \(Text(profile.reply).foregroundColor(.theme))  主题: \(Text(profile.topic).foregroundColor(.theme))")
                         .font(.font16)
 
                     Text("积分: \(Text(profile.integral).foregroundColor(.theme))  Bit: \(Text(profile.bits).foregroundColor(.theme))  违规:  \(Text(profile.violation).foregroundColor(.theme))")
                         .font(.font16)
 
                     Picker("ProfileTabMine", selection: $selectedProfileTab) {
-                        ForEach(ProfileTab.allCases) { view in
+                        ForEach(tabs) { view in
                             Text(view.title)
                                 .tag(view)
                         }
@@ -73,7 +74,7 @@ struct MineContentView: View {
                     .padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))
 
                     TabView(selection: $selectedProfileTab) {
-                        ForEach(ProfileTab.allCases) { mine in
+                        ForEach(tabs) { mine in
                             switch mine {
                             case .topic:
                                 ProfileTopicContentView(uid: UserInfo.shared.uid)
@@ -234,18 +235,19 @@ struct MineContentView: View {
                     UserInfo.shared.name = name.replacingOccurrences(of: "\n", with: "")
                 }
 
+                profile.friend = ""
                 let a1 = html.at_xpath("//ul[@class='cl bbda pbm mbm']//a[1]")?.text ?? ""
                 if let text = a1.components(separatedBy: " ").last, !text.isEmpty {
-                    UserInfo.shared.friend = text
+                    UserInfo.shared.reply = text
                 }
                 let a2 = html.at_xpath("//ul[@class='cl bbda pbm mbm']//a[2]")?.text ?? ""
                 if let text = a2.components(separatedBy: " ").last, !text.isEmpty {
-                    UserInfo.shared.reply = text
-                }
-                let a3 = html.at_xpath("//ul[@class='cl bbda pbm mbm']//a[3]")?.text ?? ""
-                if let text = a3.components(separatedBy: " ").last, !text.isEmpty {
                     UserInfo.shared.topic = text
                 }
+//                let a3 = html.at_xpath("//ul[@class='cl bbda pbm mbm']//a[3]")?.text ?? ""
+//                if let text = a3.components(separatedBy: " ").last, !text.isEmpty {
+//                    UserInfo.shared.topic = text
+//                }
 
                 let li2 = html.at_xpath("//div[@id='psts']/ul[@class='pf_l']/li[2]")
                 if let text = li2?.text {

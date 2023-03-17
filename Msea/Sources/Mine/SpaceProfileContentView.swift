@@ -18,7 +18,7 @@ struct SpaceProfileContentView: View {
     @State private var profile = ProfileModel()
     @EnvironmentObject private var hud: HUDState
     @State private var isShielding = false
-    @State private var tabs: [ProfileTab] = [.topic, .firendvisitor]
+    @State private var tabs: [ProfileTab] = [.topic]
     @State private var needLogin = false
     @State private var showAlert = false
     @State private var isShieldHidden = false
@@ -59,7 +59,7 @@ struct SpaceProfileContentView: View {
                     }
             }
 
-            Text("好友: \(Text(profile.friend).foregroundColor(.theme))  回帖: \(Text(profile.reply).foregroundColor(.theme))  主题: \(Text(profile.topic).foregroundColor(.theme))")
+            Text("回帖: \(Text(profile.reply).foregroundColor(.theme))  主题: \(Text(profile.topic).foregroundColor(.theme))")
                 .font(.font16)
 
             Text("积分: \(Text(profile.integral).foregroundColor(.theme))  Bit: \(Text(profile.bits).foregroundColor(.theme))  违规:  \(Text(profile.violation).foregroundColor(.theme))")
@@ -183,18 +183,19 @@ struct SpaceProfileContentView: View {
                     profile.name = name.replacingOccurrences(of: "\n", with: "")
                 }
 
+                profile.friend = ""
                 let a1 = html.at_xpath("//ul[@class='cl bbda pbm mbm']//a[1]")?.text ?? ""
                 if let text = a1.components(separatedBy: " ").last, !text.isEmpty {
-                    profile.friend = text
+                    profile.reply = text
                 }
                 let a2 = html.at_xpath("//ul[@class='cl bbda pbm mbm']//a[2]")?.text ?? ""
                 if let text = a2.components(separatedBy: " ").last, !text.isEmpty {
-                    profile.reply = text
-                }
-                let a3 = html.at_xpath("//ul[@class='cl bbda pbm mbm']//a[3]")?.text ?? ""
-                if let text = a3.components(separatedBy: " ").last, !text.isEmpty {
                     profile.topic = text
                 }
+//                let a3 = html.at_xpath("//ul[@class='cl bbda pbm mbm']//a[3]")?.text ?? ""
+//                if let text = a3.components(separatedBy: " ").last, !text.isEmpty {
+//                    profile.topic = text
+//                }
 
                 let li2 = html.at_xpath("//div[@id='psts']/ul[@class='pf_l']/li[2]")
                 if let text = li2?.text {
