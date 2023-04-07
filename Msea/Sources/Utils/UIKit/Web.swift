@@ -29,6 +29,7 @@ struct Web: UIViewRepresentable {
     var isNodeFid125 = false
     var didFinish: ((_ scrollHeight: CGFloat) -> Void)?
     var decisionHandler: ((_ url: URL?) -> Void)?
+    var imageUrlClick: (() -> Void)?
 
     typealias UIViewType = WKWebView
 
@@ -102,9 +103,13 @@ struct Web: UIViewRepresentable {
                 if absoluteString.contains("matterportvr") || absoluteString.contains("youtu") {
                     decisionHandler(.allow)
                 } else if absoluteString.hasPrefix("image-preview:") {
-                    let imageUrl = absoluteString.suffix(from: "image-preview:".endIndex)
-                    print("imageUrl = \(imageUrl)")
                     decisionHandler(.allow)
+                    let imageUrl = absoluteString.subString(from: "image-preview:".count)
+                    print("imageUrl = \(imageUrl)")
+                    if let block = self.parent.imageUrlClick, !imageUrl.isEmpty {
+                        CacheInfo.shared.imageUrl = imageUrl
+                        block()
+                    }
                 } else {
                     decisionHandler(.cancel)
                     hander(url)

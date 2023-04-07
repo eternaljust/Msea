@@ -73,6 +73,8 @@ struct TopicDetailContentView: View {
     @State private var tagId = ""
     @State private var isTag = false
 
+    @State private var isImagePresented = false
+
     var body: some View {
         ZStack {
             if disAgree || isPosterShielding {
@@ -173,6 +175,8 @@ struct TopicDetailContentView: View {
                                                 if let url = url {
                                                     handler(url: url)
                                                 }
+                                            }, imageUrlClick: {
+                                                isImagePresented.toggle()
                                             })
                                                 .frame(height: comment.webViewHeight)
                                         }
@@ -415,6 +419,12 @@ struct TopicDetailContentView: View {
                 }
             }
         }
+        .fullScreenCover(isPresented: $isImagePresented) {
+            ImageBrowser(url: getImageUrl())
+                .overlay(alignment: .topLeading) {
+                    closeButton
+                }
+        }
         .dialog(isPresented: $isPresented, paddingTop: 100) {
             VStack {
                 HStack {
@@ -591,6 +601,25 @@ struct TopicDetailContentView: View {
                 await reloadData()
             }
         }
+    }
+
+    private func getImageUrl() -> String {
+        let url = CacheInfo.shared.imageUrl
+        print("getImageUrl: \(url)")
+        return url
+    }
+
+    private var closeButton: some View {
+        Button {
+            isImagePresented.toggle()
+        } label: {
+            Image(systemName: "xmark")
+                .font(.headline)
+        }
+        .buttonStyle(.bordered)
+        .clipShape(Circle())
+        .tint(.theme)
+        .padding()
     }
 
     private func closeDialog() {

@@ -78,6 +78,7 @@ struct CacheKeys {
     static let colorScheme = "colorSchemeKey"
     /// 评分弹框间隔
     static let reviewCount = "reviewCountKey"
+    static let imageUrl = "imageUrlKey"
 }
 
 /// 通知
