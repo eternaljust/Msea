@@ -12,6 +12,7 @@ import Combine
 typealias Middleware<State, Action> = (State, Action) -> AnyPublisher<Action, Never>?
 typealias AppStore = Store<AppState, AppAction>
 
+@MainActor
 final class Store<State, Action>: ObservableObject {
     // Read only access to app state
     @Published private(set) var state: State
@@ -30,7 +31,7 @@ final class Store<State, Action>: ObservableObject {
     }
 
     // The dispatch function.
-    func dispatch(_ action: Action) {
+    func dispatch(_ action: Action) async {
         reducer(&state, action)
 
         // Dispatch all middleware functions
@@ -38,10 +39,10 @@ final class Store<State, Action>: ObservableObject {
             guard let middleware = mw(state, action) else {
                 break
             }
-            middleware
-                .receive(on: DispatchQueue.main)
-                .sink(receiveValue: dispatch)
-                .store(in: &middlewareCancellables)
+
+            for await action in middleware.values {
+                await dispatch(action)
+            }
         }
     }
 }

@@ -15,7 +15,6 @@ struct HomeContentView: View {
     @EnvironmentObject private var selection: TabItemSelection
 
     @State private var isActive = false
-    @State private var notice = ""
     @State private var tid = ""
     @State private var isViewthread = false
     @State private var uid = ""
@@ -59,13 +58,13 @@ struct HomeContentView: View {
                             .foregroundColor(.theme)
                     }
 
-                    if !notice.isEmpty {
+                    if !store.state.home.notice.isEmpty {
                         Button {
                             CacheInfo.shared.selectedTab = .notice
                             selection.index = .notice
                         } label: {
                             Label {
-                               Text(notice)
+                               Text(store.state.home.notice)
                             } icon: {
                                 Image(systemName: "bell.fill")
                                     .imageScale(.large)
@@ -94,12 +93,16 @@ struct HomeContentView: View {
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
                 .onAppear {
-                    store.dispatch(.home(action: .navigationBarHidden(true)))
+                    Task {
+                        await store.dispatch(.home(action: .navigationBarHidden(true)))
+                    }
                     TabBarTool.showTabBar(true)
                     CacheInfo.shared.selectedTab = .home
                 }
                 .onDisappear {
-                    store.dispatch(.home(action: .navigationBarHidden(false)))
+                    Task {
+                        await store.dispatch(.home(action: .navigationBarHidden(false)))
+                    }
                 }
 
                 NavigationLink(destination: TopicDetailContentView(tid: tid), isActive: $isViewthread) {
@@ -127,15 +130,11 @@ struct HomeContentView: View {
             .onReceive(NotificationCenter.default.publisher(for: .notice, object: nil)) { _ in
                 goNotice()
             }
-            .task {
-                if UserInfo.shared.isLogin() {
-                    await checkNotice()
-                }
-            }
             .onAppear {
                 Task {
                     if UserInfo.shared.isLogin() {
-                        await checkNotice()
+                        print("checkNotice---")
+                        await store.dispatch(.home(action: .checkNotice))
                     }
                 }
             }
@@ -155,24 +154,6 @@ struct HomeContentView: View {
         .onContinueUserActivity(Constants.ranklistUserActivityType) { _ in
             print("continue ranklistUserActivity")
             goRanklist()
-        }
-    }
-
-    private func checkNotice() async {
-        Task {
-            // swiftlint:disable force_unwrapping
-            let url = URL(string: "https://www.chongbuluo.com")!
-            // swiftlint:enble force_unwrapping
-            var requset = URLRequest(url: url)
-            requset.configHeaderFields()
-            let (data, _) = try await URLSession.shared.data(for: requset)
-            if let html = try? HTML(html: data, encoding: .utf8) {
-                if let notice = html.at_xpath("//a[@id='myprompt']")?.text, notice.contains("(") {
-                    self.notice = notice
-                } else {
-                    self.notice = ""
-                }
-            }
         }
     }
 

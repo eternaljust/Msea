@@ -10,4 +10,7 @@ import Foundation
 
 enum HomeAction {
     case navigationBarHidden(_ hidden: Bool)
+    case checkNotice
+    case updateNotice(_ notice: String)
+    case loadDataError(_ error: String)
 }

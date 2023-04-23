@@ -8,8 +8,46 @@
 
 import Foundation
 import Kanna
+import Combine
 
 let kAppBaseURL = "https://www.chongbuluo.com/"
+
+struct HTMLURL {
+    static let notice = ""
+}
+
+enum NetworkError: Error {
+    case decodingError
+    case netError(description: String)
+}
+
+struct Network {
+    static let instance = Network()
+
+    func getRequset(_ url: String) -> AnyPublisher<HTMLDocument, NetworkError> {
+        return Future<HTMLDocument, NetworkError> { promise in
+            Task {
+                // swiftlint:disable force_unwrapping
+                let url = URL(string: "\(kAppBaseURL)\(url)")!
+                // swiftlint:enble force_unwrapping
+                print("requset url: \(url.absoluteString)")
+                var requset = URLRequest(url: url)
+                requset.configHeaderFields()
+                do {
+                    let (data, _) = try await URLSession.shared.data(for: requset)
+                    if let html = try? HTML(html: data, encoding: .utf8) {
+                        promise(.success(html))
+                    } else {
+                        promise(.failure(.decodingError))
+                    }
+                } catch {
+                    promise(.failure(.netError(description: error.localizedDescription)))
+                }
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+}
 
 enum HTTPHeaderField: String {
     case accept

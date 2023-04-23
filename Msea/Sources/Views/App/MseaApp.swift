@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct MseaApp: App {
+@MainActor struct MseaApp: App {
     @StateObject var hudState = HUDState()
     @UIApplicationDelegateAdaptor var delegate: FSAppDelegate
     @Environment(\.scenePhase) var scenePhase
