@@ -7,3 +7,7 @@
 //
 
 import Foundation
+
+struct AppState {
+    var home = HomeState()
+}

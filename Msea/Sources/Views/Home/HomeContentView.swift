@@ -11,10 +11,10 @@ import Kanna
 
 /// 首页列表
 struct HomeContentView: View {
-    @State private var selectedViewTab = ViewTab.new
-    @State private var navigationBarHidden = true
-    @State private var isActive = false
+    @State private var selectedViewTab = TopicTab.new
     @EnvironmentObject private var selection: TabItemSelection
+
+    @State private var isActive = false
     @State private var notice = ""
     @State private var tid = ""
     @State private var isViewthread = false
@@ -23,6 +23,7 @@ struct HomeContentView: View {
     @State private var isRanklist = false
 
     @StateObject private var rule = CreditRuleObject()
+    @EnvironmentObject var store: AppStore
 
     var body: some View {
         NavigationView {
@@ -76,29 +77,29 @@ struct HomeContentView: View {
                 .frame(height: 40)
                 .padding([.leading, .trailing], 20)
 
-                Picker("ViewTab", selection: $selectedViewTab) {
-                    ForEach(ViewTab.allCases) { view in
-                        Text(view.title)
-                            .tag(view)
+                Picker("TopicTab", selection: $selectedViewTab) {
+                    ForEach(TopicTab.allCases) { tab in
+                        Text(tab.title)
+                            .tag(tab)
                     }
                 }
                 .pickerStyle(.segmented)
                 .padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))
 
                 TabView(selection: $selectedViewTab) {
-                    ForEach(ViewTab.allCases) { view in
-                        TopicListContentView(view: view)
-                            .tag(view)
+                    ForEach(TopicTab.allCases) { tab in
+                        TopicListContentView(view: tab)
+                            .tag(tab)
                     }
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
                 .onAppear {
-                    navigationBarHidden = true
+                    store.dispatch(.home(action: .navigationBarHidden(true)))
                     TabBarTool.showTabBar(true)
                     CacheInfo.shared.selectedTab = .home
                 }
                 .onDisappear {
-                    navigationBarHidden = false
+                    store.dispatch(.home(action: .navigationBarHidden(false)))
                 }
 
                 NavigationLink(destination: TopicDetailContentView(tid: tid), isActive: $isViewthread) {
@@ -118,7 +119,7 @@ struct HomeContentView: View {
             }
             .navigationTitle("首页")
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarHidden(navigationBarHidden)
+            .navigationBarHidden(store.state.home.navigationBarHidden)
             .ignoresSafeArea(edges: .bottom)
             .onReceive(NotificationCenter.default.publisher(for: .daysign, object: nil)) { _ in
                 goDaysign()

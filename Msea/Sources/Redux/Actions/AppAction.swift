@@ -7,3 +7,7 @@
 //
 
 import Foundation
+
+enum AppAction {
+    case home(action: HomeAction)
+}

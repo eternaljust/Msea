@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum ViewTab: String, CaseIterable, Identifiable {
+enum TopicTab: String, CaseIterable, Identifiable {
     case new
     case hot
     case newthread

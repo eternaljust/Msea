@@ -12,6 +12,11 @@ struct MseaApp: App {
     @StateObject var hudState = HUDState()
     @UIApplicationDelegateAdaptor var delegate: FSAppDelegate
     @Environment(\.scenePhase) var scenePhase
+    let store = AppStore(
+        state: AppState(),
+        reducer: appReducer(state:action:),
+        middlewares: [homeMiddleware()]
+    )
 
     var body: some Scene {
         WindowGroup {
@@ -20,6 +25,7 @@ struct MseaApp: App {
                     Text(hudState.message)
                 }
                 .environmentObject(hudState)
+                .environmentObject(store)
         }
         .onChange(of: scenePhase) { value in
             switch value {

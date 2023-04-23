@@ -11,7 +11,7 @@ import Kanna
 
 /// 主题列表
 struct TopicListContentView: View {
-    var view = ViewTab.new
+    var view = TopicTab.new
 
     @State private var topics = [TopicListModel]()
     @State private var isHidden = false
