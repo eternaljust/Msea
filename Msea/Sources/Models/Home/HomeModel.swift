@@ -70,6 +70,13 @@ struct TopicListModel: Identifiable {
     var reply = 0
 }
 
+struct TopicListTabModel {
+    private(set) var tab: TopicTab
+    var topics = [TopicListModel]()
+    var page = 1
+    var isHidden = false
+}
+
 struct TopicCommentModel: Identifiable {
     var id = UUID()
     var uid = ""

@@ -86,8 +86,17 @@ struct HomeContentView: View {
 
                 TabView(selection: $selectedViewTab) {
                     ForEach(TopicTab.allCases) { tab in
-                        TopicListContentView(view: tab)
-                            .tag(tab)
+                        switch tab {
+                        case .new:
+                            TopicListContentView(topicData: store.state.topic.newData)
+                                .tag(tab)
+                        case .hot:
+                            TopicListContentView(topicData: store.state.topic.hotData)
+                                .tag(tab)
+                        case .newthread:
+                            TopicListContentView(topicData: store.state.topic.newthreadData)
+                                .tag(tab)
+                        }
                     }
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))

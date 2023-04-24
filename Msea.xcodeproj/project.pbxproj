@@ -52,6 +52,10 @@
 		EF7177EE27857A8700113670 /* GifImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7177ED27857A8700113670 /* GifImage.swift */; };
 		EF72A1DA277C3C2900E062F2 /* WidgetIntents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = EFD6BA62277BFA4F0060239D /* WidgetIntents.intentdefinition */; };
 		EF742BE429DFB68D00C28554 /* ImageBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF742BE329DFB68D00C28554 /* ImageBrowser.swift */; };
+		EF7E771329F65AB300569AC4 /* TopicState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7E771229F65AB300569AC4 /* TopicState.swift */; };
+		EF7E771529F65AF300569AC4 /* TopicAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7E771429F65AF300569AC4 /* TopicAction.swift */; };
+		EF7E771729F65B6300569AC4 /* TopicMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7E771629F65B6300569AC4 /* TopicMiddleware.swift */; };
+		EF7E771929F65B7700569AC4 /* TopicReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7E771829F65B7700569AC4 /* TopicReducer.swift */; };
 		EF80AAC927682EF700C045D6 /* CacheInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF80AAC827682EF700C045D6 /* CacheInfo.swift */; };
 		EF80EF9B2786B8E800CE1EE1 /* Web.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF80EF9A2786B8E800CE1EE1 /* Web.swift */; };
 		EF80EFA02786CCAA00CE1EE1 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = EF80EF9F2786CCAA00CE1EE1 /* style.css */; };
@@ -222,6 +226,10 @@
 		EF70CDF2277AA1B30049D830 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EF7177ED27857A8700113670 /* GifImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifImage.swift; sourceTree = "<group>"; };
 		EF742BE329DFB68D00C28554 /* ImageBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageBrowser.swift; sourceTree = "<group>"; };
+		EF7E771229F65AB300569AC4 /* TopicState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicState.swift; sourceTree = "<group>"; };
+		EF7E771429F65AF300569AC4 /* TopicAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicAction.swift; sourceTree = "<group>"; };
+		EF7E771629F65B6300569AC4 /* TopicMiddleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicMiddleware.swift; sourceTree = "<group>"; };
+		EF7E771829F65B7700569AC4 /* TopicReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicReducer.swift; sourceTree = "<group>"; };
 		EF80AAC827682EF700C045D6 /* CacheInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheInfo.swift; sourceTree = "<group>"; };
 		EF80EF9A2786B8E800CE1EE1 /* Web.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Web.swift; sourceTree = "<group>"; };
 		EF80EF9F2786CCAA00CE1EE1 /* style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
@@ -598,6 +606,7 @@
 			children = (
 				EFCD7DEA29F260C200E0B5E6 /* AppAction.swift */,
 				EF96EC5D29F4CFD500EE5188 /* HomeAction.swift */,
+				EF7E771429F65AF300569AC4 /* TopicAction.swift */,
 			);
 			path = Actions;
 			sourceTree = "<group>";
@@ -607,6 +616,7 @@
 			children = (
 				EFCD7DE829F260B000E0B5E6 /* AppState.swift */,
 				EF96EC5929F4CD8700EE5188 /* HomeState.swift */,
+				EF7E771229F65AB300569AC4 /* TopicState.swift */,
 			);
 			path = States;
 			sourceTree = "<group>";
@@ -615,6 +625,7 @@
 			isa = PBXGroup;
 			children = (
 				EFCD7DEE29F260EC00E0B5E6 /* HomeMiddleware.swift */,
+				EF7E771629F65B6300569AC4 /* TopicMiddleware.swift */,
 			);
 			path = Middlewares;
 			sourceTree = "<group>";
@@ -624,6 +635,7 @@
 			children = (
 				EFCD7DEC29F260D300E0B5E6 /* AppReducer.swift */,
 				EF96EC5F29F4D65400EE5188 /* HomeReducer.swift */,
+				EF7E771829F65B7700569AC4 /* TopicReducer.swift */,
 			);
 			path = Reducers;
 			sourceTree = "<group>";
@@ -1122,9 +1134,11 @@
 				EFCD7E0429F2652400E0B5E6 /* TagModel.swift in Sources */,
 				EF6211D52761D8FA00F833B4 /* ApplicationDelegate.swift in Sources */,
 				8180BB33275B78880055E1F5 /* TopicListContentView.swift in Sources */,
+				EF7E771529F65AF300569AC4 /* TopicAction.swift in Sources */,
 				EF96EC6029F4D65400EE5188 /* HomeReducer.swift in Sources */,
 				EFD7EBEC27954702004C1609 /* Safari.swift in Sources */,
 				EF6211D72761ECEA00F833B4 /* Appearance.swift in Sources */,
+				EF7E771729F65B6300569AC4 /* TopicMiddleware.swift in Sources */,
 				EFB4314B276045A300319073 /* Networking.swift in Sources */,
 				EF082EF1275F4AC400056BCA /* SignListContentView.swift in Sources */,
 				EFC4BB54283CAC2F00913182 /* MyFriendContentView.swift in Sources */,
@@ -1135,6 +1149,7 @@
 				EF83EDE92768779C00EED0F5 /* Dialog.swift in Sources */,
 				EFA87A05279F903000DAD877 /* MyCreditContentView.swift in Sources */,
 				EFBE9650277D501200481170 /* MessageBoardContentView.swift in Sources */,
+				EF7E771329F65AB300569AC4 /* TopicState.swift in Sources */,
 				EFAA2A8D277025A000A83E44 /* SettingContentView.swift in Sources */,
 				810E24BB27C0E59200E8E895 /* TreadRankContentView.swift in Sources */,
 				EF8A990028406DFD00C40715 /* MyVisitorTraceContentView.swift in Sources */,
@@ -1154,6 +1169,7 @@
 				815E271027A62B1D007C36B2 /* Foundation+Extension.swift in Sources */,
 				814C39E427AAC7B9004696D8 /* ShareSheet.swift in Sources */,
 				EFCD7DEB29F260C200E0B5E6 /* AppAction.swift in Sources */,
+				EF7E771929F65B7700569AC4 /* TopicReducer.swift in Sources */,
 				EF082E73278ED031002744EC /* PostListContentView.swift in Sources */,
 				EF5F0B1B279565E300A5D81F /* URLSchemesContentView.swift in Sources */,
 				EFCD7E0F29F266AF00E0B5E6 /* SystemModel.swift in Sources */,

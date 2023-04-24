@@ -14,5 +14,7 @@ func appReducer(state: inout AppState, action: AppAction) {
     switch action {
     case .home(let action):
         homeReducer(state: &state.home, action: action)
+    case .topic(let action):
+        topicReducer(state: &state.topic, action: action)
     }
 }

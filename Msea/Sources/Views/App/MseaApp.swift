@@ -15,7 +15,10 @@ import SwiftUI
     let store = AppStore(
         state: AppState(),
         reducer: appReducer(state:action:),
-        middlewares: [homeMiddleware()]
+        middlewares: [
+            homeMiddleware(),
+            topicMiddleware()
+        ]
     )
 
     var body: some Scene {

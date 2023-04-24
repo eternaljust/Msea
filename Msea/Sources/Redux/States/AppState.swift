@@ -10,4 +10,5 @@ import Foundation
 
 struct AppState {
     var home = HomeState()
+    var topic = TopicState()
 }

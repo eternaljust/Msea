@@ -10,10 +10,11 @@ import Foundation
 import Kanna
 import Combine
 
-let kAppBaseURL = "https://www.chongbuluo.com/"
+let kAppBaseURL = "https://www.chongbuluo.com"
 
 struct HTMLURL {
-    static let notice = ""
+    static let notice = "/"
+    static let topicList = "/forum.php?mod=guide"
 }
 
 enum NetworkError: Error {
