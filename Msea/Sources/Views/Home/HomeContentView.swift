@@ -11,24 +11,23 @@ import Kanna
 
 /// 首页列表
 struct HomeContentView: View {
-    @State private var selectedViewTab = TopicTab.new
-    @EnvironmentObject private var selection: TabItemSelection
-
-    @State private var isActive = false
-    @State private var tid = ""
-    @State private var isViewthread = false
-    @State private var uid = ""
-    @State private var isSpace = false
-    @State private var isRanklist = false
-
     @StateObject private var rule = CreditRuleObject()
-    @EnvironmentObject var store: AppStore
+    @EnvironmentObject private var selection: TabItemSelection
+    @EnvironmentObject private var store: AppStore
+
+    @State private var selectedViewTab = TopicTab.new
+    @State private var isDaysign = false
+    @State private var isTopicDetail = false
+    @State private var isSpaceProfile = false
+    @State private var isRanklist = false
 
     var body: some View {
         NavigationView {
             VStack {
                 HStack {
-                    NavigationLink(destination: DaySignContentView(), isActive: $isActive) {
+                    NavigationLink(
+                        destination: DaySignContentView(),
+                        isActive: $isDaysign) {
                         Image(systemName: "leaf.fill")
                             .foregroundColor(.theme)
                             .imageScale(.large)
@@ -105,17 +104,23 @@ struct HomeContentView: View {
                     }
                 }
 
-                NavigationLink(destination: TopicDetailContentView(tid: tid), isActive: $isViewthread) {
+                NavigationLink(
+                    destination: TopicDetailContentView(tid: store.state.home.tid),
+                    isActive: $isTopicDetail) {
                     EmptyView()
                 }
                 .opacity(0.0)
 
-                NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isSpace) {
+                NavigationLink(
+                    destination: SpaceProfileContentView(uid: store.state.home.uid),
+                    isActive: $isSpaceProfile) {
                     EmptyView()
                 }
                 .opacity(0.0)
 
-                NavigationLink(destination: RankListContentView(), isActive: $isRanklist) {
+                NavigationLink(
+                    destination: RankListContentView(),
+                    isActive: $isRanklist) {
                     EmptyView()
                 }
                 .opacity(0.0)
@@ -144,7 +149,9 @@ struct HomeContentView: View {
         .environmentObject(rule)
         .onOpenURL { url in
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self.urlSchemes(url)
+                Task {
+                    await self.urlSchemes(url)
+                }
             }
         }
         .onContinueUserActivity(Constants.daysignUserActivityType) { _ in
@@ -156,9 +163,11 @@ struct HomeContentView: View {
             goRanklist()
         }
     }
+}
 
-    private func urlSchemes(_ url: URL) {
-        print(url)
+extension HomeContentView {
+    private func urlSchemes(_ url: URL) async {
+        print("urlSchemes: \(url)")
         if let host = url.host, let scheme = url.scheme, scheme == "msea" {
             guard let item = URLSchemesItem(rawValue: host) else { return }
             TabBarTool.showTabBar(true)
@@ -174,20 +183,22 @@ struct HomeContentView: View {
                 goRanklist()
             case .viewthread:
                 if let query = url.query, query.contains("tid=") {
-                    tid = query.components(separatedBy: "=")[1]
+                    let tid = query.components(separatedBy: "=")[1]
+                    await store.dispatch(.home(action: .setTid(tid)))
                     if Int(tid) != nil {
-                        isViewthread = true
+                        isTopicDetail.toggle()
                     }
                 }
             case .space:
                 if let query = url.query, query.contains("uid=") {
-                    uid = query.getUid()
+                    let uid = query.getUid()
+                    await store.dispatch(.home(action: .setUid(uid)))
                     if Int(uid) != nil {
                         if UserInfo.shared.isLogin(), UserInfo.shared.uid == uid {
                             CacheInfo.shared.selectedTab = .mine
                             selection.index = .mine
                         } else {
-                            isSpace = true
+                            isSpaceProfile.toggle()
                         }
                     }
                 }
@@ -198,7 +209,7 @@ struct HomeContentView: View {
     private func goDaysign() {
         CacheInfo.shared.selectedTab = .home
         selection.index = .home
-        isActive = true
+        isDaysign.toggle()
     }
 
     private func goNotice() {
@@ -209,7 +220,7 @@ struct HomeContentView: View {
     private func goRanklist() {
         CacheInfo.shared.selectedTab = .home
         selection.index = .home
-        isRanklist = true
+        isRanklist.toggle()
     }
 }
 

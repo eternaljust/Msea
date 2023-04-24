@@ -14,6 +14,10 @@ func homeReducer(state: inout HomeState, action: HomeAction) {
         state.navigationBarHidden = hidden
     case .updateNotice(let notice):
         state.notice = notice
+    case .setTid(let tid):
+        state.tid = tid
+    case .setUid(let uid):
+        state.uid = uid
     default:
         break
     }

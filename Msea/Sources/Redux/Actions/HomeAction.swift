@@ -13,4 +13,6 @@ enum HomeAction {
     case checkNotice
     case updateNotice(_ notice: String)
     case loadDataError(_ error: String)
+    case setTid(_ tid: String)
+    case setUid(_ uid: String)
 }

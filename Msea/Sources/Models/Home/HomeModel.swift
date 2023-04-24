@@ -8,6 +8,35 @@
 
 import Foundation
 
+enum TabBarItem: String, CaseIterable, Identifiable {
+    case home
+    case node
+    case notice
+    case mine
+
+    var id: String { self.rawValue }
+    var icon: String {
+        switch self {
+        case .home: return "house"
+        case .node: return "circle.grid.cross.fill"
+        case .notice: return "bell.fill"
+        case .mine: return "person"
+        }
+    }
+    var title: String {
+        switch self {
+        case .home: return "虫部落"
+        case .node: return "节点"
+        case .notice: return "通知"
+        case .mine: return "我的"
+        }
+    }
+}
+
+class TabItemSelection: ObservableObject {
+    @Published var index: TabBarItem = CacheInfo.shared.selectedTab
+}
+
 enum TopicTab: String, CaseIterable, Identifiable {
     case new
     case hot

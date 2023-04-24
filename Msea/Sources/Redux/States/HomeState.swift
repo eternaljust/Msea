@@ -11,4 +11,6 @@ import Foundation
 struct HomeState {
     var navigationBarHidden = true
     var notice = ""
+    var tid = ""
+    var uid = ""
 }
