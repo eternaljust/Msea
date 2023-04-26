@@ -10,6 +10,16 @@ import Foundation
 
 func topicReducer(state: inout TopicState, action: TopicAction) {
     switch action {
+    case .shieldUsers:
+        state.newData.topics = state.newData.topics.filter { model in
+            !UserInfo.shared.shieldUsers.contains { $0.uid == model.uid }
+        }
+        state.hotData.topics = state.hotData.topics.filter { model in
+            !UserInfo.shared.shieldUsers.contains { $0.uid == model.uid }
+        }
+        state.newthreadData.topics = state.newthreadData.topics.filter { model in
+            !UserInfo.shared.shieldUsers.contains { $0.uid == model.uid }
+        }
     case let .loadListComplete(tab: tab, page: page, list: list):
         switch tab {
         case .new:

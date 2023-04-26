@@ -9,6 +9,7 @@
 import Foundation
 
 enum TopicAction {
+    case shieldUsers
     case loadList(tab: TopicTab, page: Int)
     case loadListComplete(tab: TopicTab, page: Int, list: [TopicListModel])
     case pageAdd(_ tab: TopicTab)
