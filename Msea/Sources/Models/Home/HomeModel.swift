@@ -92,6 +92,18 @@ struct TopicCommentModel: Identifiable {
     var webViewHeight: CGFloat = .zero
 }
 
+struct TopicListHeaderModel {
+    var tid = ""
+    var indexTitle = ""
+    var gid = ""
+    var nodeTitle = ""
+    var nodeFid = ""
+    var title = ""
+    var commentCount = ""
+    var tagItems = [TagItemModel]()
+    var pageSize = 0
+}
+
 struct WebURLItem: Identifiable {
     var id = UUID()
     var url = ""

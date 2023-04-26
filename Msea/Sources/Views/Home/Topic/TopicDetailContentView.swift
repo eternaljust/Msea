@@ -78,334 +78,47 @@ struct TopicDetailContentView: View {
     var body: some View {
         ZStack {
             if disAgree || isPosterShielding {
-                VStack {
-                    Spacer()
-
-                    HStack {
-                        Spacer()
-
-                        if disAgree {
-                            Text("同意使用条款后才能查看帖子")
-                        } else {
-                            Text("楼主已经被屏蔽，帖子信息不再展示")
-                        }
-
-                        Spacer()
-                    }
-
-                    Spacer()
-                }
+                tipText
             } else {
                 VStack {
-                    ScrollViewReader { proxy in
-                        List {
-                            Section {
-                                ForEach(comments) { comment in
-                                    VStack(alignment: .leading) {
-                                        HStack {
-                                            AsyncImage(url: URL(string: comment.avatar)) { image in
-                                                image
-                                                    .resizable()
-                                                    .overlay {
-                                                        if isNodeFid125 {
-                                                            Color.gray.opacity(0.9)
-                                                        }
-                                                    }
-                                            } placeholder: {
-                                                if isNodeFid125 {
-                                                    Color.gray.opacity(0.9)
-                                                } else {
-                                                    ProgressView()
-                                                }
-                                            }
-                                            .frame(width: 40, height: 40)
-                                            .cornerRadius(5)
+                    commentList
 
-                                            VStack(alignment: .leading, spacing: 5) {
-                                                Text(comment.name)
-                                                    .font(.font17Blod)
-
-                                                Text(comment.time)
-                                                    .font(.font13)
-                                            }
-                                        }
-                                        .onTapGesture {
-                                            if !comment.uid.isEmpty {
-                                                if comment.uid == UserInfo.shared.uid {
-                                                    selection.index = .mine
-                                                    CacheInfo.shared.selectedTab = .mine
-                                                } else {
-                                                    uid = comment.uid
-                                                    isSpace.toggle()
-                                                }
-                                            }
-                                        }
-                                        .onAppear {
-                                            if comment.id == comments.last?.id {
-                                                if nextPage {
-                                                    page += 1
-                                                    isSelectedPage = false
-                                                    Task {
-                                                        await loadData()
-                                                    }
-                                                }
-                                            }
-                                        }
-
-                                        if comment.isText {
-                                            Text(comment.content)
-                                                .font(.font16)
-                                                .multilineTextAlignment(.leading)
-                                                .lineSpacing(5)
-                                                .textSelection(.enabled)
-                                                .fixedSize(horizontal: false, vertical: true)
-                                        } else {
-                                            Web(bodyHTMLString: comment.content, isNodeFid125: isNodeFid125, didFinish: { scrollHeight in
-                                                if comment.webViewHeight == .zero, let index = comments.firstIndex(where: { obj in obj.id == comment.id }) {
-                                                    var model = comment
-                                                    model.webViewHeight = scrollHeight
-                                                    model.id = UUID()
-                                                    if index < comments.count, comments.count != 1 {
-                                                        comments.replaceSubrange(index..<(index + 1), with: [model])
-                                                    } else {
-                                                        comments = [model]
-                                                    }
-                                                }
-                                            }, decisionHandler: { url in
-                                                if let url = url {
-                                                    handler(url: url)
-                                                }
-                                            }, imageUrlClick: {
-                                                isImagePresented.toggle()
-                                            })
-                                                .frame(height: comment.webViewHeight)
-                                        }
-                                    }
-                                    .padding([.top, .bottom], 5)
-                                    .id(comment.pid)
-                                    .swipeActions {
-                                        if comment.id == comments.first?.id && !comment.favorite.isEmpty {
-                                            if !isNodeFid125 {
-                                                Button("收藏") {
-                                                    if UserInfo.shared.isLogin() {
-                                                        favoriteAction = comment.favorite
-                                                        Task {
-                                                            await favorite()
-                                                        }
-                                                    } else {
-                                                        needLogin.toggle()
-                                                    }
-                                                }
-                                            }
-                                        } else {
-                                            if !isNodeFid125 {
-                                                Button("回复") {
-                                                    if UserInfo.shared.isLogin() {
-                                                        replyName = comment.name
-                                                        replyAction = comment.reply
-                                                        focused = false
-                                                        isPresentedReply.toggle()
-                                                    } else {
-                                                        needLogin.toggle()
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            } header: {
-                                HStack {
-                                    VStack(alignment: .leading, spacing: 5) {
-                                        HStack {
-                                            Image(systemName: "circle.grid.cross.fill")
-
-                                            Text("节点")
-                                                .onTapGesture {
-                                                    selection.index = .node
-                                                    CacheInfo.shared.selectedTab = .node
-                                                }
-
-                                            if !indexTitle.isEmpty && !gid.isEmpty {
-                                                Image(systemName: "chevron.right")
-
-                                                Text(indexTitle)
-                                                    .onTapGesture {
-                                                        isNode.toggle()
-                                                    }
-                                            }
-
-                                            if !nodeTitle.isEmpty && !nodeFid.isEmpty {
-                                                Image(systemName: "chevron.right")
-
-                                                Text(nodeTitle)
-                                                    .onTapGesture {
-                                                        isNodeList.toggle()
-                                                    }
-                                            }
-                                        }
-                                        .font(.font17)
-                                        .foregroundColor(isNodeFid125 ? .gray : .secondaryTheme)
-
-                                        Text(title)
-                                            .font(.font20)
-                                            .foregroundColor(Color(light: .black, dark: .white))
-                                            .onTapGesture {
-                                                UIPasteboard.general.string = tid
-                                                hud.show(message: "已复制 tid")
-                                            }
-
-                                        Text(commentCount)
-
-                                        if !tagItems.isEmpty {
-                                            HStack {
-                                                Image(systemName: "tag")
-                                                    .foregroundColor(isNodeFid125 ? .gray : .secondaryTheme)
-
-                                                LazyHGrid(rows: [GridItem(.flexible())], alignment: .center) {
-                                                    ForEach(tagItems) { t in
-                                                        Text(t.title)
-                                                            .lineLimit(1)
-                                                            .padding(EdgeInsets(top: 3, leading: 7, bottom: 3, trailing: 7))
-                                                            .foregroundColor(.white)
-                                                            .background(
-                                                                Capsule()
-                                                                    .foregroundColor((isNodeFid125 ? Color.gray : Color.secondaryTheme).opacity(0.8))
-                                                            )
-                                                            .onTapGesture {
-                                                                tagId = t.tid
-                                                                isTag.toggle()
-                                                            }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-
-                                    if pageSize > 1 {
-                                        Spacer()
-
-                                        Button {
-                                            isConfirming.toggle()
-                                        } label: {
-                                            Image(systemName: "arrow.up.arrow.down")
-                                        }
-                                        .confirmationDialog("", isPresented: $isConfirming) {
-                                            ForEach((1...pageSize), id: \.self) { index in
-                                                Button("\(index)") {
-                                                    page = index
-                                                    isSelectedPage = true
-                                                    Task {
-                                                        await loadData()
-                                                    }
-                                                }
-                                            }
-                                        } message: {
-                                            Text("分页选择")
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        .listStyle(.plain)
-                        .refreshable {
-                            Task {
-                                await reloadData()
-                            }
-                        }
-                        .task {
-                            if !isHidden {
-                                await reloadData()
-                            }
-                        }
-                        .onOpenURL { url in
-                            if let query = url.query, query.contains("pid=") {
-                                let pid = query.components(separatedBy: "=")[1]
-                                if Int(pid) != nil {
-                                    proxy.scrollTo(pid, anchor: .top)
-                                }
-                            }
-                        }
-                        .safeAreaInset(edge: .bottom) {
-                            HStack {
-                                Button {
-                                    if UserInfo.shared.isLogin() {
-                                        isPresented.toggle()
-                                    } else {
-                                        needLogin.toggle()
-                                    }
-                                } label: {
-                                    Label(title: {
-                                        Text("输入评论内容")
-                                    }, icon: {
-                                        Image(systemName: "rectangle.and.pencil.and.ellipsis")
-                                    })
-                                        .frame(maxWidth: UIScreen.main.bounds.width - 60, minHeight: 30)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 10)
-                                                .stroke(.secondary, lineWidth: 1)
-                                        )
-                                }
-                            }
-                            .frame(maxWidth: .infinity, maxHeight: 70)
-                            .background(.regularMaterial)
-                            .isHidden(isNodeFid125)
-                        }
-                    }
-
-                    NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isSpace) {
-                        EmptyView()
-                    }
-                    .opacity(0.0)
-
-                    NavigationLink(destination: TopicDetailContentView(tid: newTid), isActive: $isViewthread) {
-                        EmptyView()
-                    }
-                    .opacity(0.0)
-
-                    NavigationLink(destination: DaySignContentView(), isActive: $isDaysign) {
-                        EmptyView()
-                    }
-                    .opacity(0.0)
-
-                    NavigationLink(destination: MyCreditContentView(), isActive: $isCredit) {
-                        EmptyView()
-                    }
-                    .opacity(0.0)
-
-                    NavigationLink(destination: RankListContentView(), isActive: $isRanklist) {
-                        EmptyView()
-                    }
-                    .opacity(0.0)
-
-                    NavigationLink(destination: NodeContentView(gid: gid), isActive: $isNode) {
-                        EmptyView()
-                    }
-                    .opacity(0.0)
-
-                    NavigationLink(destination: NodeListContentView(nodeTitle: nodeTitle, nodeFid: nodeFid), isActive: $isNodeList) {
-                        EmptyView()
-                    }
-                    .opacity(0.0)
-
-                    NavigationLink(destination: TagListContentView(id: tagId, searchState: SearchState()), isActive: $isTag) {
-                        EmptyView()
-                    }
-                    .opacity(0.0)
+                    navigationLink
                 }
             }
 
-            ProgressView()
-                .isHidden(isHidden)
-                .onAppear {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        if !CacheInfo.shared.agreeTermsOfService {
-                            showAlert.toggle()
-                        }
-                    }
-                }
+            progressView
         }
         .edgesIgnoringSafeArea(UIDevice.current.isPad ? [] : [.bottom])
         .navigationTitle("帖子详情")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                toolbarItemMenu
+            }
+        }
+        .fullScreenCover(isPresented: $isImagePresented) {
+            imageBrowser
+        }
+        .sheet(isPresented: $isSharePresented) {
+            shareSheet
+        }
+        .sheet(isPresented: $needLogin) {
+            LoginContentView()
+        }
+        .sheet(item: $webURLItem, content: { item in
+            Safari(url: URL(string: item.url))
+        })
+        .alert("使用条款", isPresented: $showAlert) {
+            useAlert
+        } message: {
+            TermsOfServiceContentView()
+        }
+        .dialog(isPresented: $isPresented, paddingTop: 100) {
+            commentDialog
+        }
+        .dialog(isPresented: $isPresentedReply, paddingTop: 100) {
+            replyDialog
+        }
         .onAppear {
             if !UIDevice.current.isPad {
                 TabBarTool.showTabBar(false)
@@ -419,183 +132,6 @@ struct TopicDetailContentView: View {
                 }
             }
         }
-        .fullScreenCover(isPresented: $isImagePresented) {
-            ImageBrowser(url: getImageUrl())
-                .overlay(alignment: .topLeading) {
-                    closeButton
-                }
-        }
-        .dialog(isPresented: $isPresented, paddingTop: 100) {
-            VStack {
-                HStack {
-                    Spacer()
-
-                    Text("评论帖子")
-                        .font(.font17)
-
-                    Spacer()
-
-                    Button {
-                        closeDialog()
-                    } label: {
-                        Image(systemName: "xmark.circle")
-                    }
-                }
-
-                ZStack(alignment: .leading) {
-                    TextEditor(text: $inputComment)
-                        .multilineTextAlignment(.leading)
-                        .font(.font16)
-                        .focused($focused)
-                        .onChange(of: inputComment) { newValue in
-                            print(newValue)
-                        }
-                        .border(Color.theme)
-                        .padding(EdgeInsets(top: 0, leading: 10, bottom: 20, trailing: 0))
-
-                    if inputComment.isEmpty {
-                        Text("输入评论内容")
-                            .multilineTextAlignment(.leading)
-                            .font(.font16)
-                            .foregroundColor(.secondary)
-                            .padding(EdgeInsets(top: -43, leading: 16, bottom: 30, trailing: 0))
-                    }
-                }
-
-                Button(isShowing ? " " : "发表评论", action: {
-                    Task {
-                        await comment()
-                    }
-                })
-                    .showProgress(isShowing: $isShowing, color: .white)
-                    .disabled(isShowing)
-                    .buttonStyle(BigButtonStyle())
-                    .padding(EdgeInsets(top: 20, leading: 0, bottom: 10, trailing: 0))
-            }
-            .frame(width: 300, height: 200)
-            .onAppear {
-                focused.toggle()
-            }
-        }
-        .dialog(isPresented: $isPresentedReply, paddingTop: 100) {
-            VStack {
-                HStack {
-                    Spacer()
-
-                    Text("回复帖子")
-                        .font(.font17)
-
-                    Spacer()
-
-                    Button {
-                        closeDialog()
-                    } label: {
-                        Image(systemName: "xmark.circle")
-                    }
-                }
-
-                ZStack(alignment: .leading) {
-                    TextEditor(text: $replyContent)
-                        .multilineTextAlignment(.leading)
-                        .font(.font16)
-                        .focused($replyFocused)
-                        .onChange(of: replyContent) { newValue in
-                            print(newValue)
-                        }
-                        .border(Color.theme)
-                        .padding(EdgeInsets(top: 0, leading: 10, bottom: 20, trailing: 0))
-
-                    if replyContent.isEmpty {
-                        Text("输入回复内容")
-                            .multilineTextAlignment(.leading)
-                            .font(.font16)
-                            .foregroundColor(.secondary)
-                            .padding(EdgeInsets(top: -43, leading: 16, bottom: 30, trailing: 0))
-                    }
-                }
-
-                Button(isShowingReply ? " " : "发表回复", action: {
-                    Task {
-                        await getReply()
-                    }
-                })
-                    .showProgress(isShowing: $isShowingReply, color: .white)
-                    .disabled(isShowingReply)
-                    .buttonStyle(BigButtonStyle())
-                    .padding(EdgeInsets(top: 20, leading: 0, bottom: 10, trailing: 0))
-            }
-            .frame(width: 300, height: 200)
-            .onAppear {
-                replyFocused.toggle()
-            }
-        }
-        .sheet(isPresented: $isSharePresented) {
-            if let url = URL(string: "https://www.chongbuluo.com/forum.php?mod=viewthread&tid=\(tid)") {
-                ShareSheet(items: [
-                    url
-                ])
-            }
-        }
-        .sheet(isPresented: $needLogin) {
-            LoginContentView()
-        }
-        .sheet(item: $webURLItem, content: { item in
-            Safari(url: URL(string: item.url))
-        })
-        .alert("使用条款", isPresented: $showAlert) {
-            Button("不同意", role: .cancel) {
-                disAgree = true
-                dismiss()
-            }
-
-            Button("同意") {
-                CacheInfo.shared.agreeTermsOfService = true
-                showAlert = false
-            }
-        } message: {
-            TermsOfServiceContentView()
-        }
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Menu {
-                    if UserInfo.shared.isLogin() {
-                        Button {
-                            if let action = comments.first?.favorite,
-                               UserInfo.shared.isLogin(),
-                               !action.isEmpty {
-                                favoriteAction = action
-                                Task {
-                                    await favorite()
-                                }
-                            }
-                        } label: {
-                            Label("收藏", systemImage: "star")
-                        }
-                    }
-
-                    Button {
-                        isSharePresented.toggle()
-                    } label: {
-                        Label("分享", systemImage: "square.and.arrow.up")
-                    }
-
-                    Menu("举报") {
-                        ForEach(ReportMenuItem.allCases) { item in
-                            Button {
-                                Task {
-                                    await report()
-                                }
-                            } label: {
-                                Text(item.title)
-                            }
-                        }
-                    }
-                } label: {
-                    Image(systemName: "ellipsis")
-                }
-                .isHidden(disAgree)
-            }
-        }
         .onReceive(NotificationCenter.default.publisher(for: .login, object: nil)) { _ in
             Task {
                 await reloadData()
@@ -603,13 +139,275 @@ struct TopicDetailContentView: View {
         }
     }
 
-    private func getImageUrl() -> String {
-        let url = CacheInfo.shared.imageUrl
-        print("getImageUrl: \(url)")
-        return url
+    var tipText: some View {
+        VStack {
+            Spacer()
+
+            HStack {
+                Spacer()
+
+                if disAgree {
+                    Text("同意使用条款后才能查看帖子")
+                } else {
+                    Text("楼主已经被屏蔽，帖子信息不再展示")
+                }
+
+                Spacer()
+            }
+
+            Spacer()
+        }
     }
 
-    private var closeButton: some View {
+    var commentList: some View {
+        ScrollViewReader { proxy in
+            List {
+                Section {
+                    ForEach(comments) { comment in
+                        TopicDetailListItemRow(
+                            comment: comment,
+                            isNodeFid125: isNodeFid125,
+                            avatarClick: {
+                                if comment.uid == UserInfo.shared.uid {
+                                    selection.index = .mine
+                                    CacheInfo.shared.selectedTab = .mine
+                                } else {
+                                    uid = comment.uid
+                                    isSpace.toggle()
+                                }
+                            },
+                            webContent: {
+                                Web(
+                                    bodyHTMLString: comment.content,
+                                    isNodeFid125: isNodeFid125,
+                                    didFinish: { scrollHeight in
+                                        if comment.webViewHeight == .zero,
+                                           let index = comments.firstIndex(
+                                            where: { obj in obj.id == comment.id }) {
+                                            var model = comment
+                                            model.webViewHeight = scrollHeight
+                                            model.id = UUID()
+                                            if index < comments.count, comments.count != 1 {
+                                                comments.replaceSubrange(index..<(index + 1), with: [model])
+                                            } else {
+                                                comments = [model]
+                                            }
+                                        }
+                                    },
+                                    decisionHandler: { url in
+                                        if let url = url {
+                                            handler(url: url)
+                                        }
+                                    },
+                                    imageUrlClick: {
+                                        isImagePresented.toggle()
+                                    })
+                                .frame(height: comment.webViewHeight)
+                            })
+                        .padding([.top, .bottom], 5)
+                        .id(comment.pid)
+                        .onAppear {
+                            if comment.id == comments.last?.id {
+                                if nextPage {
+                                    page += 1
+                                    isSelectedPage = false
+                                    Task {
+                                        await loadData()
+                                    }
+                                }
+                            }
+                        }
+                        .swipeActions {
+                            if !isNodeFid125 {
+                                Button("回复") {
+                                    if UserInfo.shared.isLogin() {
+                                        replyName = comment.name
+                                        replyAction = comment.reply
+                                        focused = false
+                                        isPresentedReply.toggle()
+                                    } else {
+                                        needLogin.toggle()
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } header: {
+                    TopicDetailListHeader(
+                        isConfirming: $isConfirming,
+                        isNodeFid125: isNodeFid125,
+                        header: TopicListHeaderModel(),
+                        nodeClick: {
+                            selection.index = .node
+                            CacheInfo.shared.selectedTab = .node
+                        },
+                        indexClick: {
+                            isNode.toggle()
+                        },
+                        nodeListClick: {
+                            isNodeList.toggle()
+                        },
+                        tagClick: { id in
+                            tagId = id
+                            isTag.toggle()
+                        },
+                        selectedPage: { index in
+                            page = index
+                            isSelectedPage = true
+                            Task {
+                                await loadData()
+                            }
+                        })
+                }
+            }
+            .listStyle(.plain)
+            .refreshable {
+                Task {
+                    await reloadData()
+                }
+            }
+            .task {
+                if !isHidden {
+                    await reloadData()
+                }
+            }
+            .onOpenURL { url in
+                if let query = url.query, query.contains("pid=") {
+                    let pid = query.components(separatedBy: "=")[1]
+                    if Int(pid) != nil {
+                        proxy.scrollTo(pid, anchor: .top)
+                    }
+                }
+            }
+            .safeAreaInset(edge: .bottom) {
+                bottomButton
+            }
+        }
+    }
+
+    var progressView: some View {
+        ProgressView()
+            .isHidden(isHidden)
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    if !CacheInfo.shared.agreeTermsOfService {
+                        showAlert.toggle()
+                    }
+                }
+            }
+    }
+
+    var toolbarItemMenu: some View {
+        Menu {
+            if UserInfo.shared.isLogin() {
+                Button {
+                    if let action = comments.first?.favorite,
+                       UserInfo.shared.isLogin(),
+                       !action.isEmpty {
+                        favoriteAction = action
+                        Task {
+                            await favorite()
+                        }
+                    }
+                } label: {
+                    Label("收藏", systemImage: "star")
+                }
+            }
+
+            Button {
+                isSharePresented.toggle()
+            } label: {
+                Label("分享", systemImage: "square.and.arrow.up")
+            }
+
+            Menu("举报") {
+                ForEach(ReportMenuItem.allCases) { item in
+                    Button {
+                        Task {
+                            await report()
+                        }
+                    } label: {
+                        Text(item.title)
+                    }
+                }
+            }
+        } label: {
+            Image(systemName: "ellipsis")
+        }
+        .isHidden(disAgree)
+    }
+
+    var navigationLink: some View {
+        ZStack {
+            NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isSpace) {
+                EmptyView()
+            }
+            .opacity(0.0)
+
+            NavigationLink(destination: TopicDetailContentView(tid: newTid), isActive: $isViewthread) {
+                EmptyView()
+            }
+            .opacity(0.0)
+
+            NavigationLink(destination: DaySignContentView(), isActive: $isDaysign) {
+                EmptyView()
+            }
+            .opacity(0.0)
+
+            NavigationLink(destination: MyCreditContentView(), isActive: $isCredit) {
+                EmptyView()
+            }
+            .opacity(0.0)
+
+            NavigationLink(destination: RankListContentView(), isActive: $isRanklist) {
+                EmptyView()
+            }
+            .opacity(0.0)
+
+            NavigationLink(destination: NodeContentView(gid: gid), isActive: $isNode) {
+                EmptyView()
+            }
+            .opacity(0.0)
+
+            NavigationLink(destination: NodeListContentView(nodeTitle: nodeTitle, nodeFid: nodeFid), isActive: $isNodeList) {
+                EmptyView()
+            }
+            .opacity(0.0)
+
+            NavigationLink(destination: TagListContentView(id: tagId, searchState: SearchState()), isActive: $isTag) {
+                EmptyView()
+            }
+            .opacity(0.0)
+        }
+    }
+
+    var bottomButton: some View {
+        HStack {
+            Button {
+                if UserInfo.shared.isLogin() {
+                    isPresented.toggle()
+                } else {
+                    needLogin.toggle()
+                }
+            } label: {
+                Label(title: {
+                    Text("输入评论内容")
+                }, icon: {
+                    Image(systemName: "rectangle.and.pencil.and.ellipsis")
+                })
+                .frame(maxWidth: UIScreen.main.bounds.width - 60, minHeight: 30)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(.secondary, lineWidth: 1)
+                )
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: 70)
+        .background(.regularMaterial)
+        .isHidden(isNodeFid125)
+    }
+
+    var closeButton: some View {
         Button {
             isImagePresented.toggle()
         } label: {
@@ -620,6 +418,149 @@ struct TopicDetailContentView: View {
         .clipShape(Circle())
         .tint(.theme)
         .padding()
+    }
+
+    @ViewBuilder
+    var shareSheet: some View {
+        if let url = URL(string: "https://www.chongbuluo.com/forum.php?mod=viewthread&tid=\(tid)") {
+            ShareSheet(items: [
+                url
+            ])
+        }
+    }
+
+    @ViewBuilder
+    var useAlert: some View {
+        Button("不同意", role: .cancel) {
+            disAgree = true
+            dismiss()
+        }
+
+        Button("同意") {
+            CacheInfo.shared.agreeTermsOfService = true
+            showAlert = false
+        }
+    }
+
+    var imageBrowser: some View {
+        ImageBrowser(url: getImageUrl())
+            .overlay(alignment: .topLeading) {
+                closeButton
+            }
+    }
+
+    var commentDialog: some View {
+        VStack {
+            HStack {
+                Spacer()
+
+                Text("评论帖子")
+                    .font(.font17)
+
+                Spacer()
+
+                Button {
+                    closeDialog()
+                } label: {
+                    Image(systemName: "xmark.circle")
+                }
+            }
+
+            ZStack(alignment: .leading) {
+                TextEditor(text: $inputComment)
+                    .multilineTextAlignment(.leading)
+                    .font(.font16)
+                    .focused($focused)
+                    .onChange(of: inputComment) { newValue in
+                        print(newValue)
+                    }
+                    .border(Color.theme)
+                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 20, trailing: 0))
+
+                if inputComment.isEmpty {
+                    Text("输入评论内容")
+                        .multilineTextAlignment(.leading)
+                        .font(.font16)
+                        .foregroundColor(.secondary)
+                        .padding(EdgeInsets(top: -43, leading: 16, bottom: 30, trailing: 0))
+                }
+            }
+
+            Button(isShowing ? " " : "发表评论", action: {
+                Task {
+                    await comment()
+                }
+            })
+            .showProgress(isShowing: $isShowing, color: .white)
+            .disabled(isShowing)
+            .buttonStyle(BigButtonStyle())
+            .padding(EdgeInsets(top: 20, leading: 0, bottom: 10, trailing: 0))
+        }
+        .frame(width: 300, height: 200)
+        .onAppear {
+            focused.toggle()
+        }
+    }
+
+    var replyDialog: some View {
+        VStack {
+            HStack {
+                Spacer()
+
+                Text("回复帖子")
+                    .font(.font17)
+
+                Spacer()
+
+                Button {
+                    closeDialog()
+                } label: {
+                    Image(systemName: "xmark.circle")
+                }
+            }
+
+            ZStack(alignment: .leading) {
+                TextEditor(text: $replyContent)
+                    .multilineTextAlignment(.leading)
+                    .font(.font16)
+                    .focused($replyFocused)
+                    .onChange(of: replyContent) { newValue in
+                        print(newValue)
+                    }
+                    .border(Color.theme)
+                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 20, trailing: 0))
+
+                if replyContent.isEmpty {
+                    Text("输入回复内容")
+                        .multilineTextAlignment(.leading)
+                        .font(.font16)
+                        .foregroundColor(.secondary)
+                        .padding(EdgeInsets(top: -43, leading: 16, bottom: 30, trailing: 0))
+                }
+            }
+
+            Button(isShowingReply ? " " : "发表回复", action: {
+                Task {
+                    await getReply()
+                }
+            })
+            .showProgress(isShowing: $isShowingReply, color: .white)
+            .disabled(isShowingReply)
+            .buttonStyle(BigButtonStyle())
+            .padding(EdgeInsets(top: 20, leading: 0, bottom: 10, trailing: 0))
+        }
+        .frame(width: 300, height: 200)
+        .onAppear {
+            replyFocused.toggle()
+        }
+    }
+}
+
+extension TopicDetailContentView {
+    private func getImageUrl() -> String {
+        let url = CacheInfo.shared.imageUrl
+        print("getImageUrl: \(url)")
+        return url
     }
 
     private func closeDialog() {
@@ -944,12 +885,12 @@ struct TopicDetailContentView: View {
             var requset = URLRequest(url: url)
             requset.httpMethod = "POST"
             requset.configHeaderFields()
-//            requset.setValue("https://www.chongbuluo.com", forHTTPHeaderField: "Origin")
-//            requset.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-//            requset.setValue("same-origin", forHTTPHeaderField: "Sec-Fetch-Site")
-//            requset.setValue("navigate", forHTTPHeaderField: "Sec-Fetch-Mode")
-//            requset.setValue("?1", forHTTPHeaderField: "Sec-Fetch-User")
-//            requset.setValue("document", forHTTPHeaderField: "Sec-Fetch-Dest")
+            //            requset.setValue("https://www.chongbuluo.com", forHTTPHeaderField: "Origin")
+            //            requset.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+            //            requset.setValue("same-origin", forHTTPHeaderField: "Sec-Fetch-Site")
+            //            requset.setValue("navigate", forHTTPHeaderField: "Sec-Fetch-Mode")
+            //            requset.setValue("?1", forHTTPHeaderField: "Sec-Fetch-User")
+            //            requset.setValue("document", forHTTPHeaderField: "Sec-Fetch-Dest")
             let (data, _) = try await URLSession.shared.data(for: requset)
             if let html = try? HTML(html: data, encoding: .utf8) {
                 if let text = html.toHTML, text.contains("刚刚") || text.contains("秒前") {
