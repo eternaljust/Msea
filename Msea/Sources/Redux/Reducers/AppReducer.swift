@@ -16,5 +16,7 @@ func appReducer(state: inout AppState, action: AppAction) {
         homeReducer(state: &state.home, action: action)
     case .topic(let action):
         topicReducer(state: &state.topic, action: action)
+    case .topicDetail(let action):
+        topicDetailReducer(state: &state.topicDetail, action: action)
     }
 }

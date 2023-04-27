@@ -17,7 +17,8 @@ import SwiftUI
         reducer: appReducer(state:action:),
         middlewares: [
             homeMiddleware(),
-            topicMiddleware()
+            topicMiddleware(),
+            topicDetailMiddleware()
         ]
     )
 

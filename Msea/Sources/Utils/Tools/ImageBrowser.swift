@@ -9,7 +9,7 @@
 import SwiftUI
 
 public struct ImageBrowser: View {
-    let url: String
+    let url: String = CacheInfo.shared.clickedImageUrl
 
     @State private var scale: CGFloat = 1
     @State private var lastScale: CGFloat = 1
@@ -94,5 +94,22 @@ public struct ImageBrowser: View {
             }
         }
         self.lastTranslation = .zero
+    }
+}
+
+struct CloseButton: View {
+    let click: () -> Void
+
+    var body: some View {
+        Button {
+            click()
+        } label: {
+            Image(systemName: "xmark")
+                .font(.headline)
+        }
+        .buttonStyle(.bordered)
+        .clipShape(Circle())
+        .tint(.theme)
+        .padding()
     }
 }

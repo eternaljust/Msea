@@ -200,47 +200,47 @@ struct TagListContentView: View {
                 let content = html.xpath("//div[@class='bm_c']//table/tr")
                 var list = [TagTopicListModel]()
                 content.forEach { element in
+                    var topic = TagTopicListModel()
+
                     if let gif = element.at_xpath("/td[@class='icn']/a/img/@src")?.text {
-                        var topic = TagTopicListModel()
                         topic.gif = "https://www.chongbuluo.com/" + gif
-
-                        if let text = element.at_xpath("/th/a")?.text {
-                            topic.title = text
-                        }
-                        if let text = element.at_xpath("/th/a/@href")?.text {
-                            topic.tid = text.getTid()
-                        }
-                        if let xg1 = element.at_xpath("/td[@class='by']/a")?.text {
-                            topic.plate = xg1
-                        }
-                        if let href = element.at_xpath("/td[@class='by']/a/@href")?.text, href.contains("fid=") {
-                            topic.fid = href.components(separatedBy: "fid=")[1]
-                        }
-                        if let reply = element.at_xpath("/td[@class='num']/a[@class='xi2']")?.text {
-                            topic.reply = reply
-                        }
-                        if let examine = element.at_xpath("/td[@class='num']/em")?.text {
-                            topic.examine = examine
-                        }
-                        if let name = element.at_xpath("/td[@class='by']/cite")?.text {
-                            topic.name = name.replacingOccurrences(of: "\n", with: "")
-                        }
-                        if let uid = element.at_xpath("/td[@class='by']/cite/a/@href")?.text, uid.contains("uid") {
-                            topic.uid = uid.getUid()
-                        }
-                        if let name = element.at_xpath("/td[@class='by'][last()]/cite")?.text {
-                            topic.lastName = name.replacingOccurrences(of: "\n", with: "")
-                        }
-                        if let time = element.at_xpath("/td[@class='by']/em")?.text {
-                            topic.time = time
-                        }
-                        if let time = element.at_xpath("/td[@class='by'][last()]/em")?.text {
-                            topic.lastTime = time
-                        }
-                        print(topic)
-
-                        list.append(topic)
                     }
+                    if let text = element.at_xpath("/th/a")?.text {
+                        topic.title = text
+                    }
+                    if let text = element.at_xpath("/th/a/@href")?.text {
+                        topic.tid = text.getTid()
+                    }
+                    if let xg1 = element.at_xpath("/td[@class='by']/a")?.text {
+                        topic.plate = xg1
+                    }
+                    if let href = element.at_xpath("/td[@class='by']/a/@href")?.text, href.contains("fid=") {
+                        topic.fid = href.components(separatedBy: "fid=")[1]
+                    }
+                    if let reply = element.at_xpath("/td[@class='num']/a[@class='xi2']")?.text {
+                        topic.reply = reply
+                    }
+                    if let examine = element.at_xpath("/td[@class='num']/em")?.text {
+                        topic.examine = examine
+                    }
+                    if let name = element.at_xpath("/td[@class='by']/cite")?.text {
+                        topic.name = name.replacingOccurrences(of: "\n", with: "")
+                    }
+                    if let uid = element.at_xpath("/td[@class='by']/cite/a/@href")?.text, uid.contains("uid") {
+                        topic.uid = uid.getUid()
+                    }
+                    if let name = element.at_xpath("/td[@class='by'][last()]/cite")?.text {
+                        topic.lastName = name.replacingOccurrences(of: "\n", with: "")
+                    }
+                    if let time = element.at_xpath("/td[@class='by']/em")?.text {
+                        topic.time = time
+                    }
+                    if let time = element.at_xpath("/td[@class='by'][last()]/em")?.text {
+                        topic.lastTime = time
+                    }
+                    print(topic)
+
+                    list.append(topic)
                 }
 
                 topics = list

@@ -16,8 +16,8 @@ func topicMiddleware() -> Middleware<AppState, AppAction> {
         case let .topic(action: .loadList(tab: tab, page: page)):
             let url = "\(HTMLURL.topicList)&view=\(tab.id)&page=\(page)"
             return Network.instance.getRequset(url)
-                .map {
-                    let node = $0.xpath("//tbody")
+                .map { html in
+                    let node = html.xpath("//tbody")
                     var list = [TopicListModel]()
                     node.forEach { element in
                         var topic = TopicListModel()
@@ -75,7 +75,7 @@ func topicMiddleware() -> Middleware<AppState, AppAction> {
                             list.append(topic)
                         }
                     }
-                    $0.getFormhash()
+                    html.getFormhash()
                     list = list.filter { model in
                         !UserInfo.shared.shieldUsers.contains { $0.uid == model.uid }
                     }

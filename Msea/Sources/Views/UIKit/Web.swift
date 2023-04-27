@@ -107,7 +107,7 @@ struct Web: UIViewRepresentable {
                     let imageUrl = absoluteString.subString(from: "image-preview:".count)
                     print("imageUrl = \(imageUrl)")
                     if let block = self.parent.imageUrlClick, !imageUrl.isEmpty {
-                        CacheInfo.shared.imageUrl = imageUrl
+                        CacheInfo.shared.clickedImageUrl = imageUrl
                         block()
                     }
                 } else {

@@ -11,18 +11,7 @@ import Kanna
 
 struct TopicDetailContentView: View {
     var tid: String = ""
-    /// 石沉大海
-    @State var isNodeFid125 = false
 
-    @State private var action = ""
-    @State private var title = ""
-    @State private var commentCount = ""
-    @State private var comments = [TopicCommentModel]()
-    @State private var isHidden = false
-    @State private var page = 1
-    @State private var isRefreshing = false
-    @State private var nextPage = false
-    @State private var pageSize = 1
     @State private var isSelectedPage = false
     @State private var isConfirming = false
     @State private var fid = ""
@@ -62,23 +51,18 @@ struct TopicDetailContentView: View {
     @State private var isRanklist = false
     @State private var isSharePresented = false
 
-    @State private var indexTitle = ""
-    @State private var gid = ""
-    @State private var nodeTitle = ""
-    @State private var nodeFid = ""
     @State private var isNode = false
     @State private var isNodeList = false
-
-    @State private var tagItems = [TagItemModel]()
-    @State private var tagId = ""
     @State private var isTag = false
 
     @State private var isImagePresented = false
 
+    @EnvironmentObject private var store: AppStore
+
     var body: some View {
         ZStack {
             if disAgree || isPosterShielding {
-                tipText
+                TopicDetailTipText(disAgree: disAgree)
             } else {
                 VStack {
                     commentList
@@ -123,7 +107,7 @@ struct TopicDetailContentView: View {
             if !UIDevice.current.isPad {
                 TabBarTool.showTabBar(false)
             }
-            if let first = comments.first {
+            if let first = store.state.topicDetail.comments.first {
                 isPosterShielding = UserInfo.shared.shieldUsers.contains { $0.uid == first.uid }
                 if isPosterShielding {
                     dismiss()
@@ -139,34 +123,14 @@ struct TopicDetailContentView: View {
         }
     }
 
-    var tipText: some View {
-        VStack {
-            Spacer()
-
-            HStack {
-                Spacer()
-
-                if disAgree {
-                    Text("同意使用条款后才能查看帖子")
-                } else {
-                    Text("楼主已经被屏蔽，帖子信息不再展示")
-                }
-
-                Spacer()
-            }
-
-            Spacer()
-        }
-    }
-
     var commentList: some View {
         ScrollViewReader { proxy in
             List {
                 Section {
-                    ForEach(comments) { comment in
+                    ForEach(store.state.topicDetail.comments) { comment in
                         TopicDetailListItemRow(
                             comment: comment,
-                            isNodeFid125: isNodeFid125,
+                            isNodeFid125: store.state.topicDetail.detail.isNodeFid125,
                             avatarClick: {
                                 if comment.uid == UserInfo.shared.uid {
                                     selection.index = .mine
@@ -179,18 +143,22 @@ struct TopicDetailContentView: View {
                             webContent: {
                                 Web(
                                     bodyHTMLString: comment.content,
-                                    isNodeFid125: isNodeFid125,
+                                    isNodeFid125: store.state.topicDetail.detail.isNodeFid125,
                                     didFinish: { scrollHeight in
                                         if comment.webViewHeight == .zero,
-                                           let index = comments.firstIndex(
+                                           let index = store.state.topicDetail.comments.firstIndex(
                                             where: { obj in obj.id == comment.id }) {
                                             var model = comment
                                             model.webViewHeight = scrollHeight
                                             model.id = UUID()
-                                            if index < comments.count, comments.count != 1 {
-                                                comments.replaceSubrange(index..<(index + 1), with: [model])
-                                            } else {
-                                                comments = [model]
+                                            Task {
+                                                if index < store.state.topicDetail.comments.count, store.state.topicDetail.comments.count != 1 {
+                                                    var comments = store.state.topicDetail.comments
+                                                    comments.replaceSubrange(index..<(index + 1), with: [model])
+                                                    await store.dispatch(.topicDetail(action: .replaceList(comments)))
+                                                } else {
+                                                    await store.dispatch(.topicDetail(action: .replaceList([model])))
+                                                }
                                             }
                                         }
                                     },
@@ -207,18 +175,17 @@ struct TopicDetailContentView: View {
                         .padding([.top, .bottom], 5)
                         .id(comment.pid)
                         .onAppear {
-                            if comment.id == comments.last?.id {
-                                if nextPage {
-                                    page += 1
-                                    isSelectedPage = false
+                            if comment.id == store.state.topicDetail.comments.last?.id {
+                                if store.state.topicDetail.detail.nextPage {
                                     Task {
+                                        await store.dispatch(.topicDetail(action: .pageAdd))
                                         await loadData()
                                     }
                                 }
                             }
                         }
                         .swipeActions {
-                            if !isNodeFid125 {
+                            if !store.state.topicDetail.detail.isNodeFid125 {
                                 Button("回复") {
                                     if UserInfo.shared.isLogin() {
                                         replyName = comment.name
@@ -235,11 +202,12 @@ struct TopicDetailContentView: View {
                 } header: {
                     TopicDetailListHeader(
                         isConfirming: $isConfirming,
-                        isNodeFid125: isNodeFid125,
-                        header: TopicListHeaderModel(),
+                        isNodeFid125: store.state.topicDetail.detail.isNodeFid125,
+                        header: store.state.topicDetail.header,
                         nodeClick: {
                             selection.index = .node
                             CacheInfo.shared.selectedTab = .node
+                            TabBarTool.showTabBar(true)
                         },
                         indexClick: {
                             isNode.toggle()
@@ -248,14 +216,15 @@ struct TopicDetailContentView: View {
                             isNodeList.toggle()
                         },
                         tagClick: { id in
-                            tagId = id
-                            isTag.toggle()
+                            Task {
+                                await store.dispatch(.topicDetail(action: .setTagId(id)))
+                                isTag.toggle()
+                            }
                         },
                         selectedPage: { index in
-                            page = index
-                            isSelectedPage = true
                             Task {
-                                await loadData()
+                                await store.dispatch(.topicDetail(action: .selectedPage(index)))
+                                await store.dispatch(.topicDetail(action: .loadList(tid: tid)))
                             }
                         })
                 }
@@ -267,7 +236,7 @@ struct TopicDetailContentView: View {
                 }
             }
             .task {
-                if !isHidden {
+                if !store.state.topicDetail.detail.isProgressViewHidden {
                     await reloadData()
                 }
             }
@@ -280,14 +249,20 @@ struct TopicDetailContentView: View {
                 }
             }
             .safeAreaInset(edge: .bottom) {
-                bottomButton
+                TopicDetailBottomButton(isNodeFid125: store.state.topicDetail.detail.isNodeFid125) {
+                    if UserInfo.shared.isLogin() {
+                        isPresented.toggle()
+                    } else {
+                        needLogin.toggle()
+                    }
+                }
             }
         }
     }
 
     var progressView: some View {
         ProgressView()
-            .isHidden(isHidden)
+            .isHidden(store.state.topicDetail.detail.isProgressViewHidden)
             .onAppear {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     if !CacheInfo.shared.agreeTermsOfService {
@@ -301,7 +276,7 @@ struct TopicDetailContentView: View {
         Menu {
             if UserInfo.shared.isLogin() {
                 Button {
-                    if let action = comments.first?.favorite,
+                    if let action = store.state.topicDetail.comments.first?.favorite,
                        UserInfo.shared.isLogin(),
                        !action.isEmpty {
                         favoriteAction = action
@@ -364,60 +339,21 @@ struct TopicDetailContentView: View {
             }
             .opacity(0.0)
 
-            NavigationLink(destination: NodeContentView(gid: gid), isActive: $isNode) {
+            NavigationLink(destination: NodeContentView(gid: store.state.topicDetail.header.gid), isActive: $isNode) {
                 EmptyView()
             }
             .opacity(0.0)
 
-            NavigationLink(destination: NodeListContentView(nodeTitle: nodeTitle, nodeFid: nodeFid), isActive: $isNodeList) {
+            NavigationLink(destination: NodeListContentView(nodeTitle: store.state.topicDetail.header.nodeTitle, nodeFid: store.state.topicDetail.header.nodeFid), isActive: $isNodeList) {
                 EmptyView()
             }
             .opacity(0.0)
 
-            NavigationLink(destination: TagListContentView(id: tagId, searchState: SearchState()), isActive: $isTag) {
+            NavigationLink(destination: TagListContentView(id: store.state.topicDetail.header.tagId, searchState: SearchState()), isActive: $isTag) {
                 EmptyView()
             }
             .opacity(0.0)
         }
-    }
-
-    var bottomButton: some View {
-        HStack {
-            Button {
-                if UserInfo.shared.isLogin() {
-                    isPresented.toggle()
-                } else {
-                    needLogin.toggle()
-                }
-            } label: {
-                Label(title: {
-                    Text("输入评论内容")
-                }, icon: {
-                    Image(systemName: "rectangle.and.pencil.and.ellipsis")
-                })
-                .frame(maxWidth: UIScreen.main.bounds.width - 60, minHeight: 30)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(.secondary, lineWidth: 1)
-                )
-            }
-        }
-        .frame(maxWidth: .infinity, maxHeight: 70)
-        .background(.regularMaterial)
-        .isHidden(isNodeFid125)
-    }
-
-    var closeButton: some View {
-        Button {
-            isImagePresented.toggle()
-        } label: {
-            Image(systemName: "xmark")
-                .font(.headline)
-        }
-        .buttonStyle(.bordered)
-        .clipShape(Circle())
-        .tint(.theme)
-        .padding()
     }
 
     @ViewBuilder
@@ -443,9 +379,11 @@ struct TopicDetailContentView: View {
     }
 
     var imageBrowser: some View {
-        ImageBrowser(url: getImageUrl())
+        ImageBrowser()
             .overlay(alignment: .topLeading) {
-                closeButton
+                CloseButton {
+                    isImagePresented.toggle()
+                }
             }
     }
 
@@ -557,12 +495,6 @@ struct TopicDetailContentView: View {
 }
 
 extension TopicDetailContentView {
-    private func getImageUrl() -> String {
-        let url = CacheInfo.shared.imageUrl
-        print("getImageUrl: \(url)")
-        return url
-    }
-
     private func closeDialog() {
         withAnimation {
             focused = false
@@ -584,169 +516,19 @@ extension TopicDetailContentView {
     }
 
     private func shieldUsers() {
-        comments = comments.filter { model in
-            !UserInfo.shared.shieldUsers.contains { $0.uid == model.uid }
+        Task {
+            await store.dispatch(.topicDetail(action: .shieldUsers))
         }
     }
 
     private func reloadData() async {
-        page = 1
-        isSelectedPage = false
-        await loadData()
+        await store.dispatch(.topicDetail(action: .resetPage))
+        await store.dispatch(.topicDetail(action: .loadList(tid: tid)))
     }
 
     private func loadData() async {
-        isRefreshing = true
-        print("pageSize: \(pageSize)")
-        print("page: \(page)")
-        Task {
-            // swiftlint:disable force_unwrapping
-            let url = URL(string: "https://www.chongbuluo.com/forum.php?mod=viewthread&tid=\(tid)&extra=&page=\(page)")!
-            // swiftlint:enble force_unwrapping
-            var requset = URLRequest(url: url)
-            requset.configHeaderFields()
-            let (data, _) = try await URLSession.shared.data(for: requset)
-            if let html = try? HTML(html: data, encoding: .utf8) {
-                if let href = html.at_xpath("//div[@class='bm cl']/div[@class='z']/a[last()]/@href")?.text {
-                    print(href)
-                    if href.contains("fid=") {
-                        self.fid = href.components(separatedBy: "fid=")[1]
-                        if self.fid == "125", !self.isNodeFid125 {
-                            self.isNodeFid125 = true
-                        }
-                    }
-                }
-                if let text = html.at_xpath("//div[@id='f_pst']/form/@action")?.text {
-                    action = text
-                }
-                if let text = html.at_xpath("//td[@class='plc ptm pbn vwthd']/h1/span")?.text {
-                    title = text
-                }
-                if let text1 = html.at_xpath("//td[@class='plc ptm pbn vwthd']/div[@class='ptn']/span[2]")?.text, let text2 = html.at_xpath("//td[@class='plc ptm pbn vwthd']/div[@class='ptn']/span[5]")?.text {
-                    commentCount = "查看: \(text1)  |  回复: \(text2)  |  tid(\(tid))"
-                }
-                if let href = html.at_xpath("//div[@class='bm cl']/div[@class='z']/a[3]/@href")?.text, href.contains("gid=") {
-                    print(href)
-                    gid = href.components(separatedBy: "gid=")[1]
-                }
-                if let text = html.at_xpath("//div[@class='bm cl']/div[@class='z']/a[3]")?.text {
-                    indexTitle = text
-                }
-                if let forum = html.at_xpath("//div[@class='bm cl']/div[@class='z']/a[4]/@href")?.text {
-                    if forum.contains("forum-") {
-                        let id = forum.components(separatedBy: "forum-")[1].components(separatedBy: "-")[0]
-                        nodeFid = id
-                    } else if forum.contains("fid=") {
-                        nodeFid = forum.components(separatedBy: "fid=")[1]
-                    }
-                }
-                if let text = html.at_xpath("//div[@class='bm cl']/div[@class='z']/a[4]")?.text {
-                    nodeTitle = text
-                }
-                if let text = html.toHTML, text.contains("下一页") {
-                    nextPage = true
-                } else {
-                    nextPage = false
-                }
-                if var size = html.at_xpath("//div[@class='pgs mtm mbm cl']/div[@class='pg']/a[last()-1]")?.text {
-                    size = size.replacingOccurrences(of: "... ", with: "")
-                    if let num = Int(size), num > 1 {
-                        pageSize = num
-                    }
-                }
-                if page == 1 {
-                    let span = html.xpath("//span[@class='tag iconfont icon-tag-fill']/a")
-                    var tags = [TagItemModel]()
-                    span.forEach { e in
-                        var tag = TagItemModel()
-                        if let text = e.at_xpath("/@title")?.text {
-                            tag.title = text
-                        }
-                        if let href = e.at_xpath("/@href")?.text, href.contains("id=") {
-                            tag.tid = href.components(separatedBy: "id=")[1]
-                        }
-                        tags.append(tag)
-                    }
-                    tagItems = tags
-                }
-                let node = html.xpath("//table[@class='plhin']")
-                var list = [TopicCommentModel]()
-                node.forEach { element in
-                    var comment = TopicCommentModel()
-                    if let url = element.at_xpath("//div[@class='imicn']/a/@href")?.text {
-                        let uid = getUid(url: url)
-                        if !uid.isEmpty {
-                            comment.uid = uid
-                        }
-                    }
-                    if let avatar = element.at_xpath("//div[@class='avatar']//img/@src")?.text {
-                        comment.avatar = avatar
-                    }
-                    if let name = element.at_xpath("//div[@class='authi']/a")?.text {
-                        comment.name = name
-                    }
-                    if let time = element.at_xpath("//div[@class='authi']/em")?.text {
-                        comment.time = time
-                    }
-                    let a = element.xpath("//div[@class='pob cl']//a")
-                    a.forEach { ele in
-                        if let text = ele.text, text.contains("回复") {
-                            if let reply = ele.at_xpath("/@href")?.text {
-                                comment.reply = reply
-                            }
-                        }
-                    }
-                    var table = element.at_xpath("//div[@class='t_fsz']/table")
-                    if table?.toHTML == nil {
-                        table = element.at_xpath("//div[@class='pcbs']/table")
-                    }
-                    if table?.toHTML == nil {
-                        table = element.at_xpath("//div[@class='pcbs']")
-                    }
-                    let pattl = element.at_xpath("//div[@class='t_fsz']/div[@class='pattl']")
-                    if pattl != nil {
-                        table = element.at_xpath("//div[@class='t_fsz']")
-                    }
-                    if let content = table?.toHTML {
-                        if let id = table?.at_xpath("//td/@id")?.text, id.contains("_") {
-                            comment.pid = id.components(separatedBy: "_")[1]
-                        }
-                        comment.content = content
-                        if content.contains("font") || content.contains("strong") || content.contains("color") || content.contains("quote") || content.contains("</a>") {
-                            comment.isText = false
-                            comment.content = content.replacingOccurrences(of: "</blockquote></div>\n<br>", with: "</blockquote></div>")
-                            if content.contains("file") && content.contains("src") {
-                                comment.content = comment.content.replacingOccurrences(of: "src=\"static/image/common/none.gif\"", with: "")
-                                comment.content = comment.content.replacingOccurrences(of: "file", with: "src")
-                            }
-                        } else {
-                            comment.content = table?.text ?? ""
-                        }
-                        if let i = comment.content.firstIndex(of: "\r\n") {
-                            comment.content.remove(at: i)
-                        }
-                        if let action = element.at_xpath("//div[@class='pob cl']//a[1]/@href")?.text, action.contains("favorite") {
-                            comment.favorite = action
-                        }
-                    }
-                    list.append(comment)
-                }
-                html.getFormhash()
-
-                if isSelectedPage {
-                    comments = []
-                }
-                if page == 1 {
-                    comments = list
-                    isRefreshing = false
-                } else {
-                    comments += list
-                }
-                isHidden = true
-
-                shieldUsers()
-            }
-        }
+        await store.dispatch(.topicDetail(action: .pageAdd))
+        await store.dispatch(.topicDetail(action: .loadList(tid: tid)))
     }
 
     private func favorite() async {
@@ -790,7 +572,7 @@ extension TopicDetailContentView {
             let time = Int(Date().timeIntervalSince1970)
             // swiftlint:disable force_unwrapping
             let parames = "&formhash=\(UserInfo.shared.formhash)&message=\(inputComment)&posttime=\(time)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-            let url = URL(string: "https://www.chongbuluo.com/\(action)\(parames)")!
+            let url = URL(string: "https://www.chongbuluo.com/\(store.state.topicDetail.detail.action)\(parames)")!
             // swiftlint:enble force_unwrapping
             var requset = URLRequest(url: url)
             requset.httpMethod = "POST"
@@ -931,7 +713,7 @@ extension TopicDetailContentView {
         if absoluteString.contains("chongbuluo"), absoluteString.contains("thread") || absoluteString.contains("uid=") {
             // 帖子 个人空间
             if absoluteString.contains("uid=") {
-                let uid = getUid(url: absoluteString)
+                let uid = absoluteString.getUid()
                 if !uid.isEmpty {
                     if uid == UserInfo.shared.uid {
                         selection.index = .mine
@@ -982,52 +764,10 @@ extension TopicDetailContentView {
         } else if absoluteString.hasPrefix("mailto:") {
             // 邮件
             UIApplication.shared.open(url)
-        } else if absoluteString.contains("&pid=") {
-            // 跳转楼层
-            let pid = getPid(url: absoluteString)
-            if !pid.isEmpty, let postURL = URL(string: "msea://post?pid=\(pid)") {
-                UIApplication.shared.open(postURL)
-            }
         } else {
             // 打开 Safari
             webURLItem = WebURLItem(url: absoluteString)
         }
-    }
-
-    private func getPid(url: String) -> String {
-        if url.contains("&pid=") {
-            let list = url.components(separatedBy: "&")
-            var pid = ""
-            list.forEach { text in
-                if text.hasPrefix("pid=") {
-                    pid = text
-                }
-            }
-            let pids = pid.components(separatedBy: "=")
-            if pids.count == 2 {
-                return pids[1]
-            }
-            return ""
-        }
-        return ""
-    }
-
-    private func getUid(url: String) -> String {
-        if url.contains("&uid=") {
-            let list = url.components(separatedBy: "&")
-            var uid = ""
-            list.forEach { text in
-                if text.hasPrefix("uid=") {
-                    uid = text
-                }
-            }
-            let uids = uid.components(separatedBy: "=")
-            if uids.count == 2 {
-                return uids[1]
-            }
-            return ""
-        }
-        return ""
     }
 }
 

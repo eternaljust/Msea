@@ -159,7 +159,7 @@ struct NodeContentView: View {
                 ProgressView()
                     .isHidden(isHidden)
 
-                NavigationLink(destination: TopicDetailContentView(tid: tid, isNodeFid125: fid == "125"), isActive: $isTopic) {
+                NavigationLink(destination: TopicDetailContentView(tid: tid), isActive: $isTopic) {
                     EmptyView()
                 }
                 .opacity(0.0)

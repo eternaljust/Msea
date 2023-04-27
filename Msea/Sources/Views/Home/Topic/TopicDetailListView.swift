@@ -68,7 +68,7 @@ struct TopicDetailListHeader: View {
     @Binding var isConfirming: Bool
 
     let isNodeFid125: Bool
-    let header: TopicListHeaderModel
+    let header: TopicDetailHeaderModel
     let nodeClick: () -> Void
     let indexClick: () -> Void
     let nodeListClick: () -> Void
@@ -162,5 +162,56 @@ struct TopicDetailListHeader: View {
                 }
             }
         }
+    }
+}
+
+struct TopicDetailTipText: View {
+    let disAgree: Bool
+
+    var body: some View {
+        VStack {
+            Spacer()
+
+            HStack {
+                Spacer()
+
+                if disAgree {
+                    Text("同意使用条款后才能查看帖子")
+                } else {
+                    Text("楼主已经被屏蔽，帖子信息不再展示")
+                }
+
+                Spacer()
+            }
+
+            Spacer()
+        }
+    }
+}
+
+struct TopicDetailBottomButton: View {
+    let isNodeFid125: Bool
+    let click: () -> Void
+
+    var body: some View {
+        HStack {
+            Button {
+                click()
+            } label: {
+                Label(title: {
+                    Text("输入评论内容")
+                }, icon: {
+                    Image(systemName: "rectangle.and.pencil.and.ellipsis")
+                })
+                .frame(maxWidth: UIScreen.main.bounds.width - 60, minHeight: 30)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(.secondary, lineWidth: 1)
+                )
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: 70)
+        .background(.regularMaterial)
+        .isHidden(isNodeFid125)
     }
 }

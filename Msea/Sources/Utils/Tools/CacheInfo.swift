@@ -35,5 +35,5 @@ class CacheInfo: NSObject {
     @AppStorage(CacheKeys.agreeTermsOfService) var agreeTermsOfService = false
     @AppStorage(CacheKeys.colorScheme) var colorScheme: ColorSchemeTab = .unspecified
     @AppStorage(CacheKeys.reviewCount) var reviewCount = 0
-    @AppStorage(CacheKeys.imageUrl) var imageUrl = ""
+    @AppStorage(CacheKeys.clickedImageUrl) var clickedImageUrl = ""
 }

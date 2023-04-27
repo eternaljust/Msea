@@ -116,6 +116,7 @@ extension TopicListContentView {
     private func navigateToTopicDetail(_ tid: String) {
         Task {
             await store.dispatch(.topic(action: .setTid(tid)))
+            await store.dispatch(.topicDetail(action: .resetList))
             isTopic.toggle()
         }
     }

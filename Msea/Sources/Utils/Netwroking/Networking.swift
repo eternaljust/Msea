@@ -15,6 +15,7 @@ let kAppBaseURL = "https://www.chongbuluo.com"
 struct HTMLURL {
     static let notice = "/"
     static let topicList = "/forum.php?mod=guide"
+    static let topicDetail = "/thread"
 }
 
 enum NetworkError: Error {
@@ -154,10 +155,11 @@ extension String {
     }
 
     func getUid() -> String {
-        if self.contains("uid=") {
-            return self.components(separatedBy: "uid=")[1]
-        } else if self.contains("space-uid-") && self.contains(".html") {
-            return self.components(separatedBy: "space-uid-")[1].components(separatedBy: ".html")[0]
+        let uid = self.replacingOccurrences(of: "&do=profile", with: "")
+        if uid.contains("uid=") {
+            return uid.components(separatedBy: "uid=")[1]
+        } else if uid.contains("space-uid-") && uid.contains(".html") {
+            return uid.components(separatedBy: "space-uid-")[1].components(separatedBy: ".html")[0]
         }
         return ""
     }

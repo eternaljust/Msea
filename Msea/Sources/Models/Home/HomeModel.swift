@@ -92,7 +92,7 @@ struct TopicCommentModel: Identifiable {
     var webViewHeight: CGFloat = .zero
 }
 
-struct TopicListHeaderModel {
+struct TopicDetailHeaderModel {
     var tid = ""
     var indexTitle = ""
     var gid = ""
@@ -101,7 +101,18 @@ struct TopicListHeaderModel {
     var title = ""
     var commentCount = ""
     var tagItems = [TagItemModel]()
+    var tagId = ""
     var pageSize = 0
+}
+
+struct TopicDetailModel {
+    var fid = ""
+    var isNodeFid125 = false
+    var action = ""
+    var nextPage = false
+    var isSelectedPage = false
+    var isProgressViewHidden = false
+    var page = 1
 }
 
 struct WebURLItem: Identifiable {
