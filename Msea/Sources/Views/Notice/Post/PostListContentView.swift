@@ -84,7 +84,7 @@ struct PostListContentView: View {
             }
             .opacity(0.0)
 
-            NavigationLink(destination: TopicDetailContentView(tid: tid), isActive: $isTopic) {
+            NavigationLink(destination: TopicDetailContentView(tid: tid, isNodeFid125: false), isActive: $isTopic) {
                 EmptyView()
             }
             .opacity(0.0)

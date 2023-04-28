@@ -20,6 +20,7 @@ func topicDetailMiddleware() -> Middleware<AppState, AppAction> {
                 .map { html in
                     var header = state.topicDetail.header
                     var detail = state.topicDetail.detail
+                    header.tid = tid
                     if let href = html.at_xpath("//div[@class='bm cl']/div[@class='z']/a[last()]/@href")?.text {
                         print(href)
                         if href.contains("fid=") {

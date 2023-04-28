@@ -90,7 +90,7 @@ struct TopicListContentView: View {
             }
             .opacity(0.0)
 
-            NavigationLink(destination: TopicDetailContentView(tid: store.state.topic.tid), isActive: $isTopic) {
+            NavigationLink(destination: TopicDetailContentView(tid: store.state.topic.tid, isNodeFid125: false), isActive: $isTopic) {
                 EmptyView()
             }
             .opacity(0.0)

@@ -11,6 +11,8 @@ import Kanna
 
 struct TopicDetailContentView: View {
     var tid: String = ""
+    /// 石沉大海
+    var isNodeFid125 = false
 
     @State private var isSelectedPage = false
     @State private var isConfirming = false
@@ -115,6 +117,12 @@ struct TopicDetailContentView: View {
                     shieldUsers()
                 }
             }
+            if store.state.topicDetail.header.tid != tid {
+                Task {
+                    await store.dispatch(.topicDetail(action: .resetList))
+                    await reloadData()
+                }
+            }
         }
         .onReceive(NotificationCenter.default.publisher(for: .login, object: nil)) { _ in
             Task {
@@ -130,7 +138,7 @@ struct TopicDetailContentView: View {
                     ForEach(store.state.topicDetail.comments) { comment in
                         TopicDetailListItemRow(
                             comment: comment,
-                            isNodeFid125: store.state.topicDetail.detail.isNodeFid125,
+                            isNodeFid125: isNodeFid125,
                             avatarClick: {
                                 if comment.uid == UserInfo.shared.uid {
                                     selection.index = .mine
@@ -143,7 +151,7 @@ struct TopicDetailContentView: View {
                             webContent: {
                                 Web(
                                     bodyHTMLString: comment.content,
-                                    isNodeFid125: store.state.topicDetail.detail.isNodeFid125,
+                                    isNodeFid125: isNodeFid125,
                                     didFinish: { scrollHeight in
                                         if comment.webViewHeight == .zero,
                                            let index = store.state.topicDetail.comments.firstIndex(
@@ -185,7 +193,7 @@ struct TopicDetailContentView: View {
                             }
                         }
                         .swipeActions {
-                            if !store.state.topicDetail.detail.isNodeFid125 {
+                            if !isNodeFid125 {
                                 Button("回复") {
                                     if UserInfo.shared.isLogin() {
                                         replyName = comment.name
@@ -202,7 +210,7 @@ struct TopicDetailContentView: View {
                 } header: {
                     TopicDetailListHeader(
                         isConfirming: $isConfirming,
-                        isNodeFid125: store.state.topicDetail.detail.isNodeFid125,
+                        isNodeFid125: isNodeFid125,
                         header: store.state.topicDetail.header,
                         nodeClick: {
                             selection.index = .node
@@ -249,7 +257,8 @@ struct TopicDetailContentView: View {
                 }
             }
             .safeAreaInset(edge: .bottom) {
-                TopicDetailBottomButton(isNodeFid125: store.state.topicDetail.detail.isNodeFid125) {
+                TopicDetailBottomButton(isNodeFid125:
+                                            isNodeFid125) {
                     if UserInfo.shared.isLogin() {
                         isPresented.toggle()
                     } else {
@@ -319,7 +328,7 @@ struct TopicDetailContentView: View {
             }
             .opacity(0.0)
 
-            NavigationLink(destination: TopicDetailContentView(tid: newTid), isActive: $isViewthread) {
+            NavigationLink(destination: TopicDetailContentView(tid: newTid, isNodeFid125: false), isActive: $isViewthread) {
                 EmptyView()
             }
             .opacity(0.0)
@@ -773,6 +782,6 @@ extension TopicDetailContentView {
 
 struct TopicDetailContentView_Previews: PreviewProvider {
     static var previews: some View {
-        TopicDetailContentView()
+        TopicDetailContentView(tid: "", isNodeFid125: false)
     }
 }
