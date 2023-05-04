@@ -74,7 +74,7 @@ struct TopicListTabModel {
     private(set) var tab: TopicTab
     var topics = [TopicListModel]()
     var page = 1
-    var isHidden = false
+    var isProgressHidden = false
 }
 
 struct TopicCommentModel: Identifiable {

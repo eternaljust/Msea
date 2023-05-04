@@ -72,7 +72,7 @@ struct TopicListContentView: View {
             }
         }
         .task {
-            if !topicData.isHidden {
+            if !topicData.isProgressHidden {
                 await store.dispatch(.topic(action: .loadList(tab: topicData.tab, page: topicData.page)))
             }
         }
@@ -80,7 +80,7 @@ struct TopicListContentView: View {
 
     var progressView: some View {
         ProgressView()
-            .isHidden(topicData.isHidden)
+            .isHidden(topicData.isProgressHidden)
     }
 
     var navigaitionLink: some View {

@@ -9,9 +9,11 @@
 import Foundation
 
 struct TopicState {
-    var newData = TopicListTabModel(tab: .new)
-    var hotData = TopicListTabModel(tab: .hot)
-    var newthreadData = TopicListTabModel(tab: .newthread)
+    var tabList: [TopicTab: TopicListTabModel] = [
+        .new: .init(tab: .new),
+        .hot: .init(tab: .hot),
+        .newthread: .init(tab: .newthread)
+    ]
     var uid = ""
     var tid = ""
 }

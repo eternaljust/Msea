@@ -11,45 +11,25 @@ import Foundation
 func topicReducer(state: inout TopicState, action: TopicAction) {
     switch action {
     case .shieldUsers:
-        state.newData.topics = state.newData.topics.filter { model in
-            !UserInfo.shared.shieldUsers.contains { $0.uid == model.uid }
-        }
-        state.hotData.topics = state.hotData.topics.filter { model in
-            !UserInfo.shared.shieldUsers.contains { $0.uid == model.uid }
-        }
-        state.newthreadData.topics = state.newthreadData.topics.filter { model in
-            !UserInfo.shared.shieldUsers.contains { $0.uid == model.uid }
+        state.tabList.forEach { tab, list in
+            let filter = list.topics.filter { model in
+                !UserInfo.shared.shieldUsers.contains { $0.uid == model.uid }
+            }
+            state.tabList[tab]?.topics = filter
         }
     case let .loadListComplete(tab: tab, page: page, list: list):
-        switch tab {
-        case .new:
-            state.newData.topics = page == 1 ? list : (state.newData.topics + list)
-            state.newData.isHidden = true
-        case .hot:
-            state.hotData.topics = page == 1 ? list : (state.hotData.topics + list)
-            state.hotData.isHidden = true
-        case .newthread:
-            state.newthreadData.topics = page == 1 ? list : (state.newthreadData.topics + list)
-            state.newthreadData.isHidden = true
+        if page == 1 {
+            state.tabList[tab]?.topics = list
+        } else if let topics = state.tabList[tab]?.topics {
+            state.tabList[tab]?.topics = topics + list
         }
+        state.tabList[tab]?.isProgressHidden = true
     case .pageAdd(let tab):
-        switch tab {
-        case .new:
-            state.newData.page += 1
-        case .hot:
-            state.hotData.page += 1
-        case .newthread:
-            state.newthreadData.page += 1
+        if let page = state.tabList[tab]?.page {
+            state.tabList[tab]?.page = page + 1
         }
     case .resetPage(let tab):
-        switch tab {
-        case .new:
-            state.newData.page = 1
-        case .hot:
-            state.hotData.page = 1
-        case .newthread:
-            state.newthreadData.page = 1
-        }
+        state.tabList[tab]?.page = 1
     case .setUid(let uid):
         state.uid = uid
     case .setTid(let tid):
