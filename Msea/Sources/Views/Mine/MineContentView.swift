@@ -157,14 +157,14 @@ struct MineContentView: View {
             .navigationBarTitleDisplayMode(.inline)
             .ignoresSafeArea(edges: .bottom)
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        isNewPost.toggle()
-                    } label: {
-                        Image(systemName: "square.and.pencil")
-                    }
-                    .isHidden(!isLogin)
-                }
+//                ToolbarItem(placement: .navigationBarLeading) {
+//                    Button {
+//                        isNewPost.toggle()
+//                    } label: {
+//                        Image(systemName: "square.and.pencil")
+//                    }
+//                    .isHidden(!isLogin)
+//                }
 
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
