@@ -59,7 +59,7 @@ struct SearchPostConentView: View {
                                         }
                                 }
 
-                                NavigationLink(destination: TopicDetailContentView(tid: searchModel.tid, isNodeFid125: false)) {
+                                NavigationLink(destination: TopicDetailContentView(tid: searchModel.tid)) {
                                     EmptyView()
                                 }
                                 .opacity(0.0)

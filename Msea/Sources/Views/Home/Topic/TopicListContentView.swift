@@ -90,7 +90,7 @@ struct TopicListContentView: View {
             }
             .opacity(0.0)
 
-            NavigationLink(destination: TopicDetailContentView(tid: store.state.topic.tid, isNodeFid125: false), isActive: $isTopic) {
+            NavigationLink(destination: TopicDetailContentView(tid: store.state.topic.tid), isActive: $isTopic) {
                 EmptyView()
             }
             .opacity(0.0)
@@ -116,7 +116,6 @@ extension TopicListContentView {
     private func navigateToTopicDetail(_ tid: String) {
         Task {
             await store.dispatch(.topic(action: .setTid(tid)))
-            await store.dispatch(.topicDetail(action: .resetList))
             isTopic.toggle()
         }
     }

@@ -26,7 +26,7 @@ struct FavoriteContentView: View {
                     ZStack(alignment: .leading) {
                         Text("\(Text(post.title))  \(Text(post.time).foregroundColor(.secondary))")
 
-                        NavigationLink(destination: TopicDetailContentView(tid: post.tid, isNodeFid125: false)) {
+                        NavigationLink(destination: TopicDetailContentView(tid: post.tid)) {
                             EmptyView()
                         }
                         .opacity(0.0)

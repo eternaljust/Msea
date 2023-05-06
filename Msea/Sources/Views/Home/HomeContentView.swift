@@ -106,7 +106,7 @@ struct HomeContentView: View {
                 }
 
                 NavigationLink(
-                    destination: TopicDetailContentView(tid: store.state.home.tid, isNodeFid125: false),
+                    destination: TopicDetailContentView(tid: store.state.home.tid),
                     isActive: $isTopicDetail) {
                     EmptyView()
                 }

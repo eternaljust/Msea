@@ -11,5 +11,4 @@ import Foundation
 enum AppAction {
     case home(action: HomeAction)
     case topic(action: TopicAction)
-    case topicDetail(action: TopicDetailAction)
 }

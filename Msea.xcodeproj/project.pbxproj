@@ -49,10 +49,6 @@
 		EF70CDF5277AA1B30049D830 /* TopicWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = EF70CDE8277AA1B20049D830 /* TopicWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EF70CDFA277AAA600049D830 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF082EEC275F0C6A00056BCA /* Color+Extension.swift */; };
 		EF70CDFB277AAA660049D830 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4314C27608B3A00319073 /* Font+Extension.swift */; };
-		EF70E07E29FA4AF300956475 /* TopicDetailState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70E07D29FA4AF300956475 /* TopicDetailState.swift */; };
-		EF70E08029FA4B0300956475 /* TopicDetailAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70E07F29FA4B0300956475 /* TopicDetailAction.swift */; };
-		EF70E08229FA4B1A00956475 /* TopicDetailMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70E08129FA4B1A00956475 /* TopicDetailMiddleware.swift */; };
-		EF70E08429FA4B2D00956475 /* TopicDetailReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70E08329FA4B2D00956475 /* TopicDetailReducer.swift */; };
 		EF7177EE27857A8700113670 /* GifImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7177ED27857A8700113670 /* GifImage.swift */; };
 		EF72A1DA277C3C2900E062F2 /* WidgetIntents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = EFD6BA62277BFA4F0060239D /* WidgetIntents.intentdefinition */; };
 		EF742BE429DFB68D00C28554 /* ImageBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF742BE329DFB68D00C28554 /* ImageBrowser.swift */; };
@@ -229,10 +225,6 @@
 		EF70CDEE277AA1B20049D830 /* TopicWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicWidget.swift; sourceTree = "<group>"; };
 		EF70CDF0277AA1B30049D830 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EF70CDF2277AA1B30049D830 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EF70E07D29FA4AF300956475 /* TopicDetailState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicDetailState.swift; sourceTree = "<group>"; };
-		EF70E07F29FA4B0300956475 /* TopicDetailAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicDetailAction.swift; sourceTree = "<group>"; };
-		EF70E08129FA4B1A00956475 /* TopicDetailMiddleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicDetailMiddleware.swift; sourceTree = "<group>"; };
-		EF70E08329FA4B2D00956475 /* TopicDetailReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicDetailReducer.swift; sourceTree = "<group>"; };
 		EF7177ED27857A8700113670 /* GifImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifImage.swift; sourceTree = "<group>"; };
 		EF742BE329DFB68D00C28554 /* ImageBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageBrowser.swift; sourceTree = "<group>"; };
 		EF7E771229F65AB300569AC4 /* TopicState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicState.swift; sourceTree = "<group>"; };
@@ -617,7 +609,6 @@
 				EFCD7DEA29F260C200E0B5E6 /* AppAction.swift */,
 				EF96EC5D29F4CFD500EE5188 /* HomeAction.swift */,
 				EF7E771429F65AF300569AC4 /* TopicAction.swift */,
-				EF70E07F29FA4B0300956475 /* TopicDetailAction.swift */,
 			);
 			path = Actions;
 			sourceTree = "<group>";
@@ -628,7 +619,6 @@
 				EFCD7DE829F260B000E0B5E6 /* AppState.swift */,
 				EF96EC5929F4CD8700EE5188 /* HomeState.swift */,
 				EF7E771229F65AB300569AC4 /* TopicState.swift */,
-				EF70E07D29FA4AF300956475 /* TopicDetailState.swift */,
 			);
 			path = States;
 			sourceTree = "<group>";
@@ -638,7 +628,6 @@
 			children = (
 				EFCD7DEE29F260EC00E0B5E6 /* HomeMiddleware.swift */,
 				EF7E771629F65B6300569AC4 /* TopicMiddleware.swift */,
-				EF70E08129FA4B1A00956475 /* TopicDetailMiddleware.swift */,
 			);
 			path = Middlewares;
 			sourceTree = "<group>";
@@ -649,7 +638,6 @@
 				EFCD7DEC29F260D300E0B5E6 /* AppReducer.swift */,
 				EF96EC5F29F4D65400EE5188 /* HomeReducer.swift */,
 				EF7E771829F65B7700569AC4 /* TopicReducer.swift */,
-				EF70E08329FA4B2D00956475 /* TopicDetailReducer.swift */,
 			);
 			path = Reducers;
 			sourceTree = "<group>";
@@ -1162,7 +1150,6 @@
 				EF7177EE27857A8700113670 /* GifImage.swift in Sources */,
 				EF9012802761A3D90079BF4C /* HUD.swift in Sources */,
 				EF83EDE92768779C00EED0F5 /* Dialog.swift in Sources */,
-				EF70E07E29FA4AF300956475 /* TopicDetailState.swift in Sources */,
 				EFA87A05279F903000DAD877 /* MyCreditContentView.swift in Sources */,
 				EFBE9650277D501200481170 /* MessageBoardContentView.swift in Sources */,
 				EF7E771329F65AB300569AC4 /* TopicState.swift in Sources */,
@@ -1189,7 +1176,6 @@
 				EF7E771929F65B7700569AC4 /* TopicReducer.swift in Sources */,
 				EF082E73278ED031002744EC /* PostListContentView.swift in Sources */,
 				EF5F0B1B279565E300A5D81F /* URLSchemesContentView.swift in Sources */,
-				EF70E08029FA4B0300956475 /* TopicDetailAction.swift in Sources */,
 				EFCD7E0F29F266AF00E0B5E6 /* SystemModel.swift in Sources */,
 				EFD7EBEA27954618004C1609 /* LicenseContentView.swift in Sources */,
 				EFCD7E1A29F2688800E0B5E6 /* MineModel.swift in Sources */,
@@ -1198,7 +1184,6 @@
 				EFCD7DED29F260D300E0B5E6 /* AppReducer.swift in Sources */,
 				EFCD7DE929F260B000E0B5E6 /* AppState.swift in Sources */,
 				814E210227A4DEF200AC3A17 /* TermsOfServiceContentView.swift in Sources */,
-				EF70E08429FA4B2D00956475 /* TopicDetailReducer.swift in Sources */,
 				EFCD7E0229F264EF00E0B5E6 /* NodeModel.swift in Sources */,
 				EF32F860279E49E500846E95 /* SystemContentView.swift in Sources */,
 				EF6FDDC027992A7B0087885C /* SearchUserContentView.swift in Sources */,
@@ -1213,7 +1198,6 @@
 				EFCD7E1729F2681900E0B5E6 /* FriendModel.swift in Sources */,
 				EF32F85C279E45B700846E95 /* NoticeContentView.swift in Sources */,
 				EFC4BB52283C86A500913182 /* MyFriendVisitorTraceContentView.swift in Sources */,
-				EF70E08229FA4B1A00956475 /* TopicDetailMiddleware.swift in Sources */,
 				EF88888127F2FFC50048B78E /* TagSearchContentView.swift in Sources */,
 				EFCD7DF629F2633300E0B5E6 /* HomeModel.swift in Sources */,
 				EFCD7DFC29F2644500E0B5E6 /* RankModel.swift in Sources */,
