@@ -120,7 +120,7 @@ struct CreditSystemContentView: View {
                 let dl = html.xpath("//table[@class='dt']/tr")
                 var list = [CreditSystemListModel]()
                 dl.forEach({ element in
-                    if let toHTML = element.toHTML, toHTML.contains("td") {
+                    if let toHTML = element.toXML, toHTML.contains("td") {
                         var system = CreditSystemListModel()
                         if let action = element.at_xpath("/td[1]/a")?.text {
                             system.action = action

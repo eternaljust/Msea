@@ -126,7 +126,7 @@ struct FavoriteContentView: View {
             request.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: request)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                if let text = html.toHTML, text.contains("全部收藏") {
+                if let text = html.toXML, text.contains("全部收藏") {
                     hud.show(message: "操作成功")
                     deleteAction = ""
                     page = 1

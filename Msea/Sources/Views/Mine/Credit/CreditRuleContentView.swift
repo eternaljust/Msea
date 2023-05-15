@@ -102,7 +102,7 @@ struct CreditRuleContentView: View {
                 let tr = html.xpath("//table[@class='dt valt']/tr")
                 var list = [CreditRuleListModel]()
                 tr.forEach({ element in
-                    if let toHTML = element.toHTML, toHTML.contains("td") {
+                    if let toHTML = element.toXML, toHTML.contains("td") {
                         var rule = CreditRuleListModel()
                         if let action = element.at_xpath("/td[1]")?.text {
                             rule.action = action

@@ -114,7 +114,7 @@ struct CreditListContentView: View {
                 let dl = html.xpath("//table[@class='dt']/tr")
                 var list = [CreditListModel]()
                 dl.forEach({ element in
-                    if let toHTML = element.toHTML, toHTML.contains("td") {
+                    if let toHTML = element.toXML, toHTML.contains("td") {
                         var system = CreditListModel()
                         if let action = element.at_xpath("/td[1]")?.text {
                             system.action = action

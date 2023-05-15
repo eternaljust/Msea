@@ -177,7 +177,7 @@ struct PublishPostContentView: View {
             request.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: request)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                if let text = html.toHTML, text.contains("刚刚") || text.contains("秒前") {
+                if let text = html.toXML, text.contains("刚刚") || text.contains("秒前") {
                     NotificationCenter.default.post(name: .postPublish, object: nil, userInfo: nil)
 //                    hud.show(message: "发表成功")
                     dismiss()

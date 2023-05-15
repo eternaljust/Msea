@@ -540,7 +540,7 @@ extension TopicDetailContentView {
         print("page: \(page)")
         Task {
             // swiftlint:disable force_unwrapping
-            let url = URL(string: "https://www.chongbuluo.com/forum.php?mod=viewthread&tid=\(tid)&extra=&page=\(page)")!
+            let url = URL(string: "https://www.chongbuluo.com/thread-\(tid)-\(page)-1.html")!
             // swiftlint:enble force_unwrapping
             var requset = URLRequest(url: url)
             requset.configHeaderFields()
@@ -582,7 +582,7 @@ extension TopicDetailContentView {
                 if let text = html.at_xpath("//div[@class='bm cl']/div[@class='z']/a[4]")?.text {
                     header.nodeTitle = text
                 }
-                if let text = html.toHTML, text.contains("下一页") {
+                if let text = html.toXML, text.contains("下一页") {
                     nextPage = true
                 } else {
                     nextPage = false

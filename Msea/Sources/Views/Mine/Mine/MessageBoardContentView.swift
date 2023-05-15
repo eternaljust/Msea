@@ -154,7 +154,7 @@ struct MessageBoardContentView: View {
                         }
                         if let src = element.at_xpath("/dd[2]/img/@src")?.text {
                             message.gifURL = "https://www.chongbuluo.com/" + src
-                            if let dd2 = element.at_xpath("/dd[2]")?.toHTML {
+                            if let dd2 = element.at_xpath("/dd[2]")?.toXML {
                                 if !message.comment.isEmpty {
                                     if let range1 = dd2.range(of: message.comment), let range2 = dd2.range(of: "<img") {
                                         message.gifLeft = range2.lowerBound < range1.lowerBound

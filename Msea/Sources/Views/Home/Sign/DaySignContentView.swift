@@ -302,7 +302,7 @@ struct DaySignContentView: View {
                 let node = html.at_xpath("//div[@class='wqpc_sign_info']")
                 let nums = node?.xpath("//li")
                 nums?.forEach({ element in
-                    if let toHTML = element.toHTML, let text = element.text {
+                    if let toHTML = element.toXML, let text = element.text {
                         if toHTML.contains("today") {
                             daySign.today = text
                         } else if toHTML.contains("yesterday") {

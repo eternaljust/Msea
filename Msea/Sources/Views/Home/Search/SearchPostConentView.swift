@@ -106,7 +106,7 @@ struct SearchPostConentView: View {
             requset.configHeaderFields()
             let (data, _) = try await URLSession.shared.data(for: requset)
             if let html = try? HTML(html: data, encoding: .utf8) {
-                if let toHTML = html.toHTML, toHTML.contains("下一页") {
+                if let toHTML = html.toXML, toHTML.contains("下一页") {
                     nextPage = true
                 } else {
                     nextPage = false
