@@ -35,6 +35,7 @@ class UserInfo: NSObject {
         share = "--"
         reply = "--"
         shieldUsers = []
+        cacheTime = 0
     }
 
     func isLogin() -> Bool {
@@ -61,4 +62,5 @@ class UserInfo: NSObject {
     @AppStorage(UserKeys.share) var share = "--"
     @AppStorage(UserKeys.reply) var reply = "--"
     @AppStorage(UserKeys.shieldUsers) var shieldUsers = [ShieldUserModel]()
+    @AppStorage(UserKeys.cacheTime) var cacheTime: TimeInterval = 0
 }

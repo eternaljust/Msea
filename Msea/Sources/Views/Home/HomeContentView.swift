@@ -143,6 +143,7 @@ struct HomeContentView: View {
                         await store.dispatch(.home(action: .checkNotice))
                     }
                 }
+                checkCacheTime()
             }
 
             Text("选择你感兴趣的帖子吧")
@@ -222,6 +223,16 @@ extension HomeContentView {
         CacheInfo.shared.selectedTab = .home
         selection.index = .home
         isRanklist.toggle()
+    }
+
+    private func checkCacheTime() {
+        let nowTime = Date().timeIntervalSince1970
+        let cacheTime = UserInfo.shared.cacheTime
+        let time = (nowTime - cacheTime) / (24 * 60 * 60)
+        if time > 30 {
+            // 30 天内登录凭证失效，清理 cookie，需重新登录
+            UserInfo.shared.reset()
+        }
     }
 }
 

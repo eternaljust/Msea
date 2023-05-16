@@ -293,12 +293,6 @@ struct SettingContentView: View {
 
     private func logout() async {
         Task {
-            // swiftlint:disable force_unwrapping
-            let url = URL(string: "\(kAppBaseURL)member.php?mod=logging&action=logout&formhash=\(UserInfo.shared.formhash)")!
-            // swiftlint:enble force_unwrapping
-            var request = URLRequest(url: url)
-            request.configHeaderFields()
-            let (_, _) = try await URLSession.shared.data(for: request)
             CacheInfo.shared.daysignIsOn = false
             CacheInfo.shared.groupNoticeIsOn = false
             UserInfo.shared.reset()

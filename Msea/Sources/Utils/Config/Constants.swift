@@ -46,6 +46,8 @@ struct UserKeys {
     static let reply = "replyKey"
     /// 屏蔽用户
     static let shieldUsers = "shieldUsersKey"
+    /// 缓存时间
+    static let cacheTime = "cacheTimeKey"
 
     /// 网络缓存
     static let groupHTTPHeaderFields = "groupHTTPHeaderFieldsKey"
