@@ -229,8 +229,8 @@ extension HomeContentView {
         let nowTime = Date().timeIntervalSince1970
         let cacheTime = UserInfo.shared.cacheTime
         let time = (nowTime - cacheTime) / (24 * 60 * 60)
-        if time > 30 {
-            // 30 天内登录凭证失效，清理 cookie，需重新登录
+        if time > 20 {
+            // 20 天内登录凭证失效，清理 cookie，需重新登录
             UserInfo.shared.reset()
         }
     }
