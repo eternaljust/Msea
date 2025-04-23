@@ -23,7 +23,7 @@ struct ContentView: View {
             }
         }
         .environmentObject(selection)
-        .onChange(of: selection.index, perform: { newValue in
+        .onChange(of: selection.index, { _, newValue in
             print(newValue)
         })
         .preferredColorScheme(preferredColorScheme)

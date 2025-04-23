@@ -86,12 +86,10 @@ struct InteractiveFriendContentView: View {
 
             ProgressView()
                 .isHidden(isHidden)
-
-            NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isSpace) {
-                EmptyView()
-            }
-            .opacity(0.0)
         }
+        .navigationDestination(isPresented: $isSpace, destination: {
+            SpaceProfileContentView(uid: uid)
+        })
         .task {
             if !isHidden {
                 page = 1

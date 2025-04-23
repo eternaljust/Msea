@@ -85,13 +85,11 @@ struct ProfileFriendContentView: View {
 
             ProgressView()
                 .isHidden(isHidden)
-
-            NavigationLink(destination: SpaceProfileContentView(uid: theUid), isActive: $isSpace) {
-                EmptyView()
-            }
-            .opacity(0.0)
         }
         .navigationBarTitle("好友列表")
+        .navigationDestination(isPresented: $isSpace, destination: {
+            SpaceProfileContentView(uid: theUid)
+        })
         .task {
             if !isHidden {
                 await loadData()

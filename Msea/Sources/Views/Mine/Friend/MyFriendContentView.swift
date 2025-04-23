@@ -97,13 +97,11 @@ struct MyFriendContentView: View {
 
             ProgressView()
                 .isHidden(isHidden)
-
-            NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isSpace) {
-                EmptyView()
-            }
-            .opacity(0.0)
         }
         .navigationBarTitle(title)
+        .navigationDestination(isPresented: $isSpace, destination: {
+            SpaceProfileContentView(uid: uid)
+        })
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Menu {

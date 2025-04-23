@@ -30,7 +30,7 @@ import SwiftUI
                 .environmentObject(hudState)
                 .environmentObject(store)
         }
-        .onChange(of: scenePhase) { value in
+        .onChange(of: scenePhase, { _, value in
             switch value {
             case .active:
                 print("App is active")
@@ -47,6 +47,6 @@ import SwiftUI
             @unknown default:
                 print("ScenePhase received an unexpected new value")
             }
-        }
+        })
     }
 }

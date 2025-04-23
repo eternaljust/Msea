@@ -158,34 +158,24 @@ struct NodeContentView: View {
 
                 ProgressView()
                     .isHidden(isHidden)
-
-                NavigationLink(destination: TopicDetailContentView(tid: tid), isActive: $isTopic) {
-                    EmptyView()
-                }
-                .opacity(0.0)
-
-                NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isProfile) {
-                    EmptyView()
-                }
-                .opacity(0.0)
-
-                NavigationLink(destination: NodeListContentView(nodeTitle: selectedNode.title, nodeFid: selectedNode.fid), isActive: $isNode) {
-                    EmptyView()
-                }
-                .opacity(0.0)
-
-                NavigationLink(destination: NodeWikiContentView(), isActive: $isWiki) {
-                    EmptyView()
-                }
-                .opacity(0.0)
-
-                NavigationLink(destination: TagContentView(), isActive: $isTag) {
-                    EmptyView()
-                }
-                .opacity(0.0)
             }
         }
         .navigationBarTitle("节点")
+        .navigationDestination(isPresented: $isTag, destination: {
+            TagContentView()
+        })
+        .navigationDestination(isPresented: $isWiki, destination: {
+            NodeWikiContentView()
+        })
+        .navigationDestination(isPresented: $isNode, destination: {
+            NodeListContentView(nodeTitle: selectedNode.title, nodeFid: selectedNode.fid)
+        })
+        .navigationDestination(isPresented: $isProfile, destination: {
+            SpaceProfileContentView(uid: uid)
+        })
+        .navigationDestination(isPresented: $isTopic, destination: {
+            TopicDetailContentView(tid: tid)
+        })
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
@@ -201,34 +191,34 @@ struct NodeContentView: View {
             TabBarTool.showTabBar(gid.isEmpty)
             CacheInfo.shared.selectedTab = .node
         })
-        .onChange(of: isProfile) { newValue in
+        .onChange(of: isProfile, { _, newValue in
             if UIDevice.current.isPad && newValue {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     isProfile.toggle()
                 }
             }
-        }
-        .onChange(of: isTopic) { newValue in
+        })
+        .onChange(of: isTopic, { _, newValue in
             if UIDevice.current.isPad && newValue {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     isTopic.toggle()
                 }
             }
-        }
-        .onChange(of: isNode) { newValue in
+        })
+        .onChange(of: isNode, { _, newValue in
             if UIDevice.current.isPad && newValue {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     isNode.toggle()
                 }
             }
-        }
-        .onChange(of: isWiki) { newValue in
+        })
+        .onChange(of: isWiki, { _, newValue in
             if UIDevice.current.isPad && newValue {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     isWiki.toggle()
                 }
             }
-        }
+        })
         .onReceive(NotificationCenter.default.publisher(for: .login, object: nil)) { _ in
             isLogin = true
         }
@@ -378,7 +368,7 @@ struct NodeContentView: View {
             if let html = try? HTML(html: data, encoding: .utf8) {
                 uid = html.getProfileUid()
                 if !uid.isEmpty {
-                    if await UIDevice.current.isPad {
+                    if UIDevice.current.isPad {
                         isProfile.toggle()
                     } else {
                         isProfile = true

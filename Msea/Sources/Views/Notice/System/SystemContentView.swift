@@ -60,13 +60,11 @@ struct SystemContentView: View {
 
             ProgressView()
                 .isHidden(isHidden)
-
-            NavigationLink(destination: UserGroupContentView(), isActive: $isUserGroup) {
-                EmptyView()
-            }
-            .opacity(0.0)
         }
         .navigationTitle("系统提醒")
+        .navigationDestination(isPresented: $isUserGroup, destination: {
+            UserGroupContentView()
+        })
         .task {
             if !isHidden {
                 page = 1

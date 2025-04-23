@@ -77,7 +77,7 @@ struct CreditRuleContentView: View {
                 await loadData()
             }
         }
-        .onChange(of: rule.rid, perform: { newValue in
+        .onChange(of: rule.rid, { _, newValue in
             print(newValue)
             Task {
                 await loadData()

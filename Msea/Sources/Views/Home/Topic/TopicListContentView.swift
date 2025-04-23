@@ -23,28 +23,32 @@ struct TopicListContentView: View {
             topicList
 
             progressView
-
-            navigaitionLink
         }
+        .navigationDestination(isPresented: $isSpace, destination: {
+            SpaceProfileContentView(uid: store.state.topic.uid)
+        })
+        .navigationDestination(isPresented: $isTopic, destination: {
+            TopicDetailContentView(tid: store.state.topic.tid)
+        })
         .onReceive(NotificationCenter.default.publisher(for: .shieldUser, object: nil)) { _ in
             Task {
                 await store.dispatch(.topic(action: .shieldUsers))
             }
         }
-        .onChange(of: isSpace) { newValue in
+        .onChange(of: isSpace, { _, newValue in
             if UIDevice.current.isPad && newValue {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     isSpace.toggle()
                 }
             }
-        }
-        .onChange(of: isTopic) { newValue in
+        })
+        .onChange(of: isTopic, { _, newValue in
             if UIDevice.current.isPad && newValue {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     isTopic.toggle()
                 }
             }
-        }
+        })
     }
 
     var topicList: some View {
@@ -81,20 +85,6 @@ struct TopicListContentView: View {
     var progressView: some View {
         ProgressView()
             .isHidden(topicData.isProgressHidden)
-    }
-
-    var navigaitionLink: some View {
-        ZStack {
-            NavigationLink(destination: SpaceProfileContentView(uid: store.state.topic.uid), isActive: $isSpace) {
-                EmptyView()
-            }
-            .opacity(0.0)
-
-            NavigationLink(destination: TopicDetailContentView(tid: store.state.topic.tid), isActive: $isTopic) {
-                EmptyView()
-            }
-            .opacity(0.0)
-        }
     }
 }
 

@@ -43,7 +43,9 @@ struct SpaceProfileContentView: View {
                     hud.show(message: "已复制 uid")
                 }
 
-            NavigationLink(destination: UserGroupContentView(), isActive: $isUserGroup) {
+            NavigationLink {
+                UserGroupContentView()
+            } label: {
                 Text(profile.level)
                     .font(.font17)
                     .foregroundColor(.secondaryTheme)
@@ -93,6 +95,9 @@ struct SpaceProfileContentView: View {
         }
         .navigationTitle("个人空间")
         .navigationBarTitleDisplayMode(.inline)
+        .navigationDestination(isPresented: $isUserGroup, destination: {
+            UserGroupContentView()
+        })
         .onAppear(perform: {
             isShielding = UserInfo.shared.shieldUsers.contains { $0.uid == uid }
             isShieldHidden = UserInfo.shared.isLogin() ? uid == UserInfo.shared.uid : false

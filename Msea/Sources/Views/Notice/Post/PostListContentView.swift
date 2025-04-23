@@ -78,17 +78,13 @@ struct PostListContentView: View {
 
             ProgressView()
                 .isHidden(isHidden)
-
-            NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isSpace) {
-                EmptyView()
-            }
-            .opacity(0.0)
-
-            NavigationLink(destination: TopicDetailContentView(tid: tid), isActive: $isTopic) {
-                EmptyView()
-            }
-            .opacity(0.0)
         }
+        .navigationDestination(isPresented: $isSpace, destination: {
+            SpaceProfileContentView(uid: uid)
+        })
+        .navigationDestination(isPresented: $isTopic, destination: {
+            TopicDetailContentView(tid: tid)
+        })
         .task {
             if !isHidden {
                 page = 1

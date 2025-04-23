@@ -147,7 +147,6 @@ struct CalendarDayModel: Identifiable {
     var isToday = false
 }
 
-@available (iOSApplicationExtension 16, *)
 struct SignWidgetEntryView: View {
     var entry: SignEntry
     @Environment(\.widgetFamily) var family
@@ -195,7 +194,6 @@ struct SignWidgetEntryView: View {
     }
 }
 
-@available (iOSApplicationExtension 16, *)
 struct SignWidget: Widget {
     private let kind = "SignWidget"
 
@@ -210,7 +208,6 @@ struct SignWidget: Widget {
     }
 }
 
-@available (iOSApplicationExtension 16, *)
 struct SignWidget_Previews: PreviewProvider {
     static var previews: some View {
         Group {

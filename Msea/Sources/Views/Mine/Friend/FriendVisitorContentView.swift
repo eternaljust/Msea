@@ -101,14 +101,12 @@ struct FriendVisitorContentView: View {
 
             ProgressView()
                 .isHidden(isHidden)
-
-            NavigationLink(destination: MyFriendVisitorTraceContentView(), isActive: $isVisitorTrace) {
-                EmptyView()
-            }
-            .opacity(0.0)
         }
         .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
         .navigationBarTitle("好友访客")
+        .navigationDestination(isPresented: $isVisitorTrace, destination: {
+            MyFriendVisitorTraceContentView()
+        })
     }
 
     private func loadData() async {

@@ -92,16 +92,6 @@ struct MineContentView: View {
                         }
                     }
                     .tabViewStyle(.page(indexDisplayMode: .never))
-
-                    NavigationLink(destination: MyCreditContentView(), isActive: $isCredit) {
-                        EmptyView()
-                    }
-                    .opacity(0.0)
-
-                    NavigationLink(destination: MyFriendVisitorTraceContentView(), isActive: $isVisitorTrace) {
-                        EmptyView()
-                    }
-                    .opacity(0.0)
                 } else {
                     Button("登录") {
                         isPresented.toggle()
@@ -156,6 +146,12 @@ struct MineContentView: View {
             .navigationTitle("我的")
             .navigationBarTitleDisplayMode(.inline)
             .ignoresSafeArea(edges: .bottom)
+            .navigationDestination(isPresented: $isCredit, destination: {
+                MyCreditContentView()
+            })
+            .navigationDestination(isPresented: $isVisitorTrace, destination: {
+                MyFriendVisitorTraceContentView()
+            })
             .toolbar {
 //                ToolbarItem(placement: .navigationBarLeading) {
 //                    Button {

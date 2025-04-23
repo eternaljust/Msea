@@ -133,22 +133,16 @@ struct ProfileTopicContentView: View {
 
             ProgressView()
                 .isHidden(isHidden)
-
-            NavigationLink(destination: SpaceProfileContentView(uid: theUid), isActive: $isSpace) {
-                EmptyView()
-            }
-            .opacity(0.0)
-
-            NavigationLink(destination: TopicDetailContentView(tid: tid), isActive: $isTopic) {
-                EmptyView()
-            }
-            .opacity(0.0)
-
-            NavigationLink(destination: NodeListContentView(nodeTitle: nodeTitle, nodeFid: nodeFid), isActive: $isNode) {
-                EmptyView()
-            }
-            .opacity(0.0)
         }
+        .navigationDestination(isPresented: $isNode, destination: {
+            NodeListContentView(nodeTitle: nodeTitle, nodeFid: nodeFid)
+        })
+        .navigationDestination(isPresented: $isTopic, destination: {
+            TopicDetailContentView(tid: tid)
+        })
+        .navigationDestination(isPresented: $isSpace, destination: {
+            SpaceProfileContentView(uid: theUid)
+        })
         .task {
             if !isHidden {
                 page = 1
@@ -170,20 +164,20 @@ struct ProfileTopicContentView: View {
                 await loadData()
             }
         }
-        .onChange(of: isTopic) { newValue in
+        .onChange(of: isTopic, { _, newValue in
             if UIDevice.current.isPad && newValue {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     isTopic.toggle()
                 }
             }
-        }
-        .onChange(of: isSpace) { newValue in
+        })
+        .onChange(of: isSpace, { _, newValue in
             if UIDevice.current.isPad && newValue {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     isSpace.toggle()
                 }
             }
-        }
+        })
     }
 
     private func loadData() async {

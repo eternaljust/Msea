@@ -153,12 +153,10 @@ struct DaySignContentView: View {
 
             ProgressView()
                 .isHidden(isHidden)
-
-            NavigationLink(destination: SiriShortcutContentView(), isActive: $isSiriShortcut) {
-                EmptyView()
-            }
-            .opacity(0.0)
         }
+        .navigationDestination(isPresented: $isSiriShortcut, destination: {
+            SiriShortcutContentView()
+        })
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
@@ -189,9 +187,9 @@ struct DaySignContentView: View {
                         .multilineTextAlignment(.leading)
                         .font(.font15)
                         .focused($focused)
-                        .onChange(of: signMessage) { newValue in
+                        .onChange(of: signMessage, { _, newValue in
                             print(newValue)
-                        }
+                        })
 
                     if self.signMessage.isEmpty {
                         Text(signPlaceholder)

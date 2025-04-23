@@ -125,13 +125,13 @@ struct SettingContentView: View {
                                     }
                                     .pickerStyle(.segmented)
                                     .frame(width: 120)
-                                    .onChange(of: colorSchemeTab) { newValue in
+                                    .onChange(of: colorSchemeTab, { _, newValue in
                                         print(newValue)
                                         CacheInfo.shared.colorScheme = newValue
                                         print(CacheInfo.shared.colorScheme)
                                         print("---")
                                         NotificationCenter.default.post(name: .colorScheme, object: nil)
-                                    }
+                                    })
                                 }
                             case .delete, .logout:
                                 Button {
@@ -387,7 +387,7 @@ struct SignalertContentView: View {
     var body: some View {
         HStack {
             DatePicker("", selection: $selectedDate, displayedComponents: [.hourAndMinute])
-                .onChange(of: selectedDate) { value in
+                .onChange(of: selectedDate, { _, value in
                     let components = Calendar.current.dateComponents([.hour, .minute], from: value)
                     if let hour = components.hour, let minute = components.minute {
                         CacheInfo.shared.daysignHour = hour
@@ -398,7 +398,7 @@ struct SignalertContentView: View {
                             _ = await LocalNotification.shared.daysign()
                         }
                     }
-                }
+                })
 
             Toggle("", isOn: $isOn)
                 .alert("通知权限已关闭", isPresented: $showAlert) {
@@ -417,7 +417,7 @@ struct SignalertContentView: View {
                 .sheet(isPresented: $needLogin) {
                     LoginContentView()
                 }
-                .onChange(of: isOn) { value in
+                .onChange(of: isOn, { _, value in
                     print(value)
                     if value && !UserInfo.shared.isLogin() {
                         isOn = false
@@ -441,7 +441,7 @@ struct SignalertContentView: View {
                             }
                         }
                     }
-                }
+                })
         }
         .tint(.theme)
         .onAppear {
@@ -483,7 +483,7 @@ struct MessageNoticeView: View {
                 .sheet(isPresented: $needLogin) {
                     LoginContentView()
                 }
-                .onChange(of: isOn) { value in
+                .onChange(of: isOn, { _, value in
                     print(value)
                     if value && !UserInfo.shared.isLogin() {
                         isOn = false
@@ -505,7 +505,7 @@ struct MessageNoticeView: View {
                             }
                         }
                     }
-                }
+                })
         }
         .tint(.theme)
         .onAppear {

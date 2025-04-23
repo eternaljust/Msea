@@ -53,19 +53,15 @@ struct TagContentView: View {
 
                 ProgressView()
                     .isHidden(isHidden)
-
-                NavigationLink(destination: TagSearchContentView(), isActive: $isSearch) {
-                    EmptyView()
-                }
-                .opacity(0.0)
-
-                NavigationLink(destination: TagListContentView(id: tagId, searchState: SearchState()), isActive: $isTag) {
-                    EmptyView()
-                }
-                .opacity(0.0)
             }
         }
         .navigationTitle("标签")
+        .navigationDestination(isPresented: $isSearch, destination: {
+            TagSearchContentView()
+        })
+        .navigationDestination(isPresented: $isTag, destination: {
+            TagListContentView(id: tagId, searchState: SearchState())
+        })
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {

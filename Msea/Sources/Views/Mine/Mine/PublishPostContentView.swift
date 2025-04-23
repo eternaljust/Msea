@@ -66,9 +66,9 @@ struct PublishPostContentView: View {
                             .multilineTextAlignment(.leading)
                             .font(.font16)
                             .focused($focused)
-                            .onChange(of: content) { newValue in
+                            .onChange(of: content, { _, newValue in
                                 print(newValue)
-                            }
+                            })
                             .border(.secondary)
                             .frame(height: 400)
                     }

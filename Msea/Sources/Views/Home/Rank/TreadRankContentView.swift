@@ -110,23 +110,17 @@ struct TreadRankContentView: View {
                 }
             }
             .listStyle(.plain)
-
-            NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isSpace) {
-                EmptyView()
-            }
-            .opacity(0.0)
-
-            NavigationLink(destination: TopicDetailContentView(tid: tid), isActive: $isTopic) {
-                EmptyView()
-            }
-            .opacity(0.0)
-
-            NavigationLink(destination: NodeListContentView(nodeTitle: nodeTitle, nodeFid: nodeFid), isActive: $isNode) {
-                EmptyView()
-            }
-            .opacity(0.0)
         }
         .navigationTitle("\(selectedTab.title)排行 • \(orderbyTab.title)")
+        .navigationDestination(isPresented: $isNode, destination: {
+            NodeListContentView(nodeTitle: nodeTitle, nodeFid: nodeFid)
+        })
+        .navigationDestination(isPresented: $isTopic, destination: {
+            TopicDetailContentView(tid: tid)
+        })
+        .navigationDestination(isPresented: $isSpace, destination: {
+            SpaceProfileContentView(uid: uid)
+        })
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Menu {

@@ -73,11 +73,6 @@ struct SignDayListContentView: View {
                                 isSpace.toggle()
                             }
                         }
-
-                        NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isSpace) {
-                            EmptyView()
-                        }
-                        .opacity(0.0)
                     }
                 }
             } header: {
@@ -85,6 +80,9 @@ struct SignDayListContentView: View {
             }
         }
         .listStyle(.plain)
+        .navigationDestination(isPresented: $isSpace, destination: {
+            SpaceProfileContentView(uid: uid)
+        })
         .refreshable {
             page = 1
             await loadData()

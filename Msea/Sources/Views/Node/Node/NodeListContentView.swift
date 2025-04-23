@@ -158,18 +158,14 @@ struct NodeListContentView: View {
 
             ProgressView()
                 .isHidden(isHidden)
-
-            NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isSpace) {
-                EmptyView()
-            }
-            .opacity(0.0)
-
-            NavigationLink(destination: TopicDetailContentView(tid: tid, isNodeFid125: nodeFid == "125"), isActive: $isTopic) {
-                EmptyView()
-            }
-            .opacity(0.0)
         }
         .navigationBarTitle(nodeTitle)
+        .navigationDestination(isPresented: $isSpace, destination: {
+            SpaceProfileContentView(uid: uid)
+        })
+        .navigationDestination(isPresented: $isTopic, destination: {
+            TopicDetailContentView(tid: tid, isNodeFid125: nodeFid == "125")
+        })
         .onAppear {
             if !UIDevice.current.isPad {
                 TabBarTool.showTabBar(false)

@@ -93,13 +93,11 @@ struct MyVisitorTraceContentView: View {
 
             ProgressView()
                 .isHidden(isHidden)
-
-            NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isSpace) {
-                EmptyView()
-            }
-            .opacity(0.0)
         }
         .navigationBarTitle(type.title)
+        .navigationDestination(isPresented: $isSpace, destination: {
+            SpaceProfileContentView(uid: uid)
+        })
 //        .onAppear {
 //            if !UIDevice.current.isPad {
 //                TabBarTool.showTabBar(false)

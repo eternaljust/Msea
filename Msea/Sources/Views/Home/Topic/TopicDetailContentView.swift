@@ -73,8 +73,6 @@ struct TopicDetailContentView: View {
             } else {
                 VStack {
                     commentList
-
-                    navigationLink
                 }
             }
 
@@ -82,6 +80,30 @@ struct TopicDetailContentView: View {
         }
         .edgesIgnoringSafeArea(UIDevice.current.isPad ? [] : [.bottom])
         .navigationTitle("帖子详情")
+        .navigationDestination(isPresented: $isTag, destination: {
+            TagListContentView(id: header.tagId, searchState: SearchState())
+        })
+        .navigationDestination(isPresented: $isNodeList, destination: {
+            NodeListContentView(nodeTitle: header.nodeTitle, nodeFid: header.nodeFid)
+        })
+        .navigationDestination(isPresented: $isNode, destination: {
+            NodeContentView(gid: header.gid)
+        })
+        .navigationDestination(isPresented: $isRanklist, destination: {
+            RankListContentView()
+        })
+        .navigationDestination(isPresented: $isCredit, destination: {
+            MyCreditContentView()
+        })
+        .navigationDestination(isPresented: $isDaysign, destination: {
+            DaySignContentView()
+        })
+        .navigationDestination(isPresented: $isViewthread, destination: {
+            TopicDetailContentView(tid: newTid)
+        })
+        .navigationDestination(isPresented: $isSpace, destination: {
+            SpaceProfileContentView(uid: uid)
+        })
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 toolbarItemMenu
@@ -320,50 +342,6 @@ struct TopicDetailContentView: View {
         .isHidden(disAgree)
     }
 
-    var navigationLink: some View {
-        ZStack {
-            NavigationLink(destination: SpaceProfileContentView(uid: uid), isActive: $isSpace) {
-                EmptyView()
-            }
-            .opacity(0.0)
-
-            NavigationLink(destination: TopicDetailContentView(tid: newTid), isActive: $isViewthread) {
-                EmptyView()
-            }
-            .opacity(0.0)
-
-            NavigationLink(destination: DaySignContentView(), isActive: $isDaysign) {
-                EmptyView()
-            }
-            .opacity(0.0)
-
-            NavigationLink(destination: MyCreditContentView(), isActive: $isCredit) {
-                EmptyView()
-            }
-            .opacity(0.0)
-
-            NavigationLink(destination: RankListContentView(), isActive: $isRanklist) {
-                EmptyView()
-            }
-            .opacity(0.0)
-
-            NavigationLink(destination: NodeContentView(gid: header.gid), isActive: $isNode) {
-                EmptyView()
-            }
-            .opacity(0.0)
-
-            NavigationLink(destination: NodeListContentView(nodeTitle: header.nodeTitle, nodeFid: header.nodeFid), isActive: $isNodeList) {
-                EmptyView()
-            }
-            .opacity(0.0)
-
-            NavigationLink(destination: TagListContentView(id: header.tagId, searchState: SearchState()), isActive: $isTag) {
-                EmptyView()
-            }
-            .opacity(0.0)
-        }
-    }
-
     @ViewBuilder
     var shareSheet: some View {
         if let url = URL(string: "https://www.chongbuluo.com/forum.php?mod=viewthread&tid=\(tid)") {
@@ -417,9 +395,9 @@ struct TopicDetailContentView: View {
                     .multilineTextAlignment(.leading)
                     .font(.font16)
                     .focused($focused)
-                    .onChange(of: inputComment) { newValue in
+                    .onChange(of: inputComment, { _, newValue in
                         print(newValue)
-                    }
+                    })
                     .border(Color.theme)
                     .padding(EdgeInsets(top: 0, leading: 10, bottom: 20, trailing: 0))
 
@@ -470,9 +448,9 @@ struct TopicDetailContentView: View {
                     .multilineTextAlignment(.leading)
                     .font(.font16)
                     .focused($replyFocused)
-                    .onChange(of: replyContent) { newValue in
+                    .onChange(of: replyContent, { _, newValue in
                         print(newValue)
-                    }
+                    })
                     .border(Color.theme)
                     .padding(EdgeInsets(top: 0, leading: 10, bottom: 20, trailing: 0))
 

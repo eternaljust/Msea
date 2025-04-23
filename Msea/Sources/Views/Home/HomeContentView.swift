@@ -25,9 +25,9 @@ struct HomeContentView: View {
         NavigationView {
             VStack {
                 HStack {
-                    NavigationLink(
-                        destination: DaySignContentView(),
-                        isActive: $isDaysign) {
+                    NavigationLink {
+                        DaySignContentView()
+                    } label: {
                         Image(systemName: "leaf.fill")
                             .foregroundColor(.theme)
                             .imageScale(.large)
@@ -104,32 +104,23 @@ struct HomeContentView: View {
                         await store.dispatch(.home(action: .navigationBarHidden(false)))
                     }
                 }
-
-                NavigationLink(
-                    destination: TopicDetailContentView(tid: store.state.home.tid),
-                    isActive: $isTopicDetail) {
-                    EmptyView()
-                }
-                .opacity(0.0)
-
-                NavigationLink(
-                    destination: SpaceProfileContentView(uid: store.state.home.uid),
-                    isActive: $isSpaceProfile) {
-                    EmptyView()
-                }
-                .opacity(0.0)
-
-                NavigationLink(
-                    destination: RankListContentView(),
-                    isActive: $isRanklist) {
-                    EmptyView()
-                }
-                .opacity(0.0)
             }
             .navigationTitle("首页")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarHidden(store.state.home.navigationBarHidden)
             .ignoresSafeArea(edges: .bottom)
+            .navigationDestination(isPresented: $isDaysign) {
+                DaySignContentView()
+            }
+            .navigationDestination(isPresented: $isTopicDetail) {
+                TopicDetailContentView(tid: store.state.home.tid)
+            }
+            .navigationDestination(isPresented: $isSpaceProfile) {
+                SpaceProfileContentView(uid: store.state.home.uid)
+            }
+            .navigationDestination(isPresented: $isRanklist) {
+                RankListContentView()
+            }
             .onReceive(NotificationCenter.default.publisher(for: .daysign, object: nil)) { _ in
                 goDaysign()
             }

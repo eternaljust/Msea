@@ -52,14 +52,14 @@ struct SearchUserContentView: View {
                 }
             }
         }
-        .onChange(of: searchState.keywrod) { newValue in
+        .onChange(of: searchState.keywrod, { _, newValue in
             Task {
                 if newValue != search {
                     search = newValue
                     await loadData()
                 }
             }
-        }
+        })
         .onAppear {
             Task {
                 if !search.isEmpty && userList.isEmpty {

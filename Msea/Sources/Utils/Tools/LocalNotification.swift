@@ -77,7 +77,7 @@ struct LocalNotification {
     }
 
     func clearBadge() {
-        UIApplication.shared.applicationIconBadgeNumber = 0
+        UNUserNotificationCenter.current().setBadgeCount(0)
     }
 
     func routingDaysign() {

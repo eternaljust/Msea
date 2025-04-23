@@ -202,11 +202,7 @@ struct Widgets: WidgetBundle {
     @WidgetBundleBuilder
 
     var body: some Widget {
-        if #available(iOS 16.0, *) {
-            return WidgetBundleBuilder.buildBlock(SignWidget(), allWidgets())
-        } else {
-            return allWidgets()
-        }
+        WidgetBundleBuilder.buildBlock(SignWidget(), allWidgets())
     }
 }
 

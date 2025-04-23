@@ -94,17 +94,15 @@ struct MessageBoardContentView: View {
                     page = 1
                     await loadData()
                 }
-
-                NavigationLink(destination: SpaceProfileContentView(uid: clickUid), isActive: $isSpace) {
-                    EmptyView()
-                }
-                .opacity(0.0)
             }
 
             ProgressView()
                 .isHidden(isHidden)
         }
         .navigationBarTitle("留言板")
+        .navigationDestination(isPresented: $isSpace, destination: {
+            SpaceProfileContentView(uid: clickUid)
+        })
         .task {
             if !isHidden {
                 await loadData()

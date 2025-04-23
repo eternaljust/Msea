@@ -136,23 +136,17 @@ struct TagListContentView: View {
 
             ProgressView()
                 .isHidden(isHidden)
-
-            NavigationLink(destination: SpaceProfileContentView(uid: theUid), isActive: $isSpace) {
-                EmptyView()
-            }
-            .opacity(0.0)
-
-            NavigationLink(destination: TopicDetailContentView(tid: tid), isActive: $isTopic) {
-                EmptyView()
-            }
-            .opacity(0.0)
-
-            NavigationLink(destination: NodeListContentView(nodeTitle: nodeTitle, nodeFid: nodeFid), isActive: $isNode) {
-                EmptyView()
-            }
-            .opacity(0.0)
         }
         .navigationTitle(title)
+        .navigationDestination(isPresented: $isSpace, destination: {
+            SpaceProfileContentView(uid: theUid)
+        })
+        .navigationDestination(isPresented: $isTopic, destination: {
+            TopicDetailContentView(tid: tid)
+        })
+        .navigationDestination(isPresented: $isNode, destination: {
+            NodeListContentView(nodeTitle: nodeTitle, nodeFid: nodeFid)
+        })
         .task {
             if !id.isEmpty && !isHidden {
                 await loadData()
@@ -165,7 +159,7 @@ struct TagListContentView: View {
                 isHidden = true
             }
         })
-        .onChange(of: searchState.keywrod) { newValue in
+        .onChange(of: searchState.keywrod, { _, newValue in
             Task {
                 if newValue.isEmpty {
                     name = ""
@@ -176,7 +170,7 @@ struct TagListContentView: View {
                     await loadData()
                 }
             }
-        }
+        })
     }
 
     private func loadData() async {
