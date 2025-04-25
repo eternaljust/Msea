@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		63FBD7E42DB9D4DE003FD9D0 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FBD7E32DB9D4DE003FD9D0 /* LoginViewModel.swift */; };
+		63FBD7E72DB9D774003FD9D0 /* ViewModelState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FBD7E62DB9D774003FD9D0 /* ViewModelState.swift */; };
 		810E24B327C0E26600E8E895 /* RankListContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810E24B227C0E26500E8E895 /* RankListContentView.swift */; };
 		810E24B527C0E33B00E8E895 /* MemberCreditPostContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810E24B427C0E33B00E8E895 /* MemberCreditPostContentView.swift */; };
 		810E24BB27C0E59200E8E895 /* TreadRankContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810E24BA27C0E59100E8E895 /* TreadRankContentView.swift */; };
@@ -174,6 +176,8 @@
 
 /* Begin PBXFileReference section */
 		35AFB26C1E4B33BE79750E80 /* Pods-Msea.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Msea.debug.xcconfig"; path = "Target Support Files/Pods-Msea/Pods-Msea.debug.xcconfig"; sourceTree = "<group>"; };
+		63FBD7E32DB9D4DE003FD9D0 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		63FBD7E62DB9D774003FD9D0 /* ViewModelState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelState.swift; sourceTree = "<group>"; };
 		7606A8EEA1BD777F45CBF959 /* Pods_Msea.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Msea.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		810E24B227C0E26500E8E895 /* RankListContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankListContentView.swift; sourceTree = "<group>"; };
 		810E24B427C0E33B00E8E895 /* MemberCreditPostContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCreditPostContentView.swift; sourceTree = "<group>"; };
@@ -356,6 +360,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		63FBD7E52DB9D754003FD9D0 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				63FBD7E62DB9D774003FD9D0 /* ViewModelState.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
 		8143D16F275C8F280036198D /* Mine */ = {
 			isa = PBXGroup;
 			children = (
@@ -451,6 +463,7 @@
 		EF55F4C6275A0AC400B78C95 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				63FBD7E52DB9D754003FD9D0 /* Base */,
 				EF8A7A292766F3860092E53C /* Config */,
 				EF90127E2761A3CB0079BF4C /* Tools */,
 				EFB431492760456C00319073 /* Netwroking */,
@@ -802,6 +815,7 @@
 			isa = PBXGroup;
 			children = (
 				EFB4314E2760ACB300319073 /* LoginContentView.swift */,
+				63FBD7E32DB9D4DE003FD9D0 /* LoginViewModel.swift */,
 				EF8A98FF28406DFD00C40715 /* MyVisitorTraceContentView.swift */,
 				EFBE964F277D501200481170 /* MessageBoardContentView.swift */,
 				815E271127A62D2E007C36B2 /* ShieldUserContentView.swift */,
@@ -1162,6 +1176,7 @@
 				EFD7EBE227951075004C1609 /* SpaceProfileContentView.swift in Sources */,
 				EF25168A289B686600CD58EF /* ProfileFriendContentView.swift in Sources */,
 				EFCD7DEF29F260EC00E0B5E6 /* HomeMiddleware.swift in Sources */,
+				63FBD7E72DB9D774003FD9D0 /* ViewModelState.swift in Sources */,
 				EF6FDDBE27992A080087885C /* SearchPostConentView.swift in Sources */,
 				8174357A27AD69F800B924B5 /* FavoriteContentView.swift in Sources */,
 				EF674C8E2797AA1B00432B6B /* SearchContentView.swift in Sources */,
@@ -1191,6 +1206,7 @@
 				EFCD7E0B29F2661B00E0B5E6 /* NoticeModel.swift in Sources */,
 				EF96EC5E29F4CFD500EE5188 /* HomeAction.swift in Sources */,
 				EF843D4E29DFE2F600FF724A /* String+Extension.swift in Sources */,
+				63FBD7E42DB9D4DE003FD9D0 /* LoginViewModel.swift in Sources */,
 				EF8C3E3B27B26EA900201A9E /* DynamicFontContentView.swift in Sources */,
 				EFF883C7278FBE2700A14CC7 /* MyPostContentView.swift in Sources */,
 				EFCD7E1729F2681900E0B5E6 /* FriendModel.swift in Sources */,

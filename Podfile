@@ -14,6 +14,7 @@ target 'Msea' do
   pod 'UMCommon'
   pod 'UMDevice'
   pod 'UMAPM'
+  pod 'AlertToast'
   
 end
 
