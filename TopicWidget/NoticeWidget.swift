@@ -10,6 +10,7 @@ import WidgetKit
 import SwiftUI
 import Kanna
 import UserNotifications
+import Base
 
 struct NoticeProvider: IntentTimelineProvider {
     private static let widgetGroup: UserDefaults? = UserDefaults(suiteName: "group.com.eternaljust.Msea.Topic.Widget")

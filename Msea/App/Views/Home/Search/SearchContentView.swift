@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Kanna
+import Extension
 
 /// 站内搜索
 struct SearchContentView: View {

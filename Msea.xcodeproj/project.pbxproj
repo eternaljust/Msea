@@ -8,8 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		BE354D532DC4B7F1000479AC /* UMeng in Frameworks */ = {isa = PBXBuildFile; productRef = BE354D522DC4B7F1000479AC /* UMeng */; };
+		BE894D7C2DC6478000F3AE48 /* Base in Frameworks */ = {isa = PBXBuildFile; productRef = BE894D7B2DC6478000F3AE48 /* Base */; };
+		BE894D7E2DC6478000F3AE48 /* Extension in Frameworks */ = {isa = PBXBuildFile; productRef = BE894D7D2DC6478000F3AE48 /* Extension */; };
+		BE894D802DC64C3100F3AE48 /* Extension in Frameworks */ = {isa = PBXBuildFile; productRef = BE894D7F2DC64C3100F3AE48 /* Extension */; };
+		BE894D832DC654FF00F3AE48 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = BE894D822DC654FF00F3AE48 /* AlertToast */; };
 		BEE97DAF2DC4A59900C6FC66 /* Kanna in Frameworks */ = {isa = PBXBuildFile; productRef = BEE97DAE2DC4A59900C6FC66 /* Kanna */; };
-		BEE97DB22DC4A5E200C6FC66 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = BEE97DB12DC4A5E200C6FC66 /* AlertToast */; };
 		BEE9801A2DC4AECE00C6FC66 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = BEE980192DC4AECE00C6FC66 /* Home */; };
 		BEE9801D2DC4AEE100C6FC66 /* Node in Frameworks */ = {isa = PBXBuildFile; productRef = BEE9801C2DC4AEE100C6FC66 /* Node */; };
 		BEE980202DC4AEF800C6FC66 /* Notice in Frameworks */ = {isa = PBXBuildFile; productRef = BEE9801F2DC4AEF800C6FC66 /* Notice */; };
@@ -67,6 +70,7 @@
 		BEE97ECC2DC4A6E800C6FC66 /* Exceptions for "Msea" folder in "Msea" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Core/Component,
 				Featrues/Home,
 				Featrues/Node,
 				Featrues/Notice,
@@ -75,14 +79,6 @@
 				"Supporting Files/Info.plist",
 			);
 			target = EFE76C582759EE3B00D89EA6 /* Msea */;
-		};
-		BEE97ECD2DC4A6E800C6FC66 /* Exceptions for "Msea" folder in "TopicWidgetExtension" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"App/Utils/Extensions/Color+Extension.swift",
-				"App/Utils/Extensions/Font+Extension.swift",
-			);
-			target = EF70CDE7277AA1B20049D830 /* TopicWidgetExtension */;
 		};
 		BEE97EDF2DC4A6ED00C6FC66 /* Exceptions for "TopicWidget" folder in "TopicWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
@@ -112,7 +108,6 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				BEE97ECC2DC4A6E800C6FC66 /* Exceptions for "Msea" folder in "Msea" target */,
-				BEE97ECD2DC4A6E800C6FC66 /* Exceptions for "Msea" folder in "TopicWidgetExtension" target */,
 			);
 			path = Msea;
 			sourceTree = "<group>";
@@ -142,6 +137,7 @@
 			files = (
 				BEE980252DC4B07600C6FC66 /* Kanna in Frameworks */,
 				EF70CDEC277AA1B20049D830 /* SwiftUI.framework in Frameworks */,
+				BE894D802DC64C3100F3AE48 /* Extension in Frameworks */,
 				EF70CDEA277AA1B20049D830 /* WidgetKit.framework in Frameworks */,
 			);
 		};
@@ -156,11 +152,13 @@
 			files = (
 				BEE980232DC4AF0800C6FC66 /* Profile in Frameworks */,
 				BE354D532DC4B7F1000479AC /* UMeng in Frameworks */,
-				BEE97DB22DC4A5E200C6FC66 /* AlertToast in Frameworks */,
 				BEE9801D2DC4AEE100C6FC66 /* Node in Frameworks */,
+				BE894D832DC654FF00F3AE48 /* AlertToast in Frameworks */,
 				BEE97DAF2DC4A59900C6FC66 /* Kanna in Frameworks */,
+				BE894D7E2DC6478000F3AE48 /* Extension in Frameworks */,
 				BEE9801A2DC4AECE00C6FC66 /* Home in Frameworks */,
 				BEE980202DC4AEF800C6FC66 /* Notice in Frameworks */,
+				BE894D7C2DC6478000F3AE48 /* Base in Frameworks */,
 			);
 		};
 /* End PBXFrameworksBuildPhase section */
@@ -216,6 +214,9 @@
 				BEE97ED62DC4A6EC00C6FC66 /* TopicWidget */,
 			);
 			name = TopicWidgetExtension;
+			packageProductDependencies = (
+				BE894D7F2DC64C3100F3AE48 /* Extension */,
+			);
 			productName = TopicWidgetExtension;
 			productReference = EF70CDE8277AA1B20049D830 /* TopicWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -258,6 +259,9 @@
 			name = Msea;
 			packageProductDependencies = (
 				BE354D522DC4B7F1000479AC /* UMeng */,
+				BE894D7B2DC6478000F3AE48 /* Base */,
+				BE894D7D2DC6478000F3AE48 /* Extension */,
+				BE894D822DC654FF00F3AE48 /* AlertToast */,
 			);
 			productName = Msea;
 			productReference = EFE76C592759EE3B00D89EA6 /* Msea.app */;
@@ -296,12 +300,13 @@
 			packageReferences = (
 				BEE97DAA2DC4A4CE00C6FC66 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
 				BEE97DAD2DC4A59900C6FC66 /* XCRemoteSwiftPackageReference "Kanna" */,
-				BEE97DB02DC4A5E200C6FC66 /* XCRemoteSwiftPackageReference "AlertToast" */,
 				BEE980182DC4AECE00C6FC66 /* XCLocalSwiftPackageReference "Msea/Featrues/Home" */,
 				BEE9801B2DC4AEE100C6FC66 /* XCLocalSwiftPackageReference "Msea/Featrues/Node" */,
 				BEE9801E2DC4AEF800C6FC66 /* XCLocalSwiftPackageReference "Msea/Featrues/Notice" */,
 				BEE980212DC4AF0800C6FC66 /* XCLocalSwiftPackageReference "Msea/Featrues/Profile" */,
 				BE354D512DC4B7F1000479AC /* XCLocalSwiftPackageReference "Msea/SDK/UMeng" */,
+				BE894D7A2DC6478000F3AE48 /* XCLocalSwiftPackageReference "Msea/Core/Component" */,
+				BE894D812DC654FF00F3AE48 /* XCRemoteSwiftPackageReference "AlertToast" */,
 			);
 			preferredProjectObjectVersion = 90;
 			productRefGroup = EFE76C5A2759EE3B00D89EA6 /* Products */;
@@ -348,6 +353,7 @@
 				"else",
 				"  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"",
 				"fi",
+				"",
 				"",
 				"",
 			);
@@ -738,6 +744,10 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Msea/SDK/UMeng;
 		};
+		BE894D7A2DC6478000F3AE48 /* XCLocalSwiftPackageReference "Msea/Core/Component" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Msea/Core/Component;
+		};
 		BEE980182DC4AECE00C6FC66 /* XCLocalSwiftPackageReference "Msea/Featrues/Home" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Msea/Featrues/Home;
@@ -757,6 +767,14 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		BE894D812DC654FF00F3AE48 /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/elai950/AlertToast.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.9;
+			};
+		};
 		BEE97DAA2DC4A4CE00C6FC66 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SimplyDanny/SwiftLintPlugins";
@@ -773,20 +791,29 @@
 				minimumVersion = 5.3.0;
 			};
 		};
-		BEE97DB02DC4A5E200C6FC66 /* XCRemoteSwiftPackageReference "AlertToast" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/elai950/AlertToast.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.3.9;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		BE354D522DC4B7F1000479AC /* UMeng */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = UMeng;
+		};
+		BE894D7B2DC6478000F3AE48 /* Base */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Base;
+		};
+		BE894D7D2DC6478000F3AE48 /* Extension */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Extension;
+		};
+		BE894D7F2DC64C3100F3AE48 /* Extension */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Extension;
+		};
+		BE894D822DC654FF00F3AE48 /* AlertToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BE894D812DC654FF00F3AE48 /* XCRemoteSwiftPackageReference "AlertToast" */;
+			productName = AlertToast;
 		};
 		BEE97DAB2DC4A55000C6FC66 /* SwiftLintBuildToolPlugin */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -797,11 +824,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BEE97DAD2DC4A59900C6FC66 /* XCRemoteSwiftPackageReference "Kanna" */;
 			productName = Kanna;
-		};
-		BEE97DB12DC4A5E200C6FC66 /* AlertToast */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BEE97DB02DC4A5E200C6FC66 /* XCRemoteSwiftPackageReference "AlertToast" */;
-			productName = AlertToast;
 		};
 		BEE980192DC4AECE00C6FC66 /* Home */ = {
 			isa = XCSwiftPackageProductDependency;

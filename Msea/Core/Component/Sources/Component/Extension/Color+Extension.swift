@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-extension Color {
+public extension Color {
     init(hex: String) {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
         var int: UInt64 = 0
@@ -58,7 +58,7 @@ extension Color {
     static let widgetBlack: Color = Color(hex: "2c2c2e")
 }
 
-extension UIColor {
+public extension UIColor {
     convenience init(
         light lightModeColor: @escaping @autoclosure () -> UIColor,
         dark darkModeColor: @escaping @autoclosure () -> UIColor

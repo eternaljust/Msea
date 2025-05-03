@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-extension UIApplication {
+public extension UIApplication {
     static var appVersion: String {
         return Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0.0"
     }

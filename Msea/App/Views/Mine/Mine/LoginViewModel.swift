@@ -9,6 +9,7 @@
 import SwiftUI
 import Observation
 import Kanna
+import Base
 
 /// 登录 VM
 @Observable

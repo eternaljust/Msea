@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-extension Font {
+public extension Font {
     /// Large Title  Regular
     static let font34: Font = .largeTitle
     /// Title  Regular

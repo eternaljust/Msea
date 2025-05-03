@@ -28,7 +28,7 @@ extension Array: @retroactive RawRepresentable where Element: Codable {
     }
 }
 
-extension FileManager {
+public extension FileManager {
     func getCacheSize() -> String {
         var totalSize = 0.00
         if let cachePath = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first,

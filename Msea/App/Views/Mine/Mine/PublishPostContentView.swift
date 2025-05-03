@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Kanna
+import Extension
 
 struct PublishPostContentView: View {
     var plate = PostPlate.life

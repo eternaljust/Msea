@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Kanna
+import Extension
 
 /// 个人空间资料
 struct SpaceProfileContentView: View {

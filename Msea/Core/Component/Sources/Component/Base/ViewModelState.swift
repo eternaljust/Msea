@@ -9,7 +9,7 @@
 import Foundation
 
 /// ViewModel 状态
-protocol ViewModelState {
+public protocol ViewModelState {
     /// 是否提示
     var isToast: Bool { get }
     /// 提示文本

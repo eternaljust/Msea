@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Kanna
+import Extension
 
 /// 用户组
 struct UserGroupContentView: View {

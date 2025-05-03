@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Extension
 
 struct URLSchemesContentView: View {
     @EnvironmentObject private var hud: HUDState

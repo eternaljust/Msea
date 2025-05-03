@@ -7,8 +7,9 @@
 //
 
 import SwiftUI
+import UIKit
 
-extension View {
+public extension View {
     /// Hide or show the view based on a boolean value.
     ///
     /// Example for visibility:
@@ -35,13 +36,13 @@ extension View {
     }
 }
 
-struct AdaptiveForegroundColorModifier: ViewModifier {
+public struct AdaptiveForegroundColorModifier: ViewModifier {
     var lightModeColor: Color
     var darkModeColor: Color
 
     @Environment(\.colorScheme) private var colorScheme
 
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content.foregroundColor(resolvedColor)
     }
 
@@ -57,7 +58,7 @@ struct AdaptiveForegroundColorModifier: ViewModifier {
     }
 }
 
-extension View {
+public extension View {
     func foregroundColor(
         light lightModeColor: Color,
         dark darkModeColor: Color
@@ -69,7 +70,7 @@ extension View {
     }
 }
 
-extension Button {
+public extension Button {
     func showProgress(isShowing: Binding<Bool>, color: Color = .theme) -> some View {
         ZStack(alignment: .top) {
             self
@@ -82,7 +83,7 @@ extension Button {
     }
 }
 
-extension UIApplication {
+public extension UIApplication {
     var key: UIWindow? {
         self.connectedScenes
             .map({ $0 as? UIWindowScene })
@@ -93,7 +94,7 @@ extension UIApplication {
     }
 }
 
-extension UIView {
+public extension UIView {
     func allSubviews() -> [UIView] {
         var subs = self.subviews
         for subview in self.subviews {
@@ -104,8 +105,8 @@ extension UIView {
     }
 }
 
-struct TabBarTool {
-    static func showTabBar(_ isShow: Bool) {
+public struct TabBarTool {
+    public static func showTabBar(_ isShow: Bool) {
         UIApplication.shared.key?.allSubviews().forEach({ subView in
             if let view = subView as? UITabBar {
                 view.isHidden = !isShow

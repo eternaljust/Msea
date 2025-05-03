@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension String {
+public extension String {
     /// 截取到任意位置
     func subString(to: Int) -> String {
         let offsetBy = to > self.count ? self.count : to

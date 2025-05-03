@@ -10,6 +10,7 @@ import SwiftUI
 import Kanna
 import MessageUI
 import StoreKit
+import Extension
 
 /// 设置相关
 struct SettingContentView: View {

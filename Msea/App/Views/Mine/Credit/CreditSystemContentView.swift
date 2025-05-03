@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Kanna
+import Extension
 
 /// 系统奖励
 struct CreditSystemContentView: View {

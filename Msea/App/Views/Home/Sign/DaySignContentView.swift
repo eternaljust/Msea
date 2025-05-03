@@ -9,6 +9,7 @@
 import SwiftUI
 import Kanna
 import CoreSpotlight
+import Extension
 
 /// 每日签到
 struct DaySignContentView: View {

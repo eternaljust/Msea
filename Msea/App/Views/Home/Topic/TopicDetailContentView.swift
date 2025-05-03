@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Kanna
+import Extension
 
 struct TopicDetailContentView: View {
     var tid: String = ""

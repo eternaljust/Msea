@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Intents
+import Extension
 
 /// Siri 捷径
 struct SiriShortcutContentView: View {

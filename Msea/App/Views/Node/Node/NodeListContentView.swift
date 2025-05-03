@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Kanna
+import Extension
 
 /// 节点分区列表
 struct NodeListContentView: View {
