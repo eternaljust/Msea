@@ -9,6 +9,7 @@
 import SwiftUI
 import Kanna
 import EJExtension
+import Common
 
 /// 节点分区导航
 struct NodeContentView: View {

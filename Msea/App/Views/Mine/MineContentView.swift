@@ -9,6 +9,7 @@
 import SwiftUI
 import Kanna
 import EJExtension
+import Common
 
 /// 我的详情
 struct MineContentView: View {

@@ -10,6 +10,7 @@ import SwiftUI
 import Kanna
 import CoreSpotlight
 import EJExtension
+import Common
 
 /// 每日签到
 struct DaySignContentView: View {

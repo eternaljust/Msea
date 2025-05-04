@@ -8,6 +8,7 @@
 
 import SwiftUI
 import UMCommon
+import Common
 
 final class FSAppDelegate: NSObject, UIApplicationDelegate, UIWindowSceneDelegate {
     static var shortcutItem: UIApplicationShortcutItem?

@@ -8,6 +8,7 @@
 
 import Foundation
 import Intents
+import Common
 
 struct SettingSection: Identifiable {
     var id = UUID()
@@ -113,21 +114,6 @@ enum SettingItem: String, CaseIterable, Identifiable {
             return "需添加桌面小组件辅助"
         }
         return ""
-    }
-}
-
-enum ColorSchemeTab: String, CaseIterable, Identifiable {
-    case unspecified
-    case light
-    case dark
-
-    var id: String { self.rawValue }
-    var title: String {
-        switch self {
-        case .unspecified: return "自动"
-        case .light: return "浅色"
-        case .dark: return "深色"
-        }
     }
 }
 

@@ -11,6 +11,7 @@ import Kanna
 import MessageUI
 import StoreKit
 import EJExtension
+import Common
 
 /// 设置相关
 struct SettingContentView: View {

@@ -8,6 +8,7 @@
 
 import SwiftUI
 import UserNotifications
+import Common
 
 /// 本地通知
 struct LocalNotification {

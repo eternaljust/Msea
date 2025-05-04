@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Kanna
+import Common
 
 struct ContentView: View {
     @StateObject private var selection = TabItemSelection()

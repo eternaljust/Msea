@@ -9,6 +9,7 @@
 import SwiftUI
 import Kanna
 import EJExtension
+import Common
 
 struct TopicDetailContentView: View {
     var tid: String = ""

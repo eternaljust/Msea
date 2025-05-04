@@ -8,8 +8,9 @@
 
 import SwiftUI
 import Kanna
-import Base
+import EJBase
 import EJExtension
+import Common
 
 /// 首页列表
 struct HomeContentView: View {

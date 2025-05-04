@@ -8,6 +8,7 @@
 
 import SwiftUI
 import EJExtension
+import Common
 
 struct NoticeContentView: View {
     @State private var selectedItem = NoticeItem.mypost

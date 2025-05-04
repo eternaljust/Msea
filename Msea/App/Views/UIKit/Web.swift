@@ -8,6 +8,7 @@
 
 import SwiftUI
 @preconcurrency import WebKit
+import Common
 
 let kJavaScriptClickImage =
 """
