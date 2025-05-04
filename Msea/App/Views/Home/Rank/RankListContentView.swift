@@ -8,7 +8,7 @@
 
 import SwiftUI
 import CoreSpotlight
-import Extension
+import EJExtension
 
 /// 排行榜
 struct RankListContentView: View {

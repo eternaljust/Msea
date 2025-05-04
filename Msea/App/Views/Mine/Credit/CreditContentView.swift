@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Extension
+import EJExtension
 
 struct CreditContentView: View {
     @State private var selectedItem = CreditItem.mycredit

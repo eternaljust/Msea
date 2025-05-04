@@ -9,7 +9,7 @@
 import SwiftUI
 import Observation
 import Kanna
-import Base
+import EJBase
 
 /// 登录 VM
 @Observable

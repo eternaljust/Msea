@@ -8,7 +8,7 @@
 
 import SwiftUI
 import Kanna
-import Extension
+import EJExtension
 
 /// 积分规则
 struct CreditRuleContentView: View {

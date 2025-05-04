@@ -8,7 +8,7 @@
 
 import SwiftUI
 import Kanna
-import Extension
+import EJExtension
 
 /// 节点 Wiki
 struct NodeWikiContentView: View {

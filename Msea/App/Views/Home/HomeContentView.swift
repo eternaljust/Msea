@@ -9,7 +9,7 @@
 import SwiftUI
 import Kanna
 import Base
-import Extension
+import EJExtension
 
 /// 首页列表
 struct HomeContentView: View {

@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		BE354D532DC4B7F1000479AC /* UMeng in Frameworks */ = {isa = PBXBuildFile; productRef = BE354D522DC4B7F1000479AC /* UMeng */; };
-		BE894D7C2DC6478000F3AE48 /* Base in Frameworks */ = {isa = PBXBuildFile; productRef = BE894D7B2DC6478000F3AE48 /* Base */; };
-		BE894D7E2DC6478000F3AE48 /* Extension in Frameworks */ = {isa = PBXBuildFile; productRef = BE894D7D2DC6478000F3AE48 /* Extension */; };
-		BE894D802DC64C3100F3AE48 /* Extension in Frameworks */ = {isa = PBXBuildFile; productRef = BE894D7F2DC64C3100F3AE48 /* Extension */; };
+		BE5800642DC7479200E1FC85 /* EJBase in Frameworks */ = {isa = PBXBuildFile; productRef = BE5800632DC7479200E1FC85 /* EJBase */; };
+		BE5800662DC7479200E1FC85 /* EJExtension in Frameworks */ = {isa = PBXBuildFile; productRef = BE5800652DC7479200E1FC85 /* EJExtension */; };
+		BE5800682DC74C7100E1FC85 /* EJExtension in Frameworks */ = {isa = PBXBuildFile; productRef = BE5800672DC74C7100E1FC85 /* EJExtension */; };
 		BE894D832DC654FF00F3AE48 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = BE894D822DC654FF00F3AE48 /* AlertToast */; };
 		BEE97DAF2DC4A59900C6FC66 /* Kanna in Frameworks */ = {isa = PBXBuildFile; productRef = BEE97DAE2DC4A59900C6FC66 /* Kanna */; };
 		BEE9801A2DC4AECE00C6FC66 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = BEE980192DC4AECE00C6FC66 /* Home */; };
@@ -70,7 +70,6 @@
 		BEE97ECC2DC4A6E800C6FC66 /* Exceptions for "Msea" folder in "Msea" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Core/Component,
 				Featrues/Home,
 				Featrues/Node,
 				Featrues/Notice,
@@ -137,8 +136,8 @@
 			files = (
 				BEE980252DC4B07600C6FC66 /* Kanna in Frameworks */,
 				EF70CDEC277AA1B20049D830 /* SwiftUI.framework in Frameworks */,
-				BE894D802DC64C3100F3AE48 /* Extension in Frameworks */,
 				EF70CDEA277AA1B20049D830 /* WidgetKit.framework in Frameworks */,
+				BE5800682DC74C7100E1FC85 /* EJExtension in Frameworks */,
 			);
 		};
 		EFA13508277C3A540060A172 /* Frameworks */ = {
@@ -150,15 +149,15 @@
 		EFE76C562759EE3B00D89EA6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
+				BE5800642DC7479200E1FC85 /* EJBase in Frameworks */,
+				BE5800662DC7479200E1FC85 /* EJExtension in Frameworks */,
 				BEE980232DC4AF0800C6FC66 /* Profile in Frameworks */,
 				BE354D532DC4B7F1000479AC /* UMeng in Frameworks */,
 				BEE9801D2DC4AEE100C6FC66 /* Node in Frameworks */,
 				BE894D832DC654FF00F3AE48 /* AlertToast in Frameworks */,
 				BEE97DAF2DC4A59900C6FC66 /* Kanna in Frameworks */,
-				BE894D7E2DC6478000F3AE48 /* Extension in Frameworks */,
 				BEE9801A2DC4AECE00C6FC66 /* Home in Frameworks */,
 				BEE980202DC4AEF800C6FC66 /* Notice in Frameworks */,
-				BE894D7C2DC6478000F3AE48 /* Base in Frameworks */,
 			);
 		};
 /* End PBXFrameworksBuildPhase section */
@@ -215,7 +214,7 @@
 			);
 			name = TopicWidgetExtension;
 			packageProductDependencies = (
-				BE894D7F2DC64C3100F3AE48 /* Extension */,
+				BE5800672DC74C7100E1FC85 /* EJExtension */,
 			);
 			productName = TopicWidgetExtension;
 			productReference = EF70CDE8277AA1B20049D830 /* TopicWidgetExtension.appex */;
@@ -259,9 +258,9 @@
 			name = Msea;
 			packageProductDependencies = (
 				BE354D522DC4B7F1000479AC /* UMeng */,
-				BE894D7B2DC6478000F3AE48 /* Base */,
-				BE894D7D2DC6478000F3AE48 /* Extension */,
 				BE894D822DC654FF00F3AE48 /* AlertToast */,
+				BE5800632DC7479200E1FC85 /* EJBase */,
+				BE5800652DC7479200E1FC85 /* EJExtension */,
 			);
 			productName = Msea;
 			productReference = EFE76C592759EE3B00D89EA6 /* Msea.app */;
@@ -305,8 +304,8 @@
 				BEE9801E2DC4AEF800C6FC66 /* XCLocalSwiftPackageReference "Msea/Featrues/Notice" */,
 				BEE980212DC4AF0800C6FC66 /* XCLocalSwiftPackageReference "Msea/Featrues/Profile" */,
 				BE354D512DC4B7F1000479AC /* XCLocalSwiftPackageReference "Msea/SDK/UMeng" */,
-				BE894D7A2DC6478000F3AE48 /* XCLocalSwiftPackageReference "Msea/Core/Component" */,
 				BE894D812DC654FF00F3AE48 /* XCRemoteSwiftPackageReference "AlertToast" */,
+				BE5800622DC7479200E1FC85 /* XCLocalSwiftPackageReference "Msea/Core/EJComponent" */,
 			);
 			preferredProjectObjectVersion = 90;
 			productRefGroup = EFE76C5A2759EE3B00D89EA6 /* Products */;
@@ -353,6 +352,7 @@
 				"else",
 				"  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"",
 				"fi",
+				"",
 				"",
 				"",
 				"",
@@ -744,9 +744,9 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Msea/SDK/UMeng;
 		};
-		BE894D7A2DC6478000F3AE48 /* XCLocalSwiftPackageReference "Msea/Core/Component" */ = {
+		BE5800622DC7479200E1FC85 /* XCLocalSwiftPackageReference "Msea/Core/EJComponent" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = Msea/Core/Component;
+			relativePath = Msea/Core/EJComponent;
 		};
 		BEE980182DC4AECE00C6FC66 /* XCLocalSwiftPackageReference "Msea/Featrues/Home" */ = {
 			isa = XCLocalSwiftPackageReference;
@@ -798,17 +798,17 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = UMeng;
 		};
-		BE894D7B2DC6478000F3AE48 /* Base */ = {
+		BE5800632DC7479200E1FC85 /* EJBase */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Base;
+			productName = EJBase;
 		};
-		BE894D7D2DC6478000F3AE48 /* Extension */ = {
+		BE5800652DC7479200E1FC85 /* EJExtension */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Extension;
+			productName = EJExtension;
 		};
-		BE894D7F2DC64C3100F3AE48 /* Extension */ = {
+		BE5800672DC74C7100E1FC85 /* EJExtension */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Extension;
+			productName = EJExtension;
 		};
 		BE894D822DC654FF00F3AE48 /* AlertToast */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Extension
+import EJExtension
 
 struct MyCreditContentView: View {
     @State private var selectedCreditTab = MyCreditTab.list

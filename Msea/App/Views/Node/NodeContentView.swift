@@ -8,7 +8,7 @@
 
 import SwiftUI
 import Kanna
-import Extension
+import EJExtension
 
 /// 节点分区导航
 struct NodeContentView: View {

@@ -9,7 +9,7 @@
 import WidgetKit
 import SwiftUI
 import Kanna
-import Extension
+import EJExtension
 
 struct ProfileProvider: IntentTimelineProvider {
     private static let widgetGroup: UserDefaults? = UserDefaults(suiteName: "group.com.eternaljust.Msea.Topic.Widget")

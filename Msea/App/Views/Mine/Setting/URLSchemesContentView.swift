@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Extension
+import EJExtension
 
 struct URLSchemesContentView: View {
     @EnvironmentObject private var hud: HUDState
