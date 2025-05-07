@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 90;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -46,13 +46,15 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		EF70CDF6277AA1B30049D830 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
 			dstPath = "";
-			dstSubfolder = PlugIns;
+			dstSubfolderSpec = 13;
 			files = (
 				EF70CDF5277AA1B30049D830 /* TopicWidgetExtension.appex in Embed Foundation Extensions */,
 				EFA13513277C3A540060A172 /* WidgetIntentHandler.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -68,7 +70,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		BEE97ECC2DC4A6E800C6FC66 /* Exceptions for "Msea" folder in "Msea" target */ = {
+		BEE97ECC2DC4A6E800C6FC66 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Featrues/Base/Common,
@@ -81,21 +83,21 @@
 			);
 			target = EFE76C582759EE3B00D89EA6 /* Msea */;
 		};
-		BEE97EDF2DC4A6ED00C6FC66 /* Exceptions for "TopicWidget" folder in "TopicWidgetExtension" target */ = {
+		BEE97EDF2DC4A6ED00C6FC66 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
 			target = EF70CDE7277AA1B20049D830 /* TopicWidgetExtension */;
 		};
-		BEE97EE02DC4A6ED00C6FC66 /* Exceptions for "TopicWidget" folder in "WidgetIntentHandler" target */ = {
+		BEE97EE02DC4A6ED00C6FC66 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				WidgetIntents.intentdefinition,
 			);
 			target = EFA1350A277C3A540060A172 /* WidgetIntentHandler */;
 		};
-		BEE97EE62DC4A6F200C6FC66 /* Exceptions for "WidgetIntentHandler" folder in "WidgetIntentHandler" target */ = {
+		BEE97EE62DC4A6F200C6FC66 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				IntentHandler.swift,
@@ -105,51 +107,34 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		BEE97E542DC4A6E800C6FC66 /* Msea */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				BEE97ECC2DC4A6E800C6FC66 /* Exceptions for "Msea" folder in "Msea" target */,
-			);
-			path = Msea;
-			sourceTree = "<group>";
-		};
-		BEE97ED62DC4A6EC00C6FC66 /* TopicWidget */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				BEE97EDF2DC4A6ED00C6FC66 /* Exceptions for "TopicWidget" folder in "TopicWidgetExtension" target */,
-				BEE97EE02DC4A6ED00C6FC66 /* Exceptions for "TopicWidget" folder in "WidgetIntentHandler" target */,
-			);
-			path = TopicWidget;
-			sourceTree = "<group>";
-		};
-		BEE97EE42DC4A6F200C6FC66 /* WidgetIntentHandler */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				BEE97EE62DC4A6F200C6FC66 /* Exceptions for "WidgetIntentHandler" folder in "WidgetIntentHandler" target */,
-			);
-			path = WidgetIntentHandler;
-			sourceTree = "<group>";
-		};
+		BEE97E542DC4A6E800C6FC66 /* Msea */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (BEE97ECC2DC4A6E800C6FC66 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Msea; sourceTree = "<group>"; };
+		BEE97ED62DC4A6EC00C6FC66 /* TopicWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (BEE97EDF2DC4A6ED00C6FC66 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, BEE97EE02DC4A6ED00C6FC66 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = TopicWidget; sourceTree = "<group>"; };
+		BEE97EE42DC4A6F200C6FC66 /* WidgetIntentHandler */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (BEE97EE62DC4A6F200C6FC66 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = WidgetIntentHandler; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		EF70CDE5277AA1B20049D830 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
 			files = (
 				BEE980252DC4B07600C6FC66 /* Kanna in Frameworks */,
 				EF70CDEC277AA1B20049D830 /* SwiftUI.framework in Frameworks */,
 				EF70CDEA277AA1B20049D830 /* WidgetKit.framework in Frameworks */,
 				BE5800682DC74C7100E1FC85 /* EJExtension in Frameworks */,
 			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		EFA13508277C3A540060A172 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
 			files = (
 				EFA1350C277C3A540060A172 /* Intents.framework in Frameworks */,
 			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		EFE76C562759EE3B00D89EA6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
 			files = (
 				BE5800642DC7479200E1FC85 /* EJBase in Frameworks */,
 				BE5800662DC7479200E1FC85 /* EJExtension in Frameworks */,
@@ -162,6 +147,7 @@
 				BEE9801A2DC4AECE00C6FC66 /* Home in Frameworks */,
 				BEE980202DC4AEF800C6FC66 /* Notice in Frameworks */,
 			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
@@ -212,6 +198,8 @@
 			);
 			buildRules = (
 			);
+			dependencies = (
+			);
 			fileSystemSynchronizedGroups = (
 				BEE97ED62DC4A6EC00C6FC66 /* TopicWidget */,
 			);
@@ -233,7 +221,11 @@
 			);
 			buildRules = (
 			);
+			dependencies = (
+			);
 			name = WidgetIntentHandler;
+			packageProductDependencies = (
+			);
 			productName = WidgetIntentHandler;
 			productReference = EFA1350B277C3A540060A172 /* WidgetIntentHandler.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -293,6 +285,7 @@
 				};
 			};
 			buildConfigurationList = EFE76C542759EE3B00D89EA6 /* Build configuration list for PBXProject "Msea" */;
+			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = "zh-Hans";
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -312,7 +305,6 @@
 				BE5800622DC7479200E1FC85 /* XCLocalSwiftPackageReference "Msea/Core/EJComponent" */,
 				BE58006D2DC75CFF00E1FC85 /* XCLocalSwiftPackageReference "Msea/Featrues/Base/Common" */,
 			);
-			preferredProjectObjectVersion = 90;
 			productRefGroup = EFE76C5A2759EE3B00D89EA6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -327,59 +319,69 @@
 /* Begin PBXResourcesBuildPhase section */
 		EF70CDE6277AA1B20049D830 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
 			files = (
 			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		EFA13509277C3A540060A172 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
 			files = (
 			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		EFE76C572759EE3B00D89EA6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
 			files = (
 			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		BE03919A2DC4BFBD00928FEF /* Run SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
-			name = "Run SwiftLint";
-			shellPath = /bin/sh;
-			shellScript = (
-				"if [[ \"$(uname -m)\" == arm64 ]]; then",
-				"    export PATH=\"/opt/homebrew/bin:$PATH\"",
-				"fi",
-				"",
-				"if which swiftlint > /dev/null; then",
-				"  swiftlint lint --fix",
-				"else",
-				"  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"",
-				"fi",
-				"",
-				"",
-				"",
-				"",
+			buildActionMask = 2147483647;
+			files = (
 			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run SwiftLint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n  swiftlint lint --fix\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n\n\n\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		EF70CDE4277AA1B20049D830 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
 			files = (
 			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		EFA13507277C3A540060A172 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
 			files = (
 			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		EFE76C552759EE3B00D89EA6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
 			files = (
 			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
@@ -401,7 +403,7 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		EF70CDF7277AA1B30049D830 /* Debug configuration for PBXNativeTarget "TopicWidgetExtension" */ = {
+		EF70CDF7277AA1B30049D830 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -430,7 +432,7 @@
 			};
 			name = Debug;
 		};
-		EF70CDF8277AA1B30049D830 /* Release configuration for PBXNativeTarget "TopicWidgetExtension" */ = {
+		EF70CDF8277AA1B30049D830 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -459,7 +461,7 @@
 			};
 			name = Release;
 		};
-		EFA13515277C3A540060A172 /* Debug configuration for PBXNativeTarget "WidgetIntentHandler" */ = {
+		EFA13515277C3A540060A172 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = WidgetIntentHandler/WidgetIntentHandler.entitlements;
@@ -486,7 +488,7 @@
 			};
 			name = Debug;
 		};
-		EFA13516277C3A540060A172 /* Release configuration for PBXNativeTarget "WidgetIntentHandler" */ = {
+		EFA13516277C3A540060A172 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = WidgetIntentHandler/WidgetIntentHandler.entitlements;
@@ -513,7 +515,7 @@
 			};
 			name = Release;
 		};
-		EFE76C652759EE3C00D89EA6 /* Debug configuration for PBXProject "Msea" */ = {
+		EFE76C652759EE3C00D89EA6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -578,7 +580,7 @@
 			};
 			name = Debug;
 		};
-		EFE76C662759EE3C00D89EA6 /* Release configuration for PBXProject "Msea" */ = {
+		EFE76C662759EE3C00D89EA6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -637,7 +639,7 @@
 			};
 			name = Release;
 		};
-		EFE76C682759EE3C00D89EA6 /* Debug configuration for PBXNativeTarget "Msea" */ = {
+		EFE76C682759EE3C00D89EA6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -672,7 +674,7 @@
 			};
 			name = Debug;
 		};
-		EFE76C692759EE3C00D89EA6 /* Release configuration for PBXNativeTarget "Msea" */ = {
+		EFE76C692759EE3C00D89EA6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -713,33 +715,37 @@
 		EF70CDF9277AA1B30049D830 /* Build configuration list for PBXNativeTarget "TopicWidgetExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EF70CDF7277AA1B30049D830 /* Debug configuration for PBXNativeTarget "TopicWidgetExtension" */,
-				EF70CDF8277AA1B30049D830 /* Release configuration for PBXNativeTarget "TopicWidgetExtension" */,
+				EF70CDF7277AA1B30049D830 /* Debug */,
+				EF70CDF8277AA1B30049D830 /* Release */,
 			);
+			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		EFA13514277C3A540060A172 /* Build configuration list for PBXNativeTarget "WidgetIntentHandler" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EFA13515277C3A540060A172 /* Debug configuration for PBXNativeTarget "WidgetIntentHandler" */,
-				EFA13516277C3A540060A172 /* Release configuration for PBXNativeTarget "WidgetIntentHandler" */,
+				EFA13515277C3A540060A172 /* Debug */,
+				EFA13516277C3A540060A172 /* Release */,
 			);
+			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		EFE76C542759EE3B00D89EA6 /* Build configuration list for PBXProject "Msea" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EFE76C652759EE3C00D89EA6 /* Debug configuration for PBXProject "Msea" */,
-				EFE76C662759EE3C00D89EA6 /* Release configuration for PBXProject "Msea" */,
+				EFE76C652759EE3C00D89EA6 /* Debug */,
+				EFE76C662759EE3C00D89EA6 /* Release */,
 			);
+			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		EFE76C672759EE3C00D89EA6 /* Build configuration list for PBXNativeTarget "Msea" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EFE76C682759EE3C00D89EA6 /* Debug configuration for PBXNativeTarget "Msea" */,
-				EFE76C692759EE3C00D89EA6 /* Release configuration for PBXNativeTarget "Msea" */,
+				EFE76C682759EE3C00D89EA6 /* Debug */,
+				EFE76C692759EE3C00D89EA6 /* Release */,
 			);
+			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
