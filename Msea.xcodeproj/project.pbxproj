@@ -73,6 +73,9 @@
 		BEE97ECC2DC4A6E800C6FC66 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Core/EJDependency,
+				Core/EJRouter,
+				Core/EJToolKit,
 				Featrues/Base/Common,
 				Featrues/Home,
 				Featrues/Node,

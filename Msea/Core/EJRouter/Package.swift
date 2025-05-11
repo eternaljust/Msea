@@ -3,24 +3,18 @@
 
 import PackageDescription
 
-/// 核心组件：基类、拓展
+/// 路由管理
 let package = Package(
-    name: "EJComponent",
+    name: "EJRouter",
     platforms: [
         .iOS(.v17)
     ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "EJBase",
+            name: "EJRouter",
             targets: [
-                "EJBase"
-            ]
-        ),
-        .library(
-            name: "EJExtension",
-            targets: [
-                "EJExtension"
+                "EJRouter"
             ]
         )
     ],
@@ -28,12 +22,7 @@ let package = Package(
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "EJBase",
-            path: "Sources/EJComponent/Base"
-        ),
-        .target(
-            name: "EJExtension",
-            path: "Sources/EJComponent/Extension"
+            name: "EJRouter"
         )
     ],
     swiftLanguageModes: [
