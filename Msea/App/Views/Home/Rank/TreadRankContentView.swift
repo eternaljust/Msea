@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Kanna
+import IHome
 
 /// 帖子排行榜
 struct TreadRankContentView: View {

@@ -8,12 +8,13 @@
 
 import SwiftUI
 import Kanna
+import IHome
 
 /// 标签列表
 struct TagListContentView: View {
     var id = ""
 
-    @StateObject var searchState: SearchState
+    @State var searchState: SearchState
     @State private var name = ""
 
     @State private var title = ""

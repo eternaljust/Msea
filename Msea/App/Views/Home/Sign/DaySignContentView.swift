@@ -11,6 +11,7 @@ import Kanna
 import CoreSpotlight
 import EJExtension
 import Common
+import IHome
 
 /// 每日签到
 struct DaySignContentView: View {

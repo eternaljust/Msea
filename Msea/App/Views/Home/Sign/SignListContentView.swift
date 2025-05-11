@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Kanna
+import IHome
 
 /// 今日签到列表
 struct SignListContentView: View {

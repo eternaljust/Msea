@@ -8,10 +8,11 @@
 
 import SwiftUI
 import Kanna
+import IHome
 
 /// 帖子搜索
 struct SearchPostConentView: View {
-    @StateObject var searchState: SearchState
+    @State var searchState = SearchState()
 
     @State private var search = ""
     @State private var page = 1

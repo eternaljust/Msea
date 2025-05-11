@@ -9,11 +9,12 @@
 import SwiftUI
 import Kanna
 import EJExtension
+import IHome
 
 /// 站内搜索
 struct SearchContentView: View {
     @State private var search = ""
-    @StateObject private var searchState = SearchState()
+    @State private var searchState = SearchState()
     @FocusState private var focused: Bool
     @EnvironmentObject private var hud: HUDState
 

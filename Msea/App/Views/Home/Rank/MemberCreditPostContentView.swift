@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Kanna
+import IHome
 
 /// 用户排行榜
 struct MemberCreditPostContentView: View {

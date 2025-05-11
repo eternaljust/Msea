@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Kanna
+import IHome
 
 /// 签到天数排名列表
 struct SignDayListContentView: View {

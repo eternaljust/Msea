@@ -9,6 +9,7 @@
 import SwiftUI
 import Kanna
 import EJExtension
+import IHome
 
 /// 标签网格
 struct TagContentView: View {

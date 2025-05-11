@@ -8,9 +8,10 @@
 
 import SwiftUI
 import Kanna
+import IHome
 
 struct SearchUserContentView: View {
-    @StateObject var searchState: SearchState
+    @State var searchState = SearchState()
 
     @State private var search = ""
     @State private var userList = [UserListModel]()

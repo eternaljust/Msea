@@ -8,11 +8,12 @@
 
 import SwiftUI
 import Kanna
+import IHome
 
 /// 标签搜索
 struct TagSearchContentView: View {
     @State private var search = ""
-    @StateObject private var searchState = SearchState()
+    @State private var searchState = SearchState()
     @FocusState private var focused: Bool
     @EnvironmentObject private var hud: HUDState
 

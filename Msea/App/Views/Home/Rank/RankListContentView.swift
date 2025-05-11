@@ -10,6 +10,7 @@ import SwiftUI
 import CoreSpotlight
 import EJExtension
 import Common
+import IHome
 
 /// 排行榜
 struct RankListContentView: View {

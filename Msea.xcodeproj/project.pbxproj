@@ -17,6 +17,8 @@
 		BEB024B92DD06D2300E2EEBA /* Notice in Frameworks */ = {isa = PBXBuildFile; productRef = BEB024B82DD06D2300E2EEBA /* Notice */; };
 		BEB024BC2DD06D3100E2EEBA /* Profile in Frameworks */ = {isa = PBXBuildFile; productRef = BEB024BB2DD06D3100E2EEBA /* Profile */; };
 		BEB0271D2DD084F400E2EEBA /* AppTab in Frameworks */ = {isa = PBXBuildFile; productRef = BEB0271C2DD084F400E2EEBA /* AppTab */; };
+		BEB0271F2DD08B0900E2EEBA /* IHome in Frameworks */ = {isa = PBXBuildFile; productRef = BEB0271E2DD08B0900E2EEBA /* IHome */; };
+		BEB027212DD08B0900E2EEBA /* MHome in Frameworks */ = {isa = PBXBuildFile; productRef = BEB027202DD08B0900E2EEBA /* MHome */; };
 		BEE97DAF2DC4A59900C6FC66 /* Kanna in Frameworks */ = {isa = PBXBuildFile; productRef = BEE97DAE2DC4A59900C6FC66 /* Kanna */; };
 		BEE9801D2DC4AEE100C6FC66 /* Node in Frameworks */ = {isa = PBXBuildFile; productRef = BEE9801C2DC4AEE100C6FC66 /* Node */; };
 		BEE980202DC4AEF800C6FC66 /* Notice in Frameworks */ = {isa = PBXBuildFile; productRef = BEE9801F2DC4AEF800C6FC66 /* Notice */; };
@@ -142,8 +144,10 @@
 				BEB0271D2DD084F400E2EEBA /* AppTab in Frameworks */,
 				BEB024BC2DD06D3100E2EEBA /* Profile in Frameworks */,
 				BEB024B92DD06D2300E2EEBA /* Notice in Frameworks */,
+				BEB027212DD08B0900E2EEBA /* MHome in Frameworks */,
 				BE5800642DC7479200E1FC85 /* EJBase in Frameworks */,
 				BE5800662DC7479200E1FC85 /* EJExtension in Frameworks */,
+				BEB0271F2DD08B0900E2EEBA /* IHome in Frameworks */,
 				BEB024B62DD06D1600E2EEBA /* Node in Frameworks */,
 				BEE980232DC4AF0800C6FC66 /* Profile in Frameworks */,
 				BE354D532DC4B7F1000479AC /* UMeng in Frameworks */,
@@ -267,6 +271,8 @@
 				BEB024B82DD06D2300E2EEBA /* Notice */,
 				BEB024BB2DD06D3100E2EEBA /* Profile */,
 				BEB0271C2DD084F400E2EEBA /* AppTab */,
+				BEB0271E2DD08B0900E2EEBA /* IHome */,
+				BEB027202DD08B0900E2EEBA /* MHome */,
 			);
 			productName = Msea;
 			productReference = EFE76C592759EE3B00D89EA6 /* Msea.app */;
@@ -849,6 +855,14 @@
 		BEB0271C2DD084F400E2EEBA /* AppTab */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AppTab;
+		};
+		BEB0271E2DD08B0900E2EEBA /* IHome */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = IHome;
+		};
+		BEB027202DD08B0900E2EEBA /* MHome */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MHome;
 		};
 		BEE97DAB2DC4A55000C6FC66 /* SwiftLintBuildToolPlugin */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -12,6 +12,7 @@ import EJExtension
 import EJRouter
 import Common
 import AppTab
+import IHome
 
 struct TopicDetailContentView: View {
     var tid: String = ""
