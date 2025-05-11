@@ -37,7 +37,7 @@ final class FSAppDelegate: NSObject, UIApplicationDelegate, UIWindowSceneDelegat
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        CacheInfo.shared.selectedTab = .home
+//        CacheInfo.shared.selectedTab = .home
     }
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {

@@ -35,6 +35,5 @@ public class CacheInfo: NSObject {
     @AppStorage(CacheKeys.reviewCount) public var reviewCount = 0
     @AppStorage(CacheKeys.clickedImageUrl) public var clickedImageUrl = ""
 
-    @AppStorage(CacheKeys.selectedTab) public var selectedTab: TabBarItem = .home
     @AppStorage(CacheKeys.colorScheme) public var colorScheme: ColorSchemeTab = .unspecified
 }

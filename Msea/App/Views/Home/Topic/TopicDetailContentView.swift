@@ -9,7 +9,9 @@
 import SwiftUI
 import Kanna
 import EJExtension
+import EJRouter
 import Common
+import AppTab
 
 struct TopicDetailContentView: View {
     var tid: String = ""
@@ -26,7 +28,6 @@ struct TopicDetailContentView: View {
     @State private var isSelectedPage = false
     @State private var isConfirming = false
     @State private var fid = ""
-    @EnvironmentObject private var selection: TabItemSelection
 
     @State private var needLogin = false
     @EnvironmentObject private var hud: HUDState
@@ -164,8 +165,7 @@ struct TopicDetailContentView: View {
                             isNodeFid125: isNodeFid125,
                             avatarClick: {
                                 if comment.uid == UserInfo.shared.uid {
-                                    selection.index = .mine
-                                    CacheInfo.shared.selectedTab = .mine
+                                    Router.shared.navigate(to: AppTabRoute.switchTab(target: .mine))
                                 } else {
                                     uid = comment.uid
                                     isSpace.toggle()
@@ -235,8 +235,7 @@ struct TopicDetailContentView: View {
                         isNodeFid125: isNodeFid125,
                         header: header,
                         nodeClick: {
-                            selection.index = .node
-                            CacheInfo.shared.selectedTab = .node
+                            Router.shared.navigate(to: AppTabRoute.switchTab(target: .node))
                             TabBarTool.showTabBar(true)
                         },
                         indexClick: {
@@ -852,8 +851,7 @@ extension TopicDetailContentView {
                 let uid = absoluteString.getUid()
                 if !uid.isEmpty {
                     if uid == UserInfo.shared.uid {
-                        selection.index = .mine
-                        CacheInfo.shared.selectedTab = .mine
+                        Router.shared.navigate(to: AppTabRoute.switchTab(target: .mine))
                     } else {
                         self.uid = uid
                         isSpace.toggle()
@@ -894,8 +892,7 @@ extension TopicDetailContentView {
                     needLogin.toggle()
                 }
             } else if absoluteString.contains("do=notice") {
-                CacheInfo.shared.selectedTab = .notice
-                selection.index = .notice
+                Router.shared.navigate(to: AppTabRoute.switchTab(target: .notice))
             }
         } else if absoluteString.hasPrefix("mailto:") {
             // 邮件

@@ -2,7 +2,6 @@
 // https://docs.swift.org/swift-book
 
 import SwiftUI
-import Observation
 
 /// 定义路由展示方式
 public enum RoutePresentationStyle {

@@ -13,8 +13,11 @@
 		BE5800682DC74C7100E1FC85 /* EJExtension in Frameworks */ = {isa = PBXBuildFile; productRef = BE5800672DC74C7100E1FC85 /* EJExtension */; };
 		BE58006F2DC75CFF00E1FC85 /* Common in Frameworks */ = {isa = PBXBuildFile; productRef = BE58006E2DC75CFF00E1FC85 /* Common */; };
 		BE894D832DC654FF00F3AE48 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = BE894D822DC654FF00F3AE48 /* AlertToast */; };
+		BEB024B62DD06D1600E2EEBA /* Node in Frameworks */ = {isa = PBXBuildFile; productRef = BEB024B52DD06D1600E2EEBA /* Node */; };
+		BEB024B92DD06D2300E2EEBA /* Notice in Frameworks */ = {isa = PBXBuildFile; productRef = BEB024B82DD06D2300E2EEBA /* Notice */; };
+		BEB024BC2DD06D3100E2EEBA /* Profile in Frameworks */ = {isa = PBXBuildFile; productRef = BEB024BB2DD06D3100E2EEBA /* Profile */; };
+		BEB0271D2DD084F400E2EEBA /* AppTab in Frameworks */ = {isa = PBXBuildFile; productRef = BEB0271C2DD084F400E2EEBA /* AppTab */; };
 		BEE97DAF2DC4A59900C6FC66 /* Kanna in Frameworks */ = {isa = PBXBuildFile; productRef = BEE97DAE2DC4A59900C6FC66 /* Kanna */; };
-		BEE9801A2DC4AECE00C6FC66 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = BEE980192DC4AECE00C6FC66 /* Home */; };
 		BEE9801D2DC4AEE100C6FC66 /* Node in Frameworks */ = {isa = PBXBuildFile; productRef = BEE9801C2DC4AEE100C6FC66 /* Node */; };
 		BEE980202DC4AEF800C6FC66 /* Notice in Frameworks */ = {isa = PBXBuildFile; productRef = BEE9801F2DC4AEF800C6FC66 /* Notice */; };
 		BEE980232DC4AF0800C6FC66 /* Profile in Frameworks */ = {isa = PBXBuildFile; productRef = BEE980222DC4AF0800C6FC66 /* Profile */; };
@@ -77,10 +80,7 @@
 				Core/EJRouter,
 				Core/EJToolKit,
 				Featrues/Base/Common,
-				Featrues/Home,
-				Featrues/Node,
-				Featrues/Notice,
-				Featrues/Profile,
+				Featrues/Main/AppTab,
 				SDK/UMeng,
 				"Supporting Files/Info.plist",
 			);
@@ -139,15 +139,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEB0271D2DD084F400E2EEBA /* AppTab in Frameworks */,
+				BEB024BC2DD06D3100E2EEBA /* Profile in Frameworks */,
+				BEB024B92DD06D2300E2EEBA /* Notice in Frameworks */,
 				BE5800642DC7479200E1FC85 /* EJBase in Frameworks */,
 				BE5800662DC7479200E1FC85 /* EJExtension in Frameworks */,
+				BEB024B62DD06D1600E2EEBA /* Node in Frameworks */,
 				BEE980232DC4AF0800C6FC66 /* Profile in Frameworks */,
 				BE354D532DC4B7F1000479AC /* UMeng in Frameworks */,
 				BEE9801D2DC4AEE100C6FC66 /* Node in Frameworks */,
 				BE58006F2DC75CFF00E1FC85 /* Common in Frameworks */,
 				BE894D832DC654FF00F3AE48 /* AlertToast in Frameworks */,
 				BEE97DAF2DC4A59900C6FC66 /* Kanna in Frameworks */,
-				BEE9801A2DC4AECE00C6FC66 /* Home in Frameworks */,
 				BEE980202DC4AEF800C6FC66 /* Notice in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -260,6 +263,10 @@
 				BE5800632DC7479200E1FC85 /* EJBase */,
 				BE5800652DC7479200E1FC85 /* EJExtension */,
 				BE58006E2DC75CFF00E1FC85 /* Common */,
+				BEB024B52DD06D1600E2EEBA /* Node */,
+				BEB024B82DD06D2300E2EEBA /* Notice */,
+				BEB024BB2DD06D3100E2EEBA /* Profile */,
+				BEB0271C2DD084F400E2EEBA /* AppTab */,
 			);
 			productName = Msea;
 			productReference = EFE76C592759EE3B00D89EA6 /* Msea.app */;
@@ -299,14 +306,12 @@
 			packageReferences = (
 				BEE97DAA2DC4A4CE00C6FC66 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
 				BEE97DAD2DC4A59900C6FC66 /* XCRemoteSwiftPackageReference "Kanna" */,
-				BEE980182DC4AECE00C6FC66 /* XCLocalSwiftPackageReference "Msea/Featrues/Home" */,
-				BEE9801B2DC4AEE100C6FC66 /* XCLocalSwiftPackageReference "Msea/Featrues/Node" */,
-				BEE9801E2DC4AEF800C6FC66 /* XCLocalSwiftPackageReference "Msea/Featrues/Notice" */,
-				BEE980212DC4AF0800C6FC66 /* XCLocalSwiftPackageReference "Msea/Featrues/Profile" */,
 				BE354D512DC4B7F1000479AC /* XCLocalSwiftPackageReference "Msea/SDK/UMeng" */,
 				BE894D812DC654FF00F3AE48 /* XCRemoteSwiftPackageReference "AlertToast" */,
-				BE5800622DC7479200E1FC85 /* XCLocalSwiftPackageReference "Msea/Core/EJComponent" */,
-				BE58006D2DC75CFF00E1FC85 /* XCLocalSwiftPackageReference "Msea/Featrues/Base/Common" */,
+				BEB024B12DD06D0600E2EEBA /* XCLocalSwiftPackageReference "Msea/Featrues/Main/Home" */,
+				BEB024B42DD06D1600E2EEBA /* XCLocalSwiftPackageReference "Msea/Featrues/Main/Node" */,
+				BEB024B72DD06D2300E2EEBA /* XCLocalSwiftPackageReference "Msea/Featrues/Main/Notice" */,
+				BEB024BA2DD06D3100E2EEBA /* XCLocalSwiftPackageReference "Msea/Featrues/Main/Profile" */,
 			);
 			productRefGroup = EFE76C5A2759EE3B00D89EA6 /* Products */;
 			projectDirPath = "";
@@ -758,29 +763,21 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Msea/SDK/UMeng;
 		};
-		BE5800622DC7479200E1FC85 /* XCLocalSwiftPackageReference "Msea/Core/EJComponent" */ = {
+		BEB024B12DD06D0600E2EEBA /* XCLocalSwiftPackageReference "Msea/Featrues/Main/Home" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = Msea/Core/EJComponent;
+			relativePath = Msea/Featrues/Main/Home;
 		};
-		BE58006D2DC75CFF00E1FC85 /* XCLocalSwiftPackageReference "Msea/Featrues/Base/Common" */ = {
+		BEB024B42DD06D1600E2EEBA /* XCLocalSwiftPackageReference "Msea/Featrues/Main/Node" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = Msea/Featrues/Base/Common;
+			relativePath = Msea/Featrues/Main/Node;
 		};
-		BEE980182DC4AECE00C6FC66 /* XCLocalSwiftPackageReference "Msea/Featrues/Home" */ = {
+		BEB024B72DD06D2300E2EEBA /* XCLocalSwiftPackageReference "Msea/Featrues/Main/Notice" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = Msea/Featrues/Home;
+			relativePath = Msea/Featrues/Main/Notice;
 		};
-		BEE9801B2DC4AEE100C6FC66 /* XCLocalSwiftPackageReference "Msea/Featrues/Node" */ = {
+		BEB024BA2DD06D3100E2EEBA /* XCLocalSwiftPackageReference "Msea/Featrues/Main/Profile" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = Msea/Featrues/Node;
-		};
-		BEE9801E2DC4AEF800C6FC66 /* XCLocalSwiftPackageReference "Msea/Featrues/Notice" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = Msea/Featrues/Notice;
-		};
-		BEE980212DC4AF0800C6FC66 /* XCLocalSwiftPackageReference "Msea/Featrues/Profile" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = Msea/Featrues/Profile;
+			relativePath = Msea/Featrues/Main/Profile;
 		};
 /* End XCLocalSwiftPackageReference section */
 
@@ -837,6 +834,22 @@
 			package = BE894D812DC654FF00F3AE48 /* XCRemoteSwiftPackageReference "AlertToast" */;
 			productName = AlertToast;
 		};
+		BEB024B52DD06D1600E2EEBA /* Node */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Node;
+		};
+		BEB024B82DD06D2300E2EEBA /* Notice */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Notice;
+		};
+		BEB024BB2DD06D3100E2EEBA /* Profile */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Profile;
+		};
+		BEB0271C2DD084F400E2EEBA /* AppTab */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AppTab;
+		};
 		BEE97DAB2DC4A55000C6FC66 /* SwiftLintBuildToolPlugin */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BEE97DAA2DC4A4CE00C6FC66 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */;
@@ -846,10 +859,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BEE97DAD2DC4A59900C6FC66 /* XCRemoteSwiftPackageReference "Kanna" */;
 			productName = Kanna;
-		};
-		BEE980192DC4AECE00C6FC66 /* Home */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Home;
 		};
 		BEE9801C2DC4AEE100C6FC66 /* Node */ = {
 			isa = XCSwiftPackageProductDependency;

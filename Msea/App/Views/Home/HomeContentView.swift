@@ -10,12 +10,13 @@ import SwiftUI
 import Kanna
 import EJBase
 import EJExtension
+import EJRouter
 import Common
+import AppTab
 
 /// 首页列表
 struct HomeContentView: View {
     @StateObject private var rule = CreditRuleObject()
-    @EnvironmentObject private var selection: TabItemSelection
     @EnvironmentObject private var store: AppStore
 
     @State private var selectedViewTab = TopicTab.new
@@ -62,8 +63,7 @@ struct HomeContentView: View {
 
                     if !store.state.home.notice.isEmpty {
                         Button {
-                            CacheInfo.shared.selectedTab = .notice
-                            selection.index = .notice
+                            Router.shared.navigate(to: AppTabRoute.switchTab(target: .notice))
                         } label: {
                             Label {
                                Text(store.state.home.notice)
@@ -100,7 +100,6 @@ struct HomeContentView: View {
                         await store.dispatch(.home(action: .navigationBarHidden(true)))
                     }
                     TabBarTool.showTabBar(true)
-                    CacheInfo.shared.selectedTab = .home
                 }
                 .onDisappear {
                     Task {
@@ -167,8 +166,7 @@ extension HomeContentView {
         if let host = url.host, let scheme = url.scheme, scheme == "msea" {
             guard let item = URLSchemesItem(rawValue: host) else { return }
             TabBarTool.showTabBar(true)
-            CacheInfo.shared.selectedTab = .home
-            selection.index = .home
+            Router.shared.navigate(to: AppTabRoute.switchTab(target: .home))
 
             switch item {
             case .daysign:
@@ -191,8 +189,7 @@ extension HomeContentView {
                     await store.dispatch(.home(action: .setUid(uid)))
                     if Int(uid) != nil {
                         if UserInfo.shared.isLogin(), UserInfo.shared.uid == uid {
-                            CacheInfo.shared.selectedTab = .mine
-                            selection.index = .mine
+                            Router.shared.navigate(to: AppTabRoute.switchTab(target: .mine))
                         } else {
                             isSpaceProfile.toggle()
                         }
@@ -203,19 +200,17 @@ extension HomeContentView {
     }
 
     private func goDaysign() {
-        CacheInfo.shared.selectedTab = .home
-        selection.index = .home
+        Router.shared.navigate(to: AppTabRoute.switchTab(target: .home))
         isDaysign.toggle()
     }
 
     private func goNotice() {
-        CacheInfo.shared.selectedTab = .notice
-        selection.index = .notice
+        Router.shared.navigate(to: AppTabRoute.switchTab(target: .notice))
     }
 
     private func goRanklist() {
-        CacheInfo.shared.selectedTab = .home
-        selection.index = .home
+//        CacheInfo.shared.selectedTab = .home
+        Router.shared.navigate(to: AppTabRoute.switchTab(target: .home))
         isRanklist.toggle()
     }
 

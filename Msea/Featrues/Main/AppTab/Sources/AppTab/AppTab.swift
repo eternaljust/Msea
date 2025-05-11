@@ -2,9 +2,11 @@
 // https://docs.swift.org/swift-book
 
 import SwiftUI
+import Observation
+import EJRouter
 
-/// 底部 Tab 选项
-public enum TabBarItem: String, CaseIterable, Identifiable {
+/// App 主 Tab 选项
+public enum AppTab: String, CaseIterable, Identifiable {
     /// 虫部落
     case home
     /// 节点
@@ -33,24 +35,20 @@ public enum TabBarItem: String, CaseIterable, Identifiable {
     }
 }
 
-public class TabItemSelection: ObservableObject {
-    @Published public var index: TabBarItem = CacheInfo.shared.selectedTab
-
-    /// public 初始化器
-    public init() {}
-}
-
-public enum ColorSchemeTab: String, CaseIterable, Identifiable {
-    case unspecified
-    case light
-    case dark
-
-    public var id: String { self.rawValue }
-    public var title: String {
-        switch self {
-        case .unspecified: return "自动"
-        case .light: return "浅色"
-        case .dark: return "深色"
+/// tab 选中
+@Observable
+public class AppTabSelection {
+    public static var shared = AppTabSelection()
+    /// Tab 切换选项
+    public var item: AppTab = .home
+    /// 返回根视图
+    public var shouldPopToRoot: Bool = false {
+        didSet {
+            if shouldPopToRoot {
+                Router.shared.popToRoot()
+            }
         }
     }
+
+    public init() {}
 }

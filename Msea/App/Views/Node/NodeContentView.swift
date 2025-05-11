@@ -191,7 +191,6 @@ struct NodeContentView: View {
         .onAppear(perform: {
             isLogin = UserInfo.shared.isLogin()
             TabBarTool.showTabBar(gid.isEmpty)
-            CacheInfo.shared.selectedTab = .node
         })
         .onChange(of: isProfile, { _, newValue in
             if UIDevice.current.isPad && newValue {

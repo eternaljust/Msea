@@ -8,14 +8,16 @@
 import SwiftUI
 import Kanna
 import Common
+import AppTab
 
 struct ContentView: View {
-    @StateObject private var selection = TabItemSelection()
+//    @StateObject private var selection = AppTabSelection()
     @State var preferredColorScheme: ColorScheme?
 
     var body: some View {
-        TabView(selection: $selection.index) {
-            ForEach(TabBarItem.allCases) { item in
+        @Bindable var appTab = AppTabSelection.shared
+        TabView(selection: $appTab.item) {
+            ForEach(AppTab.allCases) { item in
                 getContentView(item)
                     .tabItem {
                         Label(item.title, systemImage: item.icon)
@@ -23,10 +25,6 @@ struct ContentView: View {
                     .tag(item)
             }
         }
-        .environmentObject(selection)
-        .onChange(of: selection.index, { _, newValue in
-            print(newValue)
-        })
         .preferredColorScheme(preferredColorScheme)
         .tint(.theme)
         .onReceive(NotificationCenter.default.publisher(for: .colorScheme, object: nil)) { _ in
@@ -57,7 +55,7 @@ struct ContentView: View {
         }
     }
 
-    @ViewBuilder private func getContentView(_ item: TabBarItem) -> some View {
+    @ViewBuilder private func getContentView(_ item: AppTab) -> some View {
         switch item {
         case .home:
             HomeContentView()

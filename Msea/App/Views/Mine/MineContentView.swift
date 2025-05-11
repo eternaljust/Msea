@@ -190,7 +190,6 @@ struct MineContentView: View {
                 }
                 TabBarTool.showTabBar(true)
                 isNewPost = false
-                CacheInfo.shared.selectedTab = .mine
             })
             .sheet(isPresented: $isPresented) {
                 LoginContentView()

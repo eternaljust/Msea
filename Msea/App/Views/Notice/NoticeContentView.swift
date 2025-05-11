@@ -72,7 +72,6 @@ struct NoticeContentView: View {
             .onAppear(perform: {
                 isLogin = UserInfo.shared.isLogin()
                 TabBarTool.showTabBar(true)
-                CacheInfo.shared.selectedTab = .notice
                 if #available(iOS 16.0, *) {
                     paddingTop = 50
                 }
