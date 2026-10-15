@@ -10,7 +10,10 @@ xcuserdata/
 *.xccheckout
 
 ## compatibility with Xcode 3 and earlier (ignoring not required starting Xcode 4)
-build/
+build/*
+!build/sideload/
+build/sideload/*
+!build/sideload/build-ipa.sh
 DerivedData/
 *.moved-aside
 *.pbxuser
@@ -37,14 +40,14 @@ playground.xcworkspace
 # Swift Package Manager
 #
 # Add this line if you want to avoid checking in source code from Swift Package Manager dependencies.
-# Packages/
-# Package.pins
-# Package.resolved
-# *.xcodeproj
+Packages/
+Package.pins
+Package.resolved
+# *.xcodeproj 需要入库，工程内的用户态已由上面的 xcuserdata/ 排除
 #
 # Xcode automatically generates this directory with a .xcworkspacedata file and xcuserdata
 # hence it is not needed unless you have added a package configuration file to your project
-# .swiftpm
+.swiftpm
 
 .build/
 
@@ -88,3 +91,6 @@ fastlane/test_output
 # https://github.com/johnno1962/injectionforxcode
 
 iOSInjectionProject/
+
+# 本地辅助工具的私有状态目录，内容已整理进 docs/，不入库
+.workbuddy/
