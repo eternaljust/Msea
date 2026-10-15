@@ -14,9 +14,7 @@ public class CacheInfo: NSObject {
     /// 单例
     public static let shared: CacheInfo = CacheInfo()
 
-    private static let widgetGroup: UserDefaults? = UserDefaults(suiteName: "group.com.eternaljust.Msea.Topic.Widget")
-
-    @AppStorage(CacheKeys.groupNoticeIsOn, store: widgetGroup) public var groupNoticeIsOn = false
+    @AppStorage(CacheKeys.groupNoticeIsOn) public var groupNoticeIsOn = false
 
     @AppStorage(CacheKeys.signRule) public var signRule = """
                             1. 活动时间：每天00:00开始，23:59结束；

@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import WidgetKit
 
 /// 我的帖子
 struct MyPostContentView: View {
@@ -35,9 +34,6 @@ struct MyPostContentView: View {
         }
         .navigationTitle("我的帖子")
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear {
-            WidgetCenter.shared.reloadTimelines(ofKind: "NoticeWidget")
-        }
     }
 }
 
