@@ -32,7 +32,7 @@ struct NodeContentView: View {
 
     var body: some View {
         if gid.isEmpty {
-            NavigationView {
+            NavigationStack {
                 getContentView()
             }
         } else {
@@ -191,34 +191,6 @@ struct NodeContentView: View {
         .onAppear(perform: {
             isLogin = UserInfo.shared.isLogin()
             TabBarTool.showTabBar(gid.isEmpty)
-        })
-        .onChange(of: isProfile, { _, newValue in
-            if UIDevice.current.isPad && newValue {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    isProfile.toggle()
-                }
-            }
-        })
-        .onChange(of: isTopic, { _, newValue in
-            if UIDevice.current.isPad && newValue {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    isTopic.toggle()
-                }
-            }
-        })
-        .onChange(of: isNode, { _, newValue in
-            if UIDevice.current.isPad && newValue {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    isNode.toggle()
-                }
-            }
-        })
-        .onChange(of: isWiki, { _, newValue in
-            if UIDevice.current.isPad && newValue {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    isWiki.toggle()
-                }
-            }
         })
         .onReceive(NotificationCenter.default.publisher(for: .login, object: nil)) { _ in
             isLogin = true

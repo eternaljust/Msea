@@ -24,9 +24,11 @@ struct HomeContentView: View {
     @State private var isTopicDetail = false
     @State private var isSpaceProfile = false
     @State private var isRanklist = false
+    @State private var isListTopic = false
+    @State private var isListSpace = false
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 HStack {
                     NavigationLink {
@@ -90,8 +92,12 @@ struct HomeContentView: View {
                 TabView(selection: $selectedViewTab) {
                     ForEach(TopicTab.allCases) { tab in
                         let tabList = store.state.topic.tabList[tab]
-                        TopicListContentView(topicData: tabList ?? .init(tab: .new))
-                            .tag(tab)
+                        TopicListContentView(
+                            topicData: tabList ?? .init(tab: .new),
+                            isSpace: $isListSpace,
+                            isTopic: $isListTopic
+                        )
+                        .tag(tab)
                     }
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
@@ -122,6 +128,12 @@ struct HomeContentView: View {
             }
             .navigationDestination(isPresented: $isRanklist) {
                 RankListContentView()
+            }
+            .navigationDestination(isPresented: $isListTopic) {
+                TopicDetailContentView(tid: store.state.topic.tid)
+            }
+            .navigationDestination(isPresented: $isListSpace) {
+                SpaceProfileContentView(uid: store.state.topic.uid)
             }
             .onReceive(NotificationCenter.default.publisher(for: .daysign, object: nil)) { _ in
                 goDaysign()

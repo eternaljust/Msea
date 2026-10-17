@@ -39,7 +39,7 @@ struct FriendVisitorContentView: View {
                                 ForEach(section.persons, id: \.id) { persion in
                                     NavigationLink(destination: SpaceProfileContentView(uid: persion.uid)) {
                                         VStack {
-                                            AsyncImage(url: URL(string: persion.avatar)) { image in
+                                            AsyncImage(url: persion.avatar.toAvatarURL()) { image in
                                                 image.resizable()
                                             } placeholder: {
                                                 ProgressView()

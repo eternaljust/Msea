@@ -28,7 +28,7 @@ struct MessageBoardContentView: View {
                 List(messages) { message in
                     VStack(alignment: .leading) {
                         HStack {
-                            AsyncImage(url: URL(string: message.avatar)) { image in
+                            AsyncImage(url: message.avatar.toAvatarURL()) { image in
                                 image.resizable()
                             } placeholder: {
                                 ProgressView()
@@ -75,7 +75,7 @@ struct MessageBoardContentView: View {
                                         .font(.font16)
                                         .fixedSize(horizontal: false, vertical: true)
                                 }
-                                if let url = URL(string: message.gifURL) {
+                                if let url = message.gifURL.toSiteURL() {
                                     GifImage(url: url)
                                         .frame(width: 20, height: 20)
                                 }
@@ -151,7 +151,7 @@ struct MessageBoardContentView: View {
                             message.comment = comment
                         }
                         if let src = element.at_xpath("/dd[2]/img/@src")?.text {
-                            message.gifURL = "https://www.chongbuluo.com/" + src
+                            message.gifURL = src
                             if let dd2 = element.at_xpath("/dd[2]")?.toXML {
                                 if !message.comment.isEmpty {
                                     if let range1 = dd2.range(of: message.comment), let range2 = dd2.range(of: "<img") {

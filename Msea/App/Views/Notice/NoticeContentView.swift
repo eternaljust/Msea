@@ -18,7 +18,7 @@ struct NoticeContentView: View {
     @State private var paddingTop: CGFloat = 0
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 if isLogin {
                     if UIDevice.current.isPad {

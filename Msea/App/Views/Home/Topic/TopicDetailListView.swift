@@ -18,7 +18,7 @@ struct TopicDetailListItemRow<T>: View where T : View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                AsyncImage(url: URL(string: comment.avatar)) { image in
+                AsyncImage(url: comment.avatar.toAvatarURL()) { image in
                     image
                         .resizable()
                         .overlay {

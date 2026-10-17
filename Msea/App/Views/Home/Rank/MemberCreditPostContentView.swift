@@ -34,7 +34,7 @@ struct MemberCreditPostContentView: View {
                                     .foregroundStyle(.white, user.numTop ? .red : Color.theme)
                                     .frame(width: 20, height: 20)
 
-                                AsyncImage(url: URL(string: user.avatar)) { image in
+                                AsyncImage(url: user.avatar.toAvatarURL()) { image in
                                     image.resizable()
                                 } placeholder: {
                                     ProgressView()
@@ -158,7 +158,9 @@ struct MemberCreditPostContentView: View {
                     }
                     if let uid = element.at_xpath("/dt[last()]/a/@href")?.text {
                         model.uid = uid.getUid()
-                        model.avatar = "https://www.chongbuluo.com/uc_server/avatar.php?uid=\(model.uid)"
+                    }
+                    if let avatar = element.at_xpath("/dd[@class='m avt']/a/img/@src")?.text {
+                        model.avatar = avatar
                     }
                     if let title = element.at_xpath("/dd[last()]/p")?.text {
                         model.title = title.replacingOccurrences(of: "\r\n ", with: "")

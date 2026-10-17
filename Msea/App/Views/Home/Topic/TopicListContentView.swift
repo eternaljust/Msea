@@ -13,8 +13,8 @@ import Kanna
 struct TopicListContentView: View {
     let topicData: TopicListTabModel
 
-    @State private var isSpace = false
-    @State private var isTopic = false
+    @Binding var isSpace: Bool
+    @Binding var isTopic: Bool
 
     @EnvironmentObject private var store: AppStore
 
@@ -24,31 +24,11 @@ struct TopicListContentView: View {
 
             progressView
         }
-        .navigationDestination(isPresented: $isSpace, destination: {
-            SpaceProfileContentView(uid: store.state.topic.uid)
-        })
-        .navigationDestination(isPresented: $isTopic, destination: {
-            TopicDetailContentView(tid: store.state.topic.tid)
-        })
         .onReceive(NotificationCenter.default.publisher(for: .shieldUser, object: nil)) { _ in
             Task {
                 await store.dispatch(.topic(action: .shieldUsers))
             }
         }
-        .onChange(of: isSpace, { _, newValue in
-            if UIDevice.current.isPad && newValue {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    isSpace.toggle()
-                }
-            }
-        })
-        .onChange(of: isTopic, { _, newValue in
-            if UIDevice.current.isPad && newValue {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    isTopic.toggle()
-                }
-            }
-        })
     }
 
     var topicList: some View {
@@ -119,7 +99,7 @@ struct TopicListItemRow: View {
         VStack(alignment: .leading) {
             HStack {
                 HStack {
-                    AsyncImage(url: URL(string: "https://www.chongbuluo.com/\(topic.avatar)")) { image in
+                    AsyncImage(url: topic.avatar.toAvatarURL()) { image in
                         image.resizable()
                     } placeholder: {
                         ProgressView()
@@ -204,6 +184,6 @@ struct TopicListItemRow: View {
 
 struct TopicListContentView_Previews: PreviewProvider {
     static var previews: some View {
-        TopicListContentView(topicData: TopicListTabModel(tab: .new))
+        TopicListContentView(topicData: TopicListTabModel(tab: .new), isSpace: .constant(false), isTopic: .constant(false))
     }
 }

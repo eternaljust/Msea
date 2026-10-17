@@ -22,7 +22,7 @@ struct ShieldUserContentView: View {
                         ForEach(shieldUsers) { user in
                             NavigationLink(destination: SpaceProfileContentView(uid: user.uid)) {
                                 HStack {
-                                    AsyncImage(url: URL(string: user.avatar)) { image in
+                                    AsyncImage(url: user.avatar.toAvatarURL()) { image in
                                         image.resizable()
                                     } placeholder: {
                                         ProgressView()
