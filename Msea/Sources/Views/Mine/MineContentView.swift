@@ -33,7 +33,7 @@ struct MineContentView: View {
         NavigationView {
             VStack {
                 if isLogin {
-                    AsyncImage(url: URL(string: profile.avatar)) { image in
+                    AsyncImage(url: profile.avatar.toAvatarURL()) { image in
                         image.resizable()
                     } placeholder: {
                         ProgressView()

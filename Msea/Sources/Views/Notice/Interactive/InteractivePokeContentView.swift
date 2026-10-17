@@ -32,7 +32,7 @@ struct InteractivePokeContentView: View {
             } else {
                 List(pokeList) { poke in
                     HStack {
-                        AsyncImage(url: URL(string: poke.avatar)) { image in
+                        AsyncImage(url: poke.avatar.toAvatarURL()) { image in
                             image.resizable()
                         } placeholder: {
                             ProgressView()
@@ -55,7 +55,7 @@ struct InteractivePokeContentView: View {
                                     .foregroundColor(.secondaryTheme)
 
                                 if !poke.gif.isEmpty {
-                                    GifImage(url: URL(string: poke.gif))
+                                    GifImage(url: poke.gif.toAvatarURL())
                                         .frame(width: 20, height: 20)
                                 }
 
@@ -189,7 +189,7 @@ struct InteractivePokeContentView: View {
                         poke.content = content
                     }
                     if let gif = element.at_xpath("//dd[@class='ntc_body']/span[1]/img/@src")?.text, !gif.isEmpty {
-                        poke.gif = "https://chongbuluo.com/" + gif
+                        poke.gif = gif
                     }
                     list.append(poke)
                 })

@@ -29,7 +29,7 @@ struct PostListContentView: View {
             } else {
                 List(postList) { post in
                     HStack {
-                        AsyncImage(url: URL(string: post.avatar)) { image in
+                        AsyncImage(url: post.avatar.toAvatarURL()) { image in
                             image.resizable()
                         } placeholder: {
                             ProgressView()

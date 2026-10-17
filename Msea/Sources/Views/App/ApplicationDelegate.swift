@@ -46,6 +46,7 @@ final class FSAppDelegate: NSObject, UIApplicationDelegate, UIWindowSceneDelegat
     }
 
     private func configSDK() {
+        #if canImport(UMCommon)
         var channel: String?
         #if DEBUG
           channel = "Debug"
@@ -56,6 +57,7 @@ final class FSAppDelegate: NSObject, UIApplicationDelegate, UIWindowSceneDelegat
         UMCrashConfigure.setCrashCBBlock {
             return ""
         }
+        #endif
     }
 }
 

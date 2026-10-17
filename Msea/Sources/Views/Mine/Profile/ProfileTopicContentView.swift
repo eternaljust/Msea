@@ -44,7 +44,7 @@ struct ProfileTopicContentView: View {
                             VStack(alignment: .leading) {
                                 HStack {
                                     HStack {
-                                        GifImage(url: URL(string: topic.gif))
+                                        GifImage(url: topic.gif.toAvatarURL())
                                             .frame(width: 20, height: 20)
 
                                         VStack(alignment: .leading) {
@@ -200,7 +200,7 @@ struct ProfileTopicContentView: View {
                 content.forEach { element in
                     var topic = ProfileTopicListModel()
                     if let gif = element.at_xpath("/td[@class='icn']/a/img/@src")?.text {
-                        topic.gif = "https://www.chongbuluo.com/" + gif
+                        topic.gif = gif
                     }
                     if let text = element.at_xpath("/th/a")?.text {
                         topic.title = text

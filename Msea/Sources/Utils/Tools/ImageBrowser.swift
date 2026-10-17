@@ -20,7 +20,7 @@ public struct ImageBrowser: View {
     public var body: some View {
         GeometryReader { proxy in
             ZStack {
-                AsyncImage(url: URL(string: url)) { image in
+                AsyncImage(url: url.toSiteURL()) { image in
                     image.resizable()
                 } placeholder: {
                     ProgressView()

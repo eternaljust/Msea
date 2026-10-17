@@ -31,7 +31,7 @@ struct InteractiveFriendContentView: View {
             } else {
                 List(friendList) { friend in
                     HStack {
-                        AsyncImage(url: URL(string: friend.avatar)) { image in
+                        AsyncImage(url: friend.avatar.toAvatarURL()) { image in
                             image.resizable()
                         } placeholder: {
                             ProgressView()

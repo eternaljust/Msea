@@ -48,7 +48,7 @@ struct NodeWikiContentView: View {
                             ForEach(wikis) { wiki in
                                 VStack(alignment: .center) {
                                     ZStack {
-                                        AsyncImage(url: URL(string: wiki.bannerImage)) { image in
+                                        AsyncImage(url: wiki.bannerImage.toSiteURL()) { image in
                                             image.resizable()
                                         } placeholder: {
                                             ProgressView()
@@ -79,7 +79,7 @@ struct NodeWikiContentView: View {
                                     })
 
                                     HStack {
-                                        AsyncImage(url: URL(string: wiki.avatar)) { image in
+                                        AsyncImage(url: wiki.avatar.toAvatarURL()) { image in
                                             image.resizable()
                                         } placeholder: {
                                             ProgressView()
@@ -316,7 +316,7 @@ struct NodeWikiContentView: View {
                         model.title = title
                     }
                     if let src = element.at_xpath("/a[@class='banner']/img/@src")?.text {
-                        model.bannerImage = "https://www.chongbuluo.com/\(src)"
+                        model.bannerImage = src
                     }
                     if let src = element.at_xpath("/div[@class='info']/a[1]/img/@src")?.text {
                         model.avatar = src.replacingOccurrences(of: "&size=small", with: "")

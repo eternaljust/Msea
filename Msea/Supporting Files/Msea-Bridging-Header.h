@@ -9,8 +9,10 @@
 #ifndef Msea_Bridging_Header_h
 #define Msea_Bridging_Header_h
 
+#if __has_include(<UMCommon/UMCommon.h>)
 #import <UMCommon/UMCommon.h>
 #import <UMCommon/MobClick.h>
 #import <UMAPM/UMCrashConfigure.h>
+#endif
 
 #endif /* Msea_Bridging_Header_h */

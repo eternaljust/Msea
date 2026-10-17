@@ -39,7 +39,7 @@ struct NodeListContentView: View {
                     ForEach(topics) { topic in
                         VStack(alignment: .leading) {
                             HStack {
-                                AsyncImage(url: URL(string: "https://www.chongbuluo.com/\(topic.avatar)")) { image in
+                                AsyncImage(url: topic.avatar.toAvatarURL()) { image in
                                     image
                                         .resizable()
                                         .overlay {

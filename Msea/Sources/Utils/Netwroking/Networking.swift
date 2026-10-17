@@ -164,6 +164,21 @@ extension String {
         return ""
     }
 
+    func toSiteURL() -> URL? {
+        // 站点改版后页面里的资源 src 可能是绝对地址，旧页面/接口仍是相对路径
+        if hasPrefix("http://") || hasPrefix("https://") {
+            return URL(string: self)
+        }
+        if isEmpty {
+            return nil
+        }
+        return URL(string: "https://www.chongbuluo.com/\(self)")
+    }
+
+    func toAvatarURL() -> URL? {
+        toSiteURL() ?? URL(string: "https://www.chongbuluo.com/uc_server/images/noavatar_small.gif")
+    }
+
     func getTid() -> String {
         if self.contains("thread-") && self.contains(".html") {
             return self.components(separatedBy: "thread-")[1].components(separatedBy: "-")[0]

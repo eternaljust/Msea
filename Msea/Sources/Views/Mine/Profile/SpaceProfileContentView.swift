@@ -27,7 +27,7 @@ struct SpaceProfileContentView: View {
 
     var body: some View {
         VStack {
-            AsyncImage(url: URL(string: profile.avatar)) { image in
+            AsyncImage(url: profile.avatar.toAvatarURL()) { image in
                 image.resizable()
             } placeholder: {
                 ProgressView()

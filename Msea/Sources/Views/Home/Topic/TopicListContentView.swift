@@ -129,7 +129,7 @@ struct TopicListItemRow: View {
         VStack(alignment: .leading) {
             HStack {
                 HStack {
-                    AsyncImage(url: URL(string: "https://www.chongbuluo.com/\(topic.avatar)")) { image in
+                    AsyncImage(url: topic.avatar.toAvatarURL()) { image in
                         image.resizable()
                     } placeholder: {
                         ProgressView()
